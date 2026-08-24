@@ -40,11 +40,24 @@ html[data-theme="dark"] #gate{background:#02100B}
 .gatesub{font-size:11px;letter-spacing:.20em;text-transform:uppercase;color:rgba(243,239,231,.55);margin-top:5px}
 .gatename{font-size:14.5px;color:rgba(243,239,231,.85);margin-top:22px;line-height:1.55}
 .gatehint{font-size:12.5px;color:rgba(243,239,231,.50);margin-top:7px;line-height:1.5}
+.gatelang{position:absolute;top:18px;right:18px}
+.gatelang button{font:inherit;font-size:12.5px;font-weight:600;cursor:pointer;padding:5px 12px;border-radius:999px;
+  background:transparent;color:#F3EFE7;border:1px solid rgba(216,195,165,.38);transition:.15s}
+.gatelang button:hover{background:rgba(216,195,165,.14)}
 .gaterow{display:flex;gap:8px;margin-top:22px}
-#gatein{flex:1;min-width:0;font:inherit;font-size:15px;padding:11px 14px;border-radius:9px;
+.gatefield{position:relative;flex:1;min-width:0}
+#gatein{width:100%;font:inherit;font-size:15px;padding:11px 44px 11px 14px;border-radius:9px;
   border:1px solid rgba(216,195,165,.38);background:rgba(255,255,255,.06);color:#F3EFE7;outline:none}
 #gatein::placeholder{color:rgba(243,239,231,.38)}
 #gatein:focus{border-color:var(--gold);background:rgba(255,255,255,.10)}
+#gatein::-ms-reveal,#gatein::-ms-clear{display:none}
+#gateeye{position:absolute;top:50%;right:6px;transform:translateY(-50%);background:transparent;border:0;
+  color:rgba(243,239,231,.55);cursor:pointer;padding:7px;border-radius:7px;display:flex;transition:.15s}
+#gateeye:hover{color:#F3EFE7;background:rgba(255,255,255,.08)}
+#gateeye svg{display:block}
+#gateeye .eye-open{display:none}
+#gateeye[aria-pressed="true"] .eye-open{display:block}
+#gateeye[aria-pressed="true"] .eye-shut{display:none}
 #gatego{font:inherit;font-size:14.5px;font-weight:700;padding:11px 20px;border-radius:9px;cursor:pointer;
   border:0;background:var(--gold);color:#00281E;transition:.15s;white-space:nowrap}
 #gatego:hover{background:#e6d5bc}
@@ -119,8 +132,24 @@ section{padding:36px 0 4px}
 .card .en{color:var(--tx2);font-size:13px;margin-top:5px;line-height:1.5}
 .card .go{margin-top:12px;font-size:12.5px;color:var(--accent);font-weight:600}
 
-/* ── 填寫指引 ───────────────────────────────────── */
-.guide{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px 22px;margin-top:6px}
+/* ── 填寫指引（可收納，預設收起） ─────────────────── */
+.gd{margin-top:6px}
+.gd>summary{list-style:none;cursor:pointer;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;padding:15px 18px;display:flex;align-items:center;gap:12px;transition:.15s}
+.gd>summary::-webkit-details-marker{display:none}
+.gd>summary:hover{border-color:var(--accent)}
+.gd>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.gd[open]>summary{border-radius:14px 14px 0 0;border-bottom-color:transparent}
+.gd .sumtx{flex:1;min-width:0}
+.gd .sumt{font-family:Merriweather,Georgia,serif;font-size:15.5px;font-weight:700;line-height:1.35}
+.gd .sumd{font-size:13px;color:var(--tx2);margin-top:3px;line-height:1.45}
+.gd .chev{flex-shrink:0;color:var(--accent);transition:transform .18s}
+.gd[open] .chev{transform:rotate(180deg)}
+.gd .sumcta{flex-shrink:0;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;
+  font-weight:700;color:var(--accent)}
+.gd[open] .sumcta{display:none}
+.guide{background:var(--card);border:1px solid var(--line);border-top:0;
+  border-radius:0 0 14px 14px;padding:6px 22px 24px}
 .guide h3{font-family:Merriweather,Georgia,serif;font-size:16px;font-weight:700;margin:26px 0 10px;
   padding-top:20px;border-top:1px solid var(--line)}
 /* 標題成對出現（en + zh），前兩個都要去掉上框線，否則中文模式最上方會多一條線 */
@@ -149,6 +178,10 @@ section{padding:36px 0 4px}
 .half span.tag[data-l]{display:none}
 html[lang="en"] .half span.tag[data-l="en"],
 html[lang="zh"] .half span.tag[data-l="zh"]{display:inline-block}
+/* summary 內的雙語文字要成塊顯示 */
+.gd span.sumt[data-l],.gd span.sumd[data-l]{display:none}
+html[lang="en"] .gd span.sumt[data-l="en"],html[lang="zh"] .gd span.sumt[data-l="zh"],
+html[lang="en"] .gd span.sumd[data-l="en"],html[lang="zh"] .gd span.sumd[data-l="zh"]{display:block}
 
 .warn{border:1px solid var(--line);border-left:3px solid #C4703F;border-radius:10px;
   padding:14px 16px;margin:6px 0;background:var(--card)}
@@ -190,6 +223,7 @@ html[lang="en"] li[data-l="en"],html[lang="zh"] li[data-l="zh"]{display:list-ite
 
 <!-- ══ 門簾 ══ -->
 <div id="gate">
+  <div class="gatelang"><button id="gatelangbtn" type="button">中文</button></div>
   <div class="gatecard">
     <div class="gatemark">PMCS</div>
     <div class="gatesub">1151 · NCNU IBS</div>
@@ -201,8 +235,14 @@ html[lang="en"] li[data-l="en"],html[lang="zh"] li[data-l="zh"]{display:list-ite
       <span data-l="zh">請輸入課程通關詞後繼續。</span>
     </div>
     <div class="gaterow">
-      <input id="gatein" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"
-             aria-label="Course passphrase" placeholder="passphrase／通關詞">
+      <div class="gatefield">
+        <input id="gatein" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"
+               aria-label="Course passphrase" placeholder="passphrase／通關詞">
+        <button id="gateeye" type="button" aria-pressed="false" aria-label="Show passphrase">
+          <svg class="eye-shut" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          <svg class="eye-open" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
       <button id="gatego" type="button"><span data-l="en">Enter</span><span data-l="zh">進入</span></button>
     </div>
     <div id="gateerr" role="status" aria-live="polite"></div>
@@ -267,8 +307,17 @@ html[lang="en"] li[data-l="en"],html[lang="zh"] li[data-l="zh"]{display:list-ite
       <h2 data-l="en">How to use these worksheets</h2>
       <h2 data-l="zh">怎麼用這份學習單</h2>
     </div>
-    <p class="block-desc" data-l="en">The mechanics are identical for all twelve weeks. Read this once and you will not need to read it again.</p>
-    <p class="block-desc" data-l="zh">十二週的機制完全相同。這一段讀一次就好，之後不必再回來。</p>
+    <details class="gd" id="gd">
+      <summary>
+        <span class="sumtx">
+          <span class="sumt" data-l="en">How to use these worksheets</span>
+          <span class="sumt" data-l="zh">怎麼用這份學習單</span>
+          <span class="sumd" data-l="en">The six-day week, what you do alone and what the group decides, exporting and submitting. Identical for all twelve weeks — read it once.</span>
+          <span class="sumd" data-l="zh">六天的時間軸、哪些自己做哪些小組決定、怎麼匯出與繳交。十二週完全相同，讀一次就好。</span>
+        </span>
+        <span class="sumcta" data-l="en">Open</span><span class="sumcta" data-l="zh">展開</span>
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
 
     <div class="guide">
 
@@ -400,6 +449,7 @@ html[lang="en"] li[data-l="en"],html[lang="zh"] li[data-l="zh"]{display:list-ite
       <p data-l="zh">每份學習單的第 0 模組「<b>執行概要</b>」會說明當週主題與必讀第一項。若連結打不開或匯出下載不了，直接在 Moodle 告訴助教——不要花一整晚跟它耗。</p>
 
     </div>
+    </details>
   </section>
 
   <section id="b1">
@@ -514,6 +564,38 @@ html[lang="en"] li[data-l="en"],html[lang="zh"] li[data-l="zh"]{display:list-ite
   gin.addEventListener('keydown',function(e){ if(e.key==='Enter') tryPass(); });
   if(root.hasAttribute('data-locked')) setTimeout(function(){ gin.focus(); },80);
 
+  /* 顯示／隱藏通關詞 — 預設閉眼（type=password） */
+  var eye=document.getElementById('gateeye');
+  function paintEye(){
+    var shown = eye.getAttribute('aria-pressed')==='true';
+    eye.setAttribute('aria-label', root.lang==='zh'
+      ? (shown?'隱藏通關詞':'顯示通關詞') : (shown?'Hide passphrase':'Show passphrase'));
+  }
+  eye.addEventListener('click',function(){
+    var shown = eye.getAttribute('aria-pressed')==='true';
+    eye.setAttribute('aria-pressed', shown?'false':'true');
+    gin.type = shown ? 'password' : 'text';
+    paintEye(); gin.focus();
+  });
+
+  /* 門簾自己的語言鈕 — 被擋在外面的人看不到頁首那顆 */
+  var glb=document.getElementById('gatelangbtn');
+  function paintGateLang(){ glb.textContent = root.lang==='zh' ? 'EN' : '中文'; }
+  glb.addEventListener('click',function(){
+    root.lang = root.lang==='zh' ? 'en' : 'zh';
+    LS.set('pmcs1151_lang',root.lang);
+    paintGateLang(); paintEye();
+    if(gerr.textContent) gerr.textContent = root.lang==='zh'
+      ? '通關詞不正確，請再試一次。' : 'That passphrase is not correct. Try again.';
+    gin.focus();
+  });
+  paintGateLang(); paintEye();
+
+  /* 填寫指引：預設收起，記住學生自己的選擇 */
+  var gd=document.getElementById('gd');
+  if(LS.get('pmcs1151_guide')==='open') gd.open=true;
+  gd.addEventListener('toggle',function(){ LS.set('pmcs1151_guide', gd.open?'open':'closed'); });
+
   /* ── 漢堡目錄 ── */
   var burger=document.getElementById('burger'), menu=document.getElementById('menu'), scrim=document.getElementById('scrim');
   function setMenu(open){
@@ -522,7 +604,12 @@ html[lang="en"] li[data-l="en"],html[lang="zh"] li[data-l="zh"]{display:list-ite
   }
   burger.addEventListener('click',function(e){ e.stopPropagation(); setMenu(!menu.classList.contains('open')); });
   scrim.addEventListener('click',function(){ setMenu(false); });
-  menu.addEventListener('click',function(e){ if(e.target.closest('a')) setMenu(false); });
+  menu.addEventListener('click',function(e){
+    var a=e.target.closest('a'); if(!a) return;
+    /* 從目錄點進填寫指引時直接展開，否則學生會落在一個收起的方塊上 */
+    if(a.getAttribute('href')==='#guide'){ var g=document.getElementById('gd'); if(g) g.open=true; }
+    setMenu(false);
+  });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape') setMenu(false); });
 
   /* ── 回到頂端 ── */
