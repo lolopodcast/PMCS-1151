@@ -1,1 +1,2470 @@
-W15
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PMCS Worksheet W15 — Delivery, Acceptance and the Retrospective</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.7/babel.min.js"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: { extend: { fontFamily: { sans: ['Inter','sans-serif'], serif: ['Merriweather','serif'] } } }
+  }
+</script>
+<style>
+  @keyframes fadeInUp { from{opacity:0;transform:translateY(15px)} to{opacity:1;transform:translateY(0)} }
+  .animate-fade-in { animation: fadeInUp 0.5s ease-out forwards; }
+  .perspective { perspective: 1000px; }
+  .transform-style-3d { transform-style: preserve-3d; }
+  .backface-hidden { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  .rotate-y-180 { transform: rotateY(180deg); }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+  .dark ::-webkit-scrollbar-thumb { background: #475569; }
+  header, footer, button, [role="button"], .ui-decoration { -webkit-user-select: none; user-select: none; }
+  input, textarea, select { -webkit-user-select: text; user-select: text; }
+  html { overflow-x: hidden; }
+  @media print { header, footer, aside, .no-print { display: none !important; } }
+</style>
+</head>
+<body class="bg-[#f4f4f4] dark:bg-[#121212] selection:bg-[#004030] selection:text-white dark:selection:bg-[#D8C3A5] dark:selection:text-[#004030] overflow-x-hidden">
+<div id="root"></div>
+
+<script>
+(function(){
+  var ALLOWED = ['lolopodcast.github.io','localhost','127.0.0.1','claude.ai','anthropic.com','usercontent.goog'];
+  var REDIRECT = 'https://www.ibs.ncnu.edu.tw/index.php/faculty/tenured-professor/299-smlo';
+  var h = location.hostname;
+  var isFile = location.protocol === 'file:' || h === '';
+  var ok = isFile || ALLOWED.some(function(d){ return h === d || h.endsWith('.' + d); });
+  if (!ok) {
+    document.body.innerHTML = '<div style="text-align:center;padding:60px;font-family:sans-serif"><h1>Access Denied</h1><p>This resource is not authorised on this domain.</p></div>';
+    setTimeout(function(){ location.href = REDIRECT; }, 3000);
+    return;
+  }
+  if (window.self !== window.top) {
+    try { window.top.location.href = window.self.location.href; } catch(e) {}
+  }
+})();
+(function(){
+  var MSG = 'Intellectual Property of Prof. Shihmin Lo';
+  var el = null, timer = null;
+  window.showCopyrightToast = function(){
+    if (!el) {
+      el = document.createElement('div');
+      el.style.cssText = 'position:fixed;left:50%;bottom:48px;transform:translateX(-50%);background:#004030;color:#D8C3A5;padding:10px 20px;border-radius:10px;font-family:Inter,sans-serif;font-size:13px;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.3);opacity:0;transition:opacity .25s';
+      el.textContent = MSG;
+      document.body.appendChild(el);
+    }
+    el.style.opacity = '1';
+    clearTimeout(timer);
+    timer = setTimeout(function(){ el.style.opacity = '0'; }, 2000);
+  };
+  document.addEventListener('contextmenu', function(e){
+    var tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || tag === 'select') return true;
+    if (window.getSelection().toString().trim().length > 0) return true;
+    e.preventDefault(); window.showCopyrightToast();
+  });
+  document.addEventListener('keydown', function(e){
+    var k = (e.key || '').toLowerCase();
+    if (e.key === 'F12') { e.preventDefault(); window.showCopyrightToast(); return; }
+    if (e.ctrlKey && k === 'u') { e.preventDefault(); window.showCopyrightToast(); return; }
+    if (e.ctrlKey && e.shiftKey && ['i','j','c'].indexOf(k) >= 0) { e.preventDefault(); window.showCopyrightToast(); return; }
+  });
+  document.addEventListener('dragstart', function(e){
+    if (e.target.tagName === 'IMG' || (e.target.closest && e.target.closest('svg'))) e.preventDefault();
+  });
+})();
+</script>
+
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+/* ================= Answer obfuscation ================= */
+const _SALT = 'W152026';
+const _e = (s, n) => {
+  const p = s + ':' + n; let r = '';
+  for (let i = 0; i < p.length; i++) r += String.fromCharCode(p.charCodeAt(i) ^ ((i + 7) * 3 & 0xFF));
+  return btoa(r);
+};
+const _d = (token) => {
+  const dec = atob(token); let r = '';
+  for (let i = 0; i < dec.length; i++) r += String.fromCharCode(dec.charCodeAt(i) ^ ((i + 7) * 3 & 0xFF));
+  return parseInt(r.split(':')[1], 10);
+};
+const _A0 = _e(_SALT,0), _A1 = _e(_SALT,1), _A2 = _e(_SALT,2), _A3 = _e(_SALT,3);
+
+/* ================= Module map =================
+   M0 概要 / M1 分工[G] / M2 D day 上線檢查[P] / M3 個人復盤三問[P] / M4 語言[P]
+   M5 小組綜整[G] / M6 依演化表[G] / M7 簡報計畫[G] / M8 Lab / M9 資源 / M10 完成度
+================================================= */
+const NUM_LEARN = 7;
+const TOTAL = 1 + NUM_LEARN + 3;
+const IDX_LAB = NUM_LEARN + 1;
+const IDX_RES = NUM_LEARN + 2;
+const IDX_ANA = NUM_LEARN + 3;
+const MAX_MEMBERS = 10;
+const DEFAULT_MEMBERS = 6;
+const MEMBER_IDX = [...Array(MAX_MEMBERS).keys()];
+const PERSONAL_SECTIONS = [2,3,4];
+const GROUP_SECTIONS = [1,5,6,7];
+
+/* 第 2 節的六項 D day 勾稽，同時是第 5 節的比對集合 */
+const CHECK_IDS = ['url','sched','beat','notify','key','src'];
+const S2_STATUS = CHECK_IDS.map(id => 'ck_' + id);
+const S2_EV = CHECK_IDS.map(id => 'ev_' + id);
+const S2_GAP = CHECK_IDS.map(id => 'gap_' + id);
+const S3_IDS = ['rt_right','rt_wrong','rt_next'];
+const LAUNCH_GOOD = 'live_ok';
+
+const sanitizeStudentId = (v) => v.replace(/[^0-9]/g, '').slice(0, 12);
+const sanitizeName = (v) => v.replace(/[<>"'&\\]/g, '').slice(0, 50);
+const sanitizeText = (v) => v.slice(0, 2000);
+
+/* ================= 指責語句偵測（與 T6 復盤引導表同源，學習單為輕量版） ================= */
+const BLAME_RE = {
+  zh: [/某某/g, /沒有?做/g, /忘[了記]/g, /的錯/g, /怪(他|她|罪)/g, /推[卸諉]/g, /擺爛/g, /不配合/g,
+       /沒(交|回|寫|跑|來|把)/g, /缺席/g, /遲到/g, /害(我們|我|大家)/g,
+       /(他|她|組員|同學|學長|助教)[^，。；\n]{0,6}(沒|未|漏|忘)/g],
+  en: [/\bdidn'?t\b/gi, /\bdid not\b/gi, /\bfailed to\b/gi, /\bblam\w+\b/gi,
+       /\b(his|her|their|your) fault\b/gi, /\bforgot to\b/gi,
+       /\bnever (did|bothered|sent|submitted|replied|showed up)\b/gi,
+       /\blazy\b/gi, /\bnobody bothered\b/gi, /\bhe (never|didn'?t)\b/gi, /\bshe (never|didn'?t)\b/gi]
+};
+const detectBlame = (text, lang) => {
+  const hits = [];
+  const src = String(text || '');
+  if (!src.trim()) return hits;
+  (BLAME_RE[lang] || []).forEach(re => {
+    const r = new RegExp(re.source, re.flags);
+    let m;
+    while ((m = r.exec(src)) !== null) {
+      if (m[0] && hits.indexOf(m[0]) === -1) hits.push(m[0]);
+      if (m.index === r.lastIndex) r.lastIndex++;
+      if (hits.length > 8) break;
+    }
+  });
+  return hits;
+};
+
+/* ================= Icons ================= */
+const S = (p) => ({ width: p.size||20, height: p.size||20, viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:2, strokeLinecap:"round", strokeLinejoin:"round" });
+const IconMenu=(p)=><svg {...S(p)}><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>;
+const IconX=(p)=><svg {...S(p)}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>;
+const IconHome=(p)=><svg {...S(p)}><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>;
+const IconGlobe=(p)=><svg {...S(p)}><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>;
+const IconMoon=(p)=><svg {...S(p)}><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>;
+const IconSun=(p)=><svg {...S(p)}><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.2" y1="4.2" x2="5.6" y2="5.6"/><line x1="18.4" y1="18.4" x2="19.8" y2="19.8"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.2" y1="19.8" x2="5.6" y2="18.4"/><line x1="18.4" y1="5.6" x2="19.8" y2="4.2"/></svg>;
+const IconPlay=(p)=><svg {...S(p)}><polygon points="5 3 19 12 5 21 5 3"/></svg>;
+const IconPause=(p)=><svg {...S(p)}><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>;
+const IconSquare=(p)=><svg {...S(p)}><rect x="4" y="4" width="16" height="16" rx="2"/></svg>;
+const IconCheckCircle=(p)=><svg {...S(p)}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>;
+
+/* ================= Dictionary ================= */
+const dict = {
+  zh: {
+    brand: "PMCS",
+    title: "學習單 W15", subtitle: "交付、驗收與復盤",
+    nav_modules: "單元目錄", nav_prev: "上一單元", nav_next: "下一單元", nav_home: "首頁",
+    key_terms: "隨手參考卡", flip_prompt: "點擊翻轉",
+    flip_status: "已讀 {read} / 已顯示 {shown} / 總計 {total}",
+    flip_next: "下一組", flip_retry: "重新開始",
+    audio_read: "語音導覽",
+    quiz_title: "課前自我檢核", quiz_status: "答對 {correct} / 已答 {answered} / 總計 {total}",
+    quiz_next: "下一組", quiz_retry: "重新測驗",
+    submit: "提交答案", correct: "正確", incorrect: "錯誤", explanation: "解析",
+    overview_label: "Overview 本節任務",
+    highlights_label: "Highlights 關鍵字",
+    deep_dive_label: "Deep Dive 填寫說明",
+    wrapup_label: "Wrap-up 檢查點",
+    badge_personal: "個人填寫・不繳交",
+    badge_group: "小組共同・隨小組版繳交",
+    saved_hint: "✍️ 填寫內容自動存在你這台電腦的瀏覽器裡；換裝置不會跟著走，請務必到「完成度與匯出」頁匯出檔案。",
+    live_banner: "🔴 現場作戰紀錄：本週上課日就是全班的 D day。這一節請在課堂上邊做邊填，寫的是此刻的實際狀態，不是等一下回家再補的計畫。離開教室之前要填完。",
+    required_label: "必讀教材", optional_label: "選讀教材（可撰寫為 BA）",
+    select_ph: "請選擇",
+
+    m0_nav: "0. 執行概要",
+    m0_title: "這份學習單怎麼用",
+    m0_intro: "這是 PMCS 課程 W15 的學習單，但它和前面幾週不一樣：本週上課日就是全班的 D day，所以它不是課後回填的作業，而是現場作戰紀錄。第 2、3 節請在課堂上邊做邊填——你現在正在讓系統上線，填的就是此刻的實際狀態。本週主教材是 T6 · CTRL 專案控制與交付，這是第二次讀，這次只讀 M7 交付段：交付、驗收與復盤。那一段的三組工具是績效評估的四項目的、兩個時機、四項原則與六項指標；實獲值管理 EVM 的 PV、EV、AC 三個輸入與 SV、CV、SPI、CPI、EAC 五個讀數；以及專案後檢討的五步流程與四項最佳實踐。最後接到組織知識管理——當執行者是 Agent，排程即資源分配、QC Feedback 即品質控制、心跳紀錄即驗收證據、KB 即組織知識管理。課堂動線是：各組完成上線與第一次心跳驗證、教師現場見證、兩組簡報，其餘時間是卡關診斷。離開教室之前，第 2、3、6 節要填完。第 2 到第 4 節每人各填自己的、不繳交；第 5 到第 7 節由小組共同決定，隨小組版繳交。",
+    m0_why: "為什麼是今天在教室裡上線，而不是回家再上線？",
+    m0_why_desc: "因為手動跑得起來不等於自動跑得起來，而這件事只有在有人看著的時候才會被戳破。今天在教室裡按下去，心跳有沒有真的觸發、時區有沒有寫反、金鑰有沒有帶進去、失敗通知會不會真的送到某一個人手上——五十分鐘之內就有答案，而且教師就在旁邊。回家再上線的組別，通常要到 D+3 那個週六才發現排程根本沒跑，而那時候已經沒有時間補了。D+3 刻意落在週六：那一天沒有人在電腦前，跑得出來的東西才叫無人值守。",
+    m0_stats: [
+      { val: "D day", label: "本週上課日即為全班 D day" },
+      { val: "D+3", label: "週六・跨週末驗證無人值守" },
+      { val: "5", label: "W16 五項可驗證的驗收" },
+      { val: "1", label: "離開教室前至少一次心跳紀錄" }
+    ],
+    m0_modules: [
+      { num: "01", title: "小組與分工", desc: "登錄組別、成員，敲定 W16 Pitch 的 10 分鐘分工。", tag: "小組" },
+      { num: "02", title: "D day 上線檢查", desc: "六項現在就逐項勾稽，未通過的寫出還差什麼與補上的時間點。", tag: "個人" },
+      { num: "03", title: "個人復盤三問", desc: "做對的、做錯的、下次會改的；主詞寫事件或流程，不寫人名。", tag: "個人" },
+      { num: "04", title: "語言實驗室", desc: "五個新詞、三個難發音，供課堂與加分作業使用。", tag: "個人" },
+      { num: "05", title: "小組綜整", desc: "六人的上線檢查結果只挑三項比對，並排出 D+1 到 D+3 的補救分工。", tag: "小組" },
+      { num: "06", title: "依演化表建置", desc: "公開網址、上線狀態、第一次心跳、維運交接與已知問題清單。", tag: "小組" },
+      { num: "07", title: "簡報計畫", desc: "W16 Pitch 的英文開場句，以及現場 demo 的三步動線。", tag: "小組" }
+    ],
+    m0_start: "開始填寫 →",
+
+    check_items: [
+      { id:"url", short:"公開網址", name:"公開網址打得開",
+        desc:"現在就用無痕視窗開一次，確認不是只有你自己登入時打得開。",
+        ph:"例：https://our-team.github.io/daily-brief/ 已用無痕視窗開過，首頁顯示今天的輸出。" },
+      { id:"sched", short:"排程與時區", name:"排程已設定，而且時區換算正確",
+        desc:"貼出實際的 cron 與台北時間的對應，並對照平台顯示的下一次觸發時間。",
+        ph:"例：cron 0 23 * * *（UTC）對應台北隔日 07:00；平台顯示下一次觸發是今晚 23:00 UTC。" },
+      { id:"beat", short:"第一次心跳", name:"第一次心跳已執行，而且留下了紀錄",
+        desc:"要有執行紀錄或 commit log。螢幕截圖不算紀錄。",
+        ph:"例：今天 14:12 手動觸發一次成功，執行紀錄編號 #37，輸出三則。" },
+      { id:"notify", short:"失敗通知", name:"失敗通知真的會送到人",
+        desc:"寫得出收件人。最好是實測過一次，把實測結果寫出來。",
+        ph:"例：故意把來源網址改錯觸發失敗，組長信箱在 3 分鐘內收到失敗通知信。" },
+      { id:"key", short:"金鑰治理", name:"金鑰不在前端，也不在 repo 的任何檔案裡",
+        desc:"包含 commit 歷史。曾經被 commit 過的金鑰一律視為外洩，要輪替。",
+        ph:"例：金鑰放在平台的 Secrets，已用 git log -S 搜過整個歷史沒有出現；前端只呼叫自己的函式端點。" },
+      { id:"src", short:"出處完整性", name:"每一則輸出都附了原始來源連結",
+        desc:"這是 W16 五項驗收之一：每一則摘要都要追得回原始連結，而且不是整段複製。",
+        ph:"例：今天三則各自帶了來源連結，每則 90 字以內，沒有整段貼原文。" }
+    ],
+    check_pass: "通過", check_fail: "未通過", check_unset: "尚未查",
+    check_ev_label: "查證結果（寫出你看到什麼）",
+    check_gap_label: "還差什麼？預計何時補上（要寫出時間點）",
+    check_gap_ph: "例：失敗通知還沒實測，今晚 21:00 前由王阿吉故意弄壞一次來確認。",
+    check_gap_warn: "⚠ 這一項標為未通過，請寫出還差什麼，以及補上的時間點。「盡快」不是時間點。",
+    check_gap_ok: "✓ 已寫出補救內容與時間點。",
+    check_count: "已查 {n} / 6　通過 {p}　未通過 {f}",
+
+    deliver_out: [
+      { name: "交付成立", sub: "六項全過，W16 可以直接展示" },
+      { name: "帶已知問題交付", sub: "有未過項目，但都寫了補救時間" },
+      { name: "未達交付", sub: "有未過項目而且沒有補救時間" }
+    ],
+    deliver_note: "驗收證據不是螢幕截圖，是執行紀錄——手動跑得起來，不等於自動跑得起來。",
+
+    launch_opts: [
+      { v:"live_ok", name:"已上線且心跳驗證通過" },
+      { v:"live_nobeat", name:"已上線但心跳未驗證" },
+      { v:"partial", name:"部分上線" },
+      { v:"none", name:"尚未上線" }
+    ],
+
+    m1_nav: "1. 小組與分工", m1_title: "小組與 W16 Pitch 分工",
+    m1_overview: "先把行政資訊填好，並在課堂上當場敲定 W16 Pitch 的分工。每組 10 分鐘，每位組員必須開口講 1 至 2 分鐘——這一節就是把「誰講哪一段、講幾秒」寫定，避免下週上台才在推派。",
+    m1_highlights: ["Jigsaw 協作","每人 1-2 分鐘","全組 10 分鐘","組員都要開口"],
+    m1_deep: "本週是 D day，簡報分工建議直接對著 W16 的五項驗收走：一人示範公開網址與今天的實際輸出、一人講心跳紀錄（含跨週末那一天）、一人講可設定性（現場改一個 KB 設定換一個產業）、一人講安全治理與金鑰、一人講出處完整性、一人講已知問題與維運交接。把秒數寫下來，總長度才控制得住。",
+    m1_group: "組別", m1_date: "填寫日期（今天＝D day）",
+    m1_members_label: "組員與分工（用下方加減鈕調整人數，上限 10 人）",
+    m1_member_count: "目前 {n} 位組員",
+    m1_col_name: "姓名", m1_col_id: "學號", m1_col_part: "負責段落", m1_col_sec: "秒數",
+    m1_part_ph: "例：心跳紀錄與跨週末那一天",
+    m1_total_sec: "目前規劃總長度",
+    m1_sec_warn: "超過 600 秒（10 分鐘），請壓縮。",
+    m1_sec_ok: "在 10 分鐘內，可行。",
+    m1_wrapup: "檢查點：每位出席組員都有分配到段落，且總秒數不超過 600。",
+
+    m2_nav: "2. D day 上線檢查", m2_title: "D day 上線檢查：現在就逐項勾稽",
+    m2_overview: "這一節請在課堂上填，不要回家補。六項是你自己負責的那一塊今天必須通過的最低門檻：網址打得開、排程設定且時區正確、第一次心跳留下紀錄、失敗通知送得到人、金鑰不在前端與 repo、每一則輸出附得出出處。逐項現在就查一次；未通過的不要放著，寫出還差什麼，以及你打算幾點之前補上。",
+    m2_highlights: ["六項逐項勾稽","現場查證","未過寫補救時間","D day 現況"],
+    m2_deep: "「等一下就好」是這一節唯一要防的東西。今天沒有查證的項目，會在 D+3 那個週六用最貴的方式回來找你——那一天沒有人在電腦前，排程沒跑就是沒跑，補不回來。所以未通過不是問題，未通過而且沒有寫下補上的時間點才是問題。補救時間請寫成一個時間點（例如「今晚 21:00 前」），不要寫「盡快」——「盡快」不是時間點，是願望。查證結果那一格請寫你「看到什麼」，不要寫你「相信什麼」：看到執行紀錄編號、看到收件匣裡那封失敗通知、看到無痕視窗真的打開了頁面。",
+    m2_svg_layer: "D DAY · 上線六閘",
+    m2_svg_cap: "六閘全過才算交付成立；有未過但每一項都寫了補救時間，就是帶已知問題交付",
+    m2_terms: [
+      { front: "上線 Go live", back: "系統從測試狀態切換到對外提供服務的那一刻。判準只有一條：別人打得開，而且它會自己動。要手動按一下才會跑的東西，還沒有上線。" },
+      { front: "驗收條件 Acceptance criteria", back: "事先講好、而且可以被別人重算或重現的通過標準。「我覺得做得還不錯」不是驗收條件，「連續三日輸出、每一則都含來源連結」是。" },
+      { front: "維運交接 Handover", back: "把系統交給接手的人。交接的對象不是誰的記憶，是檔案——README 寫部署與排程，KB 寫來源與規則，換一個人才改得動。" },
+      { front: "專案後檢討 Retrospective", back: "五步流程：準備工作、會議召開、資料分析、報告撰寫、經驗分享。四項最佳實踐是營造開放氛圍、聚焦事實與數據、避免指責批評、轉化為行動計畫。" },
+      { front: "經驗教訓 Lessons learned", back: "復盤的產物，也是組織知識管理的輸入。寫成事件與流程才留得下來；寫成人名只會留下情緒，下一個學期沒有人用得上。" },
+      { front: "無人值守執行 Unattended run", back: "沒有人在電腦前的時候仍然照常完成的執行。D+3 落在週六就是為了驗證這一件事——手動跑得起來，不等於自動跑得起來。" },
+      { front: "回復 Rollback", back: "把系統退回上一個可用版本的動作。上線之前就要先知道怎麼退回去，否則出事的當下只剩下慌張。" },
+      { front: "已知問題 Known issue", back: "交付時就知道、而且被寫下來的缺陷。寫下來的缺陷是可管理的風險，沒寫下來的缺陷是驗收當天的意外。沒有已知問題本身就是紅旗。" }
+    ],
+    m2_q: [
+      { q: "W16 要求呈現 D、D+1 與 D+3 三天的成果，為什麼 D+3 刻意落在週六？",
+        opts: ["因為週六沒有人在電腦前，跑得出來才算無人值守","因為週六的資料來源更新得比平日更完整","因為週六距離 D day 剛好滿三天比較好記","因為週六雲端平台的排程佇列比較不壅塞"],
+        ans: _A0, exp: "最常見的錯覺是「我手動跑成功了＝它會自己跑」。週六那一天沒有人介入，輸出才是真的自動產生的。" },
+      { q: "專案後檢討四項最佳實踐中的「避免指責批評」，具體做法是什麼？",
+        opts: ["把會議紀錄改成不具名的方式發布","只邀請沒有直接責任的成員參加會議","限制每個人的發言時間以免爭論擴大","把句子的主詞從人換成事件或流程"],
+        ans: _A3, exp: "關注問題而非人。「某某忘記提交」要改寫成「KB 更新後沒有提交步驟的檢查點」。" },
+      { q: "組織知識管理中，復盤會議的核心功能是什麼？",
+        opts: ["把顯性知識重新內化成個人的直覺","把專案文件依時間順序歸檔封存","把隱性知識轉成可以被查閱的顯性知識","把成功因素與失敗因素交給不同人保管"],
+        ans: _A2, exp: "隱性知識是個人經驗與直覺，寫成文件與流程之後才留得下來，這正是 KB 的功能。" },
+      { q: "下列哪一項最適合當作 W16 的心跳驗收證據？",
+        opts: ["上線當天的網頁螢幕截圖","排程平台的執行紀錄或 commit log","組員在群組裡回報成功的訊息","簡報裡描述排程設定的那一頁"],
+        ans: _A1, exp: "螢幕截圖證明不了它會自己跑。執行紀錄有時間戳與結果，別人可以重看一次，這才是可重現的證據。" }
+    ],
+    m2_wrapup: "檢查點：六項都有勾稽結果，而且每一項未通過的都寫出了還差什麼與補上的時間點。",
+
+    m3_nav: "3. 個人復盤三問", m3_title: "個人復盤三問：主詞寫事件，不寫人名",
+    m3_overview: "這一節是你這學期的個人復盤，用 T6 M7 的四項最佳實踐約束措辭：營造開放氛圍、聚焦事實與數據、避免指責批評、轉化為行動計畫。三個問題很短——這學期我做對的一件事、做錯的一件事、下一次會改的一件事——但有一條硬性規定：每一句的主詞必須是事件或流程，不可以是人名。",
+    m3_highlights: ["做對一件","做錯一件","下次會改","主詞是事件"],
+    m3_deep: "改寫的方法很機械：把主詞從人換成事件。「某某忘記提交」要寫成「KB 更新後沒有提交步驟的檢查點」；「他都不回訊息」要寫成「沒有約定回覆時限，訊息平均隔一天以上才收到回應」。這不是客氣，是為了讓原因留得下來——一旦句子指名，剩下的時間會全部用在自我辯護上，真正的原因反而被藏起來。第三問請寫成一個可以執行的動作，寫得出「下一次在哪一步、加上什麼」，而不是「以後會更注意」。系統會即時標出可能的指名措辭，被標到不代表你錯了，代表那一句值得再讀一次。",
+    m3_right_label: "① 這學期我做對的一件事（主詞是事件或流程）",
+    m3_right_ph: "例：每週三晚上固定把 KB 的來源清單重跑一次抓取測試，讓來源改版在週四就被發現，而不是拖到交件前。",
+    m3_wrong_label: "② 這學期我做錯的一件事（主詞是事件或流程）",
+    m3_wrong_ph: "例：排程設好之後三週沒有人看過執行紀錄，失敗通知只送到一個信箱而那個信箱沒有人在看，等於整段時間沒有監控。",
+    m3_next_label: "③ 下一次我會改的一件事（寫成可以執行的動作）",
+    m3_next_ph: "例：下一次在部署當天就把失敗通知加上第二個收件人，並在每週一的固定時段檢查一次執行紀錄，寫進 README 的維運段落。",
+    m3_blame_warn: "⚠ 偵測到可能的指名或指責措辭：{hits}。請把主詞從人換成事件或流程再寫一次。",
+    m3_blame_ok: "✓ 這一句沒有偵測到指名或指責句型。",
+    m3_wrapup: "檢查點：三句話的主詞都是事件或流程，沒有一句指名，而且第三句寫成了可以執行的動作。",
+
+    m4_nav: "4. 語言實驗室", m4_title: "EMI 語言實驗室",
+    m4_overview: "本課程是全英授課。從本週必讀教材的交付段挑出五個新的詞彙或片語，以及三個你唸起來不順的字。這一節的產出直接用於課堂討論、W16 Pitch 與加分作業。",
+    m4_highlights: ["新詞五個","難發音三個","自己的話","例句"],
+    m4_deep: "「用自己的話解釋」不要抄原文定義——抄定義只證明你找得到，改寫才證明你讀懂了。例句請寫跟今天 D day 有關的句子，例如描述你的第一次心跳、你的已知問題或你的維運交接，這樣同一份力氣可以用兩次：這一格寫過的句子，下週在 W16 就講得出來。",
+    m4_corpus_label: "本週建議語料（來自必讀教材的交付段）",
+    m4_corpus: ["go live","acceptance criteria","handover","retrospective","lessons learned","unattended run","rollback","known issue"],
+    m4_terms_label: "五個新詞彙或片語",
+    m4_col_term: "詞彙／片語", m4_col_mean: "用自己的話解釋", m4_col_sent: "自己造一個句子",
+    m4_pron_label: "三個唸起來不順的字",
+    m4_col_word: "字", m4_col_hard: "難在哪裡", m4_col_tip: "你的記憶方法",
+    m4_wrapup: "檢查點：五個詞的解釋沒有一句是直接抄教材原文。",
+
+    m5_nav: "5. 小組綜整", m5_title: "小組綜整：比對六個人的上線檢查結果",
+    m5_overview: "六個人各自跑完第 2 節的六項勾稽，把結果攤在桌上。這一節要做的是判斷：哪幾項是真的會擋住 W16 驗收的，哪幾項只是看起來不好看。然後把 D+1 到 D+3 之間的補救工作分派出去，寫出負責人與時間。",
+    m5_highlights: ["六項挑三項","擋不擋得住驗收","選取而非全丟","補救分工"],
+    m5_deep: "彙整方式有一條硬性規定：本週彙整人不得把六份個人匯出檔全部丟給 AI 叫它總結。Context Engineering 的核心是選取，不是全丟。比對集合有六項——公開網址、排程與時區、第一次心跳、失敗通知、金鑰治理、出處完整性——你們只能挑三項，而且要挑未通過或有疑慮的那三項；六個人都打勾的項目比對不出東西。判定「會不會擋住 W16 驗收」時請對著五項驗收看：D／D+1／D+3 三日成果、心跳確實在跑、可設定性、安全治理、出處完整性。補救分工那一格要寫出人名與時間點，因為 D+1 到 D+3 之間沒有課，沒有寫下來的事情就不會發生。",
+    m5_focus_label: "我們決定比對的三項（勾選三項）",
+    m5_focus_why: "為什麼挑這三項、略過另外三項？",
+    m5_focus_why_ph: "例：公開網址六個人都打得開，比對不出東西；真正有落差的是第一次心跳與失敗通知，再加上金鑰治理有兩個人不確定 commit 歷史裡有沒有。",
+    m5_gap_label: "三項並排比對之後，六個人差異最大或最沒把握的是哪一項？差在哪裡",
+    m5_gap_ph: "例：第一次心跳。兩個人有執行紀錄編號，三個人只有螢幕截圖，一個人是手動在自己電腦上跑的，根本不在雲端排程上。「跑過了」這件事在同一組裡有三種不同的意思。",
+    m5_evidence_label: "從六份裡舉兩個具體例子支持上面的判斷",
+    m5_evidence_ph: "例：A 貼的是執行紀錄 #37 與時間戳；C 貼的是自己筆電終端機的截圖，沒有任何雲端紀錄。兩者在 W16 的驗收上一個過一個不過。",
+    m5_block_label: "哪一項會真的擋住 W16 驗收？對著五項驗收說明理由",
+    m5_block_ph: "例：第一次心跳。W16 的驗收要看 D、D+1、D+3 三天的執行紀錄，尤其是週六那一筆；沒有雲端排程紀錄就等於三日成果與心跳兩項同時掛掉，其他三項再好也補不回來。",
+    m5_fix_label: "D+1 到 D+3 的補救分工（誰、做什麼、幾點之前）",
+    m5_fix_ph: "例：\n1. 王阿吉：今天（D）21:00 前把排程搬到雲端並手動觸發一次，貼執行紀錄編號到群組。\n2. 李小美：D+1 早上 09:00 前確認自動觸發的那一筆有沒有出現，沒有就在群組回報。\n3. 陳大明：D+3 週六 10:00 前確認週六那一筆，並把三筆紀錄整理成一張圖給 W16 用。",
+    m5_fix_note: "D+1 到 D+3 之間沒有課，這一格是全組唯一的排程。請寫出人名與時間點，不要寫「大家一起注意」。",
+    m5_wrapup: "檢查點：只比對了三項（不是全部丟給 AI），且訂出的補救分工寫出了負責人與時間。",
+
+    m6_nav: "6. 依演化表建置", m6_title: "依演化表建置：D day 上線檢查表與維運交接",
+    m6_overview: "把今天現場的結果登記成全組共用的一筆紀錄。這一節寫下來的東西就是 W16 驗收的起點，也是教師現場見證的依據。請在離開教室之前填完。",
+    m6_highlights: ["公開網址","上線狀態","第一次心跳","維運交接","已知問題"],
+    m6_deep: "三件事請特別注意。第一，公開網址要填真的網址，而且現在就用無痕視窗開一次——這一格是全班唯一共通的驗收入口，填錯等於沒交。第二，上線狀態這一格會被彙整台畫成全班分布圖，請誠實選；選「尚未上線」不會被扣分，隱瞞才會，因為隱瞞會讓你們錯過今天唯一能拿到的現場診斷。第三，已知問題清單至少要有一項——沒有已知問題本身就是紅旗，通常代表還沒有真的把它跑起來過。維運交接那一格要寫出「人」與「依據的檔案」兩件事：只寫人名不算，因為人會畢業，檔案才留得下來。",
+    m6_url_label: "公開網址",
+    m6_url_hint: "貼完整網址，要 http 或 https 開頭，並在課堂上用無痕視窗開一次確認別人也打得開。",
+    m6_url_ph: "例：https://our-team.github.io/pmcs-daily-brief/",
+    m6_url_bad: "⚠ 看起來不像完整網址，請確認有 https:// 開頭而且是別人也打得開的位址。",
+    m6_url_ok: "✓ 網址格式正確。請現在就用無痕視窗開一次確認。",
+    m6_launch_label: "上線狀態（今天現場的實際狀態）",
+    m6_launch_hint: "誠實選。這一格會被彙整台畫成全班分布圖，也是教師現場見證與診斷排序的依據。",
+    m6_launch_note: "本週上課日即為全班 D day，這一格就是你們的 D day 現況。",
+    m6_launch_ok: "✓ 已上線且心跳驗證通過。接下來只要守住 D+1 與 D+3 那兩筆紀錄。",
+    m6_launch_warn: "尚未達到「已上線且心跳驗證通過」。請在已知問題清單寫清楚卡在哪裡，並在第 5 節把它排進 D+1 到 D+3 的補救分工。",
+    m6_heartbeat_label: "第一次心跳的執行時間與結果",
+    m6_heartbeat_hint: "寫出日期、時間（含時區）與結果，並註明是手動觸發還是排程自動觸發。可以先用第 8 節的心跳紀錄貼板整理過再填。",
+    m6_heartbeat_ph: "例：2026-12-16（週三）14:12 台北時間手動觸發，成功，輸出三則且皆含來源連結，執行紀錄 #37；下一次自動觸發排在今晚 23:00 UTC。",
+    m6_handover_label: "維運交接：誰在期末之後還看得懂並改得動這個系統，依據是什麼",
+    m6_handover_hint: "寫出人與依據的檔案。只寫人名不算——他離開之後，那份依據還要留得下來。",
+    m6_handover_ph: "例：王阿吉與李小美都改得動，依據是 repo 根目錄的 README.md（部署與排程步驟）與 kb/sources.md（來源清單與抓取規則）；換一個產業只要改 kb/sources.md，不必動程式碼。",
+    m6_known_label: "已知問題清單（至少一項）",
+    m6_known_hint: "沒有已知問題本身就是紅旗。一行一項，寫出現象與影響。",
+    m6_known_ph: "例：\n1. 來源 B 週末不更新，週六的輸出只會有兩則。\n2. 失敗通知目前只送到組長一個人，他手機靜音時沒有人會看到。\n3. 摘要偶爾超過 120 字，QC 規則只擋格式不擋字數。",
+    m6_known_warn: "⚠ 已知問題清單還是空的。沒有已知問題通常代表還沒有真的跑過，請至少寫一項。",
+    m6_known_ok: "✓ 已知問題清單已填寫。",
+    m6_wrapup: "檢查點：公開網址填了而且是真的網址，上線狀態有選，且已知問題清單至少一項。",
+
+    m7_nav: "7. 簡報計畫", m7_title: "W16 Pitch 的開場與 demo 動線",
+    m7_overview: "把第 1 節的分工變成可執行的腳本，並準備一個要丟給全班的問題。本週不同的是：簡報計畫要寫到現場 demo 的動線——W16 的五項驗收裡有一項是可設定性，那是要現場改一個設定、重跑、出結果的，動線寫不出來就 demo 不出來。",
+    m7_highlights: ["英文開場句","demo 三步動線","Menti 提問","10 分鐘"],
+    m7_deep: "開場句請用英文寫完整一句，不要只寫關鍵字；D day 這一週最有說服力的一句話是「這是上週六早上七點它自己送出來的，那天沒有人在電腦前」。demo 動線請寫三個步驟，每一步都要寫得出「按哪裡、看什麼」：第一步打開公開網址看今天的輸出，第二步打開執行紀錄看 D、D+1、D+3 三筆並指出週六那一筆，第三步改一行 KB 設定換一個產業、重跑並秀出新的結果。動線寫成三步是為了控制時間，也是為了讓現場失敗時知道退到哪一步。要丟給全班的問題請避開是非題。",
+    m7_open_label: "英文開場句（完整一句）",
+    m7_open_ph: "例：This brief was sent at seven o'clock last Saturday morning, and nobody in this room was awake to press anything.",
+    m7_demo_label: "現場 demo 動線（三個步驟，每一步寫出按哪裡、看什麼）",
+    m7_demo1_ph: "例：Step 1 — 打開公開網址，指出頁面上今天的日期，以及三則摘要各自的來源連結。",
+    m7_demo2_ph: "例：Step 2 — 打開排程平台的執行紀錄，指出 D、D+1、D+3 三筆，特別指出週六那一筆是無人值守跑出來的。",
+    m7_demo3_ph: "例：Step 3 — 把 kb/sources.md 的產業從半導體改成觀光，手動觸發一次，30 秒後秀出換了產業的新輸出。",
+    m7_script_label: "段落腳本（每人一句話說明你要講的重點）",
+    m7_col_who: "誰", m7_col_point: "這一段的重點是什麼",
+    m7_question_label: "要丟給全班的一個問題（Menti 用）",
+    m7_question_ph: "例：If your schedule had failed silently last Saturday, how many days would have passed before anyone in your group noticed?",
+    m7_wrapup: "檢查點：開場句是完整的英文句子，且現場 demo 的動線寫得出三個步驟。",
+
+    mlab_nav: "8. 互動實驗室", mlab_title: "互動實驗室",
+    mlab_desc: "四個小工具，配合今天的 D day 現場使用：先把上線檢查表跑一遍，把心跳紀錄貼進來看有沒有跨到週末，把復盤句子檢查過再貼回第 3 節，最後對照 W16 的五項驗收自評一次。這一頁不需要繳交，但操作紀錄會計入完成度，作答內容也會存在你這台電腦的瀏覽器裡。",
+    mlab_clear: "🗑 清除全部",
+    mlab_clear_confirm: "確定要清除互動實驗室的所有作答嗎？此操作無法復原。",
+
+    lab1_title: "① D day 上線檢查表（十項）",
+    lab1_desc: "十項逐一勾選。沒有勾起來的項目請寫下你打算幾點之前補上——沒有時間點的補救不算補救。",
+    lab1_pct: "完成度 {n} / 10（{p}%）",
+    lab1_when: "幾點之前補上",
+    lab1_when_ph: "例：今晚 21:00 前",
+    lab1_top3: "最該補的三項：",
+    lab1_done: "✓ 十項全部完成，可以宣告 D day 交付成立。",
+    lab1_missing: "⚠ 還有 {n} 項未完成而且沒有寫補救時間。",
+    lab1_timed: "✓ 未完成的 {n} 項都已寫出補救時間點。",
+    lab1_reset: "重設",
+    lab1_items: [
+      { k:"url", n:"公開網址可以打開（用無痕視窗確認過）" },
+      { k:"cron", n:"排程已設定，時區換算與平台顯示的下一次觸發時間對得上" },
+      { k:"beat", n:"第一次心跳已執行，留下了執行紀錄或 commit log" },
+      { k:"notify", n:"失敗通知已實測，收件人真的收到過" },
+      { k:"key", n:"金鑰不在前端，也不在 repo 與 commit 歷史裡" },
+      { k:"src", n:"每一則輸出都附了原始來源連結，沒有整段複製" },
+      { k:"degrade", n:"降級模式已實測，來源掛掉時仍出得來並標註缺漏" },
+      { k:"config", n:"可設定性已驗證：只改 KB 設定就能換一個產業並重跑" },
+      { k:"known", n:"已知問題清單至少一項，寫出了現象與影響" },
+      { k:"handover", n:"維運交接依據已寫成檔案（README 或 KB），不是只在某個人腦袋裡" }
+    ],
+
+    lab2_title: "② 心跳紀錄貼板",
+    lab2_desc: "把 D、D+1、D+3 的執行時間與結果貼進來。工具會算出每一筆是星期幾、這幾筆紀錄有沒有跨到週末，以及週末那一天是不是真的自己跑起來了。",
+    lab2_hint: "D+3 刻意落在週六：那一天沒有人在電腦前，跑得出來的東西才叫無人值守。下面預載的是範例，直接改成你們自己的紀錄即可。",
+    lab2_col_label: "標記", lab2_col_date: "執行日期", lab2_col_time: "執行時間（台北）",
+    lab2_col_res: "結果", lab2_col_note: "備註",
+    lab2_res_opts: ["成功","部分成功（有缺漏）","失敗","尚未執行"],
+    lab2_label_ph: "例：D+1",
+    lab2_note_ph: "例：排程自動觸發，輸出三則",
+    lab2_add: "＋ 新增一筆", lab2_del: "刪除", lab2_reset: "重設為範例",
+    lab2_weekday: ["週日","週一","週二","週三","週四","週五","週六"],
+    lab2_weekend_tag: "週末",
+    lab2_need: "請至少填兩筆有日期的紀錄，才判斷得出有沒有跨週末。",
+    lab2_range: "紀錄涵蓋 {from} 到 {to}，共 {n} 天，其中週末 {w} 天。",
+    lab2_span_yes: "✓ 這幾筆紀錄的期間跨越了週末（{days}）。",
+    lab2_span_no: "⚠ 這幾筆紀錄的期間還沒有跨越任何週末。W16 要看跨週末的那一天，請把 D+3 排進來。",
+    lab2_unattended_yes: "✓ 週末當天有成功的執行紀錄（{days}）——這才是無人值守的證據。",
+    lab2_unattended_no: "⚠ 週末那一天還沒有成功的執行紀錄。手動跑得起來不等於自動跑得起來，這一項在 W16 會被直接問到。",
+    lab2_baddate: "⚠ 有 {n} 筆紀錄的日期是空的或格式不對，沒有列入計算。",
+
+    lab3_title: "③ 復盤措辭檢查",
+    lab3_desc: "把第 3 節的句子貼進來，工具會標出可能的指名與指責措辭。被標到不代表你寫錯了，代表那一句值得再讀一次：主詞是人還是事件？",
+    lab3_label: "貼上你要檢查的復盤句子",
+    lab3_ph: "把第 3 節的三句話貼進來，一次一句或三句一起都可以。",
+    lab3_hits: "偵測到 {n} 處可能的指名或指責措辭：",
+    lab3_ok: "✓ 沒有偵測到指名或指責句型，可以貼回第 3 節。",
+    lab3_empty: "貼上句子之後就會即時檢查。",
+    lab3_tip: "改寫方法很機械：把主詞從人換成事件或流程。「某某忘記提交」→「KB 更新後沒有提交步驟的檢查點」。",
+    lab3_reset: "重設為範例",
+    lab3_seed: "這學期最大的問題是阿明都沒有把資料交上來，後來他又忘記提交程式碼，害我們的排程一直失敗，我覺得他就是不配合。",
+
+    lab4_title: "④ W16 驗收自評",
+    lab4_desc: "對照 W16 的五項驗收，各給一句證據。沒有證據的項目請誠實留白——今天留白，還來得及在 D+1 到 D+3 之間補；W16 當天留白就只能留白。",
+    lab4_rate: "自評",
+    lab4_rate_opts: ["尚無證據","部分證據","證據完整"],
+    lab4_ev: "一句證據",
+    lab4_score: "證據完整 {a} 項／部分 {b} 項／尚無 {c} 項",
+    lab4_done: "✓ 五項都有完整證據，W16 的驗收面向已經備齊。",
+    lab4_warn: "⚠ 還有 {n} 項尚無證據。D+1 到 D+3 之間沒有課，請在第 5 節把它們排進補救分工。",
+    lab4_reset: "重設",
+    lab4_items: [
+      { k:"days", n:"D／D+1／D+3 三日成果", hint:"至少呈現這三天的實際輸出，含跨週末的那一天。",
+        ph:"例：D 與 D+1 的輸出都在頁面上，D+3 是這週六，排程已排入且已確認佇列。" },
+      { k:"beat", n:"心跳確實在跑", hint:"執行紀錄或 commit log，並註明降級模式有沒有被觸發。",
+        ph:"例：執行紀錄有連續三筆，D+1 那天來源 B 逾時，降級模式被觸發並在輸出上標註缺漏。" },
+      { k:"config", n:"可設定性", hint:"現場改一個 KB 設定，換一個產業或企業，重跑並出結果。",
+        ph:"例：改 kb/sources.md 的產業欄位即可換產業，已在課堂上實際換過一次並重跑成功。" },
+      { k:"safety", n:"安全治理", hint:"Full Safety Gate 四道閘的落實證據；金鑰不在前端與 repo。",
+        ph:"例：金鑰在平台 Secrets，git log -S 搜過歷史沒有出現；輸出前有格式與出處兩道檢查。" },
+      { k:"source", n:"出處完整性", hint:"每一則摘要都可追回原始連結，無全文複製。",
+        ph:"例：每一則都有 http 開頭的來源連結，每則不超過 90 字，沒有整段貼原文。" }
+    ],
+
+    lab5_title: "⑤ 課前自我檢核",
+    lab5_desc: "四題選擇題，確認你確實讀過本週必讀教材的交付段。答錯會顯示解析。",
+
+    mres_nav: "9. 學習資源", mres_title: "本週學習資源",
+    mres_desc: "必讀兩份。第一份是本週主教材，這是第二次讀，這次只讀 M7 交付段；第二份是它的原始講義，只讀後半：績效評估、實獲值管理 EVM、專案後檢討與組織知識管理。選讀三份都指向下週的 W16，不影響本學習單，但寫成書面整理可計入加分作業。",
+    res_req: [
+      { label: "T6 · CTRL 專案控制與交付", url: "https://lolopodcast.github.io/Project-Control-and-Delivery/", desc: "本週主教材，第二次讀。這次只讀 M7 交付段：交付、驗收與復盤——績效評估的六項指標、實獲值管理 EVM 的五個讀數、後檢討五步與四項最佳實踐，以及組織知識管理。" },
+      { label: "具高執行績效的專案管理實務（2/2）· 控制與交付", url: "https://lolopodcast.github.io/AI-Workshop-Hub/docs/High-Performance-Project-Management_Part2-of-2_EDP_SML_20250318.pdf", desc: "T6 的原始講義，與 W14 同一份。本週只讀後半：績效評估、實獲值管理 EVM、專案後檢討與組織知識管理。" }
+    ],
+    res_opt: [
+      { label: "TPE · Term Project Evaluation", url: "https://lolopodcast.github.io/Term-Project-Evaluation/", desc: "W16 的驗收標準與評分工具。填第 8 節第四件工具之前先看一次，你會知道證據要準備到什麼程度。" },
+      { label: "ESA · EMI Speaking Analyzer", url: "https://lolopodcast.github.io/EMI-EML-Speaking-Analyzer/", desc: "W16 簡報的自我演練工具。把第 7 節的英文開場句唸一次丟進去，看語速、停頓與用字。" },
+      { label: "EMI SPA Course Showcase Gallery", url: "https://lolopodcast.github.io/SPA-Gallery/", desc: "歷屆成果展示牆。看看別人在 Pitch 上怎麼呈現三日成果與心跳紀錄。" }
+    ],
+
+    analytics_title: "完成度與匯出",
+    analytics_desc: "個人層與小組層分開匯出。個人版留給你自己，作為學習歷程檔案；小組版由本週彙整人上傳 Moodle。",
+    analytics_personal_title: "個人匯出（第 2、3、4 節・不繳交）",
+    analytics_personal_desc: "填好姓名即可匯出。這份檔案留給你自己，可以直接放進 repo 的 docs／資料夾當作 D day 的現場紀錄。",
+    analytics_group_title: "小組匯出（第 1、5、6、7 節・繳交 Moodle）",
+    analytics_group_desc: "填好組別與本週彙整人即可匯出。CSV 與 Markdown 各一份，上傳至 Moodle 作業區。",
+    analytics_group: "組別", analytics_dept: "系級", analytics_dept_ph: "例：IBS1",
+    analytics_id: "學號", analytics_id_ph: "例：113212599",
+    analytics_name_en: "英文姓名", analytics_name_en_ph: "例：Shihmin Lo",
+    analytics_name_zh: "中文姓名", analytics_name_zh_ph: "例：王阿吉",
+    analytics_compiler: "本週彙整人", analytics_compiler_ph: "例：王阿吉",
+    analytics_export_personal: "匯出個人 Markdown",
+    analytics_export_csv: "匯出小組 CSV",
+    analytics_export_md: "匯出小組 Markdown",
+    analytics_need_personal: "請先填寫姓名",
+    analytics_need_group: "請先填寫組別與本週彙整人",
+    group_options: ["G1","G2","G3","G4","G5","G6","G7","G8","G9","G10","G11","G12","Others"],
+    analytics_pct_personal: "個人完成度", analytics_pct_group: "小組完成度",
+    analytics_total_time: "總填寫時間", analytics_overall_acc: "自我檢核答對率",
+    analytics_sec: "秒",
+    analytics_progress_title: "各節完成度",
+    analytics_wp_title: "尚未完成的節次",
+    analytics_wp_goto: "→ 前往填寫",
+    sdl_title: "先匯入你的 SDL 知識庫快照",
+    sdl_desc: "本週流程是：不使用 AI 手寫閱讀筆記 → 用 SDL 學習夥伴做蘇格拉底式對話 → 產出 KB.md → 在這裡匯入。匯入後會自動帶入你的身分欄位，並把 KB 的重點顯示在各節上方供你對照。本週上課日就是 D day，這份學習單不是要你重想一遍，是把你已經想清楚的東西，在現場填成可比對的格式。",
+    sdl_ph: "把 SDL 產出的 KB.md 全文貼在這裡（含最上方的 --- frontmatter ---）",
+    sdl_parse: "解析並匯入",
+    sdl_file: "改用檔案上傳",
+    sdl_loaded: "✓ 已匯入 SDL KB",
+    sdl_clear: "清除並重新匯入",
+    sdl_ok: "匯入成功，身分欄位已自動帶入。",
+    sdl_err_empty: "內容是空的，請先貼上 KB.md 全文。",
+    sdl_err_format: "解析不出來。請確認貼的是 SDL 產出的 KB.md（開頭應該有 --- 的 frontmatter，內文有 §1 §2 等段落）。",
+    sdl_panel_title: "📖 你的 SDL KB 重點（對照用）",
+    sdl_panel_show: "展開",
+    sdl_panel_hide: "收合",
+    sdl_s1: "§1 本次學習摘要",
+    sdl_s2: "§2 知識綜整",
+    sdl_s4: "§4 學生親筆區塊",
+    sdl_s5: "§5 未解問題清單",
+    analytics_wp_personal_head: "個人層（你自己要填）",
+    analytics_wp_personal_done: "個人層已全部完成。",
+    analytics_wp_group_head: "小組層（小組討論時共同決定）",
+    analytics_wp_group_note: "若你不是本週彙整人，這幾節維持 0% 是正常的——個人匯出不受影響。",
+    analytics_wp_group_done: "小組層已全部完成。",
+    analytics_wp_allpass: "七節全部填寫完成，可以匯出了。",
+    analytics_wp_saved: "填寫內容已自動儲存於本機瀏覽器",
+    analytics_wp_clear: "🗑 清除全部",
+    analytics_wp_clear_confirm: "確定要清除所有填寫內容與歷程嗎？此操作無法復原，建議先匯出。",
+    analytics_wp_tts_intro: "以下是尚未完成的節次。",
+    analytics_wp_tts_module: "{name}，完成度 {acc}%。",
+    analytics_wp_tts_allpass: "七節全部填寫完成。",
+
+    date: "Version 2026.08.24",
+    copyright: "For Educational Use Only",
+    architect_label: "Architect:",
+    architect_url: "https://www.ibs.ncnu.edu.tw/index.php/faculty/tenured-professor/299-smlo"
+  },
+
+  en: {
+    brand: "PMCS",
+    title: "Worksheet W15", subtitle: "Delivery, acceptance and the retrospective",
+    nav_modules: "Contents", nav_prev: "Previous", nav_next: "Next", nav_home: "Home",
+    key_terms: "Quick Reference Cards", flip_prompt: "Click to flip",
+    flip_status: "Read {read} / Shown {shown} / Total {total}",
+    flip_next: "Next", flip_retry: "Restart",
+    audio_read: "Audio Guide",
+    quiz_title: "Pre-Class Self-Check", quiz_status: "Correct {correct} / Answered {answered} / Total {total}",
+    quiz_next: "Next", quiz_retry: "Retry",
+    submit: "Submit", correct: "Correct", incorrect: "Incorrect", explanation: "Explanation",
+    overview_label: "Overview",
+    highlights_label: "Highlights",
+    deep_dive_label: "Deep Dive",
+    wrapup_label: "Wrap-up",
+    badge_personal: "Individual · not submitted",
+    badge_group: "Group · submitted with the group file",
+    saved_hint: "✍️ Your entries are saved in this browser on this computer only. They do not travel with you — always export from the Completion & Export page.",
+    live_banner: "🔴 Live record: this week's class day is the whole cohort's D day. Fill this section in as you work, right now — it records the state at this moment, not a plan to finish later at home. It must be complete before you leave the room.",
+    required_label: "Required Materials", optional_label: "Optional Materials (eligible for BA)",
+    select_ph: "Select",
+
+    m0_nav: "0. Executive Summary",
+    m0_title: "How to Use This Worksheet",
+    m0_intro: "This is the W15 worksheet for PMCS, and it is unlike the ones before it: this week's class day is the whole cohort's D day, so it is not homework you complete afterwards but a live record of the day. Fill sections 2 and 3 in as you work, in the room — you are putting the system live right now, and what you write is the state at this moment. The main material is T6 · CTRL, Project Control and Delivery, read for the second time, and this time only module M7, the delivery stretch: delivery, acceptance and the retrospective. That module carries three toolsets: performance evaluation with its four purposes, two timings, four principles and six indicators; earned value management, turning planned value, earned value and actual cost into schedule variance, cost variance, the two indices and the estimate at completion; and the five-step post-project review with its four best practices. It ends in organisational knowledge management — when the executor is an agent, the schedule is resource allocation, QC feedback is quality control, the heartbeat log is acceptance evidence, and the knowledge base is knowledge management. The class runs like this: every group goes live and verifies a first heartbeat with the teacher watching, two groups present, and the rest is blocker diagnosis. Before you leave the room, sections 2, 3 and 6 must be complete. Sections 2 to 4 are filled by each person and are not submitted; sections 5 to 7 are decided together and submitted with the group file.",
+    m0_why: "Why go live here today rather than at home afterwards?",
+    m0_why_desc: "Because running it by hand is not evidence that it runs by itself, and that gap only gets exposed while somebody is watching. Press the button here today and within fifty minutes you know whether the heartbeat really fired, whether the time zone is written backwards, whether the key reached the runner, and whether a failure alert really lands in somebody's inbox — with the teacher standing next to you. Groups who go live at home usually discover on the Saturday of D+3 that the schedule never ran at all, and by then there is no time left to fix it. D+3 falls on a Saturday deliberately: nobody is at a computer that day, so whatever comes out is genuinely unattended.",
+    m0_stats: [
+      { val: "D day", label: "this class day is the cohort's D day" },
+      { val: "D+3", label: "Saturday — the unattended run" },
+      { val: "5", label: "verifiable acceptance items in W16" },
+      { val: "1", label: "heartbeat logged before you leave" }
+    ],
+    m0_modules: [
+      { num: "01", title: "Group & Roles", desc: "Register the group and members, and settle the 10-minute split for the W16 pitch.", tag: "Group" },
+      { num: "02", title: "D Day Go-Live Check", desc: "Six items checked right now; anything failing gets a gap and a time to fix it.", tag: "Individual" },
+      { num: "03", title: "Three Retro Questions", desc: "One thing right, one wrong, one you will change — with events as subjects, never names.", tag: "Individual" },
+      { num: "04", title: "Language Lab", desc: "Five new terms and three hard words, for class discussion and bonus work.", tag: "Individual" },
+      { num: "05", title: "Group Synthesis", desc: "Compare six go-live results, pick only three, and schedule the D+1 to D+3 repairs.", tag: "Group" },
+      { num: "06", title: "Build by the Table", desc: "Public address, launch status, first heartbeat, handover and the known-issue list.", tag: "Group" },
+      { num: "07", title: "Presentation Plan", desc: "The English opening line for the W16 pitch, plus a three-step live demo route.", tag: "Group" }
+    ],
+    m0_start: "Start →",
+
+    check_items: [
+      { id:"url", short:"Public address", name:"The public address opens",
+        desc:"Open it once in a private window right now, so you are not only testing it while logged in.",
+        ph:"e.g. https://our-team.github.io/daily-brief/ opens in a private window and shows today's output." },
+      { id:"sched", short:"Schedule & zone", name:"The schedule is set and the time zone converts correctly",
+        desc:"Paste the actual cron and the Taipei time it maps to, and check it against the next fire time the platform shows.",
+        ph:"e.g. cron 0 23 * * * in UTC maps to 07:00 Taipei the next morning; the platform lists tonight 23:00 UTC as the next run." },
+      { id:"beat", short:"First heartbeat", name:"A first heartbeat has run and left a record",
+        desc:"A run log or a commit log. A screenshot is not a record.",
+        ph:"e.g. Fired by hand at 14:12 today and succeeded, run #37 in the log, three items produced." },
+      { id:"notify", short:"Failure alert", name:"A failure alert really reaches a person",
+        desc:"Name the recipient. Better still, break it once on purpose and write down what happened.",
+        ph:"e.g. Broke the source URL on purpose to force a failure; the leader's mailbox had the alert within 3 minutes." },
+      { id:"key", short:"Key governance", name:"No key sits in the front end or anywhere in the repo",
+        desc:"Commit history included. A key that was ever committed counts as leaked and has to be rotated.",
+        ph:"e.g. The key lives in platform secrets; git log -S found nothing across the whole history; the front end only calls our own endpoint." },
+      { id:"src", short:"Source integrity", name:"Every item in the output carries its original source link",
+        desc:"One of the five W16 acceptance items: every summary traces back to a link, and nothing is copied wholesale.",
+        ph:"e.g. All three items today carry source links, each under 90 words, with no block copied from the original." }
+    ],
+    check_pass: "Pass", check_fail: "Fail", check_unset: "Not checked",
+    check_ev_label: "What you actually saw",
+    check_gap_label: "What is missing, and by when it will be fixed (state a time)",
+    check_gap_ph: "e.g. The failure alert is untested; Ah-Chi will break it on purpose before 21:00 tonight to confirm.",
+    check_gap_warn: "⚠ This item is marked as failing. Write down what is missing and the time by which it will be fixed — \"as soon as possible\" is not a time.",
+    check_gap_ok: "✓ A fix and a time have been written down.",
+    check_count: "Checked {n} / 6 · pass {p} · fail {f}",
+
+    deliver_out: [
+      { name: "Delivered", sub: "All six pass; W16 can show it as it stands" },
+      { name: "Delivered with known issues", sub: "Some fail, but each carries a time to fix it" },
+      { name: "Not delivered", sub: "Some fail and no fix time has been written" }
+    ],
+    deliver_note: "Acceptance evidence is a run log, not a screenshot — running by hand is not evidence that it runs by itself.",
+
+    launch_opts: [
+      { v:"live_ok", name:"Live, with the heartbeat verified" },
+      { v:"live_nobeat", name:"Live, but the heartbeat is unverified" },
+      { v:"partial", name:"Partly live" },
+      { v:"none", name:"Not live yet" }
+    ],
+
+    m1_nav: "1. Group & Roles", m1_title: "Group and the W16 Pitch Split",
+    m1_overview: "Fill in the administrative details first, then settle the W16 pitch split here in class. Each group gets 10 minutes and every member must speak for one to two minutes — this section pins down who covers what and for how long, so nobody is being volunteered at the podium next week.",
+    m1_highlights: ["Jigsaw collaboration","1-2 min each","10 min per group","Everyone speaks"],
+    m1_deep: "This is D day, so let the split follow the five W16 acceptance items: one member demonstrates the public address and today's real output, one covers the heartbeat log including the weekend run, one covers configurability by changing a knowledge-base setting live to switch industry, one covers governance and the key, one covers source integrity, and one covers the known issues and the handover. Write the seconds down — that is the only way the total stays under control.",
+    m1_group: "Group", m1_date: "Date (today = D day)",
+    m1_members_label: "Members and roles (use the buttons below to set the size, up to 10)",
+    m1_member_count: "{n} members",
+    m1_col_name: "Name", m1_col_id: "Student ID", m1_col_part: "Assigned part", m1_col_sec: "Seconds",
+    m1_part_ph: "e.g. The heartbeat log and the weekend run",
+    m1_total_sec: "Planned total length",
+    m1_sec_warn: "Over 600 seconds (10 minutes) — trim it down.",
+    m1_sec_ok: "Within 10 minutes. Workable.",
+    m1_wrapup: "Checkpoint: every attending member has an assigned part, and the total stays under 600 seconds.",
+
+    m2_nav: "2. D Day Go-Live Check", m2_title: "D Day Go-Live Check: Verify Each Item Right Now",
+    m2_overview: "Fill this in during class rather than at home. The six items are the minimum your own part has to clear today: the address opens, the schedule is set with the right time zone, a first heartbeat left a record, the failure alert reaches a person, no key sits in the front end or the repo, and every item of output carries its source. Check each one now; do not leave a failing item alone — write what is missing and the time by which you will fix it.",
+    m2_highlights: ["Six checks","Verified in the room","A time for every gap","D day as it stands"],
+    m2_deep: "\"I'll do it in a minute\" is the one thing this section exists to stop. Anything you do not verify today comes back on the Saturday of D+3 in the most expensive way available: nobody is at a computer, and a schedule that did not run simply did not run — that day cannot be recovered. So a failing item is not the problem; a failing item with no time attached is. Write the fix time as a point in time, such as \"before 21:00 tonight\", not \"as soon as possible\" — that is not a time, it is a wish. In the evidence cell write what you saw rather than what you believe: the run number in the log, the alert sitting in the inbox, the page actually opening in a private window.",
+    m2_svg_layer: "D DAY · six go-live gates",
+    m2_svg_cap: "All six gates pass and delivery stands; a gate that fails but carries a fix time makes it a delivery with known issues",
+    m2_terms: [
+      { front: "Go live", back: "The moment a system stops being a test and starts serving other people. One test decides it: somebody else can open it and it moves on its own. Anything that runs only when you press a button is not live." },
+      { front: "Acceptance criteria", back: "A standard agreed in advance that somebody else can recompute or reproduce. \"I think it went fine\" is not one; \"three consecutive days of output, every item carrying a source link\" is." },
+      { front: "Handover", back: "Passing the system to whoever takes it on. What you hand over is not somebody's memory but files — the README for deployment and scheduling, the knowledge base for sources and rules — so a different person can still change it." },
+      { front: "Retrospective", back: "Five steps: preparation, the meeting, analysis, the report, and sharing. Four best practices go with it: an open atmosphere, facts and data, no blame, and conversion into an action plan." },
+      { front: "Lessons learned", back: "The output of a retrospective and the input to knowledge management. Written as events and processes it survives; written as names it leaves only feeling, and next term nobody can use it." },
+      { front: "Unattended run", back: "A run that completes while nobody is at a computer. D+3 falls on a Saturday precisely to test this — running by hand is not evidence that it runs by itself." },
+      { front: "Rollback", back: "Returning the system to the last working version. Know how to go back before you go live, or the moment something breaks you will have nothing but panic." },
+      { front: "Known issue", back: "A defect you know about at delivery and wrote down. A written defect is a managed risk; an unwritten one is a surprise on acceptance day. Having no known issues at all is itself a red flag." }
+    ],
+    m2_q: [
+      { q: "W16 asks for output from D, D+1 and D+3. Why does D+3 deliberately fall on a Saturday?",
+        opts: ["Nobody is at a computer, so the run is unattended","Weekend sources refresh more completely than weekdays","Saturday is exactly three days on and easier to recall","Cloud schedulers have shorter queues at the weekend"],
+        ans: _A0, exp: "The common illusion is that a successful manual run proves it runs by itself. On Saturday nobody intervenes, so the output really was produced automatically." },
+      { q: "What is the concrete way to \"avoid blame\" among the four review best practices?",
+        opts: ["Publish the minutes without any names in them","Invite only members with no direct responsibility","Cap everyone's speaking time so arguments stay short","Make the subject an event or a process, not a person"],
+        ans: _A3, exp: "Attend to the problem, not the person: rewrite \"he forgot to commit\" as \"there is no checkpoint for committing after a knowledge-base edit\"." },
+      { q: "In organisational knowledge management, what is the core function of a retrospective?",
+        opts: ["Turning explicit knowledge back into personal intuition","Filing the project documents in chronological order","Converting tacit knowledge into explicit, readable form","Splitting success and failure factors between two people"],
+        ans: _A2, exp: "Tacit knowledge is personal experience and intuition; only once written into documents and processes does it survive, which is exactly what the knowledge base is for." },
+      { q: "Which of these makes the best heartbeat evidence for W16?",
+        opts: ["A screenshot of the page taken on launch day","The scheduler's run log or the commit log","A member's message in the group chat saying it worked","The slide that describes how the schedule is set"],
+        ans: _A1, exp: "A screenshot cannot prove it runs by itself. A run log carries timestamps and outcomes and can be reopened by somebody else, which makes it reproducible." }
+    ],
+    m2_wrapup: "Checkpoint: all six items carry a verdict, and every failing one states what is missing and the time by which it will be fixed.",
+
+    m3_nav: "3. Three Retro Questions", m3_title: "Three Retro Questions: Events as Subjects, Never Names",
+    m3_overview: "This is your personal retrospective for the term, with the wording constrained by the four best practices from T6 module M7: an open atmosphere, facts and data, no blame, and conversion into an action plan. The three questions are short — one thing I got right this term, one thing I got wrong, one thing I will change next time — but one rule is absolute: the subject of every sentence must be an event or a process, never a person's name.",
+    m3_highlights: ["One thing right","One thing wrong","One change","Events as subjects"],
+    m3_deep: "The rewrite is mechanical: swap the person for the event. \"He forgot to commit\" becomes \"there is no checkpoint for committing after a knowledge-base edit\"; \"she never replies\" becomes \"no reply window was agreed, so messages averaged more than a day before an answer\". This is not politeness, it is how the cause survives — once a sentence names somebody, the rest of the time goes into self-defence and the real cause stays hidden. Write the third answer as an action you can actually take, naming the step and what gets added to it, rather than \"I will pay more attention next time\". The page flags possible naming language as you type; being flagged does not mean you are wrong, it means that sentence is worth reading once more.",
+    m3_right_label: "1. One thing I got right this term (subject: an event or a process)",
+    m3_right_ph: "e.g. Re-running the fetch test over the knowledge-base source list every Wednesday evening meant a source redesign surfaced on the Thursday instead of the day before submission.",
+    m3_wrong_label: "2. One thing I got wrong this term (subject: an event or a process)",
+    m3_wrong_ph: "e.g. Nobody opened the run log for three weeks after the schedule was set, and the failure alert went to a single mailbox that nobody was reading, so the whole period had no monitoring at all.",
+    m3_next_label: "3. One thing I will change next time (write it as an action)",
+    m3_next_ph: "e.g. Next time a second recipient goes on the failure alert on deployment day itself, and the run log gets a fixed Monday check written into the operations section of the README.",
+    m3_blame_warn: "⚠ Possible naming or blame language detected: {hits}. Rewrite the sentence with an event or a process as its subject.",
+    m3_blame_ok: "✓ No naming or blame pattern detected in this sentence.",
+    m3_wrapup: "Checkpoint: all three sentences take an event or a process as their subject, none names a person, and the third is written as an action you can take.",
+
+    m4_nav: "4. Language Lab", m4_title: "EMI Language Lab",
+    m4_overview: "This course is taught in English. Pick five new words or phrases from the delivery stretch of this week's required material, plus three words you stumble over. What you produce here feeds class discussion, the W16 pitch and bonus work directly.",
+    m4_highlights: ["Five new terms","Three hard words","In your own words","Example sentences"],
+    m4_deep: "Do not copy the source definition into the \"in your own words\" column — copying proves only that you found it; rewriting proves you understood it. Write the example sentences about today's D day: your first heartbeat, your known issues, your handover. That way one effort does two jobs, because the sentence you write here is a sentence you can say out loud in W16.",
+    m4_corpus_label: "Suggested corpus for this week (from the delivery stretch of the required material)",
+    m4_corpus: ["go live","acceptance criteria","handover","retrospective","lessons learned","unattended run","rollback","known issue"],
+    m4_terms_label: "Five new words or phrases",
+    m4_col_term: "Term / phrase", m4_col_mean: "In your own words", m4_col_sent: "Your own sentence",
+    m4_pron_label: "Three words you stumble over",
+    m4_col_word: "Word", m4_col_hard: "What makes it hard", m4_col_tip: "Your memory trick",
+    m4_wrapup: "Checkpoint: not one of the five explanations is copied verbatim from the source.",
+
+    m5_nav: "5. Group Synthesis", m5_title: "Group Synthesis: Comparing Six Go-Live Results",
+    m5_overview: "Six people have each run the six checks from section 2. Put the results on the table. The work here is judgement: which of them would genuinely block acceptance in W16, and which merely look untidy. Then hand out the repair work for the stretch between D+1 and D+3, with an owner and a time for each item.",
+    m5_highlights: ["Three of six","Blocking or not","Select, do not dump","Repair assignments"],
+    m5_deep: "One rule is mandatory here: this week's compiler must NOT dump all six individual exports into an AI and ask for a summary. The core of Context Engineering is selection, not dumping. The comparison set has six items — public address, schedule and time zone, first heartbeat, failure alert, key governance, source integrity — and you may pick only three, which should be three that failed or that people are unsure about; items everyone ticked teach you nothing. When you judge what blocks W16, judge against the five acceptance items: three days of output at D, D+1 and D+3, a heartbeat that really runs, configurability, governance, and source integrity. The repair cell needs names and times, because there is no class between D+1 and D+3, and anything not written down will not happen.",
+    m5_focus_label: "The three items we chose to compare (tick three)",
+    m5_focus_why: "Why these three, and why did we skip the other three?",
+    m5_focus_why_ph: "e.g. All six public addresses opened, so there was nothing to compare; the real spread was in the first heartbeat and the failure alert, plus key governance, where two people were unsure whether the commit history is clean.",
+    m5_gap_label: "After comparing the three side by side, which one diverged most or left people least sure, and how?",
+    m5_gap_ph: "e.g. The first heartbeat. Two people have a run number, three have only a screenshot, and one ran it by hand on his own laptop with nothing in the cloud scheduler at all. Inside one group, \"it ran\" means three different things.",
+    m5_evidence_label: "Two concrete examples from the six that support the judgement above",
+    m5_evidence_ph: "e.g. A pasted run #37 with a timestamp; C pasted a terminal screenshot from a laptop with no cloud record at all. Against the W16 bar, one passes and the other does not.",
+    m5_block_label: "Which item would genuinely block acceptance in W16? Argue it against the five acceptance items",
+    m5_block_ph: "e.g. The first heartbeat. W16 checks run logs for D, D+1 and D+3, above all the Saturday entry; with no cloud run log, three-day output and the heartbeat both fail at once, and no amount of quality in the other three makes that up.",
+    m5_fix_label: "Repair assignments for D+1 to D+3 (who, what, by when)",
+    m5_fix_ph: "e.g.\n1. Ah-Chi: move the schedule into the cloud and fire it once by hand before 21:00 today (D), then post the run number to the group chat.\n2. Mei: confirm before 09:00 on D+1 that the automatic run appeared, and report to the group if it did not.\n3. Ta-Ming: confirm the Saturday entry before 10:00 on D+3 and turn all three records into one slide for W16.",
+    m5_fix_note: "There is no class between D+1 and D+3, so this cell is the group's only schedule. Write names and times; \"everyone keeps an eye on it\" is not an assignment.",
+    m5_wrapup: "Checkpoint: only three items were compared (nothing was dumped wholesale into an AI), and the repair assignments name an owner and a time.",
+
+    m6_nav: "6. Build by the Table", m6_title: "Build by the Table: The D Day Check and the Handover",
+    m6_overview: "Register today's result as one shared record for the group. What you write here is the starting point for W16 acceptance and the basis of the teacher's on-the-spot witness. Complete it before you leave the room.",
+    m6_highlights: ["Public address","Launch status","First heartbeat","Handover","Known issues"],
+    m6_deep: "Three things deserve care. First, the public address must be a real address, and you should open it in a private window right now — this cell is the one entry point the whole class shares, and getting it wrong is the same as not submitting. Second, the launch status is plotted by the aggregator as a class-wide distribution, so answer honestly; choosing \"not live yet\" costs you nothing, hiding it costs you the one on-the-spot diagnosis today can give you. Third, the known-issue list needs at least one entry — no known issues is itself a red flag and usually means it has never really run. In the handover cell name both a person and the file they would rely on: a name alone does not count, because people graduate and files do not.",
+    m6_url_label: "Public address",
+    m6_url_hint: "Paste the full address starting with http or https, and open it once in a private window during class to confirm other people can reach it.",
+    m6_url_ph: "e.g. https://our-team.github.io/pmcs-daily-brief/",
+    m6_url_bad: "⚠ That does not look like a full address. Check that it starts with https:// and that other people can open it.",
+    m6_url_ok: "✓ The address is well formed. Open it once in a private window now.",
+    m6_launch_label: "Launch status (the real state, right now)",
+    m6_launch_hint: "Answer honestly. The aggregator plots this as a class-wide distribution and it drives the order of diagnosis in the room.",
+    m6_launch_note: "This class day is the cohort's D day, so this cell is your D day as it stands.",
+    m6_launch_ok: "✓ Live with the heartbeat verified. From here it is only about holding D+1 and D+3.",
+    m6_launch_warn: "Not yet \"live with the heartbeat verified\". Say exactly where it is stuck in the known-issue list, and put it into the D+1 to D+3 repair assignments in section 5.",
+    m6_heartbeat_label: "The time and result of the first heartbeat",
+    m6_heartbeat_hint: "Give the date, the time with its zone, and the outcome, and say whether it was fired by hand or by the schedule. Tidy it up in the heartbeat pasteboard in section 8 first if you like.",
+    m6_heartbeat_ph: "e.g. 2026-12-16 (Wednesday) 14:12 Taipei, fired by hand, succeeded, three items all carrying source links, run #37; the next automatic run is queued for 23:00 UTC tonight.",
+    m6_handover_label: "Handover: who can still read and change this system after the term, and on the strength of what",
+    m6_handover_hint: "Name both the person and the file they rely on. A name alone does not count — the file has to outlast them.",
+    m6_handover_ph: "e.g. Ah-Chi and Mei can both change it, on the strength of README.md at the repo root (deployment and scheduling) and kb/sources.md (the source list and fetch rules); switching industry only means editing kb/sources.md, with no code change.",
+    m6_known_label: "Known-issue list (at least one)",
+    m6_known_hint: "No known issues is itself a red flag. One per line, with the symptom and its effect.",
+    m6_known_ph: "e.g.\n1. Source B does not refresh at the weekend, so Saturday output carries only two items.\n2. The failure alert currently reaches the group leader alone, and nobody sees it when his phone is silenced.\n3. Summaries occasionally run past 120 words; the QC rule checks format but not length.",
+    m6_known_warn: "⚠ The known-issue list is still empty. No known issues usually means it has never really run — write at least one.",
+    m6_known_ok: "✓ The known-issue list is filled in.",
+    m6_wrapup: "Checkpoint: the public address is filled in and is a real address, a launch status is selected, and the known-issue list carries at least one entry.",
+
+    m7_nav: "7. Presentation Plan", m7_title: "The W16 Pitch: Opening Line and Demo Route",
+    m7_overview: "Turn section 1's split into a runnable script and prepare one question for the class. What is different this week is the demo route: one of the five W16 acceptance items is configurability, which means changing a setting live, re-running it and showing the result — and a route you cannot write down is a demo you cannot give.",
+    m7_highlights: ["English opening line","Three-step demo","Menti question","10 minutes"],
+    m7_deep: "Write the opening line as a complete English sentence rather than keywords; in D day week the most persuasive sentence available is \"this was sent at seven o'clock last Saturday morning, and nobody was at a computer\". Write the demo route as three steps, each one saying where you click and what to look at: step one opens the public address and shows today's output, step two opens the run log and points at D, D+1 and D+3 with the Saturday entry called out, step three edits one line of the knowledge base to switch industry, re-runs it and shows the new result. Three steps keeps the time under control and tells you where to fall back to if something fails on stage. Avoid yes-or-no questions for the class.",
+    m7_open_label: "English opening line (one complete sentence)",
+    m7_open_ph: "e.g. This brief was sent at seven o'clock last Saturday morning, and nobody in this room was awake to press anything.",
+    m7_demo_label: "Live demo route (three steps; each says where you click and what to look at)",
+    m7_demo1_ph: "e.g. Step 1 — open the public address and point at today's date and the source link under each of the three items.",
+    m7_demo2_ph: "e.g. Step 2 — open the scheduler's run log, point at D, D+1 and D+3, and call out that the Saturday entry ran unattended.",
+    m7_demo3_ph: "e.g. Step 3 — change the industry in kb/sources.md from semiconductors to tourism, fire it by hand, and show the new output thirty seconds later.",
+    m7_script_label: "Segment script (one sentence per speaker on the point they will make)",
+    m7_col_who: "Speaker", m7_col_point: "The point of this segment",
+    m7_question_label: "One question for the class (for Menti)",
+    m7_question_ph: "e.g. If your schedule had failed silently last Saturday, how many days would have passed before anyone in your group noticed?",
+    m7_wrapup: "Checkpoint: the opening line is a complete English sentence, and the live demo route is written as three steps.",
+
+    mlab_nav: "8. Interactive Lab", mlab_title: "Interactive Lab",
+    mlab_desc: "Four small tools for use during today's D day: run the go-live checklist once, paste the heartbeat records in and see whether they cross a weekend, check the wording of your retrospective before it goes back into section 3, and self-assess against the five W16 acceptance items. Nothing here is submitted, but your activity counts towards completion and your answers are kept in this browser.",
+    mlab_clear: "🗑 Clear all",
+    mlab_clear_confirm: "Clear every answer in the Interactive Lab? This cannot be undone.",
+
+    lab1_title: "① D Day Go-Live Checklist (ten items)",
+    lab1_desc: "Ten items to tick off one by one. For anything left unticked, write the time by which you will fix it — a repair with no time attached is not a repair.",
+    lab1_pct: "Completion {n} / 10 ({p}%)",
+    lab1_when: "Fixed by",
+    lab1_when_ph: "e.g. before 21:00 tonight",
+    lab1_top3: "The three to fix first:",
+    lab1_done: "✓ All ten are done — you may declare delivery on D day.",
+    lab1_missing: "⚠ {n} unfinished items still have no fix time.",
+    lab1_timed: "✓ All {n} unfinished items carry a fix time.",
+    lab1_reset: "Reset",
+    lab1_items: [
+      { k:"url", n:"The public address opens (confirmed in a private window)" },
+      { k:"cron", n:"The schedule is set and the next fire time on the platform matches the conversion" },
+      { k:"beat", n:"A first heartbeat has run, leaving a run log or a commit log" },
+      { k:"notify", n:"Failure alerting is tested; a recipient really received one" },
+      { k:"key", n:"No key sits in the front end, the repo, or the commit history" },
+      { k:"src", n:"Every item of output carries its source link, with nothing copied wholesale" },
+      { k:"degrade", n:"Degradation is tested; with a source down it still ships and flags the gap" },
+      { k:"config", n:"Configurability is proven: editing the knowledge base alone switches industry and re-runs" },
+      { k:"known", n:"The known-issue list has at least one entry, with symptom and effect" },
+      { k:"handover", n:"The handover basis is written into a file (README or knowledge base), not just in somebody's head" }
+    ],
+
+    lab2_title: "② Heartbeat Pasteboard",
+    lab2_desc: "Paste in the times and outcomes for D, D+1 and D+3. The tool works out the weekday of each entry, whether the records span a weekend at all, and whether the weekend day really ran by itself.",
+    lab2_hint: "D+3 falls on a Saturday deliberately: nobody is at a computer that day, so whatever comes out is genuinely unattended. The rows below are an example — edit them into your own records.",
+    lab2_col_label: "Label", lab2_col_date: "Run date", lab2_col_time: "Run time (Taipei)",
+    lab2_col_res: "Outcome", lab2_col_note: "Note",
+    lab2_res_opts: ["Succeeded","Partly succeeded (gaps flagged)","Failed","Not run yet"],
+    lab2_label_ph: "e.g. D+1",
+    lab2_note_ph: "e.g. Fired by the schedule, three items produced",
+    lab2_add: "＋ Add a record", lab2_del: "Delete", lab2_reset: "Reset to the example",
+    lab2_weekday: ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],
+    lab2_weekend_tag: "weekend",
+    lab2_need: "Fill in at least two records with dates before the weekend test can run.",
+    lab2_range: "The records cover {from} to {to}, {n} days in all, of which {w} fall at a weekend.",
+    lab2_span_yes: "✓ The period covered by these records crosses a weekend ({days}).",
+    lab2_span_no: "⚠ The period covered by these records does not cross any weekend yet. W16 looks for the weekend day — bring D+3 into the picture.",
+    lab2_unattended_yes: "✓ There is a successful run on a weekend day ({days}) — that is what unattended evidence looks like.",
+    lab2_unattended_no: "⚠ No successful run is logged on the weekend day yet. Running by hand is not evidence that it runs by itself, and W16 asks about exactly this.",
+    lab2_baddate: "⚠ {n} records have an empty or malformed date and were left out of the calculation.",
+
+    lab3_title: "③ Retrospective Wording Check",
+    lab3_desc: "Paste your section 3 sentences here and the tool flags possible naming and blame language. Being flagged does not mean you wrote it wrongly; it means that sentence is worth rereading — is the subject a person or an event?",
+    lab3_label: "Paste the retrospective sentences you want checked",
+    lab3_ph: "Paste the three sentences from section 3, one at a time or all together.",
+    lab3_hits: "{n} possible naming or blame expressions detected:",
+    lab3_ok: "✓ No naming or blame pattern detected — this can go back into section 3.",
+    lab3_empty: "Paste a sentence and the check runs as you type.",
+    lab3_tip: "The rewrite is mechanical: swap the person for an event or a process. \"He forgot to commit\" becomes \"there is no checkpoint for committing after a knowledge-base edit\".",
+    lab3_reset: "Reset to the example",
+    lab3_seed: "The biggest problem this term was that Ming never sent the data over, and then he forgot to commit the code, so our schedule failed again and again — honestly it was his fault.",
+
+    lab4_title: "④ W16 Acceptance Self-Assessment",
+    lab4_desc: "Give one sentence of evidence against each of the five W16 acceptance items. Leave a cell blank honestly if you have nothing — a blank today can still be filled between D+1 and D+3; a blank on the day of W16 stays blank.",
+    lab4_rate: "Self-rating",
+    lab4_rate_opts: ["No evidence yet","Partial evidence","Evidence complete"],
+    lab4_ev: "One sentence of evidence",
+    lab4_score: "Complete {a} · partial {b} · none {c}",
+    lab4_done: "✓ All five carry complete evidence — the W16 acceptance side is ready.",
+    lab4_warn: "⚠ {n} items still have no evidence. There is no class between D+1 and D+3, so put them into the repair assignments in section 5.",
+    lab4_reset: "Reset",
+    lab4_items: [
+      { k:"days", n:"Three days of output at D, D+1 and D+3", hint:"Show the real output for those three days, including the one across the weekend.",
+        ph:"e.g. D and D+1 are both on the page; D+3 is this Saturday and the run is queued and confirmed." },
+      { k:"beat", n:"The heartbeat really runs", hint:"A run log or commit log, saying whether degradation was triggered.",
+        ph:"e.g. Three consecutive entries in the run log; on D+1 source B timed out, degradation fired and the output flagged the gap." },
+      { k:"config", n:"Configurability", hint:"Change one knowledge-base setting live, switch industry or company, re-run and produce a result.",
+        ph:"e.g. Editing the industry field in kb/sources.md switches industry; we did it live in class and the re-run succeeded." },
+      { k:"safety", n:"Governance", hint:"Evidence for all four gates of the Full Safety Gate; no key in the front end or the repo.",
+        ph:"e.g. The key lives in platform secrets and git log -S found nothing in the history; output passes a format check and a source check before shipping." },
+      { k:"source", n:"Source integrity", hint:"Every summary traces back to its original link, with nothing copied wholesale.",
+        ph:"e.g. Every item carries an http source link, each stays under 90 words, and no block is pasted from the original." }
+    ],
+
+    lab5_title: "⑤ Pre-Class Self-Check",
+    lab5_desc: "Four multiple-choice questions to confirm you read the delivery stretch of this week's required material. Wrong answers show an explanation.",
+
+    mres_nav: "9. Learning Resources", mres_title: "This Week's Resources",
+    mres_desc: "Two required items. The first is this week's main material, read for the second time and this time only module M7, the delivery stretch; the second is the original lecture deck behind it, of which only the second half applies: performance evaluation, earned value management, the post-project review and knowledge management. The three optional items all point at next week's W16; they do not affect this worksheet, but a written summary of one counts as a Bonus Assignment.",
+    res_req: [
+      { label: "T6 · CTRL Project Control and Delivery", url: "https://lolopodcast.github.io/Project-Control-and-Delivery/", desc: "This week's main material, read a second time. Read only module M7, the delivery stretch: delivery, acceptance and the retrospective — the six performance indicators, the five earned-value readings, the five-step review with its four best practices, and knowledge management." },
+      { label: "High-Performance Project Management (2 of 2) · Control and Delivery", url: "https://lolopodcast.github.io/AI-Workshop-Hub/docs/High-Performance-Project-Management_Part2-of-2_EDP_SML_20250318.pdf", desc: "The original lecture deck behind T6, the same file as W14. Read only the second half this week: performance evaluation, earned value management, the post-project review and organisational knowledge management." }
+    ],
+    res_opt: [
+      { label: "TPE · Term Project Evaluation", url: "https://lolopodcast.github.io/Term-Project-Evaluation/", desc: "The acceptance standard and scoring tool for W16. Read it once before you fill in the fourth tool in section 8 and you will know how far the evidence has to go." },
+      { label: "ESA · EMI Speaking Analyzer", url: "https://lolopodcast.github.io/EMI-EML-Speaking-Analyzer/", desc: "A self-rehearsal tool for the W16 pitch. Read your section 7 opening line into it and check the pace, the pauses and the word choice." },
+      { label: "EMI SPA Course Showcase Gallery", url: "https://lolopodcast.github.io/SPA-Gallery/", desc: "The showcase wall from previous cohorts — see how other people presented three days of output and a heartbeat log in a pitch." }
+    ],
+
+    analytics_title: "Completion & Export",
+    analytics_desc: "The individual and group layers export separately. The individual file stays with you as a learning record; the group file is uploaded to Moodle by this week's compiler.",
+    analytics_personal_title: "Individual export (sections 2, 3, 4 · not submitted)",
+    analytics_personal_desc: "Enter your name to export. This file stays with you and can go straight into the docs folder of your repo as the record of D day.",
+    analytics_group_title: "Group export (sections 1, 5, 6, 7 · submit to Moodle)",
+    analytics_group_desc: "Enter the group and this week's compiler to export. One CSV and one Markdown, uploaded to the Moodle assignment.",
+    analytics_group: "Group", analytics_dept: "Dept / Year", analytics_dept_ph: "e.g. IBS1",
+    analytics_id: "Student ID", analytics_id_ph: "e.g. 113212599",
+    analytics_name_en: "Name (English)", analytics_name_en_ph: "e.g. Shihmin Lo",
+    analytics_name_zh: "Name (Chinese)", analytics_name_zh_ph: "e.g. 王阿吉",
+    analytics_compiler: "This week's compiler", analytics_compiler_ph: "e.g. 王阿吉",
+    analytics_export_personal: "Export individual Markdown",
+    analytics_export_csv: "Export group CSV",
+    analytics_export_md: "Export group Markdown",
+    analytics_need_personal: "Enter your name first",
+    analytics_need_group: "Enter the group and this week's compiler first",
+    group_options: ["G1","G2","G3","G4","G5","G6","G7","G8","G9","G10","G11","G12","Others"],
+    analytics_pct_personal: "Individual completion", analytics_pct_group: "Group completion",
+    analytics_total_time: "Total time on worksheet", analytics_overall_acc: "Self-check accuracy",
+    analytics_sec: "s",
+    analytics_progress_title: "Completion by section",
+    analytics_wp_title: "Sections still incomplete",
+    analytics_wp_goto: "→ Go and fill it in",
+    sdl_title: "First, import your SDL knowledge-base snapshot",
+    sdl_desc: "This week's sequence is: read and take notes by hand without AI → run a Socratic session with the SDL learning partner → produce KB.md → import it here. Importing fills in your identity fields automatically and shows the key parts of your KB above each section. Today is D day: this worksheet is not asking you to think it through again, it turns what you already worked out into a format the group can compare, filled in as the day happens.",
+    sdl_ph: "Paste the full KB.md produced by the SDL partner here (including the --- frontmatter --- at the top)",
+    sdl_parse: "Parse and import",
+    sdl_file: "Upload a file instead",
+    sdl_loaded: "✓ SDL KB imported",
+    sdl_clear: "Clear and re-import",
+    sdl_ok: "Imported. Your identity fields have been filled in.",
+    sdl_err_empty: "Nothing to parse — paste the full KB.md first.",
+    sdl_err_format: "Could not parse it. Check that this is the KB.md produced by the SDL partner (it should start with a --- frontmatter --- block and contain §1, §2 and similar sections).",
+    sdl_panel_title: "📖 Your SDL KB at a glance (for reference)",
+    sdl_panel_show: "Show",
+    sdl_panel_hide: "Hide",
+    sdl_s1: "§1 Learning summary",
+    sdl_s2: "§2 Knowledge synthesis",
+    sdl_s4: "§4 Student's own words",
+    sdl_s5: "§5 Open questions",
+    analytics_wp_personal_head: "Individual layer (yours to fill)",
+    analytics_wp_personal_done: "The individual layer is complete.",
+    analytics_wp_group_head: "Group layer (decided together in discussion)",
+    analytics_wp_group_note: "If you are not this week's compiler, 0% here is normal — it does not affect your individual export.",
+    analytics_wp_group_done: "The group layer is complete.",
+    analytics_wp_allpass: "All seven sections are complete. You are ready to export.",
+    analytics_wp_saved: "Your entries are saved automatically in this browser",
+    analytics_wp_clear: "🗑 Clear all",
+    analytics_wp_clear_confirm: "Clear every entry and all activity data? This cannot be undone — export first.",
+    analytics_wp_tts_intro: "The following sections are still incomplete.",
+    analytics_wp_tts_module: "{name}, {acc}% complete.",
+    analytics_wp_tts_allpass: "All seven sections are complete.",
+
+    date: "Version 2026.08.24",
+    copyright: "For Educational Use Only",
+    architect_label: "Architect:",
+    architect_url: "https://www.ibs.ncnu.edu.tw/index.php/faculty/tenured-professor/299-smlo"
+  }
+};
+
+/* ================= Field registry ================= */
+const FIELDS = {
+  1: ['g_group','g_date', ...MEMBER_IDX.flatMap(i => [`m_name_${i}`,`m_id_${i}`,`m_part_${i}`,`m_sec_${i}`])],
+  2: [...S2_STATUS, ...S2_EV, ...S2_GAP],
+  3: [...S3_IDS],
+  4: [...[0,1,2,3,4].flatMap(i => [`t_term_${i}`,`t_mean_${i}`,`t_sent_${i}`]), ...[0,1,2].flatMap(i => [`p_word_${i}`,`p_hard_${i}`,`p_tip_${i}`])],
+  5: ['syn_focus_why','syn_gap','syn_evidence','syn_block','syn_fix'],
+  6: ['tp_url','tp_launch','tp_heartbeat','tp_handover','tp_known'],
+  7: ['pr_open','pr_demo1','pr_demo2','pr_demo3','pr_question', ...MEMBER_IDX.map(i => `pr_point_${i}`)]
+};
+const CORE = {
+  1: ['g_group','g_date','m_name_0','m_part_0'],
+  2: [...S2_STATUS],
+  3: [...S3_IDS],
+  4: ['t_term_0','t_mean_0','t_term_1','t_mean_1','t_term_2','t_mean_2','t_term_3','t_mean_3','t_term_4','t_mean_4','p_word_0','p_word_1','p_word_2'],
+  5: ['syn_focus_why','syn_gap','syn_evidence','syn_block','syn_fix'],
+  6: ['tp_url','tp_launch','tp_heartbeat','tp_handover','tp_known'],
+  7: ['pr_open','pr_demo1','pr_demo2','pr_demo3','pr_question','pr_point_0']
+};
+
+/* ================= UI atoms ================= */
+const H2 = ({ children, icon, number }) => (
+  <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-black text-[#004030] dark:text-[#D8C3A5] mb-4 flex items-center gap-3">
+    {icon && <span className="text-2xl ui-decoration">{icon}</span>}
+    {number !== undefined && <span>{number}.</span>}
+    <span>{children}</span>
+  </h2>
+);
+const Badge = ({ kind, t }) => (
+  <span className={`inline-block text-xs font-bold px-3 py-1 rounded-full mb-4 ${kind === 'P'
+    ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200'
+    : 'bg-[#D8C3A5]/30 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>
+    {kind === 'P' ? t.badge_personal : t.badge_group}
+  </span>
+);
+const Overview = ({ t, text }) => (
+  <div className="bg-[#004030]/5 dark:bg-[#D8C3A5]/5 rounded-xl p-5 border-l-4 border-[#D8C3A5]">
+    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-2">{t.overview_label}</h3>
+    <p>{text}</p>
+  </div>
+);
+const Highlights = ({ t, items }) => (
+  <div>
+    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.highlights_label}</h3>
+    <div className="flex flex-wrap gap-2">
+      {items.map((h,i) => <span key={i} className="px-3 py-1 bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5] rounded-full text-sm font-medium">{h}</span>)}
+    </div>
+  </div>
+);
+const DeepDive = ({ t, text }) => (
+  <div>
+    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.deep_dive_label}</h3>
+    <p className="p-4 bg-slate-100 dark:bg-slate-800 rounded-lg italic font-serif">{text}</p>
+  </div>
+);
+const Wrapup = ({ t, text }) => (
+  <div className="bg-slate-100 dark:bg-slate-800 rounded-xl p-5 flex gap-3 items-start">
+    <span className="text-[#004030] dark:text-[#D8C3A5] mt-0.5 shrink-0"><IconCheckCircle size={18}/></span>
+    <div>
+      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-1">{t.wrapup_label}</h3>
+      <p className="italic">{text}</p>
+    </div>
+  </div>
+);
+const LiveBanner = ({ t }) => (
+  <p className="text-sm font-bold text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-900/20 border border-red-300 dark:border-red-800/60 rounded-lg p-3 leading-relaxed">{t.live_banner}</p>
+);
+const inputCls = "w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 text-base focus:outline-none focus:ring-2 focus:ring-[#004030] dark:focus:ring-[#D8C3A5] transition";
+const monoCls = inputCls + " font-mono text-sm";
+const Field = ({ id, label, hint, ph, rows, value, onChange, type, mono }) => (
+  <div className="mb-5">
+    {label && <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{label}</label>}
+    {hint && <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 leading-relaxed">{hint}</p>}
+    {rows
+      ? <textarea rows={rows} className={mono ? monoCls : inputCls} placeholder={ph} value={value||''} onChange={e => onChange(id, sanitizeText(e.target.value))} />
+      : <input type={type||'text'} className={mono ? monoCls : inputCls} placeholder={ph} value={value||''} onChange={e => onChange(id, sanitizeText(e.target.value))} />}
+  </div>
+);
+const InfoInput = ({ id, label, ph, value, onChange, san }) => (
+  <div>
+    <label className="block text-xs font-bold text-slate-500 mb-1">{label}</label>
+    <input className={inputCls} placeholder={ph} value={value || ''} onChange={e => onChange(id, (san || sanitizeName)(e.target.value))} />
+  </div>
+);
+
+/* ================= SDL KB import ================= */
+const SEMESTER_DEFAULT = '1151';
+const WEEK_CODE = 'W15';
+const TOPIC_CAMEL = 'DeliveryAndRetro';
+
+const parseSdlKb = (text) => {
+  try {
+    const t = String(text || '').replace(/\r\n/g, '\n').trim();
+    if (!t) return { ok: false, error: 'empty' };
+    const fm = t.match(/^---\n([\s\S]*?)\n---/);
+    const meta = {};
+    if (fm) {
+      fm[1].split('\n').forEach(line => {
+        if (/^\s/.test(line)) return;               // skip nested (sources / interaction)
+        const m = line.match(/^([A-Za-z_]+):\s*(.*)$/);
+        if (m) meta[m[1]] = m[2].replace(/^["']|["']$/g, '').trim();
+      });
+    }
+    const sections = {};
+    const parts = t.split(/^##\s*§/m);
+    parts.shift();
+    parts.forEach(part => {
+      const n = part.match(/^(\d)/);
+      if (!n) return;
+      sections['s' + n[1]] = part.replace(/^\d[^\n]*\n?/, '').trim();
+    });
+    const hasAny = Object.keys(meta).length > 0 || Object.keys(sections).length > 0;
+    if (!hasAny) return { ok: false, error: 'format' };
+    return { ok: true, meta, sections, raw: t };
+  } catch (e) { return { ok: false, error: 'format' }; }
+};
+
+const SdlImport = ({ t, sdl, onImport, onClear }) => {
+  const [text, setText] = useState('');
+  const [msg, setMsg] = useState(null);
+  const fileRef = useRef(null);
+  const doParse = (raw) => {
+    const r = parseSdlKb(raw);
+    if (!r.ok) { setMsg({ ok: false, text: r.error === 'empty' ? t.sdl_err_empty : t.sdl_err_format }); return; }
+    onImport(r);
+    setMsg({ ok: true, text: t.sdl_ok });
+    setText('');
+  };
+  const onFile = (e) => {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    const rd = new FileReader();
+    rd.onload = () => doParse(rd.result);
+    rd.readAsText(f);
+    e.target.value = '';
+  };
+  return (
+    <div className="rounded-xl border-2 border-sky-200 dark:border-sky-800/60 bg-sky-50/50 dark:bg-sky-900/10 p-5">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5]">{t.sdl_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-3 leading-relaxed">{t.sdl_desc}</p>
+      {sdl ? (
+        <div className="rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4">
+          <p className="text-sm font-bold text-green-700 dark:text-green-400">{t.sdl_loaded}</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 break-all">
+            {[sdl.meta.course, sdl.meta.semester, sdl.meta.week, sdl.meta.topic].filter(Boolean).join(' · ')}
+            {sdl.meta.student ? ' · ' + sdl.meta.student : ''}{sdl.meta.group ? ' · ' + sdl.meta.group : ''}
+          </p>
+          <button onClick={onClear} className="mt-3 px-3 py-1.5 text-xs border border-red-400 text-red-600 dark:text-red-400 rounded-lg">{t.sdl_clear}</button>
+        </div>
+      ) : (
+        <>
+          <textarea rows={4} className={inputCls} placeholder={t.sdl_ph} value={text} onChange={e => setText(e.target.value)} />
+          <div className="flex flex-wrap items-center gap-3 mt-3">
+            <button onClick={() => doParse(text)} className="px-4 py-2 text-sm bg-sky-700 dark:bg-sky-300 text-white dark:text-sky-950 font-bold rounded-lg">{t.sdl_parse}</button>
+            <button onClick={() => fileRef.current && fileRef.current.click()} className="px-4 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg">{t.sdl_file}</button>
+            <input ref={fileRef} type="file" accept=".md,.markdown,.txt" onChange={onFile} className="hidden" />
+          </div>
+        </>
+      )}
+      {msg && <p className={`text-xs mt-2 ${msg.ok ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>{msg.text}</p>}
+    </div>
+  );
+};
+
+const SdlPanel = ({ t, sdl }) => {
+  const [open, setOpen] = useState(false);
+  if (!sdl) return null;
+  const rows = [
+    { k: 's1', label: t.sdl_s1 }, { k: 's2', label: t.sdl_s2 },
+    { k: 's4', label: t.sdl_s4 }, { k: 's5', label: t.sdl_s5 }
+  ].filter(r => sdl.sections[r.k]);
+  if (!rows.length) return null;
+  return (
+    <div className="rounded-xl border border-sky-200 dark:border-sky-800/60 bg-sky-50/40 dark:bg-sky-900/10">
+      <button onClick={() => setOpen(o => !o)} className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left">
+        <span className="text-sm font-bold text-sky-800 dark:text-sky-300">{t.sdl_panel_title}</span>
+        <span className="text-xs text-sky-700 dark:text-sky-400 shrink-0">{open ? t.sdl_panel_hide : t.sdl_panel_show}</span>
+      </button>
+      {open && (
+        <div className="px-4 pb-4 space-y-4 max-h-96 overflow-y-auto">
+          {rows.map(r => (
+            <div key={r.k}>
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">{r.label}</p>
+              <pre className="text-xs whitespace-pre-wrap font-sans text-slate-700 dark:text-slate-300 leading-relaxed">{sdl.sections[r.k]}</pre>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const LinkCard = ({label, url, desc}) => (
+  <a href={url} target="_blank" rel="noopener noreferrer"
+    className="block bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5] hover:shadow-md transition-all group">
+    <span className="font-bold font-serif text-sm text-[#004030] dark:text-[#D8C3A5] group-hover:underline">{label}</span>
+    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mt-1">{desc}</p>
+  </a>
+);
+
+/* ================= FlipCardDeck ================= */
+const FlipCardDeck = ({ terms, t, moduleId, onCardRead }) => {
+  const [groupIdx, setGroupIdx] = useState(0);
+  const [flipped, setFlipped] = useState({});
+  const [readSet, setReadSet] = useState(new Set());
+  const [shownSet, setShownSet] = useState(new Set());
+  const [shuffledOrder] = useState(() => [...Array(terms.length).keys()].sort(() => Math.random() - 0.5));
+  const groupSize = 2;
+  const totalGroups = Math.ceil(terms.length / groupSize);
+  const currentCardIndices = shuffledOrder.slice(groupIdx*groupSize, groupIdx*groupSize + groupSize);
+  useEffect(() => {
+    const ns = new Set(shownSet); currentCardIndices.forEach(i => ns.add(i));
+    if (ns.size !== shownSet.size) setShownSet(ns);
+  }, [groupIdx]);
+  const handleFlip = (i) => {
+    setFlipped(f => ({...f, [i]: !f[i]}));
+    if (!readSet.has(i)) { const nr = new Set(readSet); nr.add(i); setReadSet(nr); onCardRead && onCardRead(moduleId, nr.size, shownSet.size, terms.length); }
+  };
+  const statusText = t.flip_status.replace('{read}', readSet.size).replace('{shown}', shownSet.size).replace('{total}', terms.length);
+  return (
+    <div className="mt-8">
+      <h3 className="text-lg font-bold uppercase tracking-wider text-slate-500 mb-2">{t.key_terms}</h3>
+      <p className="text-sm text-slate-400 mb-4">{statusText}</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {currentCardIndices.map(i => (
+          <div key={i} className="perspective cursor-pointer h-44" onClick={() => handleFlip(i)}>
+            <div className={`transform-style-3d relative w-full h-full transition-transform duration-500 ${flipped[i] ? 'rotate-y-180' : ''}`}>
+              <div className="backface-hidden absolute inset-0 bg-white dark:bg-slate-800 rounded-xl p-4 flex flex-col items-center justify-center border border-slate-200 dark:border-slate-700 shadow-sm">
+                <p className="font-serif font-bold text-center text-[#004030] dark:text-[#D8C3A5]">{terms[i].front}</p>
+                <p className="text-xs text-slate-400 mt-2">{t.flip_prompt}</p>
+              </div>
+              <div className="backface-hidden rotate-y-180 absolute inset-0 bg-[#004030] dark:bg-slate-700 rounded-xl p-4 flex items-center justify-center overflow-y-auto">
+                <p className="text-sm text-center text-[#D8C3A5] dark:text-slate-200 leading-relaxed">{terms[i].back}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="flex items-center gap-3 mt-4">
+        <button onClick={() => { setGroupIdx(0); setFlipped({}); }} className="px-4 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700">{t.flip_retry}</button>
+        <button onClick={() => groupIdx < totalGroups-1 && setGroupIdx(groupIdx+1)} disabled={groupIdx >= totalGroups-1}
+          className="px-4 py-2 text-sm bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg disabled:opacity-40">{t.flip_next}</button>
+      </div>
+    </div>
+  );
+};
+
+/* ================= ModuleQuiz ================= */
+const ModuleQuiz = ({ questions, t, moduleId, onQuizSubmit }) => {
+  const [selected, setSelected] = useState({});
+  const [submitted, setSubmitted] = useState({});
+  const [groupIdx, setGroupIdx] = useState(0);
+  const groupSize = 2;
+  const [quizIndices] = useState(() => [...Array(questions.length).keys()].sort(() => Math.random() - 0.5));
+  const totalGroups = Math.ceil(quizIndices.length / groupSize);
+  const [shuffledMaps] = useState(() => quizIndices.map(qi => [...Array(questions[qi].opts.length).keys()].sort(() => Math.random() - 0.5)));
+  const computeCorrect = () => { let c = 0; quizIndices.forEach((qIdx, qi) => { if (selected[qi] !== undefined && shuffledMaps[qi][selected[qi]] === _d(questions[qIdx].ans)) c++; }); return c; };
+  const statusText = t.quiz_status.replace('{correct}', computeCorrect()).replace('{answered}', Object.keys(selected).length).replace('{total}', quizIndices.length);
+  const currentStart = groupIdx * groupSize;
+  const currentIndices = quizIndices.slice(currentStart, currentStart + groupSize);
+  const handleGroupSubmit = () => {
+    if (!currentIndices.every((_, i) => selected[currentStart+i] !== undefined)) return;
+    setSubmitted(s => ({...s, [groupIdx]: true}));
+    if (groupIdx === totalGroups - 1 || Object.keys(submitted).length + 1 === totalGroups) {
+      const wrong = []; let correct = 0;
+      quizIndices.forEach((qIdx, qi) => {
+        if (selected[qi] === undefined) return;
+        if (shuffledMaps[qi][selected[qi]] === _d(questions[qIdx].ans)) correct++; else wrong.push(questions[qIdx].q);
+      });
+      onQuizSubmit(moduleId, correct, quizIndices.length, wrong);
+    }
+  };
+  return (
+    <div className="mt-8 bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="text-lg font-bold font-serif text-[#004030] dark:text-[#D8C3A5] mb-2">{t.quiz_title}</h3>
+      <p className="text-sm text-slate-400 mb-6">{statusText}</p>
+      {currentIndices.map((qIdx, localI) => {
+        const qi = currentStart + localI, q = questions[qIdx], sMap = shuffledMaps[qi], isSub = !!submitted[groupIdx];
+        return (
+          <div key={qIdx} className="mb-6">
+            <p className="font-bold mb-3">{qi+1}. {q.q}</p>
+            <div className="space-y-2">
+              {sMap.map((origIdx, dIdx) => {
+                const isCorrect = origIdx === _d(q.ans), isSel = selected[qi] === dIdx;
+                return (
+                  <button key={dIdx} onClick={() => !isSub && setSelected(s => ({...s, [qi]: dIdx}))}
+                    className={`w-full text-left px-4 py-3 rounded-lg border transition-all text-sm ${isSub
+                      ? isCorrect ? 'bg-green-100 border-green-500 dark:bg-green-900/30'
+                        : isSel ? 'bg-red-100 border-red-400 dark:bg-red-900/30' : 'border-slate-200 dark:border-slate-700'
+                      : isSel ? 'border-[#004030] dark:border-[#D8C3A5] bg-[#004030]/5' : 'border-slate-200 dark:border-slate-700 hover:border-slate-400'}`}>
+                    {q.opts[origIdx]}
+                  </button>
+                );
+              })}
+            </div>
+            {isSub && (
+              <p className={`mt-2 text-sm italic ${shuffledMaps[qi][selected[qi]] === _d(q.ans) ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>
+                {shuffledMaps[qi][selected[qi]] === _d(q.ans) ? `✓ ${t.correct}` : `✗ ${t.incorrect}`} — {t.explanation}：{q.exp}
+              </p>
+            )}
+          </div>
+        );
+      })}
+      <div className="flex items-center gap-3 flex-wrap">
+        {!submitted[groupIdx]
+          ? <button onClick={handleGroupSubmit} disabled={!currentIndices.every((_,i) => selected[currentStart+i] !== undefined)}
+              className="px-6 py-2 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg disabled:opacity-40">{t.submit}</button>
+          : <>
+              {groupIdx < totalGroups-1 && <button onClick={() => setGroupIdx(groupIdx+1)} className="px-6 py-2 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg">{t.quiz_next}</button>}
+              <button onClick={() => { setGroupIdx(0); setSelected({}); setSubmitted({}); }} className="px-6 py-2 border border-[#004030] dark:border-[#D8C3A5] text-[#004030] dark:text-[#D8C3A5] font-bold rounded-lg">{t.quiz_retry}</button>
+            </>}
+      </div>
+    </div>
+  );
+};
+
+/* ================= D day go-live gate SVG ================= */
+const GoLiveDiagram = ({ t, answers }) => {
+  const COL = ["#5B5BD6","#0E9F6E","#D97706","#DB2777","#0284C7","#7C3AED"];
+  const items = t.check_items;
+  const st = (id) => String(answers['ck_' + id] || '');
+  const gapOk = (id) => String(answers['gap_' + id] || '').trim() !== '';
+  const lit = items.map(c => st(c.id) === 'pass');
+  const doneN = lit.filter(Boolean).length;
+  const failed = items.filter(c => st(c.id) === 'fail');
+  const allPass = lit.every(Boolean);
+  const outLit = [allPass, failed.length > 0 && failed.every(c => gapOk(c.id)), failed.length > 0 && !failed.every(c => gapOk(c.id))];
+  const OUTCOL = ["#0E9F6E","#D97706","#DB2777"];
+  return (
+    <div className="w-full overflow-x-auto" onContextMenu={e => { e.preventDefault(); window.showCopyrightToast && window.showCopyrightToast(); }}>
+      <svg viewBox="0 0 620 290" className="w-full max-w-2xl mx-auto" draggable="false" role="img" aria-label={t.m2_svg_cap}>
+        <rect x="6" y="6" width="608" height="278" rx="12" fill="none" stroke="#94a3b8" strokeDasharray="6 5" strokeWidth="1.5"/>
+        <text x="20" y="26" fontSize="11.5" fill="#94a3b8" fontFamily="Inter, sans-serif">{t.m2_svg_layer}</text>
+        <text x="600" y="26" fontSize="11.5" fill="#94a3b8" fontFamily="Inter, sans-serif" textAnchor="end">{doneN} / 6</text>
+        {items.map((c, i) => {
+          const x = 20 + i * 99, on = lit[i], bad = st(c.id) === 'fail';
+          return (
+            <g key={c.id}>
+              <rect x={x} y="46" width="92" height="104" rx="10" fill={COL[i]} opacity={on ? 0.92 : 0.20}/>
+              {bad && <rect x={x} y="46" width="92" height="104" rx="10" fill="none" stroke="#DB2777" strokeWidth="2" strokeDasharray="4 3"/>}
+              <text x={x+10} y="64" fontSize="11" fontWeight="700" fill={on ? "#ffffff" : "#334155"} fontFamily="Inter, sans-serif">{String(i+1)}</text>
+              <foreignObject x={x+8} y="69" width="78" height="78">
+                <div xmlns="http://www.w3.org/1999/xhtml" style={{fontSize:'9px',lineHeight:'1.25',color: on ? '#ffffff' : '#475569',fontFamily:'Inter, sans-serif',overflow:'hidden'}}>
+                  <strong>{c.short}</strong><br/>{c.name}
+                </div>
+              </foreignObject>
+            </g>
+          );
+        })}
+        <path d="M 566 154 L 566 172 L 66 172 L 66 154" fill="none" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="5 4"/>
+        <polygon points="66,146 62,156 70,156" fill="#94a3b8"/>
+        {t.deliver_out.map((o, i) => {
+          const x = 24 + i * 191, on = outLit[i];
+          return (
+            <g key={i}>
+              <rect x={x} y="190" width="182" height="56" rx="8" fill={OUTCOL[i]} opacity={on ? 0.85 : 0.16}/>
+              <foreignObject x={x+10} y="196" width="162" height="46">
+                <div xmlns="http://www.w3.org/1999/xhtml" style={{fontSize:'10px',lineHeight:'1.3',color: on ? '#ffffff' : '#475569',fontFamily:'Inter, sans-serif'}}>
+                  <strong>{o.name}</strong><br/>{o.sub}
+                </div>
+              </foreignObject>
+            </g>
+          );
+        })}
+        <foreignObject x="24" y="252" width="572" height="24">
+          <div xmlns="http://www.w3.org/1999/xhtml" style={{fontSize:'10.5px',lineHeight:'1.3',color:'#64748b',fontFamily:'Inter, sans-serif'}}>{t.deliver_note}</div>
+        </foreignObject>
+      </svg>
+      <p className="text-center text-xs text-slate-500 dark:text-slate-400 mt-2 italic">{t.m2_svg_cap}</p>
+    </div>
+  );
+};
+
+/* ================= Labs ================= */
+const num = (v, fb) => { const n = parseFloat(v); return isFinite(n) ? n : fb; };
+const pad2 = (n) => String(n).padStart(2, '0');
+const DAY_MS = 86400000;
+
+/* ---- Lab 1：D day 上線檢查表 ---- */
+const LabGoLiveList = ({ t, state, setState, onTouch }) => {
+  const v = state || {};
+  const items = t.lab1_items;
+  const n = items.filter(it => v[it.k]).length;
+  const pct = Math.round(n / items.length * 100);
+  const undone = items.filter(it => !v[it.k]);
+  const top3 = undone.slice(0, 3);
+  const noTime = undone.filter(it => !String(v['when_' + it.k] || '').trim());
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab1_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.lab1_desc}</p>
+      <div className="space-y-2">
+        {items.map(it => {
+          const on = !!v[it.k];
+          return (
+            <div key={it.k} className="rounded-lg border border-slate-200 dark:border-slate-700 p-2.5">
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input type="checkbox" className="w-4 h-4 mt-0.5 shrink-0 accent-[#004030] dark:accent-[#D8C3A5]" checked={on}
+                  onChange={e => { setState({ ...v, [it.k]: e.target.checked }); onTouch && onTouch(); }} />
+                <span className="text-sm leading-relaxed">{it.n}</span>
+              </label>
+              {!on && (
+                <div className="mt-2 pl-7">
+                  <label className="block text-[11px] font-bold text-amber-700 dark:text-amber-300 mb-1">{t.lab1_when}</label>
+                  <input className={inputCls} placeholder={t.lab1_when_ph} value={v['when_' + it.k] || ''}
+                    onChange={e => { setState({ ...v, ['when_' + it.k]: sanitizeText(e.target.value) }); onTouch && onTouch(); }} />
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      <div className="mt-4 p-4 rounded-lg bg-slate-50 dark:bg-slate-900/50">
+        <p className="font-bold text-[#004030] dark:text-[#D8C3A5]">{t.lab1_pct.replace('{n}', n).replace('{p}', pct)}</p>
+        <div className="mt-2 h-3 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+          <div className={`h-full transition-all ${pct === 100 ? 'bg-green-500' : 'bg-[#004030] dark:bg-[#D8C3A5]'}`} style={{width: pct + '%'}}></div>
+        </div>
+        {undone.length === 0
+          ? <p className="text-sm text-green-600 dark:text-green-400 mt-3">{t.lab1_done}</p>
+          : <>
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mt-3 mb-1">{t.lab1_top3}</p>
+              <ul className="text-sm space-y-1">{top3.map(it => <li key={it.k} className="text-amber-700 dark:text-amber-300">· {it.n}</li>)}</ul>
+              <p className={`text-sm mt-3 ${noTime.length ? 'text-red-500 dark:text-red-400' : 'text-green-600 dark:text-green-400'}`}>
+                {noTime.length ? t.lab1_missing.replace('{n}', noTime.length) : t.lab1_timed.replace('{n}', undone.length)}
+              </p>
+            </>}
+      </div>
+      <div className="flex items-center gap-3 mt-3 flex-wrap">
+        {(n > 0 || Object.keys(v).length > 0) && <button onClick={() => { setState({}); onTouch && onTouch(); }} className="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm">{t.lab1_reset}</button>}
+      </div>
+    </div>
+  );
+};
+
+/* ---- Lab 2：心跳紀錄貼板（跨週末判定） ----
+   預載範例必須跟著語言切換，但只要學生動過任何一格就永不覆寫；
+   localStorage 還原回來的內容也一律視為學生的作品。 */
+const HB_KEYS = ['lbl','date','time','res','note'];
+const HB_SEED = {
+  zh: [
+    { lbl:'D',   date:'2026-12-16', time:'14:12', res:0, note:'課堂現場手動觸發，輸出三則、皆含來源連結' },
+    { lbl:'D+1', date:'2026-12-17', time:'07:00', res:1, note:'排程自動觸發，來源 B 逾時，降級為兩則並標註缺漏' },
+    { lbl:'D+3', date:'2026-12-19', time:'07:00', res:3, note:'尚未執行——這一天沒有人在電腦前，是驗收的重點' }
+  ],
+  en: [
+    { lbl:'D',   date:'2026-12-16', time:'14:12', res:0, note:'Fired by hand in class; three items, all with source links' },
+    { lbl:'D+1', date:'2026-12-17', time:'07:00', res:1, note:'Fired by the schedule; source B timed out, degraded to two items with the gap flagged' },
+    { lbl:'D+3', date:'2026-12-19', time:'07:00', res:3, note:'Not run yet — nobody is at a computer that day, which is the whole point' }
+  ]
+};
+const hbSeed = (lg) => (HB_SEED[lg] || HB_SEED.en).map(r => ({ ...r }));
+const hbIsPristine = (rs, lg) => {
+  const s = HB_SEED[lg] || [];
+  if (!Array.isArray(rs) || rs.length !== s.length) return false;
+  return rs.every((r, i) => r && HB_KEYS.every(k => r[k] === s[i][k]));
+};
+const hbPristineLang = (rs) => ['zh','en'].filter(lg => hbIsPristine(rs, lg))[0] || null;
+const hbParseDate = (s) => {
+  const m = /^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(String(s || '').trim());
+  if (!m) return null;
+  const y = +m[1], mo = +m[2], d = +m[3];
+  const dt = new Date(y, mo - 1, d);
+  if (dt.getFullYear() !== y || dt.getMonth() !== mo - 1 || dt.getDate() !== d) return null;
+  return dt;
+};
+const isoOf = (dt) => `${dt.getFullYear()}-${pad2(dt.getMonth()+1)}-${pad2(dt.getDate())}`;
+
+const LabHeartbeat = ({ lang, t, state, setState, onTouch }) => {
+  const stored = state && Array.isArray(state.rows) ? state.rows : null;
+  const pl = stored ? hbPristineLang(stored) : null;
+  /* 未存過 → 用目前語言的範例；存過但仍與某語言的原始範例一字不差 → 跟著語言走；
+     只要動過任何一格（pl 為 null）→ 原樣保留，永不覆寫 */
+  const rows = !stored ? hbSeed(lang) : (pl && pl !== lang ? hbSeed(lang) : stored);
+  const write = (next) => { setState({ ...(state || {}), rows: next }); onTouch && onTouch(); };
+  const upd = (i, k, val) => write(rows.map((r, j) => j === i ? { ...r, [k]: val } : r));
+  const del = (i) => write(rows.filter((_, j) => j !== i));
+  const add = () => write([...rows, { lbl:'', date:'', time:'', res:3, note:'' }]);
+
+  const parsed = rows.map(r => ({ row: r, dt: hbParseDate(r.date) }));
+  const good = parsed.filter(p => p.dt);
+  const bad = parsed.length - good.length;
+  const wdName = (dt) => t.lab2_weekday[dt.getDay()];
+  const isWeekend = (dt) => dt.getDay() === 0 || dt.getDay() === 6;
+  const dayLabel = (dt) => lang === 'zh' ? `${isoOf(dt)}（${wdName(dt)}）` : `${isoOf(dt)} (${wdName(dt)})`;
+  const joiner = lang === 'zh' ? '、' : ', ';
+
+  let panel = null;
+  if (good.length < 2) {
+    panel = <p className="text-sm text-slate-500 dark:text-slate-400">{t.lab2_need}</p>;
+  } else {
+    const times = good.map(p => p.dt.getTime());
+    const min = new Date(Math.min(...times)), max = new Date(Math.max(...times));
+    const spanDays = Math.round((max.getTime() - min.getTime()) / DAY_MS) + 1;
+    const weekendInSpan = [];
+    const cur = new Date(min.getFullYear(), min.getMonth(), min.getDate());
+    for (let i = 0; i < spanDays && i < 400; i++) {
+      if (isWeekend(cur)) weekendInSpan.push(dayLabel(cur));
+      cur.setDate(cur.getDate() + 1);
+    }
+    const weekendRuns = good.filter(p => isWeekend(p.dt) && (p.row.res === 0 || p.row.res === 1));
+    const spans = weekendInSpan.length > 0;
+    const unattended = weekendRuns.length > 0;
+    panel = (
+      <div className="space-y-2">
+        <p className="text-sm text-slate-600 dark:text-slate-300">
+          {t.lab2_range.replace('{from}', isoOf(min)).replace('{to}', isoOf(max)).replace('{n}', spanDays).replace('{w}', weekendInSpan.length)}
+        </p>
+        <p className={`text-sm font-bold ${spans ? 'text-green-600 dark:text-green-400' : 'text-amber-600 dark:text-amber-400'}`}>
+          {spans ? t.lab2_span_yes.replace('{days}', weekendInSpan.join(joiner)) : t.lab2_span_no}
+        </p>
+        <p className={`text-sm font-bold ${unattended ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>
+          {unattended
+            ? t.lab2_unattended_yes.replace('{days}', weekendRuns.map(p => dayLabel(p.dt)).join(joiner))
+            : t.lab2_unattended_no}
+        </p>
+        {bad > 0 && <p className="text-xs text-amber-600 dark:text-amber-400">{t.lab2_baddate.replace('{n}', bad)}</p>}
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab2_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">{t.lab2_desc}</p>
+      <p className="text-xs text-amber-600 dark:text-amber-400 mb-4 leading-relaxed">{t.lab2_hint}</p>
+      <div className="space-y-3">
+        {rows.map((r, i) => {
+          const dt = hbParseDate(r.date);
+          return (
+            <div key={i} className="rounded-lg border border-slate-200 dark:border-slate-700 p-3">
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-500 mb-1">{t.lab2_col_label}</label>
+                  <input className={inputCls} placeholder={t.lab2_label_ph} value={r.lbl || ''} onChange={e => upd(i, 'lbl', sanitizeText(e.target.value))} />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-500 mb-1">{t.lab2_col_date}</label>
+                  <input type="date" className={inputCls} value={r.date || ''} onChange={e => upd(i, 'date', e.target.value)} />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-500 mb-1">{t.lab2_col_time}</label>
+                  <input type="time" className={inputCls} value={r.time || ''} onChange={e => upd(i, 'time', e.target.value)} />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-500 mb-1">{t.lab2_col_res}</label>
+                  <select className={inputCls} value={String(r.res === undefined ? 3 : r.res)} onChange={e => upd(i, 'res', parseInt(e.target.value, 10))}>
+                    {t.lab2_res_opts.map((o, oi) => <option key={oi} value={String(oi)}>{o}</option>)}
+                  </select>
+                </div>
+              </div>
+              <div className="mt-2">
+                <label className="block text-[11px] font-bold text-slate-500 mb-1">{t.lab2_col_note}</label>
+                <input className={inputCls} placeholder={t.lab2_note_ph} value={r.note || ''} onChange={e => upd(i, 'note', sanitizeText(e.target.value))} />
+              </div>
+              <div className="flex items-center justify-between gap-3 mt-2 flex-wrap">
+                <span className={`text-xs font-bold ${dt ? (isWeekend(dt) ? 'text-amber-600 dark:text-amber-400' : 'text-slate-500 dark:text-slate-400') : 'text-slate-400'}`}>
+                  {dt ? `${wdName(dt)}${isWeekend(dt) ? ' · ' + t.lab2_weekend_tag : ''}` : '—'}
+                </span>
+                <button onClick={() => del(i)} className="px-3 py-1 text-xs border border-red-300 text-red-600 dark:text-red-400 rounded-lg">{t.lab2_del}</button>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <div className="flex items-center gap-3 mt-3 flex-wrap">
+        <button onClick={add} className="px-4 py-2 text-sm bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg">{t.lab2_add}</button>
+        <button onClick={() => write(hbSeed(lang))} className="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm">{t.lab2_reset}</button>
+      </div>
+      <div className="mt-4 p-4 rounded-lg bg-slate-50 dark:bg-slate-900/50">{panel}</div>
+    </div>
+  );
+};
+
+/* ---- Lab 3：復盤措辭檢查（T6 指責語句偵測的輕量版） ---- */
+const LabBlameCheck = ({ lang, t, state, setState, onTouch }) => {
+  const seed = (lg) => dict[lg].lab3_seed;
+  const stored = state && typeof state.text === 'string' ? state.text : null;
+  const pl = stored === null ? null : (['zh','en'].filter(lg => seed(lg) === stored)[0] || null);
+  const text = stored === null ? seed(lang) : (pl && pl !== lang ? seed(lang) : stored);
+  const set = (val) => { setState({ ...(state || {}), text: val }); onTouch && onTouch(); };
+  const hits = detectBlame(text, lang);
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab3_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.lab3_desc}</p>
+      <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab3_label}</label>
+      <textarea rows={6} className={inputCls} placeholder={t.lab3_ph} value={text} onChange={e => set(sanitizeText(e.target.value))} />
+      <div className="mt-4 p-4 rounded-lg bg-slate-50 dark:bg-slate-900/50">
+        {!String(text).trim()
+          ? <p className="text-sm text-slate-500 dark:text-slate-400">{t.lab3_empty}</p>
+          : hits.length === 0
+            ? <p className="text-sm font-bold text-green-600 dark:text-green-400">{t.lab3_ok}</p>
+            : <>
+                <p className="text-sm font-bold text-red-500 dark:text-red-400">{t.lab3_hits.replace('{n}', hits.length)}</p>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {hits.map((h, i) => <span key={i} className="px-2 py-1 rounded bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 text-xs font-mono">{h}</span>)}
+                </div>
+              </>}
+      </div>
+      <div className="flex items-center gap-3 mt-3 flex-wrap">
+        <button onClick={() => set(seed(lang))} className="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm">{t.lab3_reset}</button>
+      </div>
+      <p className="text-xs text-slate-500 dark:text-slate-400 mt-3 leading-relaxed">{t.lab3_tip}</p>
+    </div>
+  );
+};
+
+/* ---- Lab 4：W16 驗收自評 ---- */
+const LabAcceptance = ({ t, state, setState, onTouch }) => {
+  const v = state || {};
+  const items = t.lab4_items;
+  const rateOf = (k) => { const r = v['r_' + k]; return r === undefined ? 0 : r; };
+  const a = items.filter(it => rateOf(it.k) === 2).length;
+  const b = items.filter(it => rateOf(it.k) === 1).length;
+  const c = items.filter(it => rateOf(it.k) === 0).length;
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab4_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.lab4_desc}</p>
+      <div className="space-y-4">
+        {items.map(it => {
+          const r = rateOf(it.k);
+          return (
+            <div key={it.k} className="rounded-lg border border-slate-200 dark:border-slate-700 p-3">
+              <p className="font-bold text-sm text-[#004030] dark:text-[#D8C3A5]">{it.n}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 mb-2 leading-relaxed">{it.hint}</p>
+              <label className="block text-[11px] font-bold text-slate-500 mb-1">{t.lab4_ev}</label>
+              <textarea rows={2} className={inputCls} placeholder={it.ph} value={v['ev_' + it.k] || ''}
+                onChange={e => { setState({ ...v, ['ev_' + it.k]: sanitizeText(e.target.value) }); onTouch && onTouch(); }} />
+              <div className="flex items-center gap-2 mt-2 flex-wrap">
+                <span className="text-[11px] font-bold text-slate-500">{t.lab4_rate}</span>
+                {t.lab4_rate_opts.map((o, oi) => (
+                  <button key={oi} onClick={() => { setState({ ...v, ['r_' + it.k]: oi }); onTouch && onTouch(); }}
+                    className={`px-3 py-1 text-xs rounded-full border transition ${r === oi
+                      ? (oi === 2 ? 'bg-green-600 border-green-600 text-white' : oi === 1 ? 'bg-amber-500 border-amber-500 text-white' : 'bg-slate-500 border-slate-500 text-white')
+                      : 'border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300'}`}>{o}</button>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <div className="mt-4 p-4 rounded-lg bg-slate-50 dark:bg-slate-900/50">
+        <p className="font-bold text-[#004030] dark:text-[#D8C3A5]">{t.lab4_score.replace('{a}', a).replace('{b}', b).replace('{c}', c)}</p>
+        <div className="mt-2 h-3 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden flex">
+          <div className="h-full bg-green-500" style={{width: (a / items.length * 100) + '%'}}></div>
+          <div className="h-full bg-amber-500" style={{width: (b / items.length * 100) + '%'}}></div>
+        </div>
+        <p className={`text-sm mt-3 ${c === 0 ? 'text-green-600 dark:text-green-400' : 'text-amber-600 dark:text-amber-400'}`}>
+          {c === 0 ? t.lab4_done : t.lab4_warn.replace('{n}', c)}
+        </p>
+      </div>
+      <div className="flex items-center gap-3 mt-3 flex-wrap">
+        {Object.keys(v).length > 0 && <button onClick={() => { setState({}); onTouch && onTouch(); }} className="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm">{t.lab4_reset}</button>}
+      </div>
+    </div>
+  );
+};
+
+/* ================= App ================= */
+function App() {
+  const LS_ANS = 'PMCS_W15_answers';
+  const LS_ANA = 'PMCS_W15_analytics';
+  const LS_STU = 'PMCS_W15_student';
+  const LS_LAB = 'PMCS_W15_lab';
+  const loadLS = (k, fb) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : fb; } catch { return fb; } };
+
+  const [lang, setLang] = useState('en');
+  const [isDark, setIsDark] = useState(true);
+  const [module, setModule] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [ttsState, setTtsState] = useState('idle');
+  const [answers, setAnswers] = useState(() => loadLS(LS_ANS, {}));
+  const [focus, setFocus] = useState(() => loadLS(LS_ANS + '_focus', {}));
+  const [memberCount, setMemberCount] = useState(() => loadLS(LS_ANS + '_mc', DEFAULT_MEMBERS));
+  const [sdl, setSdl] = useState(() => loadLS(LS_ANS + '_sdl', null));
+  const [lab, setLab] = useState(() => loadLS(LS_LAB, {}));
+  const [labNonce, setLabNonce] = useState(0);
+  const [studentInfo, setStudentInfo] = useState(() => loadLS(LS_STU, { group:'', dept:'', id:'', nameEn:'', nameZh:'', compiler:'' }));
+  const [analytics, setAnalytics] = useState(() => loadLS(LS_ANA, {
+    time: Array(TOTAL).fill(0), clicks: Array(TOTAL).fill(0),
+    quizCorrect: Array(TOTAL).fill(0), quizTotal: Array(TOTAL).fill(0),
+    cardsRead: Array(TOTAL).fill(0), cardsTotal: Array(TOTAL).fill(0), wrongTopics: {}
+  }));
+  const menuRef = useRef(null);
+  const ttsRun = useRef(0);
+  const t = dict[lang];
+
+  useEffect(() => { document.documentElement.classList.toggle('dark', isDark); }, [isDark]);
+  useEffect(() => { try { localStorage.setItem(LS_ANS, JSON.stringify(answers)); } catch {} }, [answers]);
+  useEffect(() => { try { localStorage.setItem(LS_ANS + '_focus', JSON.stringify(focus)); } catch {} }, [focus]);
+  useEffect(() => { try { localStorage.setItem(LS_ANS + '_mc', JSON.stringify(memberCount)); } catch {} }, [memberCount]);
+  useEffect(() => { try { sdl ? localStorage.setItem(LS_ANS + '_sdl', JSON.stringify(sdl)) : localStorage.removeItem(LS_ANS + '_sdl'); } catch {} }, [sdl]);
+  useEffect(() => { try { localStorage.setItem(LS_LAB, JSON.stringify(lab)); } catch {} }, [lab]);
+  useEffect(() => { try { localStorage.setItem(LS_ANA, JSON.stringify(analytics)); } catch {} }, [analytics]);
+  useEffect(() => { try { localStorage.setItem(LS_STU, JSON.stringify(studentInfo)); } catch {} }, [studentInfo]);
+  useEffect(() => {
+    const id = setInterval(() => setAnalytics(a => { const ti = [...a.time]; ti[module] += 5; return {...a, time: ti}; }), 5000);
+    return () => clearInterval(id);
+  }, [module]);
+  useEffect(() => {
+    const onDoc = e => { if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false); };
+    document.addEventListener('mousedown', onDoc);
+    return () => document.removeEventListener('mousedown', onDoc);
+  }, []);
+  useEffect(() => { try { ttsRun.current += 1; speechSynthesis.cancel(); } catch (e) {} setTtsState('idle'); }, [module, lang]);
+
+  const importSdl = (r) => {
+    setSdl({ meta: r.meta, sections: r.sections });
+    setStudentInfo(st => ({
+      ...st,
+      group: r.meta.group || st.group,
+      id: (r.meta.student_id || st.id || '').replace(/[^0-9]/g, '').slice(0, 12),
+      nameEn: /^[\x00-\x7F]+$/.test(r.meta.student || '') ? (r.meta.student || st.nameEn) : st.nameEn,
+      nameZh: /^[\x00-\x7F]+$/.test(r.meta.student || '') ? st.nameZh : (r.meta.student || st.nameZh)
+    }));
+    if (r.meta.group) setA('g_group', r.meta.group);
+    if (r.meta.date) setA('g_date', r.meta.date);
+  };
+  const sdlFileName = () => {
+    if (!sdl) return '';
+    const m = sdl.meta;
+    const who = m.student || 'NA';
+    return `${m.course || 'PMCS'}_${m.semester || SEMESTER_DEFAULT}${m.week || WEEK_CODE}_${(m.topic || TOPIC_CAMEL).replace(/\s+/g,'')}_${m.group || 'NA'}-${who}_${(m.date || '').replace(/-/g,'')}.md`;
+  };
+  const bump = () => setAnalytics(a => { const c = [...a.clicks]; c[module] += 1; return {...a, clicks: c}; });
+  const setA = (id, val) => setAnswers(s => ({...s, [id]: val}));
+  const setLabPart = (k) => (val) => setLab(s => ({...s, [k]: val}));
+  const handleQuizSubmit = (mid, correct, total, wrong) => setAnalytics(a => {
+    const qc = [...a.quizCorrect], qt = [...a.quizTotal];
+    qc[mid] = correct; qt[mid] = total;
+    return {...a, quizCorrect: qc, quizTotal: qt, wrongTopics: {...a.wrongTopics, [mid]: wrong || []}};
+  });
+  const handleCardRead = (mid, r, s, tot) => setAnalytics(a => {
+    const cr = [...a.cardsRead], ct = [...a.cardsTotal]; cr[mid] = r; ct[mid] = tot;
+    return {...a, cardsRead: cr, cardsTotal: ct};
+  });
+
+  const filled = id => { const v = answers[id]; return v !== undefined && String(v).trim() !== ''; };
+  const sectionPct = n => { const c = CORE[n]; return c && c.length ? Math.round(c.filter(filled).length / c.length * 100) : 100; };
+  const pctPersonal = Math.round(PERSONAL_SECTIONS.reduce((s,n) => s + sectionPct(n), 0) / PERSONAL_SECTIONS.length);
+  const pctGroup = Math.round(GROUP_SECTIONS.reduce((s,n) => s + sectionPct(n), 0) / GROUP_SECTIONS.length);
+  const optName = (list, v) => { const o = (list || []).find(x => x.v === v); return o ? o.name : (v || ''); };
+  const checkName = (id, d) => { const c = (d || t).check_items.find(x => x.id === id); return c ? c.name : id; };
+  const statusName = (v, d) => { const dd = d || t; return v === 'pass' ? dd.check_pass : v === 'fail' ? dd.check_fail : dd.check_unset; };
+
+  const modulesList = [
+    { id:0, num:'0', icon:'📋', title:t.m0_nav, kind:null },
+    { id:1, num:'1', icon:'👥', title:t.m1_nav, kind:'G' },
+    { id:2, num:'2', icon:'🚦', title:t.m2_nav, kind:'P' },
+    { id:3, num:'3', icon:'🪞', title:t.m3_nav, kind:'P' },
+    { id:4, num:'4', icon:'🗣️', title:t.m4_nav, kind:'P' },
+    { id:5, num:'5', icon:'🔍', title:t.m5_nav, kind:'G' },
+    { id:6, num:'6', icon:'📦', title:t.m6_nav, kind:'G' },
+    { id:7, num:'7', icon:'🎤', title:t.m7_nav, kind:'G' },
+    { id:IDX_LAB, num:String(IDX_LAB), icon:'⚡', title:t.mlab_nav, kind:null },
+    { id:IDX_RES, num:String(IDX_RES), icon:'🌐', title:t.mres_nav, kind:null },
+    { id:IDX_ANA, num:String(IDX_ANA), icon:'📊', title:t.analytics_title, kind:null }
+  ];
+  const go = m => { setModule(m); setMenuOpen(false); window.scrollTo({top:0,behavior:'smooth'}); };
+
+  /* ---------- TTS ---------- */
+  const handleTTS = (action) => {
+    if (!('speechSynthesis' in window)) return;
+    if (action === 'stop') { ttsRun.current += 1; speechSynthesis.cancel(); setTtsState('idle'); return; }
+    if (action === 'pause') { speechSynthesis.pause(); setTtsState('paused'); return; }
+    if (ttsState === 'paused') { speechSynthesis.resume(); setTtsState('playing'); return; }
+    speechSynthesis.cancel();
+    const sep = lang === 'zh' ? '。 ' : '. ';
+    let texts = [];
+    if (module === 0) {
+      texts = [t.m0_title, t.m0_intro, t.m0_why, t.m0_why_desc, ...t.m0_stats.map(s => `${s.label}: ${s.val}`), ...t.m0_modules.map(m => `${m.title}. ${m.desc}`)];
+    } else if (module >= 1 && module <= NUM_LEARN) {
+      const k = `m${module}`;
+      texts = [t[`${k}_title`], t[`${k}_overview`], ...(t[`${k}_highlights`]||[]), t[`${k}_deep`], t[`${k}_wrapup`]];
+      if (module === 2) texts.push(...t.check_items.map(c => `${c.name}. ${c.desc}`), ...t.deliver_out.map(o => `${o.name}. ${o.sub}`), t.deliver_note, ...t.m2_terms.flatMap(x => [x.front, x.back]));
+    } else if (module === IDX_LAB) {
+      texts = [t.mlab_title, t.mlab_desc, t.lab1_title, t.lab1_desc, t.lab2_title, t.lab2_desc, t.lab3_title, t.lab3_desc, t.lab4_title, t.lab4_desc, t.lab5_title, t.lab5_desc];
+    } else if (module === IDX_RES) {
+      texts = [t.mres_title, t.mres_desc, ...t.res_req.map(r => `${r.label}. ${r.desc}`), ...t.res_opt.map(r => `${r.label}. ${r.desc}`)];
+    } else {
+      texts = [t.analytics_title, t.analytics_desc, `${t.analytics_pct_personal}: ${pctPersonal}%`, `${t.analytics_pct_group}: ${pctGroup}%`];
+      const weak = [1,2,3,4,5,6,7].filter(n => sectionPct(n) < 100);
+      if (weak.length) { texts.push(t.analytics_wp_tts_intro); weak.forEach(n => texts.push(t.analytics_wp_tts_module.replace('{name}', t[`m${n}_nav`]).replace('{acc}', sectionPct(n)))); }
+      else texts.push(t.analytics_wp_tts_allpass);
+    }
+    texts = texts.filter(Boolean);
+    /* 語音挑選：與課程既有 SPA 完全一致，不做任何更動 */
+    const voices = speechSynthesis.getVoices();
+    let voice = null, code = 'en-GB';
+    if (lang === 'zh') {
+      voice = voices.find(v=>v.lang==='zh-TW'&&v.name.includes('Yating')) || voices.find(v=>v.lang==='zh-TW') || voices.find(v=>v.lang.startsWith('zh')) || null;
+      code = 'zh-TW';
+    } else {
+      voice = voices.find(v=>v.lang==='en-GB'&&(v.name.includes('Male')||v.name.includes('Daniel'))) || voices.find(v=>v.lang==='en-GB') || voices.find(v=>v.lang.startsWith('en')) || null;
+      code = 'en-GB';
+    }
+
+    /* Chrome 對單一長 utterance 會靜默失敗（網路語音尤其明顯），因此切成短句依序播放 */
+    const CHUNK = lang === 'zh' ? 140 : 190;
+    const full = texts.join(sep);
+    const sentences = (() => {
+      const out = []; let cur = '';
+      for (let i = 0; i < full.length; i++) {
+        cur += full[i];
+        const c = full[i];
+        if ('。！？；!?;'.indexOf(c) >= 0 || (c === '.' && /\s|$/.test(full[i + 1] || ''))) { out.push(cur); cur = ''; }
+      }
+      if (cur.trim()) out.push(cur);
+      return out;
+    })();
+    const packed = []; let acc = '';
+    sentences.forEach(sent0 => {
+      let sent = sent0;
+      while (sent.length > CHUNK) {
+        let cut = sent.lastIndexOf(' ', CHUNK);
+        if (cut < CHUNK * 0.5) cut = CHUNK;
+        if (acc) { packed.push(acc); acc = ''; }
+        packed.push(sent.slice(0, cut));
+        sent = sent.slice(cut);
+      }
+      if ((acc + sent).length > CHUNK) { if (acc) packed.push(acc); acc = sent; }
+      else acc += sent;
+    });
+    if (acc.trim()) packed.push(acc);
+
+    ttsRun.current += 1;
+    const myRun = ttsRun.current;
+    let qi = 0;
+    const speakNext = () => {
+      if (myRun !== ttsRun.current) return;
+      if (qi >= packed.length) { setTtsState('idle'); return; }
+      const u = new SpeechSynthesisUtterance(packed[qi++]);
+      u.rate = 0.95;
+      if (voice) u.voice = voice;
+      u.lang = code;
+      u.onend = speakNext;
+      u.onerror = () => { if (myRun === ttsRun.current) speakNext(); };
+      speechSynthesis.speak(u);
+    };
+    setTtsState('playing');
+    setTimeout(speakNext, 60);
+  };
+
+  /* ---------- Export ---------- */
+  const dstamp = () => { const d = new Date(), p = n => String(n).padStart(2,'0'); return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}`; };
+  const download = (content, filename, mime) => {
+    const blob = new Blob([content], {type: mime}); const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+  const okPersonal = !!(studentInfo.nameEn || studentInfo.nameZh);
+  const okGroup = !!(studentInfo.group && studentInfo.compiler);
+
+  const exportPersonal = () => {
+    if (!okPersonal) return;
+    const L = [];
+    L.push(`# PMCS W15 個人學習單 — ${dict.zh.subtitle}`);
+    L.push('');
+    L.push(`- 姓名：${studentInfo.nameEn} ${studentInfo.nameZh}　學號：${studentInfo.id}　系級：${studentInfo.dept}`);
+    L.push(`- 必讀：T6 · CTRL 專案控制與交付（M7 交付段） https://lolopodcast.github.io/Project-Control-and-Delivery/ ／ 具高執行績效的專案管理實務（2/2）· 控制與交付`);
+    L.push(`- 本週上課日即為全班 D day，本檔為現場作戰紀錄。`);
+    L.push(`- 個人完成度：${pctPersonal}%`);
+    if (sdl) L.push(`- 來源 SDL KB：${sdlFileName()}`);
+    L.push('');
+    L.push('## 2. D day 上線檢查');
+    L.push('| 檢查項目 | 結果 | 查證結果 | 還差什麼／何時補上 |');
+    L.push('|---|---|---|---|');
+    CHECK_IDS.forEach(id => {
+      const one = (v) => String(v || '').replace(/\r?\n/g, '<br>').replace(/\|/g, '／');
+      L.push(`| ${checkName(id, dict.zh)} | ${statusName(answers['ck_' + id], dict.zh)} | ${one(answers['ev_' + id]) || '_(未填)_'} | ${one(answers['gap_' + id]) || '—'} |`);
+    });
+    L.push('');
+    L.push('## 3. 個人復盤三問（主詞為事件或流程）');
+    L.push(`- 做對的一件事：${answers.rt_right || '_(未填)_'}`);
+    L.push(`- 做錯的一件事：${answers.rt_wrong || '_(未填)_'}`);
+    L.push(`- 下一次會改的一件事：${answers.rt_next || '_(未填)_'}`);
+    L.push('');
+    L.push('## 4. 語言實驗室');
+    L.push('| 詞彙 | 自己的話 | 例句 |'); L.push('|---|---|---|');
+    [0,1,2,3,4].forEach(i => { if (filled(`t_term_${i}`)) L.push(`| ${answers[`t_term_${i}`]||''} | ${answers[`t_mean_${i}`]||''} | ${answers[`t_sent_${i}`]||''} |`); });
+    L.push('');
+    L.push('| 難發音 | 難在哪 | 記憶方法 |'); L.push('|---|---|---|');
+    [0,1,2].forEach(i => { if (filled(`p_word_${i}`)) L.push(`| ${answers[`p_word_${i}`]||''} | ${answers[`p_hard_${i}`]||''} | ${answers[`p_tip_${i}`]||''} |`); });
+    L.push(''); L.push('---');
+    L.push('_本檔為個人學習歷程檔案，不繳交。可直接放進 repo 的 docs／資料夾當作 D day 的現場紀錄。_');
+    const who = (sanitizeName(studentInfo.nameEn).replace(/\s+/g,'') || studentInfo.id || 'me').replace(/[^\w-]/g,'') || 'me';
+    const sem = (sdl && sdl.meta.semester) || SEMESTER_DEFAULT;
+    const grp = studentInfo.group || 'NA';
+    download(L.join('\n'), `PMCS_${sem}W15_DeliveryAndRetro_${grp}-${who}_${dstamp()}.md`, 'text/markdown;charset=utf-8;');
+  };
+
+  const groupRows = () => {
+    const rows = [['Section','Field','Value']];
+    rows.push(['Info','Group', studentInfo.group]);
+    rows.push(['Info','Compiler', studentInfo.compiler]);
+    GROUP_SECTIONS.forEach(sec => FIELDS[sec].forEach(id => rows.push(['S'+sec, id, String(answers[id] ?? '')])));
+    rows.push(['S5','ComparedChecks', CHECK_IDS.filter(k => focus[k]).join(' ')]);
+    /* --- 自我描述欄位：讓教師端彙整台無需內建設定即可正確顯示本週判準 --- */
+    rows.push(['Meta','WeekTitleZH', dict.zh.subtitle]);
+    rows.push(['Meta','WeekTitleEN', dict.en.subtitle]);
+    rows.push(['Meta','CompareKey', 'ComparedChecks']);
+    rows.push(['Meta','CompareN', '3']);
+    rows.push(['Meta','S6Fields', "[{\"id\": \"tp_url\", \"zh\": \"公開網址\", \"en\": \"Public address\"}, {\"id\": \"tp_launch\", \"zh\": \"上線狀態\", \"en\": \"Launch status\"}, {\"id\": \"tp_heartbeat\", \"zh\": \"第一次心跳的執行時間與結果\", \"en\": \"Time and result of the first heartbeat\"}, {\"id\": \"tp_handover\", \"zh\": \"維運交接\", \"en\": \"Handover\"}, {\"id\": \"tp_known\", \"zh\": \"已知問題清單\", \"en\": \"Known-issue list\"}]"]);
+    rows.push(['Meta','Categorical', 'tp_launch']);
+    rows.push(['Meta','CategoricalZH', '各組上線狀態']);
+    rows.push(['Meta','CategoricalEN', 'Launch status by group']);
+    rows.push(['Meta','CP5ZH', dict.zh.m5_wrapup]);
+    rows.push(['Meta','CP5EN', dict.en.m5_wrapup]);
+    rows.push(['Meta','CP6ZH', dict.zh.m6_wrapup]);
+    rows.push(['Meta','CP6EN', dict.en.m6_wrapup]);
+    rows.push(['Meta','CP7ZH', dict.zh.m7_wrapup]);
+    rows.push(['Meta','CP7EN', dict.en.m7_wrapup]);
+    rows.push(['Meta','GroupCompletionPct', String(pctGroup)]);
+    rows.push(['Meta','TimeSec', String(analytics.time.reduce((a,b)=>a+b,0))]);
+    const qc = analytics.quizCorrect.reduce((a,b)=>a+b,0), qt = analytics.quizTotal.reduce((a,b)=>a+b,0);
+    rows.push(['Meta','SelfCheck', `${qc}/${qt}`]);
+    return rows;
+  };
+  const exportGroupCSV = () => {
+    if (!okGroup) return;
+    const esc = v => `"${String(v).replace(/"/g,'""')}"`;
+    const csv = '﻿' + groupRows().map(r => r.map(esc).join(',')).join('\r\n');
+    download(csv, `PMCS_${(sdl && sdl.meta.semester) || SEMESTER_DEFAULT}W15_DeliveryAndRetro_${studentInfo.group}-ALL_${dstamp()}.csv`, 'text/csv;charset=utf-8;');
+  };
+  const exportGroupMD = () => {
+    if (!okGroup) return;
+    const L = [];
+    L.push(`# PMCS W15 小組學習單 — ${dict.zh.subtitle}`);
+    L.push('');
+    L.push(`- 組別：${studentInfo.group}　本週彙整人：${studentInfo.compiler}　日期（D day）：${answers.g_date || ''}`);
+    L.push(`- 小組完成度：${pctGroup}%`);
+    L.push('');
+    L.push('## 1. 小組與分工');
+    L.push('| 姓名 | 學號 | 負責段落 | 秒數 |'); L.push('|---|---|---|---|');
+    MEMBER_IDX.forEach(i => { if (filled(`m_name_${i}`)) L.push(`| ${answers[`m_name_${i}`]||''} | ${answers[`m_id_${i}`]||''} | ${answers[`m_part_${i}`]||''} | ${answers[`m_sec_${i}`]||''} |`); });
+    L.push('');
+    L.push('## 5. 小組綜整');
+    L.push(`- 比對的三項：${CHECK_IDS.filter(k => focus[k]).map(k => checkName(k, dict.zh)).join('、') || '_(未選)_'}`);
+    L.push(`- 挑這三項、略過另外三項的理由：${answers.syn_focus_why || '_(未填)_'}`);
+    L.push(`- 差異最大或最沒把握的一項：${answers.syn_gap || '_(未填)_'}`);
+    L.push(`- 支持證據：${answers.syn_evidence || '_(未填)_'}`);
+    L.push(`- 會真的擋住 W16 驗收的是哪一項：${answers.syn_block || '_(未填)_'}`);
+    L.push(`- **D+1 到 D+3 的補救分工**：`);
+    L.push(answers.syn_fix || '(未填)');
+    L.push('');
+    L.push('## 6. 依演化表建置（D day 上線檢查表與維運交接）');
+    L.push(`- 公開網址：${answers.tp_url || '_(未填)_'}`);
+    L.push(`- **上線狀態**：${optName(dict.zh.launch_opts, answers.tp_launch) || '_(未填)_'}`);
+    L.push(`- 第一次心跳的執行時間與結果：${answers.tp_heartbeat || '_(未填)_'}`);
+    L.push(`- 維運交接：${answers.tp_handover || '_(未填)_'}`);
+    L.push(`- 已知問題清單：`);
+    L.push(answers.tp_known || '(未填)');
+    L.push('');
+    L.push('## 7. 簡報計畫（W16 Pitch）');
+    L.push(`- 英文開場句：${answers.pr_open || '_(未填)_'}`);
+    L.push(`- demo 動線 Step 1：${answers.pr_demo1 || '_(未填)_'}`);
+    L.push(`- demo 動線 Step 2：${answers.pr_demo2 || '_(未填)_'}`);
+    L.push(`- demo 動線 Step 3：${answers.pr_demo3 || '_(未填)_'}`);
+    MEMBER_IDX.forEach(i => { if (filled(`pr_point_${i}`)) L.push(`- ${answers[`m_name_${i}`] || 'Speaker '+(i+1)}：${answers[`pr_point_${i}`]}`); });
+    L.push(`- 給全班的問題：${answers.pr_question || '_(未填)_'}`);
+    L.push(''); L.push('---');
+    L.push('_PMCS (EMI) · Prof. Shihmin Lo, NCNU · For Educational Use Only_');
+    download(L.join('\n'), `PMCS_${(sdl && sdl.meta.semester) || SEMESTER_DEFAULT}W15_DeliveryAndRetro_${studentInfo.group}-ALL_${dstamp()}.md`, 'text/markdown;charset=utf-8;');
+  };
+
+  const clearAll = () => {
+    if (!window.confirm(t.analytics_wp_clear_confirm)) return;
+    setAnswers({}); setFocus({}); setMemberCount(DEFAULT_MEMBERS); setSdl(null); setLab({}); setLabNonce(n => n + 1);
+    setAnalytics({ time: Array(TOTAL).fill(0), clicks: Array(TOTAL).fill(0), quizCorrect: Array(TOTAL).fill(0),
+      quizTotal: Array(TOTAL).fill(0), cardsRead: Array(TOTAL).fill(0), cardsTotal: Array(TOTAL).fill(0), wrongTopics: {} });
+    try { localStorage.removeItem(LS_ANS); localStorage.removeItem(LS_ANS + '_focus'); localStorage.removeItem(LS_ANA); localStorage.removeItem(LS_ANS + '_sdl'); localStorage.removeItem(LS_LAB); } catch {}
+  };
+  const clearLab = () => {
+    if (!window.confirm(t.mlab_clear_confirm)) return;
+    setLab({}); setLabNonce(n => n + 1);
+    try { localStorage.removeItem(LS_LAB); } catch {}
+  };
+
+  /* ---------- Renderers ---------- */
+  const SavedHint = () => <p className="text-xs text-slate-500 dark:text-slate-400 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 rounded-lg p-3 leading-relaxed">{t.saved_hint}</p>;
+
+  const renderM0 = () => (
+    <>
+      <div className="rounded-2xl bg-[#004030] dark:bg-slate-800 text-white p-6 sm:p-10 border border-[#D8C3A5]/30">
+        <p className="text-[#D8C3A5] font-serif tracking-widest text-sm mb-2">{t.brand} · {t.title}</p>
+        <h1 className="font-serif font-black text-3xl sm:text-4xl md:text-5xl leading-tight mb-4">{t.subtitle}</h1>
+        <p className="text-slate-200 leading-relaxed text-base">{t.m0_intro}</p>
+        <button onClick={() => go(1)} className="mt-6 px-6 py-3 bg-[#D8C3A5] text-[#004030] font-bold rounded-lg hover:brightness-110 transition">{t.m0_start}</button>
+      </div>
+      <LiveBanner t={t} />
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        {t.m0_stats.map((s,i) => (
+          <div key={i} className="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 text-center">
+            <p className="font-serif font-black text-3xl text-[#004030] dark:text-[#D8C3A5]">{s.val}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{s.label}</p>
+          </div>
+        ))}
+      </div>
+      <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
+        <div className="flex flex-wrap items-center gap-1.5">
+          {t.check_items.map((c, i) => (
+            <React.Fragment key={c.id}>
+              {i > 0 && <span className="text-slate-400 text-xs">·</span>}
+              <span className="text-xs px-3 py-1 rounded-full font-bold border border-[#004030] dark:border-[#D8C3A5] text-[#004030] dark:text-[#D8C3A5]">{c.short}</span>
+            </React.Fragment>
+          ))}
+          <span className="text-slate-400 text-xs">→</span>
+          {t.deliver_out.map((o, i) => (
+            <span key={i} className="text-xs px-3 py-1 rounded-full font-bold bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5]">{o.name}</span>
+          ))}
+        </div>
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-3 leading-relaxed">{t.deliver_note}</p>
+      </div>
+      <div className="bg-[#004030]/5 dark:bg-[#D8C3A5]/5 rounded-xl p-5 border-l-4 border-[#D8C3A5]">
+        <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-2">{t.m0_why}</h3>
+        <p>{t.m0_why_desc}</p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {t.m0_modules.map((m,i) => (
+          <button key={i} onClick={() => go(i+1)} className="text-left bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5] hover:shadow-md transition">
+            <div className="flex items-center justify-between">
+              <span className="font-serif font-black text-[#D8C3A5] text-lg">{m.num}</span>
+              <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${m.tag === (lang==='zh'?'個人':'Individual') ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200' : 'bg-[#D8C3A5]/30 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>{m.tag}</span>
+            </div>
+            <p className="font-bold text-[#004030] dark:text-[#D8C3A5] mt-1">{m.title}</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">{m.desc}</p>
+          </button>
+        ))}
+      </div>
+      <SdlImport t={t} sdl={sdl} onImport={importSdl} onClear={() => setSdl(null)} />
+      <SavedHint />
+    </>
+  );
+
+  const renderM1 = () => (
+    <>
+      <Overview t={t} text={t.m1_overview} /><Highlights t={t} items={t.m1_highlights} /><DeepDive t={t} text={t.m1_deep} /><SavedHint />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{t.m1_group}</label>
+          <select className={inputCls} value={answers.g_group || ''} onChange={e => setA('g_group', e.target.value)}>
+            <option value="">{t.select_ph}</option>{t.group_options.map(g => <option key={g} value={g}>{g}</option>)}
+          </select>
+        </div>
+        <Field id="g_date" label={t.m1_date} type="date" value={answers.g_date} onChange={setA} />
+      </div>
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m1_members_label}</h3>
+        <div className="space-y-3">
+          {MEMBER_IDX.slice(0, memberCount).map(i => (
+            <div key={i} className="grid grid-cols-2 md:grid-cols-4 gap-2">
+              <input className={inputCls} placeholder={`${t.m1_col_name} ${i+1}`} value={answers[`m_name_${i}`]||''} onChange={e => setA(`m_name_${i}`, sanitizeName(e.target.value))} />
+              <input className={inputCls} placeholder={t.m1_col_id} value={answers[`m_id_${i}`]||''} onChange={e => setA(`m_id_${i}`, sanitizeStudentId(e.target.value))} />
+              <input className={inputCls} placeholder={t.m1_part_ph} value={answers[`m_part_${i}`]||''} onChange={e => setA(`m_part_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} type="number" min="0" max="600" placeholder={t.m1_col_sec} value={answers[`m_sec_${i}`]||''} onChange={e => setA(`m_sec_${i}`, e.target.value.replace(/[^0-9]/g,'').slice(0,3))} />
+            </div>
+          ))}
+        </div>
+        <div className="flex items-center gap-2 mt-3">
+          <button onClick={() => { setMemberCount(c => Math.max(1, c-1)); bump(); }} disabled={memberCount <= 1}
+            className="px-3 py-1.5 text-sm border border-slate-300 dark:border-slate-600 rounded-lg disabled:opacity-40">−</button>
+          <span className="text-sm text-slate-500 dark:text-slate-400">{t.m1_member_count.replace('{n}', memberCount)}</span>
+          <button onClick={() => { setMemberCount(c => Math.min(MAX_MEMBERS, c+1)); bump(); }} disabled={memberCount >= MAX_MEMBERS}
+            className="px-3 py-1.5 text-sm border border-slate-300 dark:border-slate-600 rounded-lg disabled:opacity-40">＋</button>
+        </div>
+        {(() => {
+          const total = MEMBER_IDX.slice(0, memberCount).reduce((s,i) => s + (parseInt(answers[`m_sec_${i}`]||'0',10)||0), 0);
+          const over = total > 600;
+          return <div className={`mt-4 p-3 rounded-lg text-sm ${over ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-300' : 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'}`}>
+            <strong>{t.m1_total_sec}: {total}s</strong> — {over ? t.m1_sec_warn : t.m1_sec_ok}</div>;
+        })()}
+      </div>
+      <Wrapup t={t} text={t.m1_wrapup} />
+    </>
+  );
+
+  const renderM2 = () => {
+    const passN = CHECK_IDS.filter(id => answers['ck_' + id] === 'pass').length;
+    const failN = CHECK_IDS.filter(id => answers['ck_' + id] === 'fail').length;
+    return (
+      <>
+        <LiveBanner t={t} />
+        <SdlPanel t={t} sdl={sdl} />
+        <Overview t={t} text={t.m2_overview} /><Highlights t={t} items={t.m2_highlights} /><DeepDive t={t} text={t.m2_deep} />
+        <GoLiveDiagram t={t} answers={answers} />
+        <SavedHint />
+        <p className="text-sm font-bold text-[#004030] dark:text-[#D8C3A5]">{t.check_count.replace('{n}', passN + failN).replace('{p}', passN).replace('{f}', failN)}</p>
+        <div className="space-y-4">
+          {t.check_items.map((c, i) => {
+            const sv = answers['ck_' + c.id] || '';
+            const gap = String(answers['gap_' + c.id] || '').trim();
+            return (
+              <div key={c.id} className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4">
+                <p className="font-bold text-[#004030] dark:text-[#D8C3A5]">{i+1}. {c.name}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 mb-3 leading-relaxed">{c.desc}</p>
+                <div className="flex items-center gap-2 flex-wrap mb-3">
+                  {[['pass', t.check_pass], ['fail', t.check_fail]].map(([val, label]) => (
+                    <button key={val} onClick={() => { setA('ck_' + c.id, sv === val ? '' : val); bump(); }}
+                      className={`px-4 py-1.5 text-sm font-bold rounded-full border transition ${sv === val
+                        ? (val === 'pass' ? 'bg-green-600 border-green-600 text-white' : 'bg-red-600 border-red-600 text-white')
+                        : 'border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-[#004030] dark:hover:border-[#D8C3A5]'}`}>{label}</button>
+                  ))}
+                  {!sv && <span className="text-xs text-slate-400">{t.check_unset}</span>}
+                </div>
+                <label className="block text-xs font-bold text-slate-500 mb-1">{t.check_ev_label}</label>
+                <textarea rows={2} className={inputCls} placeholder={c.ph} value={answers['ev_' + c.id] || ''}
+                  onChange={e => setA('ev_' + c.id, sanitizeText(e.target.value))} />
+                {sv === 'fail' && (
+                  <div className="mt-3">
+                    <label className="block text-xs font-bold text-amber-700 dark:text-amber-300 mb-1">{t.check_gap_label}</label>
+                    <textarea rows={2} className={inputCls} placeholder={t.check_gap_ph} value={answers['gap_' + c.id] || ''}
+                      onChange={e => setA('gap_' + c.id, sanitizeText(e.target.value))} />
+                    <p className={`mt-2 p-2.5 rounded-lg text-xs leading-relaxed ${gap
+                      ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'
+                      : 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-300'}`}>{gap ? t.check_gap_ok : t.check_gap_warn}</p>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+        <FlipCardDeck key={`cards-${module}-${lang}`} terms={t.m2_terms} t={t} moduleId={2} onCardRead={handleCardRead} />
+        <Wrapup t={t} text={t.m2_wrapup} />
+      </>
+    );
+  };
+
+  const renderM3 = () => {
+    const rows = [
+      { id:'rt_right', label:t.m3_right_label, ph:t.m3_right_ph },
+      { id:'rt_wrong', label:t.m3_wrong_label, ph:t.m3_wrong_ph },
+      { id:'rt_next', label:t.m3_next_label, ph:t.m3_next_ph }
+    ];
+    return (
+      <>
+        <LiveBanner t={t} />
+        <SdlPanel t={t} sdl={sdl} />
+        <Overview t={t} text={t.m3_overview} /><Highlights t={t} items={t.m3_highlights} /><DeepDive t={t} text={t.m3_deep} /><SavedHint />
+        {rows.map(r => {
+          const val = answers[r.id] || '';
+          const hits = detectBlame(val, lang);
+          return (
+            <div key={r.id}>
+              <Field id={r.id} label={r.label} ph={r.ph} rows={4} value={answers[r.id]} onChange={setA} />
+              {String(val).trim() !== '' && (
+                <p className={`-mt-3 mb-5 p-3 rounded-lg text-sm leading-relaxed ${hits.length === 0
+                  ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'
+                  : 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-300'}`}>
+                  {hits.length === 0 ? t.m3_blame_ok : t.m3_blame_warn.replace('{hits}', hits.join(lang === 'zh' ? '、' : ', '))}
+                </p>
+              )}
+            </div>
+          );
+        })}
+        <Wrapup t={t} text={t.m3_wrapup} />
+      </>
+    );
+  };
+
+  const renderM4 = () => (
+    <>
+      <SdlPanel t={t} sdl={sdl} />
+      <Overview t={t} text={t.m4_overview} /><Highlights t={t} items={t.m4_highlights} /><DeepDive t={t} text={t.m4_deep} /><SavedHint />
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-2">{t.m4_corpus_label}</h3>
+        <div className="flex flex-wrap gap-2">
+          {t.m4_corpus.map((w,i) => <span key={i} className="px-3 py-1 rounded-full text-sm font-mono bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700">{w}</span>)}
+        </div>
+      </div>
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m4_terms_label}</h3>
+        <div className="space-y-3">
+          {[0,1,2,3,4].map(i => (
+            <div key={i} className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <input className={inputCls} placeholder={`${t.m4_col_term} ${i+1}`} value={answers[`t_term_${i}`]||''} onChange={e => setA(`t_term_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_mean} value={answers[`t_mean_${i}`]||''} onChange={e => setA(`t_mean_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_sent} value={answers[`t_sent_${i}`]||''} onChange={e => setA(`t_sent_${i}`, sanitizeText(e.target.value))} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3 mt-6">{t.m4_pron_label}</h3>
+        <div className="space-y-3">
+          {[0,1,2].map(i => (
+            <div key={i} className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <input className={inputCls} placeholder={`${t.m4_col_word} ${i+1}`} value={answers[`p_word_${i}`]||''} onChange={e => setA(`p_word_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_hard} value={answers[`p_hard_${i}`]||''} onChange={e => setA(`p_hard_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_tip} value={answers[`p_tip_${i}`]||''} onChange={e => setA(`p_tip_${i}`, sanitizeText(e.target.value))} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <Wrapup t={t} text={t.m4_wrapup} />
+    </>
+  );
+
+  const renderM5 = () => {
+    const chosen = CHECK_IDS.filter(k => focus[k]).length;
+    return (
+      <>
+        <Overview t={t} text={t.m5_overview} /><Highlights t={t} items={t.m5_highlights} /><DeepDive t={t} text={t.m5_deep} /><SavedHint />
+        <div>
+          <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m5_focus_label}</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {t.check_items.map(c => {
+              const on = !!focus[c.id];
+              const blocked = !on && chosen >= 3;
+              return (
+                <label key={c.id} className={`flex items-center gap-3 p-3 rounded-lg border transition ${blocked ? 'opacity-40 cursor-not-allowed border-slate-200 dark:border-slate-700' : 'cursor-pointer border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5]'} bg-white dark:bg-slate-800`}>
+                  <input type="checkbox" className="w-4 h-4 accent-[#004030] dark:accent-[#D8C3A5]" checked={on} disabled={blocked}
+                    onChange={e => { setFocus(st => ({...st, [c.id]: e.target.checked})); bump(); }} />
+                  <span className="text-sm">{c.name}</span>
+                </label>
+              );
+            })}
+          </div>
+          <p className={`mt-2 text-sm font-bold ${chosen === 3 ? 'text-green-600 dark:text-green-400' : 'text-amber-600 dark:text-amber-400'}`}>{chosen} / 3</p>
+        </div>
+        <Field id="syn_focus_why" label={t.m5_focus_why} ph={t.m5_focus_why_ph} rows={3} value={answers.syn_focus_why} onChange={setA} />
+        <Field id="syn_gap" label={t.m5_gap_label} ph={t.m5_gap_ph} rows={4} value={answers.syn_gap} onChange={setA} />
+        <Field id="syn_evidence" label={t.m5_evidence_label} ph={t.m5_evidence_ph} rows={4} value={answers.syn_evidence} onChange={setA} />
+        <Field id="syn_block" label={t.m5_block_label} ph={t.m5_block_ph} rows={4} value={answers.syn_block} onChange={setA} />
+        <Field id="syn_fix" label={t.m5_fix_label} hint={t.m5_fix_note} ph={t.m5_fix_ph} rows={5} value={answers.syn_fix} onChange={setA} />
+        <Wrapup t={t} text={t.m5_wrapup} />
+      </>
+    );
+  };
+
+  const renderM6 = () => {
+    const url = String(answers.tp_url || '').trim();
+    const urlOk = /^https?:\/\/[^\s]+\.[^\s]+/.test(url);
+    const lv = answers.tp_launch || '';
+    const knownOk = filled('tp_known');
+    return (
+      <>
+        <LiveBanner t={t} />
+        <Overview t={t} text={t.m6_overview} /><Highlights t={t} items={t.m6_highlights} /><DeepDive t={t} text={t.m6_deep} /><SavedHint />
+        <div>
+          <Field id="tp_url" label={t.m6_url_label} hint={t.m6_url_hint} ph={t.m6_url_ph} rows={2} mono value={answers.tp_url} onChange={setA} />
+          {url !== '' && (
+            <p className={`-mt-3 mb-5 p-3 rounded-lg text-sm leading-relaxed ${urlOk
+              ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'
+              : 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300'}`}>{urlOk ? t.m6_url_ok : t.m6_url_bad}</p>
+          )}
+        </div>
+        <div className="mb-5">
+          <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{t.m6_launch_label}</label>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 leading-relaxed">{t.m6_launch_hint}</p>
+          <select className={inputCls} value={lv} onChange={e => setA('tp_launch', e.target.value)}>
+            <option value="">{t.select_ph}</option>{t.launch_opts.map(o => <option key={o.v} value={o.v}>{o.name}</option>)}
+          </select>
+          <p className="mt-2 text-xs font-bold text-[#004030] dark:text-[#D8C3A5]">{t.m6_launch_note}</p>
+          {lv && (
+            <p className={`mt-3 p-3 rounded-lg text-sm leading-relaxed ${lv === LAUNCH_GOOD
+              ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'
+              : 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300'}`}>{lv === LAUNCH_GOOD ? t.m6_launch_ok : t.m6_launch_warn}</p>
+          )}
+        </div>
+        <Field id="tp_heartbeat" label={t.m6_heartbeat_label} hint={t.m6_heartbeat_hint} ph={t.m6_heartbeat_ph} rows={4} value={answers.tp_heartbeat} onChange={setA} />
+        <Field id="tp_handover" label={t.m6_handover_label} hint={t.m6_handover_hint} ph={t.m6_handover_ph} rows={4} value={answers.tp_handover} onChange={setA} />
+        <div>
+          <Field id="tp_known" label={t.m6_known_label} hint={t.m6_known_hint} ph={t.m6_known_ph} rows={5} value={answers.tp_known} onChange={setA} />
+          <p className={`-mt-3 mb-5 p-3 rounded-lg text-sm leading-relaxed ${knownOk
+            ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'
+            : 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-300'}`}>{knownOk ? t.m6_known_ok : t.m6_known_warn}</p>
+        </div>
+        <Wrapup t={t} text={t.m6_wrapup} />
+      </>
+    );
+  };
+
+  const renderM7 = () => (
+    <>
+      <Overview t={t} text={t.m7_overview} /><Highlights t={t} items={t.m7_highlights} /><DeepDive t={t} text={t.m7_deep} /><SavedHint />
+      <Field id="pr_open" label={t.m7_open_label} ph={t.m7_open_ph} rows={2} value={answers.pr_open} onChange={setA} />
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m7_demo_label}</h3>
+        <div className="space-y-3">
+          {[['pr_demo1', t.m7_demo1_ph, '1'], ['pr_demo2', t.m7_demo2_ph, '2'], ['pr_demo3', t.m7_demo3_ph, '3']].map(([id, ph, n]) => (
+            <div key={id} className="flex gap-3 items-start">
+              <span className="mt-2 w-8 h-8 shrink-0 rounded-full bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold flex items-center justify-center text-sm">{n}</span>
+              <textarea rows={2} className={inputCls} placeholder={ph} value={answers[id]||''} onChange={e => setA(id, sanitizeText(e.target.value))} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="mt-6">
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m7_script_label}</h3>
+        <div className="space-y-3">
+          {MEMBER_IDX.slice(0, memberCount).map(i => (
+            <div key={i} className="grid grid-cols-1 md:grid-cols-4 gap-2">
+              <div className="md:col-span-1 flex items-center px-3 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-sm text-slate-600 dark:text-slate-300 truncate">
+                {answers[`m_name_${i}`] || `${t.m7_col_who} ${i+1}`}
+              </div>
+              <input className={`${inputCls} md:col-span-3`} placeholder={t.m7_col_point} value={answers[`pr_point_${i}`]||''} onChange={e => setA(`pr_point_${i}`, sanitizeText(e.target.value))} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="mt-5"><Field id="pr_question" label={t.m7_question_label} ph={t.m7_question_ph} rows={3} value={answers.pr_question} onChange={setA} /></div>
+      <Wrapup t={t} text={t.m7_wrapup} />
+    </>
+  );
+
+  const renderLab = () => (
+    <>
+      <p className="text-base text-slate-600 dark:text-slate-300">{t.mlab_desc}</p>
+      <div className="flex items-center gap-3 flex-wrap">
+        <button onClick={clearLab} className="px-4 py-2 border border-red-400 text-red-600 dark:text-red-400 font-bold rounded-lg text-sm hover:bg-red-50 dark:hover:bg-red-900/20">{t.mlab_clear}</button>
+        <span className="text-xs text-slate-400">💾 {t.analytics_wp_saved}</span>
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-4">
+        <LabGoLiveList key={`lab1-${labNonce}-${lang}`} t={t} state={lab.l1} setState={setLabPart('l1')} onTouch={bump} />
+        <LabHeartbeat key={`lab2-${labNonce}-${lang}`} lang={lang} t={t} state={lab.l2} setState={setLabPart('l2')} onTouch={bump} />
+        <LabBlameCheck key={`lab3-${labNonce}-${lang}`} lang={lang} t={t} state={lab.l3} setState={setLabPart('l3')} onTouch={bump} />
+        <LabAcceptance key={`lab4-${labNonce}-${lang}`} t={t} state={lab.l4} setState={setLabPart('l4')} onTouch={bump} />
+      </div>
+      <div className="mt-6 bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+        <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab5_title}</h3>
+        <p className="text-sm text-slate-500 dark:text-slate-400">{t.lab5_desc}</p>
+        <ModuleQuiz key={`quiz-lab-${lang}`} questions={t.m2_q} t={t} moduleId={IDX_LAB} onQuizSubmit={handleQuizSubmit} />
+      </div>
+    </>
+  );
+
+  const renderRes = () => (
+    <>
+      <p className="text-base text-slate-600 dark:text-slate-300">{t.mres_desc}</p>
+      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-6 mb-3">{t.required_label}</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{t.res_req.map((r,i) => <LinkCard key={i} {...r} />)}</div>
+      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-8 mb-3">{t.optional_label}</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{t.res_opt.map((r,i) => <LinkCard key={i} {...r} />)}</div>
+    </>
+  );
+
+  const renderAna = () => {
+    const totalTime = analytics.time.reduce((a,b)=>a+b,0);
+    const qc = analytics.quizCorrect.reduce((a,b)=>a+b,0), qt = analytics.quizTotal.reduce((a,b)=>a+b,0);
+    const weak = [1,2,3,4,5,6,7].filter(n => sectionPct(n) < 100);
+    const stats = [
+      { val: pctPersonal + '%', label: t.analytics_pct_personal },
+      { val: pctGroup + '%', label: t.analytics_pct_group },
+      { val: totalTime + t.analytics_sec, label: t.analytics_total_time },
+      { val: qt > 0 ? Math.round(qc/qt*100) + '%' : '—', label: t.analytics_overall_acc }
+    ];
+    const setInfo = (k, v) => setStudentInfo(s => ({ ...s, [k]: v }));
+    return (
+      <>
+        <p className="text-base text-slate-600 dark:text-slate-300">{t.analytics_desc}</p>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-5">
+          {stats.map((s,i) => (
+            <div key={i} className="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 text-center">
+              <p className="font-serif font-black text-2xl text-[#004030] dark:text-[#D8C3A5]">{s.val}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{s.label}</p>
+            </div>
+          ))}
+        </div>
+
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-8 mb-3">{t.analytics_progress_title}</h3>
+        <div className="space-y-2">
+          {[1,2,3,4,5,6,7].map(n => {
+            const pct = sectionPct(n), kind = modulesList[n].kind;
+            return (
+              <button key={n} onClick={() => go(n)} className="w-full flex items-center gap-3 text-left p-3 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5] transition">
+                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded shrink-0 ${kind === 'P' ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200' : 'bg-[#D8C3A5]/30 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>{kind}</span>
+                <span className="text-sm w-36 sm:w-52 truncate shrink-0">{t[`m${n}_nav`]}</span>
+                <span className="flex-1 h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                  <span className={`block h-full ${pct === 100 ? 'bg-green-500' : 'bg-[#004030] dark:bg-[#D8C3A5]'}`} style={{width: pct + '%'}}></span>
+                </span>
+                <span className="text-sm font-bold w-12 text-right shrink-0">{pct}%</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-8 mb-3">{t.analytics_wp_title}</h3>
+        {weak.length === 0
+          ? <p className="p-4 rounded-lg bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 text-sm">{t.analytics_wp_allpass}</p>
+          : <div className="space-y-4">
+              <div className="space-y-2">
+                <p className="text-xs font-bold text-sky-700 dark:text-sky-300">{t.analytics_wp_personal_head}</p>
+                {PERSONAL_SECTIONS.filter(n => sectionPct(n) < 100).length === 0
+                  ? <p className="text-sm text-green-600 dark:text-green-400 pl-1">{t.analytics_wp_personal_done}</p>
+                  : PERSONAL_SECTIONS.filter(n => sectionPct(n) < 100).map(n => (
+                      <div key={n} className="p-3 rounded-lg bg-sky-50 dark:bg-sky-900/20 border border-sky-200 dark:border-sky-800/50 flex items-center justify-between gap-3">
+                        <span className="text-sm">{t[`m${n}_nav`]} — {sectionPct(n)}%</span>
+                        <button onClick={() => go(n)} className="text-xs font-bold text-sky-700 dark:text-sky-300 hover:underline shrink-0">{t.analytics_wp_goto}</button>
+                      </div>))}
+              </div>
+              <div className="space-y-2">
+                <p className="text-xs font-bold text-[#004030] dark:text-[#D8C3A5]">{t.analytics_wp_group_head}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 pl-1">{t.analytics_wp_group_note}</p>
+                {GROUP_SECTIONS.filter(n => sectionPct(n) < 100).length === 0
+                  ? <p className="text-sm text-green-600 dark:text-green-400 pl-1">{t.analytics_wp_group_done}</p>
+                  : GROUP_SECTIONS.filter(n => sectionPct(n) < 100).map(n => (
+                      <div key={n} className="p-3 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 flex items-center justify-between gap-3">
+                        <span className="text-sm">{t[`m${n}_nav`]} — {sectionPct(n)}%</span>
+                        <button onClick={() => go(n)} className="text-xs font-bold text-[#004030] dark:text-[#D8C3A5] hover:underline shrink-0">{t.analytics_wp_goto}</button>
+                      </div>))}
+              </div>
+            </div>}
+
+        <div className="mt-8 rounded-xl border-2 border-sky-200 dark:border-sky-800/60 bg-sky-50/50 dark:bg-sky-900/10 p-5">
+          <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5]">{t.analytics_personal_title}</h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-4">{t.analytics_personal_desc}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <InfoInput id="nameEn" label={t.analytics_name_en} ph={t.analytics_name_en_ph} value={studentInfo.nameEn} onChange={setInfo} />
+            <InfoInput id="nameZh" label={t.analytics_name_zh} ph={t.analytics_name_zh_ph} value={studentInfo.nameZh} onChange={setInfo} />
+            <InfoInput id="id" label={t.analytics_id} ph={t.analytics_id_ph} value={studentInfo.id} onChange={setInfo} san={sanitizeStudentId} />
+            <InfoInput id="dept" label={t.analytics_dept} ph={t.analytics_dept_ph} value={studentInfo.dept} onChange={setInfo} />
+          </div>
+          <button onClick={exportPersonal} disabled={!okPersonal}
+            className="mt-4 px-5 py-2.5 bg-sky-700 dark:bg-sky-300 text-white dark:text-sky-950 font-bold rounded-lg disabled:opacity-40">{t.analytics_export_personal}</button>
+          {!okPersonal && <p className="text-xs text-amber-600 dark:text-amber-400 mt-2">{t.analytics_need_personal}</p>}
+        </div>
+
+        <div className="mt-5 rounded-xl border-2 border-[#D8C3A5] dark:border-[#D8C3A5]/50 bg-[#D8C3A5]/10 p-5">
+          <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5]">{t.analytics_group_title}</h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-4">{t.analytics_group_desc}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div><label className="block text-xs font-bold text-slate-500 mb-1">{t.analytics_group}</label>
+              <select className={inputCls} value={studentInfo.group} onChange={e => setStudentInfo(s => ({...s, group: e.target.value}))}>
+                <option value="">{t.select_ph}</option>{t.group_options.map(g => <option key={g} value={g}>{g}</option>)}
+              </select></div>
+            <InfoInput id="compiler" label={t.analytics_compiler} ph={t.analytics_compiler_ph} value={studentInfo.compiler} onChange={setInfo} />
+          </div>
+          <div className="flex flex-wrap gap-3 mt-4">
+            <button onClick={exportGroupCSV} disabled={!okGroup} className="px-5 py-2.5 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg disabled:opacity-40">{t.analytics_export_csv}</button>
+            <button onClick={exportGroupMD} disabled={!okGroup} className="px-5 py-2.5 border-2 border-[#004030] dark:border-[#D8C3A5] text-[#004030] dark:text-[#D8C3A5] font-bold rounded-lg disabled:opacity-40">{t.analytics_export_md}</button>
+          </div>
+          {!okGroup && <p className="text-xs text-amber-600 dark:text-amber-400 mt-2">{t.analytics_need_group}</p>}
+        </div>
+
+        <div className="mt-6 flex items-center gap-3 flex-wrap">
+          <button onClick={clearAll} className="px-5 py-2.5 border border-red-400 text-red-600 dark:text-red-400 font-bold rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20">{t.analytics_wp_clear}</button>
+          <span className="text-xs text-slate-400">💾 {t.analytics_wp_saved}</span>
+        </div>
+      </>
+    );
+  };
+
+  const body = () => {
+    if (module === 0) return renderM0();
+    if (module === 1) return renderM1();
+    if (module === 2) return renderM2();
+    if (module === 3) return renderM3();
+    if (module === 4) return renderM4();
+    if (module === 5) return renderM5();
+    if (module === 6) return renderM6();
+    if (module === 7) return renderM7();
+    if (module === IDX_LAB) return renderLab();
+    if (module === IDX_RES) return renderRes();
+    return renderAna();
+  };
+  const cur = modulesList[module];
+
+  return (
+    <div className="min-h-screen flex flex-col pt-16 overflow-x-hidden">
+      <header className="fixed top-0 left-0 right-0 h-16 bg-[#004030] dark:bg-slate-900 text-white z-50 shadow-lg border-b border-[#D8C3A5]/30">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-1 sm:gap-2 min-w-0">
+            <div className="relative" ref={menuRef}>
+              <button onClick={() => setMenuOpen(!menuOpen)} className="p-2 hover:bg-white/10 rounded-lg" aria-label={t.nav_modules}>{menuOpen ? <IconX/> : <IconMenu/>}</button>
+              {menuOpen && (
+                <div className="absolute top-full left-0 mt-1 w-72 max-w-[calc(100vw-2rem)] max-h-[calc(100vh-5rem)] overflow-y-auto bg-white dark:bg-slate-800 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 z-[100]">
+                  {modulesList.map(m => (
+                    <button key={m.id} onClick={() => go(m.id)}
+                      className={`w-full flex items-center gap-3 px-4 py-3 text-sm transition ${module === m.id ? 'bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5] font-bold' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700'}`}>
+                      <span className="ui-decoration">{m.icon}</span><span className="truncate flex-1 text-left">{m.title}</span>
+                      {m.kind && <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded shrink-0 ${m.kind === 'P' ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200' : 'bg-[#D8C3A5]/40 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>{m.kind}</span>}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+            <button onClick={() => go(0)} className="p-2 hover:bg-white/10 rounded-lg" aria-label={t.nav_home}><IconHome size={18}/></button>
+            <button onClick={() => window.scrollTo({top:0,behavior:'smooth'})} className="flex items-center gap-2 min-w-0">
+              <span className="font-serif font-black text-[#D8C3A5] text-lg tracking-widest">{t.brand}</span>
+              <span className="hidden sm:inline font-serif font-bold text-sm md:text-base truncate">{t.title}</span>
+            </button>
+          </div>
+          <div className="flex items-center gap-1 sm:gap-2">
+            <button onClick={() => handleTTS(ttsState === 'playing' ? 'pause' : 'play')} className="p-2 hover:bg-white/10 rounded-lg" aria-label={t.audio_read}>{ttsState === 'playing' ? <IconPause size={18}/> : <IconPlay size={18}/>}</button>
+            <button onClick={() => handleTTS('stop')} className="p-2 hover:bg-white/10 rounded-lg" aria-label="Stop"><IconSquare size={18}/></button>
+            <button onClick={() => setLang(lang === 'en' ? 'zh' : 'en')} className="px-2 py-2 hover:bg-white/10 rounded-lg flex items-center gap-1"><IconGlobe size={18}/><span className="text-xs font-bold">{lang === 'en' ? '中' : 'EN'}</span></button>
+            <button onClick={() => setIsDark(!isDark)} className="p-2 hover:bg-white/10 rounded-lg" aria-label="Theme">{isDark ? <IconSun size={18}/> : <IconMoon size={18}/>}</button>
+          </div>
+        </div>
+      </header>
+
+      <div className="flex-1 w-full max-w-7xl mx-auto flex">
+        <aside className="hidden md:block w-64 shrink-0 border-r border-slate-200 dark:border-slate-700 py-8 px-3">
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 px-3 mb-3">{t.nav_modules}</p>
+          {modulesList.map(m => (
+            <button key={m.id} onClick={() => go(m.id)}
+              className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm mb-1 transition ${module === m.id ? 'bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5] font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'}`}>
+              <span className="ui-decoration shrink-0">{m.icon}</span>
+              <span className="truncate text-left flex-1">{m.title}</span>
+              {m.kind && <span className={`text-[10px] font-bold px-1 rounded shrink-0 ${m.kind === 'P' ? 'text-sky-700 dark:text-sky-300' : 'text-[#004030] dark:text-[#D8C3A5]'}`}>{m.kind}</span>}
+            </button>
+          ))}
+          <div className="mt-6 px-3 space-y-3">
+            <div>
+              <p className="text-xs text-slate-400 mb-1">{t.analytics_pct_personal}</p>
+              <div className="h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden"><div className={`h-full ${pctPersonal === 100 ? 'bg-green-500' : 'bg-sky-600 dark:bg-sky-400'}`} style={{width: pctPersonal + '%'}}></div></div>
+              <p className="text-xs font-bold text-sky-700 dark:text-sky-300 mt-1">{pctPersonal}%</p>
+            </div>
+            <div>
+              <p className="text-xs text-slate-400 mb-1">{t.analytics_pct_group}</p>
+              <div className="h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden"><div className={`h-full ${pctGroup === 100 ? 'bg-green-500' : 'bg-[#004030] dark:bg-[#D8C3A5]'}`} style={{width: pctGroup + '%'}}></div></div>
+              <p className="text-xs font-bold text-[#004030] dark:text-[#D8C3A5] mt-1">{pctGroup}%</p>
+            </div>
+          </div>
+        </aside>
+
+        <main className="flex-1 min-w-0 py-8 px-4 sm:px-6">
+          <div key={`${module}-${lang}`} className="space-y-6 text-lg leading-relaxed text-slate-700 dark:text-slate-300 animate-fade-in">
+            {module !== 0 && (
+              <div>
+                <H2 icon={cur.icon} number={cur.num}>{module <= NUM_LEARN ? t[`m${module}_title`] : module === IDX_LAB ? t.mlab_title : module === IDX_RES ? t.mres_title : t.analytics_title}</H2>
+                {cur.kind && <Badge kind={cur.kind} t={t} />}
+              </div>
+            )}
+            {body()}
+            <div className="mt-12 flex justify-between items-center pt-8 border-t border-slate-300 dark:border-slate-700 no-print">
+              <button onClick={() => go(Math.max(0, module-1))} disabled={module === 0}
+                className="px-5 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg text-sm font-bold hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-0">← {t.nav_prev}</button>
+              <button onClick={() => go(Math.min(TOTAL-1, module+1))} disabled={module === TOTAL-1}
+                className="px-5 py-2.5 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] rounded-lg text-sm font-bold disabled:opacity-0">{t.nav_next} →</button>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <footer className="h-8 bg-[#004030] flex items-center justify-between px-4 shrink-0">
+        <span className="text-[#D8C3A5]/60 text-[10px] sm:text-xs truncate">{t.date} · {t.copyright}</span>
+        <span className="text-[#D8C3A5]/60 text-[10px] sm:text-xs flex items-center gap-3 shrink-0">
+          <span className="hidden sm:inline">{t.architect_label}&nbsp;<a href={t.architect_url} target="_blank" rel="noopener noreferrer" className="text-[#D8C3A5] hover:text-white underline">Prof. Shihmin Lo</a></span>
+          <button onClick={() => window.scrollTo({top:0,behavior:'smooth'})} className="text-[#D8C3A5] hover:text-white font-bold">Top ↑</button>
+        </span>
+      </footer>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
