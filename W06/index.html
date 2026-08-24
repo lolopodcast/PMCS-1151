@@ -1,1 +1,2165 @@
-W06
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PMCS Worksheet W6 — Where the PM Stands in the NPD Process</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.7/babel.min.js"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: { extend: { fontFamily: { sans: ['Inter','sans-serif'], serif: ['Merriweather','serif'] } } }
+  }
+</script>
+<style>
+  @keyframes fadeInUp { from{opacity:0;transform:translateY(15px)} to{opacity:1;transform:translateY(0)} }
+  .animate-fade-in { animation: fadeInUp 0.5s ease-out forwards; }
+  .perspective { perspective: 1000px; }
+  .transform-style-3d { transform-style: preserve-3d; }
+  .backface-hidden { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  .rotate-y-180 { transform: rotateY(180deg); }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+  .dark ::-webkit-scrollbar-thumb { background: #475569; }
+  header, footer, button, [role="button"], .ui-decoration { -webkit-user-select: none; user-select: none; }
+  input, textarea, select { -webkit-user-select: text; user-select: text; }
+  html { overflow-x: hidden; }
+  @media print { header, footer, aside, .no-print { display: none !important; } }
+</style>
+</head>
+<body class="bg-[#f4f4f4] dark:bg-[#121212] selection:bg-[#004030] selection:text-white dark:selection:bg-[#D8C3A5] dark:selection:text-[#004030] overflow-x-hidden">
+<div id="root"></div>
+
+<script>
+(function(){
+  var ALLOWED = ['lolopodcast.github.io','localhost','127.0.0.1','claude.ai','anthropic.com','usercontent.goog'];
+  var REDIRECT = 'https://www.ibs.ncnu.edu.tw/index.php/faculty/tenured-professor/299-smlo';
+  var h = location.hostname;
+  var isFile = location.protocol === 'file:' || h === '';
+  var ok = isFile || ALLOWED.some(function(d){ return h === d || h.endsWith('.' + d); });
+  if (!ok) {
+    document.body.innerHTML = '<div style="text-align:center;padding:60px;font-family:sans-serif"><h1>Access Denied</h1><p>This resource is not authorised on this domain.</p></div>';
+    setTimeout(function(){ location.href = REDIRECT; }, 3000);
+    return;
+  }
+  if (window.self !== window.top) {
+    try { window.top.location.href = window.self.location.href; } catch(e) {}
+  }
+})();
+(function(){
+  var MSG = 'Intellectual Property of Prof. Shihmin Lo';
+  var el = null, timer = null;
+  window.showCopyrightToast = function(){
+    if (!el) {
+      el = document.createElement('div');
+      el.style.cssText = 'position:fixed;left:50%;bottom:48px;transform:translateX(-50%);background:#004030;color:#D8C3A5;padding:10px 20px;border-radius:10px;font-family:Inter,sans-serif;font-size:13px;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.3);opacity:0;transition:opacity .25s';
+      el.textContent = MSG;
+      document.body.appendChild(el);
+    }
+    el.style.opacity = '1';
+    clearTimeout(timer);
+    timer = setTimeout(function(){ el.style.opacity = '0'; }, 2000);
+  };
+  document.addEventListener('contextmenu', function(e){
+    var tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || tag === 'select') return true;
+    if (window.getSelection().toString().trim().length > 0) return true;
+    e.preventDefault(); window.showCopyrightToast();
+  });
+  document.addEventListener('keydown', function(e){
+    var k = (e.key || '').toLowerCase();
+    if (e.key === 'F12') { e.preventDefault(); window.showCopyrightToast(); return; }
+    if (e.ctrlKey && k === 'u') { e.preventDefault(); window.showCopyrightToast(); return; }
+    if (e.ctrlKey && e.shiftKey && ['i','j','c'].indexOf(k) >= 0) { e.preventDefault(); window.showCopyrightToast(); return; }
+  });
+  document.addEventListener('dragstart', function(e){
+    if (e.target.tagName === 'IMG' || (e.target.closest && e.target.closest('svg'))) e.preventDefault();
+  });
+})();
+</script>
+
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+/* ================= Answer obfuscation ================= */
+const _SALT = 'W062026';
+const _e = (s, n) => {
+  const p = s + ':' + n; let r = '';
+  for (let i = 0; i < p.length; i++) r += String.fromCharCode(p.charCodeAt(i) ^ ((i + 7) * 3 & 0xFF));
+  return btoa(r);
+};
+const _d = (token) => {
+  const dec = atob(token); let r = '';
+  for (let i = 0; i < dec.length; i++) r += String.fromCharCode(dec.charCodeAt(i) ^ ((i + 7) * 3 & 0xFF));
+  return parseInt(r.split(':')[1], 10);
+};
+const _A0 = _e(_SALT,0), _A1 = _e(_SALT,1), _A2 = _e(_SALT,2), _A3 = _e(_SALT,3);
+
+/* ================= Module map =================
+   M0 概要 / M1 分工[G] / M2 Stage-Gate 定位[P] / M3 兩軸判定[P] / M4 語言[P]
+   M5 小組綜整[G] / M6 接到TP[G] / M7 簡報計畫[G] / M8 Lab / M9 資源 / M10 完成度
+================================================= */
+const NUM_LEARN = 7;
+const TOTAL = 1 + NUM_LEARN + 3;
+const IDX_LAB = NUM_LEARN + 1;
+const IDX_RES = NUM_LEARN + 2;
+const IDX_ANA = NUM_LEARN + 3;
+const MAX_MEMBERS = 10;
+const DEFAULT_MEMBERS = 6;
+const MEMBER_IDX = [...Array(MAX_MEMBERS).keys()];
+const PERSONAL_SECTIONS = [2,3,4];
+const GROUP_SECTIONS = [1,5,6,7];
+
+const STAGE_IDS = ['S1','S2','S3','S4','S5','S6'];
+const CASE_IDX = [0,1,2,3];
+const AXIS_VALS = ['PM','PjM','Undecidable'];
+const LEVEL_VALS = ['Specialist','Engineer','Junior','Senior','Director+','Undecidable'];
+
+/* ================= 四則合成職缺片段 =================
+   依 104 職缺頁欄位結構自行合成的複合範例，非任何真實職缺原文。
+   c0 真 PM｜c1 掛 PM 實為 PjM｜c2 資深｜c3 入門
+==================================================== */
+const CASES = [
+  { id: 0,
+    zh: { title: "案例 A｜產品經理（PM）・消費性儲存裝置",
+      rows: [
+        ["工作內容","負責外接式 SSD 產品線的產品藍圖與世代規劃；蒐集通路與終端使用者需求並彙整為市場需求文件；進行競品規格與定價帶分析，提出建議售價與毛利結構；與研發、品保共同定義產品規格書並主導規格定案會議；追蹤上市後銷售與退貨數據，於生命週期末期提出停產與庫存去化建議。"],
+        ["職務類別","產品企劃／產品管理師"],
+        ["管理責任","不需負擔管理責任"],
+        ["工作經歷","3 年以上"],
+        ["學歷／科系","大學以上；電子、資訊、企管相關"],
+        ["擅長工具／工作技能","試算表樞紐分析、市場調查、簡報製作"],
+        ["其他條件","需能以英文與海外通路直接溝通"]
+      ] },
+    en: { title: "Case A｜Product Manager (PM), Consumer Storage",
+      rows: [
+        ["Job description","Owns the roadmap and generation planning for the external SSD line; collects channel and end-user needs and turns them into a market requirement document; runs competitor specification and price-band analysis and proposes list price and margin structure; defines the product specification together with R&D and QA and chairs the spec freeze meeting; tracks post-launch sell-through and return rates, and proposes end-of-life timing and inventory clearance."],
+        ["Job category","Product planning / product management"],
+        ["Management duty","No direct reports"],
+        ["Experience","3 years or more"],
+        ["Education / major","Bachelor's or above; electronics, information or business"],
+        ["Tools / skills","Spreadsheet pivot analysis, market survey, presentation"],
+        ["Other requirements","Able to deal with overseas channels directly in English"]
+      ] } },
+  { id: 1,
+    zh: { title: "案例 B｜PM 專案管理師・車用電子事業處",
+      rows: [
+        ["工作內容","擔任客戶專案的單一窗口，負責專案時程規劃與里程碑管控；每週召開跨部門會議，協調研發、工程、採購與生產之間的資源調配；建立並維護工作分解結構與甘特圖，逐週追蹤各單位交付進度；辨識專案風險並提出因應方案；負責樣品送樣、交付驗收與客戶稽核的文件準備。"],
+        ["職務類別","專案管理師"],
+        ["管理責任","不需負擔管理責任"],
+        ["工作經歷","2 年以上"],
+        ["學歷／科系","大學以上；理工相關"],
+        ["擅長工具／工作技能","專案排程軟體、品質管理系統文件作業"],
+        ["其他條件","具汽車產業品質系統稽核經驗尤佳"]
+      ] },
+    en: { title: "Case B｜PM Project Management Specialist, Automotive Electronics",
+      rows: [
+        ["Job description","Acts as the single window for customer programmes; owns schedule planning and milestone control; chairs a weekly cross-functional meeting to coordinate resource allocation across R&D, engineering, purchasing and manufacturing; builds and maintains the work breakdown structure and Gantt chart and tracks each unit's delivery weekly; identifies programme risks and proposes countermeasures; prepares sample submission, delivery acceptance and customer audit documents."],
+        ["Job category","Project management"],
+        ["Management duty","No direct reports"],
+        ["Experience","2 years or more"],
+        ["Education / major","Bachelor's or above; engineering or science"],
+        ["Tools / skills","Project scheduling software, quality system documentation"],
+        ["Other requirements","Automotive quality system audit experience preferred"]
+      ] } },
+  { id: 2,
+    zh: { title: "案例 C｜產品處長 / Product Director・網通事業群",
+      rows: [
+        ["工作內容","綜理企業級交換器產品線的產品策略與產品線組合規劃，並對產品線損益負責；決定各世代產品的投入與退場時機以及資源配置；帶領 12 人產品管理團隊，設定年度目標並執行績效檢核；代表公司與策略客戶及晶片供應商進行技術與商務談判；於高階主管會議提報新產品提案並取得資源核准。"],
+        ["職務類別","產品經理、事業處主管"],
+        ["管理責任","需負擔管理責任；管理人數 10 至 30 人"],
+        ["工作經歷","10 年以上"],
+        ["學歷／科系","碩士以上；電機、資訊或商管相關"],
+        ["擅長工具／工作技能","損益分析、產品線組合規劃、商務談判"],
+        ["其他條件","需具跨國團隊管理經驗；英文精通"]
+      ] },
+    en: { title: "Case C｜Product Director, Networking Business Group",
+      rows: [
+        ["Job description","Owns product strategy and product-line portfolio planning for the enterprise switch line, and carries the line's profit and loss; decides entry and exit timing for each generation and allocates resources accordingly; leads a product management team of twelve, sets annual targets and runs performance reviews; represents the company in technical and commercial negotiation with strategic customers and chip suppliers; presents new product proposals to the executive committee and secures funding."],
+        ["Job category","Product manager, business unit head"],
+        ["Management duty","Direct reports required; 10 to 30 people"],
+        ["Experience","10 years or more"],
+        ["Education / major","Master's or above; EE, information or business"],
+        ["Tools / skills","P&L analysis, portfolio planning, commercial negotiation"],
+        ["Other requirements","Cross-border team management experience; fluent English"]
+      ] } },
+  { id: 3,
+    zh: { title: "案例 D｜產品管理專員（儲備幹部）",
+      rows: [
+        ["工作內容","協助產品經理蒐集市場與競品資料並彙整為週報；維護產品規格表與型錄內容，確認各通路上架資訊一致；依主管指示執行樣品寄送與展會準備；協助追蹤客戶問題單，回覆基本規格詢問；於在職期間學習產品開發流程各階段所需文件。"],
+        ["職務類別","產品企劃、行政助理"],
+        ["管理責任","不需負擔管理責任"],
+        ["工作經歷","經歷不拘，可接受應屆畢業生"],
+        ["學歷／科系","專科以上；科系不拘"],
+        ["擅長工具／工作技能","文書處理、試算表、線上文件協作"],
+        ["其他條件","個性細心、願意學習、可配合展會加班"]
+      ] },
+    en: { title: "Case D｜Product Management Associate (trainee)",
+      rows: [
+        ["Job description","Supports the product manager by collecting market and competitor information and compiling it into a weekly report; maintains specification sheets and catalogue content and checks that listings are consistent across channels; sends samples and prepares trade-show materials as instructed; helps track customer issue tickets and answers basic specification enquiries; learns the documents required at each stage of the development process while on the job."],
+        ["Job category","Product planning, administrative assistant"],
+        ["Management duty","No direct reports"],
+        ["Experience","Open; new graduates welcome"],
+        ["Education / major","Junior college or above; any major"],
+        ["Tools / skills","Word processing, spreadsheets, online document collaboration"],
+        ["Other requirements","Careful, willing to learn, available for trade-show overtime"]
+      ] } }
+];
+
+const sanitizeStudentId = (v) => v.replace(/[^0-9]/g, '').slice(0, 12);
+const sanitizeName = (v) => v.replace(/[<>"'&\\]/g, '').slice(0, 50);
+const sanitizeText = (v) => v.slice(0, 2000);
+
+/* ================= Icons ================= */
+const S = (p) => ({ width: p.size||20, height: p.size||20, viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:2, strokeLinecap:"round", strokeLinejoin:"round" });
+const IconMenu=(p)=><svg {...S(p)}><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>;
+const IconX=(p)=><svg {...S(p)}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>;
+const IconHome=(p)=><svg {...S(p)}><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>;
+const IconGlobe=(p)=><svg {...S(p)}><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>;
+const IconMoon=(p)=><svg {...S(p)}><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>;
+const IconSun=(p)=><svg {...S(p)}><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.2" y1="4.2" x2="5.6" y2="5.6"/><line x1="18.4" y1="18.4" x2="19.8" y2="19.8"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.2" y1="19.8" x2="5.6" y2="18.4"/><line x1="18.4" y1="5.6" x2="19.8" y2="4.2"/></svg>;
+const IconPlay=(p)=><svg {...S(p)}><polygon points="5 3 19 12 5 21 5 3"/></svg>;
+const IconPause=(p)=><svg {...S(p)}><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>;
+const IconSquare=(p)=><svg {...S(p)}><rect x="4" y="4" width="16" height="16" rx="2"/></svg>;
+const IconCheckCircle=(p)=><svg {...S(p)}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>;
+
+/* ================= Dictionary ================= */
+const dict = {
+  zh: {
+    brand: "PMCS",
+    title: "學習單 W6", subtitle: "PM 在 NPD 流程裡站在哪裡",
+    nav_modules: "單元目錄", nav_prev: "上一單元", nav_next: "下一單元", nav_home: "首頁",
+    key_terms: "隨手參考卡", flip_prompt: "點擊翻轉",
+    flip_status: "已讀 {read} / 已顯示 {shown} / 總計 {total}",
+    flip_next: "下一組", flip_retry: "重新開始",
+    audio_read: "語音導覽",
+    quiz_title: "課前自我檢核", quiz_status: "答對 {correct} / 已答 {answered} / 總計 {total}",
+    quiz_next: "下一組", quiz_retry: "重新測驗",
+    submit: "提交答案", correct: "正確", incorrect: "錯誤", explanation: "解析",
+    overview_label: "Overview 本節任務",
+    highlights_label: "Highlights 關鍵字",
+    deep_dive_label: "Deep Dive 填寫說明",
+    wrapup_label: "Wrap-up 檢查點",
+    badge_personal: "個人填寫・不繳交",
+    badge_group: "小組共同・隨小組版繳交",
+    saved_hint: "✍️ 填寫內容自動存在你這台電腦的瀏覽器裡；換裝置不會跟著走，請務必到「完成度與匯出」頁匯出檔案。",
+    required_label: "必讀教材", optional_label: "選讀教材（可撰寫為 BA）",
+    select_ph: "請選擇",
+
+    m0_nav: "0. 執行概要",
+    m0_title: "這份學習單怎麼用",
+    m0_intro: "這是 PMCS 課程 W6 的課前學習單。本週必讀教材兩份：PMA · 硬體／軟體產品管理互動教材（主教材，六個主題分頁），以及一支五分鐘的雙語短片 EP26。前幾週你處理的是工具與系統；這一週把鏡頭轉回人——PM 這個職稱到底站在什麼位置。要看清楚它，得同時用兩個獨立的軸：軸一是管理對象（管產品的是 PM，管專案的是 PjM），軸二是層級（產品專員、產品工程師、Junior、Senior、產品處長，一路到產品長）。兩個軸交叉，才組得出一格一格的地圖。另一半的工作是把 PM 放回 NPD 的 Stage-Gate 流程：六個階段裡，PM 的決定權在哪裡開始、又在哪一道 gate 之後交棒給 PjM。這份學習單分成個人層與小組層：第 2 到第 4 節每個人各填自己的、不繳交；第 5 節小組綜整比對六個人的判定差異，這一節才是小組討論真正的工作；第 6、7 節由小組共同決定。個人部分約四十分鐘，小組討論約四十分鐘。",
+    m0_why: "為什麼要用兩個軸，而不是一條線？",
+    m0_why_desc: "因為職稱會騙人，而且是單向地騙人：絕大多數的情況是名義上叫 PM、實際做的是 PjM 的工作，反過來的很少。如果你只用一條線排高低，看到「PM 專案管理工程師」就會不知道要放哪裡。改用兩個軸之後，這個職稱馬上有位置：管理對象那一軸落在 PjM，層級那一軸落在 Engineer。你要練的判定動作只有一個——不看職稱，看工作內容寫了什麼動詞。",
+    m0_stats: [
+      { val: "2", label: "個獨立的軸" },
+      { val: "6", label: "個 Stage-Gate 階段" },
+      { val: "4", label: "則職缺判定練習" },
+      { val: "40+40", label: "分鐘個人＋小組" }
+    ],
+    m0_modules: [
+      { num: "01", title: "小組與分工", desc: "登錄組別、成員，敲定 10 分鐘簡報的 Jigsaw 分工。", tag: "小組" },
+      { num: "02", title: "Stage-Gate 定位", desc: "挑一個你熟悉的產品，把 PM 在六個階段各做什麼決定寫出來。", tag: "個人" },
+      { num: "03", title: "兩軸判定", desc: "四則職缺片段，逐則判 PM／PjM 與層級，並引用工作內容原句作依據。", tag: "個人" },
+      { num: "04", title: "語言實驗室", desc: "五個新詞、三個難發音，供課堂與加分作業使用。", tag: "個人" },
+      { num: "05", title: "小組綜整", desc: "只挑三則比對六人的判定，找出差異最大的那一則並訂出組內通則。", tag: "小組" },
+      { num: "06", title: "接到期末專案", desc: "你們的晨報要給誰看？那個人要找的是 PM 還是 PjM、哪些層級？", tag: "小組" },
+      { num: "07", title: "簡報計畫", desc: "誰講哪一段、各幾秒，以及要丟給全班的那一個問題。", tag: "小組" }
+    ],
+    m0_start: "開始填寫 →",
+
+    stages: [
+      { id:"S1", n:"Marketing Plan & Proposal", zhn:"行銷計畫與提案", unit:"GM／Strategy・MKT／SA", phase:"Discover",
+        ph:"例：決定要不要立案。PM 在這裡判斷這個機會值不值得投資源，並把它寫成新產品提案。" },
+      { id:"S2", n:"Feasibility Specification", zhn:"可行性規格", unit:"PM・RD／DQA", phase:"Define",
+        ph:"例：決定三份 Spec 的內容——Marketing Spec、Design Spec、QA Spec，並主導規格定案。" },
+      { id:"S3", n:"Product Design Prototype", zhn:"產品設計與原型", unit:"RD／DQA", phase:"Develop",
+        ph:"例：規格已經定案，PM 在這裡決定變更要不要收——每一次改規格都會往後推時程與成本。" },
+      { id:"S4", n:"Tooling Validation & Engineering Sample", zhn:"模具驗證與工程樣品", unit:"TE／QA", phase:"Develop",
+        ph:"例：決定樣品的驗收標準與可接受的偏差，以及要不要為了外觀重開模具。" },
+      { id:"S5", n:"Engineering Pilot-Run & Reliability", zhn:"工程試產與可靠度", unit:"PE／PUR／PC／MC", phase:"Deliver",
+        ph:"例：決定量產前的良率門檻與可靠度測試要跑到什麼程度才放行。" },
+      { id:"S6", n:"Product Launch", zhn:"產品上市", unit:"MFG／QC／FAE／CS", phase:"Deliver",
+        ph:"例：決定上市時程、首批備貨量與定價，並訂出什麼情況要提前進入停產。" }
+    ],
+    axis_labels: { PM: "PM 產品經理（管產品）", PjM: "PjM 專案經理（管專案）", Undecidable: "無法判定" },
+    level_labels: { Specialist: "PM Specialist 產品專員", Engineer: "PM Engineer 產品工程師", Junior: "Junior PM", Senior: "Senior PM", "Director+": "PM Director 以上", Undecidable: "無法判定" },
+
+    m1_nav: "1. 小組與分工", m1_title: "小組與 Jigsaw 分工",
+    m1_overview: "先把行政資訊填好，並在小組討論時當場敲定簡報分工。本課程每次由兩組簡報，每組 10 分鐘，每位組員必須開口講 1 至 2 分鐘——這一節就是把「誰講哪一段、講幾秒」寫定，避免上台才在推派。",
+    m1_highlights: ["Jigsaw 協作","每人 1-2 分鐘","全組 10 分鐘","組員都要開口"],
+    m1_deep: "本週的素材剛好可以切成六份：兩個軸各一人、四則職缺案例各一人。也可以改成「Stage-Gate 前三階段」與「後三階段」兩人分講。把秒數寫下來，總長度才控制得住。",
+    m1_group: "組別", m1_date: "填寫日期",
+    m1_members_label: "組員與分工（用下方加減鈕調整人數，上限 10 人）",
+    m1_member_count: "目前 {n} 位組員",
+    m1_col_name: "姓名", m1_col_id: "學號", m1_col_part: "負責段落", m1_col_sec: "秒數",
+    m1_part_ph: "例：案例 B 的兩軸判定",
+    m1_total_sec: "目前規劃總長度",
+    m1_sec_warn: "超過 600 秒（10 分鐘），請壓縮。",
+    m1_sec_ok: "在 10 分鐘內，可行。",
+    m1_wrapup: "檢查點：每位出席組員都有分配到段落，且總秒數不超過 600。",
+
+    m2_nav: "2. Stage-Gate 定位", m2_title: "Stage-Gate 定位：PM 在六個階段各做什麼決定",
+    m2_overview: "本週的個人核心任務之一。挑一個你熟悉的產品——硬體軟體都可以，只要你講得出它長什麼樣、賣給誰——把它放進 NPD 的六個階段，逐格寫出「PM 在這一階段要做的決定」。寫「決定」不是寫「工作」：開會、追進度不是決定，選哪一個規格、砍哪一個功能、什麼時候放行才是。",
+    m2_highlights: ["六個階段","PM 的決定","Kick-off gate","Discover→Deliver"],
+    m2_deep: "接力的順序是 GM／Strategy → MKT／SA → PM → RD／DQA →〔NPD〕→ TE／QA → PE／PUR／PC／MC → MFG／QC／FAE／CS → EOL。注意 [NPD] 這個標記出現的位置：在它之前，做的是機會辨識、提案與可行性分析，產出是三份 Spec；在它之後，才是真正的開發執行。這條線就是 PM 與 PjM 的分界——PM 管到 Spec 定案，PjM 管定案之後的執行。所以最後一題不是背答案，是要你說出為什麼那道 gate 應該落在那裡；如果你把 kick off 畫在第一階段之前，等於承認提案還沒寫就開工了。",
+    m2_prod_label: "你挑的產品是什麼？（硬體軟體皆可，一句話講清楚它是什麼、賣給誰）",
+    m2_prod_ph: "例：一款給國小學童的英語聽力練習 App，賣給家長，走訂閱制。",
+    m2_why_label: "為什麼挑它？",
+    m2_why_ph: "例：我自己付錢用過兩年，看得到它每一版改了什麼，也知道它為什麼砍掉離線下載功能。",
+    m2_stage_hint: "填好哪一階段，上方流程圖的那一格就會亮起來。",
+    m2_gate_label: "你認為正式 kick off 的那道 gate 在哪兩個階段之間？為什麼？",
+    m2_gate_ph: "例：在 [2] 與 [3] 之間。因為三份 Spec 在 [2] 結束時才定案，定案前開工等於讓工程端追著會變的目標跑。",
+    m2_svg_cap: "NPD Stage-Gate 六階段與接力單位；正式 kick off 的 gate 落在 Spec 定案之後",
+    m2_terms: [
+      { front: "Stage-Gate", back: "把新產品開發切成數個階段，每兩個階段之間放一道 gate，通過才准往下走。gate 不是報告，是一次投資決策：繼續、修正、暫停或終止。" },
+      { front: "NPD 前端", back: "機會辨識與 BD → 新產品提案 → 可行性分析與 POC → 決定 Marketing Spec／Design Spec／QA Spec。這一段做完，才輪到正式 kick off。" },
+      { front: "Kick-off gate", back: "PM 與 PjM 的分界線。PM 管到 Spec 定案，PjM 管定案之後的執行；跨過這道 gate，主角就換人了。" },
+      { front: "PM vs PjM", back: "兩者的差別在管理對象，不在高低。PM 管的是產品，PjM 管的是專案——專案可以是一整個產品專案，也可以只是其中一部分。" },
+      { front: "RPM／TPM／OPM", back: "PjM 依主責單位分成研發端、工程端與生產端三種變體。它們是 PjM 的分支，不是與 PM 平行的另一條線。" },
+      { front: "三份 Spec", back: "Marketing Spec 說要賣給誰、賣什麼價；Design Spec 說要做成什麼樣；QA Spec 說做到什麼程度算合格。三份都定案，才叫 Spec 定案。" },
+      { front: "四段節奏", back: "Discover → Define → Develop → Deliver。六個階段可以收攏成這四段；愈往右，改一件事的代價愈高。" },
+      { front: "EOL", back: "End of Life，產品生命週期的終點。決定何時停產、庫存怎麼去化，同樣是 PM 的決定，不是業務或生產的決定。" }
+    ],
+    m2_q: [
+      { q: "NPD 專案正式 kick off 的那道 gate，落在哪兩個階段之間？", opts: ["在 [1] 行銷計畫提案與 [2] 可行性規格之間","在 [2] 可行性規格與 [3] 產品設計原型之間","在 [3] 產品設計原型與 [4] 模具驗證之間","在 [4] 模具驗證與 [5] 工程試產之間"], ans: _A1, exp: "前端要先做完提案與可行性分析，把 Marketing／Design／QA 三份 Spec 定案，才正式 kick off；[3] 之後才是真正的開發。" },
+      { q: "PM 與 PjM 的分界線，最準確的說法是下列哪一個？", opts: ["PM 管到 Spec 定案，PjM 管定案之後的執行","PM 管硬體產品，PjM 管軟體專案的開發","PM 層級高於 PjM，PjM 是 PM 的下屬職位","PM 負責對外溝通，PjM 負責對內的會議"], ans: _A0, exp: "兩者的差別在管理對象與交棒點，不在高低，也不在硬體軟體之分；分界就是 NPD 的 kick-off gate。" },
+      { q: "PDMA／NPDP 七大知識領域中，配分各占 20% 的是哪兩個領域？", opts: ["產品創新策略，以及產品創新管理","產品線組合管理，以及 PDD 工具","PI 流程，以及 PI 市場研究","文化團隊與領導，以及 PI 流程"], ans: _A0, exp: "策略 20%、PI 管理 20% 是全七領域中最重的兩塊；其餘為組合管理 10%、PI 流程 15%、PDD 工具 15%、市場研究 10%、文化團隊與領導 10%。" },
+      { q: "關於 PM 與 PjM 的職稱混用，下列敘述何者正確？", opts: ["多數是名義上叫 PM，實際做的是 PjM 的工作","多數是名義上叫 PjM，實際做的是 PM 的工作","兩個方向的混用比例大致相同，很難分辨","職稱與工作內容一致，混用的情形其實很少"], ans: _A0, exp: "混用是單向的：掛 PM 之名行 PjM 之實的很多，反過來很少。所以判定一律回去讀工作內容，不採信職稱。" }
+    ],
+    m2_wrapup: "檢查點：六個階段都寫了 PM 的具體決定，而且 kick off gate 的位置有寫出理由，不是只標一個位置。",
+
+    m3_nav: "3. 兩軸判定", m3_title: "兩軸判定：四則職缺片段",
+    m3_overview: "下面四則是依 104 職缺頁的欄位結構合成的複合範例，不是任何一則真實職缺的原文。逐則做兩件事：判它落在管理對象哪一軸、層級哪一格，然後——這一節真正的重點——寫出你是引用工作內容裡的哪一句話才這樣判的。職稱不算依據。",
+    m3_highlights: ["管理對象軸","層級軸","引用原句","職稱不算數"],
+    m3_deep: "偏 PM 的詞：產品藍圖、產品生命週期、產品損益、市場需求、競品分析、定價、規格定義、停產。偏 PjM 的詞：時程、里程碑、資源調配、風險管控、跨部門協調、進度追蹤、交付驗收、工作分解結構與甘特圖。層級則看三件事一起判：工作經歷欄的年資、管理責任欄有沒有寫要帶人、以及工作內容裡的動詞往哪邊倒——執行與協助是一層，協調與追蹤是一層，制定與決策又是一層，帶領團隊與負損益是最上面那一層。四則裡有一則的職稱和實質是矛盾的，也有一則的資訊少到你可以合理判「無法判定」——那不是逃避，那是誠實。",
+    m3_axis_label: "管理對象軸的判定",
+    m3_level_label: "層級軸的判定",
+    m3_evi_label: "依據：引用工作內容的哪一句讓你這樣判？",
+    m3_evi_ph: "例：因為工作內容寫「建立並維護工作分解結構與甘特圖，逐週追蹤各單位交付進度」，這是管專案不是管產品。",
+    m3_pattern_label: "四則看完，你觀察到什麼規律？",
+    m3_pattern_ph: "例：職稱裡有沒有 PM 兩個字跟實際做什麼幾乎無關；反而是「管理責任」欄和年資，比工作內容更快把層級定位出來。",
+    m3_count: "已完成判定的則數",
+    m3_wrapup: "檢查點：四則都做了兩軸判定，而且每一則的依據引用的是工作內容的原句，不是職稱。",
+
+    m4_nav: "4. 語言實驗室", m4_title: "EMI 語言實驗室",
+    m4_overview: "本課程是全英授課。從本週必讀教材中挑出五個新的詞彙或片語，以及三個你唸起來不順的字。這一節的產出直接用於課堂討論與加分作業。",
+    m4_highlights: ["新詞五個","難發音三個","自己的話","例句"],
+    m4_deep: "本週的教材詞彙密度很高，像 stage-gate、feasibility、tooling validation、pilot run、reliability、portfolio、end of life 都值得挑。「用自己的話解釋」不要抄原文定義——抄定義只證明你找得到，改寫才證明你讀懂了。例句請寫跟你的期末專案有關的句子，這樣同一份力氣可以用兩次。",
+    m4_terms_label: "五個新詞彙或片語",
+    m4_col_term: "詞彙／片語", m4_col_mean: "用自己的話解釋", m4_col_sent: "自己造一個句子",
+    m4_pron_label: "三個唸起來不順的字",
+    m4_col_word: "字", m4_col_hard: "難在哪裡", m4_col_tip: "你的記憶方法",
+    m4_wrapup: "檢查點：五個詞的解釋沒有一句是直接抄教材原文。",
+
+    m5_nav: "5. 小組綜整", m5_title: "小組綜整：六個人的判定差在哪裡",
+    m5_overview: "這一節才是小組討論真正的工作。不是輪流念自己的答案，而是把六個人對同一則案例的判定攤開來比——同樣一段工作內容，六個人可能判出三種結果。差異最大的那一則，通常就是判準最模糊的地方，而那正是你們要一起補起來的洞。",
+    m5_highlights: ["只挑三則","差異最大","判準模糊處","組內通則"],
+    m5_deep: "彙整方式有一條硬性規定：本週彙整人不得把六份個人匯出檔全部丟給 AI 叫它總結。要先由小組決定這一次只比對四則裡的哪三則，再只取那三則的六人份判定與依據。理由跟前幾週一樣——選取才是重點，全丟進去只會讓模型幫你們把差異抹平，而差異正是這一節要看的東西。訂通則時請訂成可以檢查的樣子：「看到哪一類詞就往哪一軸判」是可以檢查的，「要小心看內容」不是。",
+    m5_focus_label: "我們決定比對的三則案例（勾選三則）",
+    m5_focus_why: "為什麼略過剩下那一則？",
+    m5_focus_why_ph: "例：案例 C 六個人都判 PM／Director 以上，完全沒有分歧，比對不出東西。",
+    m5_diff_label: "六人判定差異最大的是哪一則？",
+    m5_why_label: "為什麼會判不同？",
+    m5_why_ph: "例：案例 D 的工作內容全是「協助」「依指示執行」，三個人抓「協助產品經理」判 PM，另外三個人認為資訊不足判無法判定。",
+    m5_case_label: "我們拿來重新判一次的是哪一則？重判後的結論是什麼？",
+    m5_case_ph: "例：案例 B。重判後全組一致判 PjM／Engineer，因為工作內容從頭到尾沒有出現任何一個跟產品損益或定價有關的動詞。",
+    m5_rule_label: "從這次比對，我們訂下一條組內通則",
+    m5_rule_ph: "例：本組判定一律先數詞——工作內容裡出現三個以上的時程類動詞就判 PjM，除非同時出現定價或損益，才回到 PM。",
+    m5_rule_note: "這條通則會累積到期末專案。W10 建 KB 時，這些通則就是 business_rules.md 的第一批內容。",
+    m5_wrapup: "檢查點：只比對了三則（不是全部丟給 AI），且訂出的通則是可以檢查的，不是「要小心看內容」這種。",
+
+    m6_nav: "6. 接到期末專案", m6_title: "接到期末專案：你們的晨報是寫給誰看的",
+    m6_overview: "每一份學習單都有這一節。這一週要決定的不是技術，是讀者。一份每天自己跑的 PM 職缺晨報，如果沒有指定讀者，抓回來的東西就會是一堆沒有立場的清單。先把人寫具體，篩選條件才有辦法定。",
+    m6_highlights: ["具體的讀者","PM 還是 PjM","層級全收","本週一件事"],
+    m6_deep: "讀者不能寫「想找工作的人」——那等於沒寫。要寫到一個你想像得出來的人與他的處境：大四下、投了十封沒有回音、只想留在中部、家裡希望他考公職但他想試試看科技業。有了這個人，你才知道晨報該把哪些職缺放前面。至於層級，本課的期末專案刻意規定層級全收不過濾：從產品專員一路到產品長都留下來，因為要讓你們看見完整的階梯——看得到 Senior 的門檻寫什麼，才知道 Junior 的自己還差哪幾格。過濾會讓階梯消失，那就失去了這份晨報最有價值的部分。",
+    m6_reader_label: "我們的晨報是給誰看的？（要具體到人與情境）",
+    m6_reader_ph: "例：大四下的資管系學生，投了十封履歷沒有回音，只想留在中部，正在猶豫要不要先進科技業做產品助理。",
+    m6_axis_label: "他要找的是 PM 還是 PjM？",
+    m6_level_label: "哪些層級要留下來？",
+    m6_level_ph: "例：全部留下來——Specialist、Engineer、Junior、Senior、Director 以上都收，讓他看得到整條階梯。",
+    m6_why_label: "為什麼？（把選擇對回那個人的處境）",
+    m6_why_ph: "例：他現在只投得上 Specialist，但看得到 Senior 的條件要求，才知道兩年後要補的是哪幾項技能。",
+    m6_action_label: "針對這個讀者，我們這一週要做的一件事",
+    m6_action_ph: "例：這週先手動抓 20 則中部的職缺，把它們照兩軸貼到一張表上，確認我們的判準真的分得開。",
+    m6_note: "本課的期末專案規定：層級全收不過濾，讓讀者看見完整階梯。你們可以決定排序，但不要在抓取階段就把層級砍掉。",
+    m6_wrapup: "檢查點：讀者寫的是具體的人與情境，而且 PM／PjM 與層級的選擇有對應到那個人的處境。",
+
+    m7_nav: "7. 簡報計畫", m7_title: "簡報計畫與提問",
+    m7_overview: "把第 1 節的分工變成可執行的腳本，並準備一個要丟給全班的問題。課堂上的 10 分鐘 Q&A 就是靠各組的問題撐起來的。",
+    m7_highlights: ["開場句","段落腳本","Menti 提問","10 分鐘"],
+    m7_deep: "開場句請用英文寫完整一句，不要只寫關鍵字——上台最卡的永遠是第一句。要丟給全班的問題請避開是非題；好的問題應該是同學必須先做一個判斷才能回答的，例如「如果一則職缺的職稱寫 PM，工作內容卻只有時程與進度，你會把它放進晨報的哪一區？」",
+    m7_open_label: "英文開場句（完整一句）",
+    m7_open_ph: "例：Six of us read the same job posting, and three of us called it PM while the other three called it PjM.",
+    m7_script_label: "段落腳本（每人一句話說明你要講的重點）",
+    m7_col_who: "誰", m7_col_point: "這一段的重點是什麼",
+    m7_question_label: "要丟給全班的一個問題（Menti 用）",
+    m7_question_ph: "例：If a posting is titled PM but every duty listed is about schedules and milestones, where would you file it in your morning brief, and why?",
+    m7_wrapup: "檢查點：開場句是完整的英文句子，且提問不是可以用「是／否」回答的問題。",
+
+    mlab_nav: "8. 互動實驗室", mlab_title: "互動實驗室",
+    mlab_desc: "四個小工具，幫你把第 2 到第 6 節的判斷做得更有把握，最後附一份課前自我檢核。這一頁不需要填寫，但操作紀錄會計入完成度。",
+    lab1_title: "① Stage-Gate 排序挑戰",
+    lab1_desc: "六個階段被打亂了，請把它們排回正確順序。排完再回答那個真正的問題：為什麼模具驗證要排在產品設計之後，而不是同時進行？",
+    lab1_slot: "第幾階段",
+    lab1_score: "排對 {n} / 6",
+    lab1_check: "看結果", lab1_reset: "重做",
+    lab1_ask: "為什麼 Tooling Validation 要排在 Product Design 之後？",
+    lab1_ask_ph: "寫下你的理由，按「看結果」後會出現對照說明。",
+    lab1_model: "對照說明：模具是照著已經定下來的設計去開的。設計還在變的時候開模，等於把一個會改的形狀刻進鋼裡——改一次模具的錢與時間，都比改一次圖檔貴上一到兩個數量級。所以順序不是習慣，是成本結構決定的：愈往右，改動愈貴，這也是為什麼 gate 要放在前面而不是後面。",
+    lab2_title: "② 兩軸分類器",
+    lab2_desc: "十二個真實出現過的職稱寫法。逐則判它落在管理對象哪一軸、層級哪一格。計分只算管理對象那一軸——層級欄給你一個參考位置，但別忘了層級真正要靠年資與管理責任欄才判得準。",
+    lab2_score: "管理對象判對 {n} / 12",
+    lab2_check: "看結果", lab2_reset: "重做",
+    lab2_ref: "參考答案",
+    lab2_items: [
+      { s:"PM產品管理師", a:"PM", l:"Engineer", e:"工作對象是產品，落在 PM 軸；「管理師」在多數公司對應到產品工程師這一格。" },
+      { s:"產品經理（PM）", a:"PM", l:"Junior", e:"最標準的寫法，PM 軸；未標資深或處長，先放 Junior 這一格。" },
+      { s:"Product Manager (PM)", a:"PM", l:"Junior", e:"英文標準寫法，PM 軸；同樣未帶層級修飾詞。" },
+      { s:"DRAM_產品管理師 PM", a:"PM", l:"Engineer", e:"前綴是產品線代號，不影響判定；仍是 PM 軸的產品工程師格。" },
+      { s:"產品管理專員／PM【OLED偏光片】", a:"PM", l:"Specialist", e:"「專員」是層級訊號，落在 PM 軸最下面那一格。" },
+      { s:"專案管理師 (PM)", a:"PjM", l:"Engineer", e:"括號裡的 PM 是縮寫習慣，實質是專案管理，落在 PjM 軸。" },
+      { s:"PM專案管理師／經理", a:"PjM", l:"Junior", e:"名稱裡同時有 PM 與專案管理，管理對象仍是專案；「經理」拉到 Junior 這一格。" },
+      { s:"PM專案管理工程師｜PM Engineer", a:"PjM", l:"Engineer", e:"典型的單向混用：掛 PM 之名，做的是專案管理，且明寫工程師層級。" },
+      { s:"工程專案管理－儲備PM", a:"PjM", l:"Specialist", e:"「儲備」是入門訊號；管理對象是工程專案，落在 PjM 軸。" },
+      { s:"業務專案管理師", a:"PjM", l:"Engineer", e:"管理對象是業務端的專案，不是產品；PjM 軸。" },
+      { s:"專案管理助理／PM助理", a:"PjM", l:"Specialist", e:"助理是最入門的一格，管理對象仍是專案。" },
+      { s:"Sales Operations Specialist（搜尋「PM 專案管理」跳出的第一筆）", a:"Undecidable", l:"Undecidable", e:"這是搜尋引擎的比對結果，不是 PM 也不是 PjM。看到這種就該回去讀工作內容——判不出來就寫判不出來。" }
+    ],
+    lab3_title: "③ PDMA 七領域配分猜測",
+    lab3_desc: "PDMA／NPDP 把新產品開發的知識切成七個領域，每個領域在認證裡有固定配分。先猜猜看各佔幾 %，加總應該是 100，按下對照就會顯示正確配分。",
+    lab3_check: "對照正確配分", lab3_reset: "重猜",
+    lab3_total: "你的加總",
+    lab3_yours: "你的猜測", lab3_answer: "正確配分", lab3_diff: "差距",
+    lab3_result: "七個領域裡，你猜到 {n} 個誤差在 3% 以內。",
+    lab3_note: "為什麼策略與 PI 管理各佔 20%？因為這兩塊是唯二會決定「做不做」與「做到什麼程度」的領域。策略決定要不要進這個市場、押哪一條產品線；PI 管理決定資源怎麼配、gate 怎麼過、誰有權喊停。其餘五個領域回答的是「怎麼做」，而怎麼做得好，前提是先做對的事——這也解釋了為什麼 PM 的重心在 Spec 定案之前。四種導向：商業導向（策略、產品線組合、市場研究）、技術導向（PI 流程、PDD 工具、PI 管理）、管理導向（文化團隊與領導）。",
+    lab3_items: [
+      { k:"strategy", n:"策略", pct:20 },
+      { k:"portfolio", n:"產品線組合管理", pct:10 },
+      { k:"process", n:"PI 流程", pct:15 },
+      { k:"tools", n:"PDD 工具", pct:15 },
+      { k:"research", n:"PI 市場研究", pct:10 },
+      { k:"culture", n:"文化團隊與領導", pct:10 },
+      { k:"mgmt", n:"PI 管理", pct:20 }
+    ],
+    lab4_title: "④ NPD 前端 vs 你的 TP 對照器",
+    lab4_desc: "NPD 前端的四個節點，在這門課的期末專案裡各對應到哪一週？點一個看對照。",
+    lab4_pick: "點選一個節點",
+    lab4_items: [
+      { k:"proposal", n:"New Product Proposal 新產品提案", tp:"W9 提案（前半）",
+        d:"對應到 W9 提案的前半段：說清楚要解決誰的什麼問題、為什麼值得做。在 NPD 裡這是 [1] 行銷計畫與提案的產物，還沒有人開始寫程式。" },
+      { k:"feasibility", n:"Feasibility Analysis／POC 可行性分析", tp:"W9 提案（後半）",
+        d:"對應到 W9 提案的後半段：先做一個小的可行性驗證，證明資料抓得到、判定分得開。這是 [2] 可行性規格的產物，產出是三份 Spec。" },
+      { k:"gate", n:"Gate 決策關卡", tp:"W9 提案通過的那一刻",
+        d:"你們的提案被接受的那一刻就是 gate。gate 不是報告完就過，它是一次投資決策：繼續、修正、暫停或終止四選一。" },
+      { k:"kickoff", n:"Kick-off 正式啟動", tp:"W10 開始建置",
+        d:"通過 gate 之後才 kick off，也就是 W10 才開始建知識庫與流程。在這之前就開始寫，等於讓自己追一個還會變的目標。" }
+    ],
+    lab5_title: "⑤ 課前自我檢核",
+    lab5_desc: "四題選擇題，確認你確實讀過本週必讀教材。答錯會顯示解析。",
+
+    mres_nav: "9. 學習資源", mres_title: "本週學習資源",
+    mres_desc: "必讀兩份，符合本課程規則：每週必讀 = 一份互動教材加上至多一支十分鐘內的短片。主教材有六個主題分頁，請都點過一遍再來填第 2、3 節。選讀不影響學習單，但寫成書面整理可計入加分作業。最後兩份 Coggle 圖是課堂用圖，不需課前細讀——但第 2 節填 Stage-Gate 六階段、第 3 節做兩軸判定時，開著對照會快很多。",
+    res_req: [
+      { label: "PMA · 硬體／軟體產品管理", url: "https://lolopodcast.github.io/PM-PO-PL-PCC/", desc: "本週主教材，也是第 2、3 節的直接依據。六個主題分頁涵蓋 PM 與 PjM 的區分、層級階梯與 NPD 流程，請逐頁看過。" },
+      { label: "EP26 · Learning for Competence Building（雙語短片）", url: "https://youtu.be/XQk_c0w80FQ", desc: "談能力是怎麼長出來的。先看它，再去讀主教材的層級階梯，會比較知道階梯每一格之間差的是什麼。" }
+    ],
+    res_opt: [
+      { label: "AI-native 產品開發工作坊：以 PM／PjM 身分 Vibe Coding", url: "https://lolopodcast.github.io/AI-EMI-Course-Vibe-Coding-as-a-PM-PjM/", desc: "把這一週的角色區分放進實作：同一個系統，用 PM 的身分做跟用 PjM 的身分做，關注的東西完全不同。" },
+      { label: "AICF · AI 素養共同語言平台", url: "https://lolopodcast.github.io/AICF-AI-Competency-Framework/", desc: "建立討論能力時的共同詞彙；談層級階梯時可以拿來對照。" },
+      { label: "JDKS · 從職缺描述到 K／S／A", url: "https://lolopodcast.github.io/JD-to-KSA/", desc: "下週的主教材，提前看有幫助：這一週你判 PM 或 PjM，下一週要把同一份職缺拆成知識、技能與態度。" },
+      { label: "PM 產品經理 · PDMA 七大知識領域", url: "https://lolopodcast.github.io/AI-Workshop-Hub/docs/PM-Product-Manager_PDMA-Knowledge-Areas_Coggle_SML_20250317.pdf", desc: "課堂用圖。以 PDMA／NPDP 七大知識領域拆解 PM 職能，含配分權重——看得出為什麼策略與 PI 管理各佔 20%。" },
+      { label: "NPD 新產品開發 · 階段關卡模型", url: "https://lolopodcast.github.io/AI-Workshop-Hub/docs/NPD_Stage-Gate-Model_Coggle_SML_20240312.pdf", desc: "課堂用圖。六階段與關卡，含跨部門接力與 EOL。第 2 節的直接依據。" }
+    ],
+
+    analytics_title: "完成度與匯出",
+    analytics_desc: "個人層與小組層分開匯出。個人版留給你自己，作為學習歷程檔案；小組版由本週彙整人上傳 Moodle。",
+    analytics_personal_title: "個人匯出（第 2、3、4 節・不繳交）",
+    analytics_personal_desc: "填好姓名即可匯出。這份檔案留給你自己，到 W10 建知識庫時再從中挑選要保留的部分。",
+    analytics_group_title: "小組匯出（第 1、5、6、7 節・繳交 Moodle）",
+    analytics_group_desc: "填好組別與本週彙整人即可匯出。CSV 與 Markdown 各一份，上傳至 Moodle 作業區。",
+    analytics_group: "組別", analytics_dept: "系級", analytics_dept_ph: "例：IBS1",
+    analytics_id: "學號", analytics_id_ph: "例：113212599",
+    analytics_name_en: "英文姓名", analytics_name_en_ph: "例：Shihmin Lo",
+    analytics_name_zh: "中文姓名", analytics_name_zh_ph: "例：王阿吉",
+    analytics_compiler: "本週彙整人", analytics_compiler_ph: "例：王阿吉",
+    analytics_export_personal: "匯出個人 Markdown",
+    analytics_export_csv: "匯出小組 CSV",
+    analytics_export_md: "匯出小組 Markdown",
+    analytics_need_personal: "請先填寫姓名",
+    analytics_need_group: "請先填寫組別與本週彙整人",
+    group_options: ["G1","G2","G3","G4","G5","G6","G7","G8","G9","G10","G11","G12","Others"],
+    analytics_pct_personal: "個人完成度", analytics_pct_group: "小組完成度",
+    analytics_total_time: "總填寫時間", analytics_overall_acc: "自我檢核答對率",
+    analytics_sec: "秒",
+    analytics_progress_title: "各節完成度",
+    analytics_wp_title: "尚未完成的節次",
+    analytics_wp_goto: "→ 前往填寫",
+    sdl_title: "先匯入你的 SDL 知識庫快照",
+    sdl_desc: "本週流程是：不使用 AI 手寫閱讀筆記 → 用 SDL 學習夥伴做蘇格拉底式對話 → 產出 KB.md → 在這裡匯入。匯入後會自動帶入你的身分欄位，並把 KB 的重點顯示在各節上方供你對照。這份學習單不是要你重想一遍，是把你已經想清楚的填成可比對的格式。",
+    sdl_ph: "把 SDL 產出的 KB.md 全文貼在這裡（含最上方的 --- frontmatter ---）",
+    sdl_parse: "解析並匯入",
+    sdl_file: "改用檔案上傳",
+    sdl_loaded: "✓ 已匯入 SDL KB",
+    sdl_clear: "清除並重新匯入",
+    sdl_ok: "匯入成功，身分欄位已自動帶入。",
+    sdl_err_empty: "內容是空的，請先貼上 KB.md 全文。",
+    sdl_err_format: "解析不出來。請確認貼的是 SDL 產出的 KB.md（開頭應該有 --- 的 frontmatter，內文有 §1 §2 等段落）。",
+    sdl_panel_title: "📖 你的 SDL KB 重點（對照用）",
+    sdl_panel_show: "展開",
+    sdl_panel_hide: "收合",
+    sdl_s1: "§1 本次學習摘要",
+    sdl_s2: "§2 知識綜整",
+    sdl_s4: "§4 學生親筆區塊",
+    sdl_s5: "§5 未解問題清單",
+    analytics_wp_personal_head: "個人層（你自己要填）",
+    analytics_wp_personal_done: "個人層已全部完成。",
+    analytics_wp_group_head: "小組層（小組討論時共同決定）",
+    analytics_wp_group_note: "若你不是本週彙整人，這幾節維持 0% 是正常的——個人匯出不受影響。",
+    analytics_wp_group_done: "小組層已全部完成。",
+    analytics_wp_allpass: "七節全部填寫完成，可以匯出了。",
+    analytics_wp_saved: "填寫內容已自動儲存於本機瀏覽器",
+    analytics_wp_clear: "🗑 清除全部",
+    analytics_wp_clear_confirm: "確定要清除所有填寫內容與歷程嗎？此操作無法復原，建議先匯出。",
+    analytics_wp_tts_intro: "以下是尚未完成的節次。",
+    analytics_wp_tts_module: "{name}，完成度 {acc}%。",
+    analytics_wp_tts_allpass: "七節全部填寫完成。",
+
+    date: "Version 2026.08.23",
+    copyright: "For Educational Use Only",
+    architect_label: "Architect:",
+    architect_url: "https://www.ibs.ncnu.edu.tw/index.php/faculty/tenured-professor/299-smlo"
+  },
+
+  en: {
+    brand: "PMCS",
+    title: "Worksheet W6", subtitle: "Where the PM Stands in the NPD Process",
+    nav_modules: "Contents", nav_prev: "Previous", nav_next: "Next", nav_home: "Home",
+    key_terms: "Quick Reference Cards", flip_prompt: "Click to flip",
+    flip_status: "Read {read} / Shown {shown} / Total {total}",
+    flip_next: "Next", flip_retry: "Restart",
+    audio_read: "Audio Guide",
+    quiz_title: "Pre-Class Self-Check", quiz_status: "Correct {correct} / Answered {answered} / Total {total}",
+    quiz_next: "Next", quiz_retry: "Retry",
+    submit: "Submit", correct: "Correct", incorrect: "Incorrect", explanation: "Explanation",
+    overview_label: "Overview",
+    highlights_label: "Highlights",
+    deep_dive_label: "Deep Dive",
+    wrapup_label: "Wrap-up",
+    badge_personal: "Individual · not submitted",
+    badge_group: "Group · submitted with the group file",
+    saved_hint: "✍️ Your entries are saved in this browser on this computer only. They do not travel with you — always export from the Completion & Export page.",
+    required_label: "Required Materials", optional_label: "Optional Materials (eligible for BA)",
+    select_ph: "Select",
+
+    m0_nav: "0. Executive Summary",
+    m0_title: "How to Use This Worksheet",
+    m0_intro: "This is the pre-class worksheet for W6 of PMCS. Two required materials this week: PMA · Hardware / Software Product Management (the main one, six themed tabs) and a five-minute bilingual video, EP26. Earlier weeks dealt with tools and systems; this week the camera turns back to people — where does the title PM actually sit? Seeing it clearly takes two independent axes at once. Axis one is what you manage: a PM manages a product, a PjM manages a project. Axis two is level: PM Specialist, PM Engineer, Junior PM, Senior PM, PM Director, all the way up to CPO. Cross the two and you get a map of cells rather than a single ladder. The other half of the work is putting the PM back into the NPD stage-gate flow: across six stages, where does the PM's decision right begin, and at which gate does it hand over to the PjM? This worksheet has an individual layer and a group layer: sections 2 to 4 are filled by each person and are not submitted; section 5 is where the group compares how differently six people called the same case, and that comparison is the real work of the discussion; sections 6 and 7 are decided together. Roughly forty minutes individually, forty minutes as a group.",
+    m0_why: "Why two axes rather than one ladder?",
+    m0_why_desc: "Because titles lie, and they lie in one direction only: the overwhelming pattern is being called a PM while actually doing PjM work, almost never the reverse. If you only have a single ladder, a posting titled \"PM Project Management Engineer\" has nowhere to go. With two axes it lands immediately: on the what-you-manage axis it is PjM, on the level axis it is Engineer. The move you are practising here is a single one — ignore the title, read the verbs in the job description.",
+    m0_stats: [
+      { val: "2", label: "independent axes" },
+      { val: "6", label: "stage-gate stages" },
+      { val: "4", label: "posting calls to make" },
+      { val: "40+40", label: "minutes individual + group" }
+    ],
+    m0_modules: [
+      { num: "01", title: "Group & Roles", desc: "Register your group and members, and settle the jigsaw split for the 10-minute presentation.", tag: "Group" },
+      { num: "02", title: "Stage-Gate Positioning", desc: "Pick a product you know and write the decision a PM makes at each of the six stages.", tag: "Individual" },
+      { num: "03", title: "Two-Axis Calls", desc: "Four posting extracts: call PM or PjM and the level, quoting the job description as evidence.", tag: "Individual" },
+      { num: "04", title: "Language Lab", desc: "Five new terms and three hard words, for class discussion and bonus work.", tag: "Individual" },
+      { num: "05", title: "Group Synthesis", desc: "Compare only three of the four cases across six people, and set one checkable group rule.", tag: "Group" },
+      { num: "06", title: "Bridge to Your TP", desc: "Who reads your morning brief? Is that person after a PM or a PjM, and at which levels?", tag: "Group" },
+      { num: "07", title: "Presentation Plan", desc: "Who speaks about what, for how many seconds, plus one question for the class.", tag: "Group" }
+    ],
+    m0_start: "Start →",
+
+    stages: [
+      { id:"S1", n:"Marketing Plan & Proposal", zhn:"Marketing Plan & Proposal", unit:"GM／Strategy · MKT／SA", phase:"Discover",
+        ph:"e.g. Decide whether this is worth opening at all. The PM judges whether the opportunity deserves resources and writes it up as a new product proposal." },
+      { id:"S2", n:"Feasibility Specification", zhn:"Feasibility Specification", unit:"PM · RD／DQA", phase:"Define",
+        ph:"e.g. Decide the content of the three specs — marketing, design and QA — and chair the spec freeze." },
+      { id:"S3", n:"Product Design Prototype", zhn:"Product Design Prototype", unit:"RD／DQA", phase:"Develop",
+        ph:"e.g. The spec is frozen, so the PM decides which change requests are accepted — each one pushes schedule and cost out." },
+      { id:"S4", n:"Tooling Validation & Engineering Sample", zhn:"Tooling Validation & Engineering Sample", unit:"TE／QA", phase:"Develop",
+        ph:"e.g. Decide the acceptance criteria and tolerable deviation for samples, and whether cosmetics justify recutting a tool." },
+      { id:"S5", n:"Engineering Pilot-Run & Reliability", zhn:"Engineering Pilot-Run & Reliability", unit:"PE／PUR／PC／MC", phase:"Deliver",
+        ph:"e.g. Decide the yield threshold before mass production and how far reliability testing must run before release." },
+      { id:"S6", n:"Product Launch", zhn:"Product Launch", unit:"MFG／QC／FAE／CS", phase:"Deliver",
+        ph:"e.g. Decide launch timing, first-batch stocking and pricing, and the conditions that trigger an early end of life." }
+    ],
+    axis_labels: { PM: "PM — manages a product", PjM: "PjM — manages a project", Undecidable: "Cannot tell" },
+    level_labels: { Specialist: "PM Specialist", Engineer: "PM Engineer", Junior: "Junior PM", Senior: "Senior PM", "Director+": "PM Director or above", Undecidable: "Cannot tell" },
+
+    m1_nav: "1. Group & Roles", m1_title: "Group and Jigsaw Roles",
+    m1_overview: "Fill in the administrative details first, then settle the presentation split during group discussion. Two groups present each week for 10 minutes, and every member must speak for one to two minutes — this section pins down who covers what and for how long, so nobody is being volunteered at the podium.",
+    m1_highlights: ["Jigsaw collaboration","1-2 min each","10 min per group","Everyone speaks"],
+    m1_deep: "This week's material splits cleanly into six: one person per axis and one per case. An alternative split is two speakers on the stage-gate flow, one taking stages one to three and the other four to six. Write the seconds down — that is the only way the total stays under control.",
+    m1_group: "Group", m1_date: "Date",
+    m1_members_label: "Members and roles (use the buttons below to set the size, up to 10)",
+    m1_member_count: "{n} members",
+    m1_col_name: "Name", m1_col_id: "Student ID", m1_col_part: "Assigned part", m1_col_sec: "Seconds",
+    m1_part_ph: "e.g. The two-axis call on Case B",
+    m1_total_sec: "Planned total length",
+    m1_sec_warn: "Over 600 seconds (10 minutes) — trim it down.",
+    m1_sec_ok: "Within 10 minutes. Workable.",
+    m1_wrapup: "Checkpoint: every attending member has an assigned part, and the total stays under 600 seconds.",
+
+    m2_nav: "2. Stage-Gate Positioning", m2_title: "Stage-Gate Positioning: The PM's Decision at Each Stage",
+    m2_overview: "One of this week's two individual core tasks. Pick a product you know well — hardware or software, as long as you can describe what it is and who buys it — drop it into the six NPD stages, and write the decision a PM has to make at each one. A decision is not an activity: holding a meeting or chasing progress is not a decision; choosing a specification, cutting a feature, or releasing to the next stage is.",
+    m2_highlights: ["Six stages","The PM's decision","Kick-off gate","Discover→Deliver"],
+    m2_deep: "The relay runs GM／Strategy → MKT／SA → PM → RD／DQA → [NPD] → TE／QA → PE／PUR／PC／MC → MFG／QC／FAE／CS → EOL. Watch where the [NPD] marker sits. Before it come opportunity identification, the proposal and feasibility analysis, and the output is three specs. Only after it does real development begin. That line is the PM／PjM boundary: the PM owns everything up to spec freeze, the PjM owns execution after it. So the last question is not a memory test — you have to say why the gate belongs where you put it. If you draw kick-off before the first stage, you are admitting that work began before the proposal was even written.",
+    m2_prod_label: "Which product did you pick? (hardware or software; one sentence on what it is and who buys it)",
+    m2_prod_ph: "e.g. An English listening-practice app for primary school pupils, sold to parents on subscription.",
+    m2_why_label: "Why that one?",
+    m2_why_ph: "e.g. I have paid for it myself for two years, I can see what changed in every release, and I know why offline download was cut.",
+    m2_stage_hint: "Fill in a stage and its cell lights up in the diagram above.",
+    m2_gate_label: "Between which two stages does the formal kick-off gate sit, and why?",
+    m2_gate_ph: "e.g. Between [2] and [3], because the three specs are only frozen at the end of [2]; starting earlier makes engineering chase a target that is still moving.",
+    m2_svg_cap: "The six NPD stage-gate stages and the units that carry them; the formal kick-off gate sits after spec freeze",
+    m2_terms: [
+      { front: "Stage-Gate", back: "New product development cut into stages, with a gate between each pair that must be passed before work continues. A gate is not a report — it is an investment decision: go, revise, hold or kill." },
+      { front: "The NPD front end", back: "Opportunity identification and BD → new product proposal → feasibility analysis and POC → deciding the marketing, design and QA specs. Only when this is finished does formal kick-off happen." },
+      { front: "Kick-off gate", back: "The boundary between PM and PjM. The PM owns everything up to spec freeze; the PjM owns execution after it. Cross this gate and the lead role changes hands." },
+      { front: "PM vs PjM", back: "The difference is what they manage, not rank. A PM manages a product; a PjM manages a project — which may be a whole product programme or only one part of one." },
+      { front: "RPM／TPM／OPM", back: "PjM variants by owning unit: R&D side, engineering side and production side. They are branches of PjM, not a separate line running parallel to PM." },
+      { front: "The three specs", back: "The marketing spec says who buys it and at what price; the design spec says what it must be; the QA spec says what counts as good enough. Spec freeze means all three are settled." },
+      { front: "The four beats", back: "Discover → Define → Develop → Deliver. The six stages collapse into these four; the further right you go, the more a change costs." },
+      { front: "EOL", back: "End of life. Deciding when to stop production and how to clear inventory is a PM decision too — not a sales or a manufacturing one." }
+    ],
+    m2_q: [
+      { q: "Between which two stages does the formal NPD kick-off gate sit?", opts: ["Between [1] Marketing Plan and [2] Feasibility Spec","Between [2] Feasibility Spec and [3] Product Design","Between [3] Product Design and [4] Tooling Validation","Between [4] Tooling Validation and [5] Pilot-Run"], ans: _A1, exp: "The front end must finish the proposal and the feasibility analysis and freeze the marketing, design and QA specs before formal kick-off; real development starts at [3]." },
+      { q: "Which statement draws the PM／PjM boundary most accurately?", opts: ["PM owns the spec until freeze; PjM owns execution after that","PM owns hardware products, while PjM owns software projects only","PM outranks PjM, and every PjM reports to a PM in that line","PM handles outside parties, while PjM handles internal meetings"], ans: _A0, exp: "The difference lies in what is managed and where the handover happens — not in rank, and not in hardware versus software. The boundary is the NPD kick-off gate." },
+      { q: "In the seven PDMA／NPDP knowledge areas, which two are weighted at 20% each?", opts: ["Strategy, and product innovation management","Portfolio management, and PDD tools and metrics","The PI process, and PI market research work","Culture and teams, and the PI process itself"], ans: _A0, exp: "Strategy at 20% and PI management at 20% are the two heaviest; the rest are portfolio 10%, PI process 15%, PDD tools 15%, market research 10%, culture and teams 10%." },
+      { q: "Which statement about mixed PM／PjM titles is correct?", opts: ["Most are called PM but actually do PjM work","Most are called PjM but actually do PM work","Both directions occur at roughly equal rates","Titles and duties match, so mislabelling is rare"], ans: _A0, exp: "The mix-up runs one way: plenty of PjM work carries a PM title, but rarely the reverse. So every call goes back to the job description, never the title." }
+    ],
+    m2_wrapup: "Checkpoint: all six stages carry a concrete PM decision, and the kick-off gate comes with a stated reason rather than just a marked position.",
+
+    m3_nav: "3. Two-Axis Calls", m3_title: "Two-Axis Calls: Four Posting Extracts",
+    m3_overview: "The four extracts below are composite examples built from the field structure of a job board page. None of them reproduces the wording of any real posting. For each one do two things: place it on the what-you-manage axis and on the level axis, and then — the real point of this section — write which sentence in the job description made you call it that way. A job title is not evidence.",
+    m3_highlights: ["What is managed","Level","Quote the line","Titles do not count"],
+    m3_deep: "Words that lean PM: roadmap, product life cycle, product P&L, market requirement, competitor analysis, pricing, specification definition, end of life. Words that lean PjM: schedule, milestone, resource allocation, risk control, cross-functional coordination, progress tracking, delivery acceptance, work breakdown structure and Gantt chart. Level takes three signals together: the years in the experience field, whether the management-duty field asks for direct reports, and which way the verbs in the job description lean — assist and execute is one band, coordinate and track another, define and decide another, and lead a team while carrying the P&L is the top one. One of the four extracts has a title that contradicts its substance, and one carries so little information that \"cannot tell\" is a defensible call — that is honesty, not evasion.",
+    m3_axis_label: "Call on the what-you-manage axis",
+    m3_level_label: "Call on the level axis",
+    m3_evi_label: "Evidence: which sentence in the job description made you call it that way?",
+    m3_evi_ph: "e.g. Because the description says it \"builds and maintains the work breakdown structure and Gantt chart and tracks each unit's delivery weekly\" — that is managing a project, not a product.",
+    m3_pattern_label: "Having read all four, what pattern do you see?",
+    m3_pattern_ph: "e.g. Whether the title contains the letters PM says almost nothing about the work; the management-duty field and the years of experience pin the level down faster than the description does.",
+    m3_count: "Cases called",
+    m3_wrapup: "Checkpoint: all four cases carry both calls, and each piece of evidence quotes a line from the job description rather than the title.",
+
+    m4_nav: "4. Language Lab", m4_title: "EMI Language Lab",
+    m4_overview: "This course is taught in English. Pick five new words or phrases from this week's required materials, plus three words you stumble over. What you produce here feeds class discussion and bonus work directly.",
+    m4_highlights: ["Five new terms","Three hard words","In your own words","Example sentences"],
+    m4_deep: "This week's material is dense in vocabulary: stage-gate, feasibility, tooling validation, pilot run, reliability, portfolio and end of life are all worth taking. Do not copy the source definition into the \"in your own words\" column — copying proves only that you found it; rewriting proves you understood it. Write the example sentences about your own Term Project so one effort does two jobs.",
+    m4_terms_label: "Five new words or phrases",
+    m4_col_term: "Term / phrase", m4_col_mean: "In your own words", m4_col_sent: "Your own sentence",
+    m4_pron_label: "Three words you stumble over",
+    m4_col_word: "Word", m4_col_hard: "What makes it hard", m4_col_tip: "Your memory trick",
+    m4_wrapup: "Checkpoint: not one of the five explanations is copied verbatim from the source.",
+
+    m5_nav: "5. Group Synthesis", m5_title: "Group Synthesis: Where Six Calls Diverge",
+    m5_overview: "This section is the real work of the group discussion. Not taking turns reading out your answers, but laying six calls on the same case side by side — the same paragraph of duties can produce three different verdicts. The case with the widest spread is usually where your criteria are vaguest, and that is the hole you fill together.",
+    m5_highlights: ["Only three cases","Widest spread","Vague criteria","A group rule"],
+    m5_deep: "One rule is mandatory here: this week's compiler must NOT dump all six individual exports into an AI and ask for a summary. The group first decides which three of the four cases to compare, then takes only those three calls and their evidence from each member. The reason is the same as in earlier weeks — selection is the point, and dumping everything in simply lets the model smooth the disagreement away, when disagreement is exactly what this section exists to look at. Write the rule so it can be checked: \"this family of words sends the call to that axis\" is checkable; \"read the content carefully\" is not.",
+    m5_focus_label: "The three cases we chose to compare (tick three)",
+    m5_focus_why: "Why did we skip the remaining one?",
+    m5_focus_why_ph: "e.g. All six of us called Case C PM at director level with no disagreement at all, so there was nothing to compare.",
+    m5_diff_label: "Which case produced the widest spread across the six of us?",
+    m5_why_label: "Why did we call it differently?",
+    m5_why_ph: "e.g. Case D is all \"assist\" and \"as instructed\"; three of us seized on \"supports the product manager\" and called PM, while three called it undecidable for lack of information.",
+    m5_case_label: "Which case did we re-call together, and what did we conclude?",
+    m5_case_ph: "e.g. Case B. On the second pass all six agreed on PjM at engineer level, because not one verb in the description touches pricing or P&L.",
+    m5_rule_label: "From this comparison, our group sets one rule",
+    m5_rule_ph: "e.g. We count words first: three or more schedule verbs in the description sends it to PjM, unless pricing or P&L also appears, which sends it back to PM.",
+    m5_rule_note: "These rules accumulate towards the Term Project. When you build the KB in W10, they become the first entries of business_rules.md.",
+    m5_wrapup: "Checkpoint: only three cases were compared (nothing was dumped wholesale into an AI), and the rule you set is checkable rather than \"read the content carefully\".",
+
+    m6_nav: "6. Bridge to Your TP", m6_title: "Bridge to Your TP: Who Is the Morning Brief For?",
+    m6_overview: "Every worksheet carries this section. What you decide this week is not technical — it is the reader. A daily unattended PM job brief with no named reader produces a list with no point of view. Name the person first; only then can the filters be defined.",
+    m6_highlights: ["A named reader","PM or PjM","All levels kept","One action this week"],
+    m6_deep: "\"People looking for a job\" is not a reader. Write someone you can actually picture, in a situation: final-semester senior, ten applications with no reply, wants to stay in central Taiwan, family pushing the civil service exam while they would rather try the tech sector. With that person in view you know which postings belong at the top of the brief. On levels, this course deliberately requires the Term Project to keep every level and filter none out: from specialist all the way to CPO, everything stays, because the point is to let readers see the whole ladder — you only learn what you are missing as a junior by reading what a senior posting demands. Filtering makes the ladder disappear, and with it the most valuable thing this brief has to offer.",
+    m6_reader_label: "Who is our morning brief for? (be specific about the person and the situation)",
+    m6_reader_ph: "e.g. A final-semester information management student, ten applications with no reply, wants to stay in central Taiwan, unsure whether to start as a product assistant in the tech sector.",
+    m6_axis_label: "Is that person after a PM or a PjM?",
+    m6_level_label: "Which levels do we keep?",
+    m6_level_ph: "e.g. All of them — specialist, engineer, junior, senior and director and above — so the whole ladder stays visible.",
+    m6_why_label: "Why? (tie the choice back to that person's situation)",
+    m6_why_ph: "e.g. Right now they can only reach specialist postings, but seeing what a senior posting demands tells them which skills to build over the next two years.",
+    m6_action_label: "One action we will take this week for that reader",
+    m6_action_ph: "e.g. Pull twenty central-Taiwan postings by hand this week and place them on the two axes in one table, to check that our criteria actually separate them.",
+    m6_note: "Course rule for the Term Project: keep every level, filter none out, so the reader sees the whole ladder. You may rank them, but do not drop levels at the collection stage.",
+    m6_wrapup: "Checkpoint: the reader is a specific person in a specific situation, and the PM／PjM and level choices map back to that person's circumstances.",
+
+    m7_nav: "7. Presentation Plan", m7_title: "Presentation Plan and Question",
+    m7_overview: "Turn section 1's split into a runnable script, and prepare one question to put to the class. The 10-minute Q&A is carried entirely by the questions each group brings.",
+    m7_highlights: ["Opening line","Segment script","Menti question","10 minutes"],
+    m7_deep: "Write the opening line as a complete English sentence, not as keywords — the first sentence is always the one that jams. Avoid yes-or-no questions for the class; a good question forces a judgement first, for example: if a posting is titled PM but lists only schedules and progress, which part of your brief does it belong in?",
+    m7_open_label: "English opening line (one complete sentence)",
+    m7_open_ph: "e.g. Six of us read the same job posting, and three of us called it PM while the other three called it PjM.",
+    m7_script_label: "Segment script (one sentence per speaker on the point they will make)",
+    m7_col_who: "Speaker", m7_col_point: "The point of this segment",
+    m7_question_label: "One question for the class (for Menti)",
+    m7_question_ph: "e.g. If a posting is titled PM but every duty listed is about schedules and milestones, where would you file it in your morning brief, and why?",
+    m7_wrapup: "Checkpoint: the opening line is a complete English sentence, and the question cannot be answered with yes or no.",
+
+    mlab_nav: "8. Interactive Lab", mlab_title: "Interactive Lab",
+    mlab_desc: "Four small tools to sharpen the judgements you made in sections 2 to 6, plus a pre-class self-check at the end. Nothing here needs filling in, but your activity counts towards completion.",
+    lab1_title: "① Stage-Gate Ordering Challenge",
+    lab1_desc: "The six stages have been shuffled. Put them back in order, then answer the question that actually matters: why does tooling validation come after product design rather than alongside it?",
+    lab1_slot: "Position",
+    lab1_score: "Correct {n} / 6",
+    lab1_check: "Check", lab1_reset: "Reset",
+    lab1_ask: "Why must tooling validation come after product design?",
+    lab1_ask_ph: "Write your reasoning; the reference note appears once you press Check.",
+    lab1_model: "Reference note: a tool is cut to match a design that has already been settled. Cutting steel while the design is still moving carves a shape that is about to change — and a tooling change costs one to two orders of magnitude more, in money and in weeks, than a change to a drawing. The order is not habit, it is cost structure: the further right you go, the more expensive change becomes, which is also why gates sit at the front rather than the back.",
+    lab2_title: "② Two-Axis Classifier",
+    lab2_desc: "Twelve title formats that really appear on job boards. Place each one on the what-you-manage axis and the level axis. Scoring counts the first axis only — the level column gives you a reference position, but remember that level is really pinned down by years of experience and the management-duty field.",
+    lab2_score: "First axis correct {n} / 12",
+    lab2_check: "Check", lab2_reset: "Reset",
+    lab2_ref: "Reference",
+    lab2_items: [
+      { s:"PM Product Management Specialist (PM產品管理師)", a:"PM", l:"Engineer", e:"What is managed is a product, so the PM axis; \"management specialist\" maps to the product engineer cell in most companies." },
+      { s:"Product Manager (產品經理（PM）)", a:"PM", l:"Junior", e:"The standard formulation, PM axis; no seniority modifier, so the junior cell for now." },
+      { s:"Product Manager (PM)", a:"PM", l:"Junior", e:"The standard English formulation, PM axis, again with no level modifier attached." },
+      { s:"DRAM_Product Management Specialist PM", a:"PM", l:"Engineer", e:"The prefix names a product line and changes nothing; still the product engineer cell on the PM axis." },
+      { s:"Product Management Associate / PM (OLED polariser)", a:"PM", l:"Specialist", e:"\"Associate\" is the level signal, landing in the bottom cell of the PM axis." },
+      { s:"Project Management Specialist (PM)", a:"PjM", l:"Engineer", e:"The PM in brackets is an abbreviation habit; the substance is project management, so the PjM axis." },
+      { s:"PM Project Management Specialist / Manager", a:"PjM", l:"Junior", e:"The name carries both PM and project management, but what is managed is still a project; \"manager\" lifts it to the junior cell." },
+      { s:"PM Project Management Engineer | PM Engineer", a:"PjM", l:"Engineer", e:"The classic one-way mix-up: a PM title over project management work, with the engineer level stated outright." },
+      { s:"Engineering Project Management - trainee PM", a:"PjM", l:"Specialist", e:"\"Trainee\" is an entry signal; what is managed is an engineering project, so the PjM axis." },
+      { s:"Sales Project Management Specialist", a:"PjM", l:"Engineer", e:"What is managed is a sales-side project rather than a product, so the PjM axis." },
+      { s:"Project Management Assistant / PM Assistant", a:"PjM", l:"Specialist", e:"Assistant is the most entry-level cell, and what is managed is still a project." },
+      { s:"Sales Operations Specialist (first hit when searching \"PM project management\")", a:"Undecidable", l:"Undecidable", e:"This is a search-engine match, neither PM nor PjM. When you see one, go back to the job description — and if it still will not resolve, say so." }
+    ],
+    lab3_title: "③ PDMA Seven-Area Weighting Guess",
+    lab3_desc: "PDMA／NPDP divides new product development knowledge into seven areas, each with a fixed weight in the certification. Guess the percentages — they should total 100 — then reveal the official weighting.",
+    lab3_check: "Reveal the weighting", lab3_reset: "Guess again",
+    lab3_total: "Your total",
+    lab3_yours: "Your guess", lab3_answer: "Official", lab3_diff: "Gap",
+    lab3_result: "You landed within 3 percentage points on {n} of the seven areas.",
+    lab3_note: "Why are strategy and PI management 20% each? Because they are the only two areas that settle whether a thing gets done and how far it gets. Strategy decides which market to enter and which line to bet on; PI management decides how resources are allocated, how a gate is passed, and who has the authority to stop. The other five answer how to do it well — and doing it well presupposes doing the right thing first, which is also why the PM's centre of gravity sits before spec freeze. Four orientations: business (strategy, portfolio, market research), technical (PI process, PDD tools, PI management) and managerial (culture, teams and leadership).",
+    lab3_items: [
+      { k:"strategy", n:"Strategy", pct:20 },
+      { k:"portfolio", n:"Portfolio management", pct:10 },
+      { k:"process", n:"PI process", pct:15 },
+      { k:"tools", n:"PDD tools", pct:15 },
+      { k:"research", n:"PI market research", pct:10 },
+      { k:"culture", n:"Culture, teams and leadership", pct:10 },
+      { k:"mgmt", n:"PI management", pct:20 }
+    ],
+    lab4_title: "④ NPD Front End vs Your TP",
+    lab4_desc: "The four nodes of the NPD front end each map to a week of this course's Term Project. Click one to see the mapping.",
+    lab4_pick: "Pick a node",
+    lab4_items: [
+      { k:"proposal", n:"New Product Proposal", tp:"W9 proposal (first half)",
+        d:"Maps to the first half of the W9 proposal: state whose problem you are solving and why it is worth solving. In NPD this is the output of [1] Marketing Plan & Proposal, and nobody has written any code yet." },
+      { k:"feasibility", n:"Feasibility Analysis / POC", tp:"W9 proposal (second half)",
+        d:"Maps to the second half of the W9 proposal: a small feasibility check proving the data can be collected and the calls can be separated. This is [2] Feasibility Specification, and its output is the three specs." },
+      { k:"gate", n:"Gate decision", tp:"The moment W9 is approved",
+        d:"The moment your proposal is accepted is the gate. A gate is not passed by finishing the presentation — it is one investment decision out of four: go, revise, hold or kill." },
+      { k:"kickoff", n:"Kick-off", tp:"W10 build starts",
+        d:"Kick-off happens only after the gate, which is why building the knowledge base and the workflow starts in W10. Starting earlier means chasing a target that is still moving." }
+    ],
+    lab5_title: "⑤ Pre-Class Self-Check",
+    lab5_desc: "Four multiple-choice questions to confirm you actually read this week's required materials. Wrong answers show an explanation.",
+
+    mres_nav: "9. Learning Resources", mres_title: "This Week's Resources",
+    mres_desc: "Two required items, matching this course's rule: each week's required set is one interactive material plus at most one short video under ten minutes. The main material has six themed tabs — visit all of them before filling in sections 2 and 3. Optional items do not affect the worksheet, but a written summary of one counts as a Bonus Assignment. The last two entries are Coggle maps used in class; they are not pre-class reading, but keeping them open makes section 2 (the six Stage-Gate stages) and section 3 (the two-axis calls) much faster.",
+    res_req: [
+      { label: "PMA · HW／SW Product Management", url: "https://lolopodcast.github.io/PM-PO-PL-PCC/", desc: "This week's main material and the direct basis for sections 2 and 3. Six themed tabs covering the PM／PjM distinction, the level ladder and the NPD process. Work through every tab." },
+      { label: "EP26 · Learning for Competence Building (bilingual)", url: "https://youtu.be/XQk_c0w80FQ", desc: "On how competence is actually built. Watch it before reading the level ladder in the main material and the gaps between rungs make more sense." }
+    ],
+    res_opt: [
+      { label: "AI-native Product Development Workshop: Vibe Coding as a PM／PjM", url: "https://lolopodcast.github.io/AI-EMI-Course-Vibe-Coding-as-a-PM-PjM/", desc: "Puts this week's role distinction into practice: the same system built as a PM and built as a PjM attends to completely different things." },
+      { label: "AICF · AI Literacy Common Language Platform", url: "https://lolopodcast.github.io/AICF-AI-Competency-Framework/", desc: "Shared vocabulary for discussing capability; useful alongside the level ladder." },
+      { label: "JDKS · From Job Description to K／S／A", url: "https://lolopodcast.github.io/JD-to-KSA/", desc: "Next week's main material, and reading it early helps: this week you call PM or PjM, next week you break the same posting into knowledge, skills and attitude." },
+      { label: "PM · PDMA Body of Knowledge — Seven Areas", url: "https://lolopodcast.github.io/AI-Workshop-Hub/docs/PM-Product-Manager_PDMA-Knowledge-Areas_Coggle_SML_20250317.pdf", desc: "Used in class. The PM remit across the seven PDMA/NPDP knowledge areas, with weightings — showing why strategy and PI management carry 20% each." },
+      { label: "NPD Stage-Gate Model", url: "https://lolopodcast.github.io/AI-Workshop-Hub/docs/NPD_Stage-Gate-Model_Coggle_SML_20240312.pdf", desc: "Used in class. Six stages and their gates, the cross-functional relay and EOL. The direct basis for section 2." }
+    ],
+
+    analytics_title: "Completion & Export",
+    analytics_desc: "The individual and group layers export separately. The individual file stays with you as a learning record; the group file is uploaded to Moodle by this week's compiler.",
+    analytics_personal_title: "Individual export (sections 2, 3, 4 · not submitted)",
+    analytics_personal_desc: "Enter your name to export. This file stays with you; when you build your knowledge base in W10 you will select from it.",
+    analytics_group_title: "Group export (sections 1, 5, 6, 7 · submit to Moodle)",
+    analytics_group_desc: "Enter the group and this week's compiler to export. One CSV and one Markdown, uploaded to the Moodle assignment.",
+    analytics_group: "Group", analytics_dept: "Dept / Year", analytics_dept_ph: "e.g. IBS1",
+    analytics_id: "Student ID", analytics_id_ph: "e.g. 113212599",
+    analytics_name_en: "Name (English)", analytics_name_en_ph: "e.g. Shihmin Lo",
+    analytics_name_zh: "Name (Chinese)", analytics_name_zh_ph: "e.g. 王阿吉",
+    analytics_compiler: "This week's compiler", analytics_compiler_ph: "e.g. 王阿吉",
+    analytics_export_personal: "Export individual Markdown",
+    analytics_export_csv: "Export group CSV",
+    analytics_export_md: "Export group Markdown",
+    analytics_need_personal: "Enter your name first",
+    analytics_need_group: "Enter the group and this week's compiler first",
+    group_options: ["G1","G2","G3","G4","G5","G6","G7","G8","G9","G10","G11","G12","Others"],
+    analytics_pct_personal: "Individual completion", analytics_pct_group: "Group completion",
+    analytics_total_time: "Total time on worksheet", analytics_overall_acc: "Self-check accuracy",
+    analytics_sec: "s",
+    analytics_progress_title: "Completion by section",
+    analytics_wp_title: "Sections still incomplete",
+    analytics_wp_goto: "→ Go and fill it in",
+    sdl_title: "First, import your SDL knowledge-base snapshot",
+    sdl_desc: "This week's sequence is: read and take notes by hand without AI → run a Socratic session with the SDL learning partner → produce KB.md → import it here. Importing fills in your identity fields automatically and shows the key parts of your KB above each section. This worksheet is not asking you to think it through again; it turns what you already worked out into a format the group can compare.",
+    sdl_ph: "Paste the full KB.md produced by the SDL partner here (including the --- frontmatter --- at the top)",
+    sdl_parse: "Parse and import",
+    sdl_file: "Upload a file instead",
+    sdl_loaded: "✓ SDL KB imported",
+    sdl_clear: "Clear and re-import",
+    sdl_ok: "Imported. Your identity fields have been filled in.",
+    sdl_err_empty: "Nothing to parse — paste the full KB.md first.",
+    sdl_err_format: "Could not parse it. Check that this is the KB.md produced by the SDL partner (it should start with a --- frontmatter --- block and contain §1, §2 and similar sections).",
+    sdl_panel_title: "📖 Your SDL KB at a glance (for reference)",
+    sdl_panel_show: "Show",
+    sdl_panel_hide: "Hide",
+    sdl_s1: "§1 Learning summary",
+    sdl_s2: "§2 Knowledge synthesis",
+    sdl_s4: "§4 Student's own words",
+    sdl_s5: "§5 Open questions",
+    analytics_wp_personal_head: "Individual layer (yours to fill)",
+    analytics_wp_personal_done: "The individual layer is complete.",
+    analytics_wp_group_head: "Group layer (decided together in discussion)",
+    analytics_wp_group_note: "If you are not this week's compiler, 0% here is normal — it does not affect your individual export.",
+    analytics_wp_group_done: "The group layer is complete.",
+    analytics_wp_allpass: "All seven sections are complete. You are ready to export.",
+    analytics_wp_saved: "Your entries are saved automatically in this browser",
+    analytics_wp_clear: "🗑 Clear all",
+    analytics_wp_clear_confirm: "Clear every entry and all activity data? This cannot be undone — export first.",
+    analytics_wp_tts_intro: "The following sections are still incomplete.",
+    analytics_wp_tts_module: "{name}, {acc}% complete.",
+    analytics_wp_tts_allpass: "All seven sections are complete.",
+
+    date: "Version 2026.08.23",
+    copyright: "For Educational Use Only",
+    architect_label: "Architect:",
+    architect_url: "https://www.ibs.ncnu.edu.tw/index.php/faculty/tenured-professor/299-smlo"
+  }
+};
+
+/* ================= Field registry ================= */
+const FIELDS = {
+  1: ['g_group','g_date', ...MEMBER_IDX.flatMap(i => [`m_name_${i}`,`m_id_${i}`,`m_part_${i}`,`m_sec_${i}`])],
+  2: ['prod_pick','prod_why', ...STAGE_IDS.map(s => `stage_${s}`), 'gate_kick'],
+  3: [...CASE_IDX.flatMap(i => [`c${i}_axis`,`c${i}_level`,`c${i}_evi`]), 'diag_pattern'],
+  4: [...[0,1,2,3,4].flatMap(i => [`t_term_${i}`,`t_mean_${i}`,`t_sent_${i}`]), ...[0,1,2].flatMap(i => [`p_word_${i}`,`p_hard_${i}`,`p_tip_${i}`])],
+  5: ['syn_focus_why','syn_diff','syn_why','syn_case','syn_rule'],
+  6: ['tp_reader','tp_axis','tp_level','tp_why','tp_action'],
+  7: ['pr_open','pr_question', ...MEMBER_IDX.map(i => `pr_point_${i}`)]
+};
+const CORE = {
+  1: ['g_group','g_date','m_name_0','m_part_0'],
+  2: ['prod_pick','prod_why', ...STAGE_IDS.map(s => `stage_${s}`), 'gate_kick'],
+  3: [...CASE_IDX.flatMap(i => [`c${i}_axis`,`c${i}_evi`]), 'diag_pattern'],
+  4: ['t_term_0','t_mean_0','t_term_1','t_mean_1','t_term_2','t_mean_2','t_term_3','t_mean_3','t_term_4','t_mean_4','p_word_0','p_word_1','p_word_2'],
+  5: ['syn_focus_why','syn_diff','syn_why','syn_case','syn_rule'],
+  6: ['tp_reader','tp_axis','tp_level','tp_why','tp_action'],
+  7: ['pr_open','pr_question','pr_point_0']
+};
+
+/* ================= UI atoms ================= */
+const H2 = ({ children, icon, number }) => (
+  <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-black text-[#004030] dark:text-[#D8C3A5] mb-4 flex items-center gap-3">
+    {icon && <span className="text-2xl ui-decoration">{icon}</span>}
+    {number !== undefined && <span>{number}.</span>}
+    <span>{children}</span>
+  </h2>
+);
+const Badge = ({ kind, t }) => (
+  <span className={`inline-block text-xs font-bold px-3 py-1 rounded-full mb-4 ${kind === 'P'
+    ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200'
+    : 'bg-[#D8C3A5]/30 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>
+    {kind === 'P' ? t.badge_personal : t.badge_group}
+  </span>
+);
+const Overview = ({ t, text }) => (
+  <div className="bg-[#004030]/5 dark:bg-[#D8C3A5]/5 rounded-xl p-5 border-l-4 border-[#D8C3A5]">
+    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-2">{t.overview_label}</h3>
+    <p>{text}</p>
+  </div>
+);
+const Highlights = ({ t, items }) => (
+  <div>
+    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.highlights_label}</h3>
+    <div className="flex flex-wrap gap-2">
+      {items.map((h,i) => <span key={i} className="px-3 py-1 bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5] rounded-full text-sm font-medium">{h}</span>)}
+    </div>
+  </div>
+);
+const DeepDive = ({ t, text }) => (
+  <div>
+    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.deep_dive_label}</h3>
+    <p className="p-4 bg-slate-100 dark:bg-slate-800 rounded-lg italic font-serif">{text}</p>
+  </div>
+);
+const Wrapup = ({ t, text }) => (
+  <div className="bg-slate-100 dark:bg-slate-800 rounded-xl p-5 flex gap-3 items-start">
+    <span className="text-[#004030] dark:text-[#D8C3A5] mt-0.5 shrink-0"><IconCheckCircle size={18}/></span>
+    <div>
+      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-1">{t.wrapup_label}</h3>
+      <p className="italic">{text}</p>
+    </div>
+  </div>
+);
+const inputCls = "w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 text-base focus:outline-none focus:ring-2 focus:ring-[#004030] dark:focus:ring-[#D8C3A5] transition";
+const Field = ({ id, label, hint, ph, rows, value, onChange, type }) => (
+  <div className="mb-5">
+    {label && <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{label}</label>}
+    {hint && <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 leading-relaxed">{hint}</p>}
+    {rows
+      ? <textarea rows={rows} className={inputCls} placeholder={ph} value={value||''} onChange={e => onChange(id, sanitizeText(e.target.value))} />
+      : <input type={type||'text'} className={inputCls} placeholder={ph} value={value||''} onChange={e => onChange(id, sanitizeText(e.target.value))} />}
+  </div>
+);
+const InfoInput = ({ id, label, ph, value, onChange, san }) => (
+  <div>
+    <label className="block text-xs font-bold text-slate-500 mb-1">{label}</label>
+    <input className={inputCls} placeholder={ph} value={value || ''} onChange={e => onChange(id, (san || sanitizeName)(e.target.value))} />
+  </div>
+);
+
+/* ================= SDL KB import ================= */
+const SEMESTER_DEFAULT = '1151';
+const WEEK_CODE = 'W06';
+const TOPIC_CAMEL = 'PMRoleAndNPD';
+
+const parseSdlKb = (text) => {
+  try {
+    const t = String(text || '').replace(/\r\n/g, '\n').trim();
+    if (!t) return { ok: false, error: 'empty' };
+    const fm = t.match(/^---\n([\s\S]*?)\n---/);
+    const meta = {};
+    if (fm) {
+      fm[1].split('\n').forEach(line => {
+        if (/^\s/.test(line)) return;               // skip nested (sources / interaction)
+        const m = line.match(/^([A-Za-z_]+):\s*(.*)$/);
+        if (m) meta[m[1]] = m[2].replace(/^["']|["']$/g, '').trim();
+      });
+    }
+    const sections = {};
+    const parts = t.split(/^##\s*§/m);
+    parts.shift();
+    parts.forEach(part => {
+      const n = part.match(/^(\d)/);
+      if (!n) return;
+      sections['s' + n[1]] = part.replace(/^\d[^\n]*\n?/, '').trim();
+    });
+    const hasAny = Object.keys(meta).length > 0 || Object.keys(sections).length > 0;
+    if (!hasAny) return { ok: false, error: 'format' };
+    return { ok: true, meta, sections, raw: t };
+  } catch (e) { return { ok: false, error: 'format' }; }
+};
+
+const SdlImport = ({ t, sdl, onImport, onClear }) => {
+  const [text, setText] = useState('');
+  const [msg, setMsg] = useState(null);
+  const fileRef = useRef(null);
+  const doParse = (raw) => {
+    const r = parseSdlKb(raw);
+    if (!r.ok) { setMsg({ ok: false, text: r.error === 'empty' ? t.sdl_err_empty : t.sdl_err_format }); return; }
+    onImport(r);
+    setMsg({ ok: true, text: t.sdl_ok });
+    setText('');
+  };
+  const onFile = (e) => {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    const rd = new FileReader();
+    rd.onload = () => doParse(rd.result);
+    rd.readAsText(f);
+    e.target.value = '';
+  };
+  return (
+    <div className="rounded-xl border-2 border-sky-200 dark:border-sky-800/60 bg-sky-50/50 dark:bg-sky-900/10 p-5">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5]">{t.sdl_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-3 leading-relaxed">{t.sdl_desc}</p>
+      {sdl ? (
+        <div className="rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4">
+          <p className="text-sm font-bold text-green-700 dark:text-green-400">{t.sdl_loaded}</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 break-all">
+            {[sdl.meta.course, sdl.meta.semester, sdl.meta.week, sdl.meta.topic].filter(Boolean).join(' · ')}
+            {sdl.meta.student ? ' · ' + sdl.meta.student : ''}{sdl.meta.group ? ' · ' + sdl.meta.group : ''}
+          </p>
+          <button onClick={onClear} className="mt-3 px-3 py-1.5 text-xs border border-red-400 text-red-600 dark:text-red-400 rounded-lg">{t.sdl_clear}</button>
+        </div>
+      ) : (
+        <>
+          <textarea rows={4} className={inputCls} placeholder={t.sdl_ph} value={text} onChange={e => setText(e.target.value)} />
+          <div className="flex flex-wrap items-center gap-3 mt-3">
+            <button onClick={() => doParse(text)} className="px-4 py-2 text-sm bg-sky-700 dark:bg-sky-300 text-white dark:text-sky-950 font-bold rounded-lg">{t.sdl_parse}</button>
+            <button onClick={() => fileRef.current && fileRef.current.click()} className="px-4 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg">{t.sdl_file}</button>
+            <input ref={fileRef} type="file" accept=".md,.markdown,.txt" onChange={onFile} className="hidden" />
+          </div>
+        </>
+      )}
+      {msg && <p className={`text-xs mt-2 ${msg.ok ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>{msg.text}</p>}
+    </div>
+  );
+};
+
+const SdlPanel = ({ t, sdl }) => {
+  const [open, setOpen] = useState(false);
+  if (!sdl) return null;
+  const rows = [
+    { k: 's1', label: t.sdl_s1 }, { k: 's2', label: t.sdl_s2 },
+    { k: 's4', label: t.sdl_s4 }, { k: 's5', label: t.sdl_s5 }
+  ].filter(r => sdl.sections[r.k]);
+  if (!rows.length) return null;
+  return (
+    <div className="rounded-xl border border-sky-200 dark:border-sky-800/60 bg-sky-50/40 dark:bg-sky-900/10">
+      <button onClick={() => setOpen(o => !o)} className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left">
+        <span className="text-sm font-bold text-sky-800 dark:text-sky-300">{t.sdl_panel_title}</span>
+        <span className="text-xs text-sky-700 dark:text-sky-400 shrink-0">{open ? t.sdl_panel_hide : t.sdl_panel_show}</span>
+      </button>
+      {open && (
+        <div className="px-4 pb-4 space-y-4 max-h-96 overflow-y-auto">
+          {rows.map(r => (
+            <div key={r.k}>
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">{r.label}</p>
+              <pre className="text-xs whitespace-pre-wrap font-sans text-slate-700 dark:text-slate-300 leading-relaxed">{sdl.sections[r.k]}</pre>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const LinkCard = ({label, url, desc}) => (
+  <a href={url} target="_blank" rel="noopener noreferrer"
+    className="block bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5] hover:shadow-md transition-all group">
+    <span className="font-bold font-serif text-sm text-[#004030] dark:text-[#D8C3A5] group-hover:underline">{label}</span>
+    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mt-1">{desc}</p>
+  </a>
+);
+
+/* ================= FlipCardDeck ================= */
+const FlipCardDeck = ({ terms, t, moduleId, onCardRead }) => {
+  const [groupIdx, setGroupIdx] = useState(0);
+  const [flipped, setFlipped] = useState({});
+  const [readSet, setReadSet] = useState(new Set());
+  const [shownSet, setShownSet] = useState(new Set());
+  const [shuffledOrder] = useState(() => [...Array(terms.length).keys()].sort(() => Math.random() - 0.5));
+  const groupSize = 2;
+  const totalGroups = Math.ceil(terms.length / groupSize);
+  const currentCardIndices = shuffledOrder.slice(groupIdx*groupSize, groupIdx*groupSize + groupSize);
+  useEffect(() => {
+    const ns = new Set(shownSet); currentCardIndices.forEach(i => ns.add(i));
+    if (ns.size !== shownSet.size) setShownSet(ns);
+  }, [groupIdx]);
+  const handleFlip = (i) => {
+    setFlipped(f => ({...f, [i]: !f[i]}));
+    if (!readSet.has(i)) { const nr = new Set(readSet); nr.add(i); setReadSet(nr); onCardRead && onCardRead(moduleId, nr.size, shownSet.size, terms.length); }
+  };
+  const statusText = t.flip_status.replace('{read}', readSet.size).replace('{shown}', shownSet.size).replace('{total}', terms.length);
+  return (
+    <div className="mt-8">
+      <h3 className="text-lg font-bold uppercase tracking-wider text-slate-500 mb-2">{t.key_terms}</h3>
+      <p className="text-sm text-slate-400 mb-4">{statusText}</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {currentCardIndices.map(i => (
+          <div key={i} className="perspective cursor-pointer h-44" onClick={() => handleFlip(i)}>
+            <div className={`transform-style-3d relative w-full h-full transition-transform duration-500 ${flipped[i] ? 'rotate-y-180' : ''}`}>
+              <div className="backface-hidden absolute inset-0 bg-white dark:bg-slate-800 rounded-xl p-4 flex flex-col items-center justify-center border border-slate-200 dark:border-slate-700 shadow-sm">
+                <p className="font-serif font-bold text-center text-[#004030] dark:text-[#D8C3A5]">{terms[i].front}</p>
+                <p className="text-xs text-slate-400 mt-2">{t.flip_prompt}</p>
+              </div>
+              <div className="backface-hidden rotate-y-180 absolute inset-0 bg-[#004030] dark:bg-slate-700 rounded-xl p-4 flex items-center justify-center overflow-y-auto">
+                <p className="text-sm text-center text-[#D8C3A5] dark:text-slate-200 leading-relaxed">{terms[i].back}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="flex items-center gap-3 mt-4">
+        <button onClick={() => { setGroupIdx(0); setFlipped({}); }} className="px-4 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700">{t.flip_retry}</button>
+        <button onClick={() => groupIdx < totalGroups-1 && setGroupIdx(groupIdx+1)} disabled={groupIdx >= totalGroups-1}
+          className="px-4 py-2 text-sm bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg disabled:opacity-40">{t.flip_next}</button>
+      </div>
+    </div>
+  );
+};
+
+/* ================= ModuleQuiz ================= */
+const ModuleQuiz = ({ questions, t, moduleId, onQuizSubmit }) => {
+  const [selected, setSelected] = useState({});
+  const [submitted, setSubmitted] = useState({});
+  const [groupIdx, setGroupIdx] = useState(0);
+  const groupSize = 2;
+  const [quizIndices] = useState(() => [...Array(questions.length).keys()].sort(() => Math.random() - 0.5));
+  const totalGroups = Math.ceil(quizIndices.length / groupSize);
+  const [shuffledMaps] = useState(() => quizIndices.map(qi => [...Array(questions[qi].opts.length).keys()].sort(() => Math.random() - 0.5)));
+  const computeCorrect = () => { let c = 0; quizIndices.forEach((qIdx, qi) => { if (selected[qi] !== undefined && shuffledMaps[qi][selected[qi]] === _d(questions[qIdx].ans)) c++; }); return c; };
+  const statusText = t.quiz_status.replace('{correct}', computeCorrect()).replace('{answered}', Object.keys(selected).length).replace('{total}', quizIndices.length);
+  const currentStart = groupIdx * groupSize;
+  const currentIndices = quizIndices.slice(currentStart, currentStart + groupSize);
+  const handleGroupSubmit = () => {
+    if (!currentIndices.every((_, i) => selected[currentStart+i] !== undefined)) return;
+    setSubmitted(s => ({...s, [groupIdx]: true}));
+    if (groupIdx === totalGroups - 1 || Object.keys(submitted).length + 1 === totalGroups) {
+      const wrong = []; let correct = 0;
+      quizIndices.forEach((qIdx, qi) => {
+        if (selected[qi] === undefined) return;
+        if (shuffledMaps[qi][selected[qi]] === _d(questions[qIdx].ans)) correct++; else wrong.push(questions[qIdx].q);
+      });
+      onQuizSubmit(moduleId, correct, quizIndices.length, wrong);
+    }
+  };
+  return (
+    <div className="mt-8 bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="text-lg font-bold font-serif text-[#004030] dark:text-[#D8C3A5] mb-2">{t.quiz_title}</h3>
+      <p className="text-sm text-slate-400 mb-6">{statusText}</p>
+      {currentIndices.map((qIdx, localI) => {
+        const qi = currentStart + localI, q = questions[qIdx], sMap = shuffledMaps[qi], isSub = !!submitted[groupIdx];
+        return (
+          <div key={qIdx} className="mb-6">
+            <p className="font-bold mb-3">{qi+1}. {q.q}</p>
+            <div className="space-y-2">
+              {sMap.map((origIdx, dIdx) => {
+                const isCorrect = origIdx === _d(q.ans), isSel = selected[qi] === dIdx;
+                return (
+                  <button key={dIdx} onClick={() => !isSub && setSelected(s => ({...s, [qi]: dIdx}))}
+                    className={`w-full text-left px-4 py-3 rounded-lg border transition-all text-sm ${isSub
+                      ? isCorrect ? 'bg-green-100 border-green-500 dark:bg-green-900/30'
+                        : isSel ? 'bg-red-100 border-red-400 dark:bg-red-900/30' : 'border-slate-200 dark:border-slate-700'
+                      : isSel ? 'border-[#004030] dark:border-[#D8C3A5] bg-[#004030]/5' : 'border-slate-200 dark:border-slate-700 hover:border-slate-400'}`}>
+                    {q.opts[origIdx]}
+                  </button>
+                );
+              })}
+            </div>
+            {isSub && (
+              <p className={`mt-2 text-sm italic ${shuffledMaps[qi][selected[qi]] === _d(q.ans) ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>
+                {shuffledMaps[qi][selected[qi]] === _d(q.ans) ? `✓ ${t.correct}` : `✗ ${t.incorrect}`} — {t.explanation}：{q.exp}
+              </p>
+            )}
+          </div>
+        );
+      })}
+      <div className="flex items-center gap-3 flex-wrap">
+        {!submitted[groupIdx]
+          ? <button onClick={handleGroupSubmit} disabled={!currentIndices.every((_,i) => selected[currentStart+i] !== undefined)}
+              className="px-6 py-2 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg disabled:opacity-40">{t.submit}</button>
+          : <>
+              {groupIdx < totalGroups-1 && <button onClick={() => setGroupIdx(groupIdx+1)} className="px-6 py-2 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg">{t.quiz_next}</button>}
+              <button onClick={() => { setGroupIdx(0); setSelected({}); setSubmitted({}); }} className="px-6 py-2 border border-[#004030] dark:border-[#D8C3A5] text-[#004030] dark:text-[#D8C3A5] font-bold rounded-lg">{t.quiz_retry}</button>
+            </>}
+      </div>
+    </div>
+  );
+};
+
+/* ================= Stage-Gate SVG（互動回饋元件） ================= */
+const StageGateDiagram = ({ t, filled }) => {
+  const colors = ['#5B5BD6','#0E9F6E','#D97706','#DB2777','#0891B2','#7C3AED'];
+  const bx = i => 22 + i * 154;
+  const phases = [
+    { label: 'Discover', from: 0, to: 0 },
+    { label: 'Define',   from: 1, to: 1 },
+    { label: 'Develop',  from: 2, to: 3 },
+    { label: 'Deliver',  from: 4, to: 5 }
+  ];
+  return (
+    <div className="w-full overflow-x-auto" onContextMenu={e => { e.preventDefault(); window.showCopyrightToast && window.showCopyrightToast(); }}>
+      <svg viewBox="0 0 940 246" className="w-full min-w-[720px] max-w-4xl mx-auto" draggable="false" role="img" aria-label={t.m2_svg_cap}>
+        <rect x="6" y="6" width="928" height="234" rx="12" fill="none" stroke="#94a3b8" strokeDasharray="6 5" strokeWidth="1.5"/>
+        <text x="20" y="28" fontSize="12" fill="#94a3b8" fontFamily="Inter, sans-serif">NPD STAGE-GATE</text>
+        {t.stages.map((s, i) => {
+          const x = bx(i), on = filled && filled.includes(s.id);
+          return (
+            <g key={s.id}>
+              <rect x={x} y="44" width="126" height="120" rx="10" fill={colors[i]} opacity={on ? 0.92 : 0.20}/>
+              <text x={x+11} y="68" fontSize="13" fontWeight="700" fill={on ? "#ffffff" : "#334155"} fontFamily="Inter, sans-serif">[{i+1}]</text>
+              <foreignObject x={x+10} y="74" width="106" height="56">
+                <div xmlns="http://www.w3.org/1999/xhtml" style={{fontSize:'10px',lineHeight:'1.25',fontWeight:600,color: on ? '#ffffff' : '#475569',fontFamily:'Inter, sans-serif'}}>{s.n}</div>
+              </foreignObject>
+              <foreignObject x={x+10} y="132" width="106" height="28">
+                <div xmlns="http://www.w3.org/1999/xhtml" style={{fontSize:'9px',lineHeight:'1.2',color: on ? '#ffffff' : '#64748b',fontFamily:'Inter, sans-serif'}}>{s.unit}</div>
+              </foreignObject>
+            </g>
+          );
+        })}
+        {[0,1,2,3,4].map(i => {
+          const cx = bx(i) + 126 + 14, cy = 104, r = 11, kick = i === 1;
+          return (
+            <g key={'g'+i}>
+              <polygon points={`${cx},${cy-r} ${cx+r},${cy} ${cx},${cy+r} ${cx-r},${cy}`}
+                fill={kick ? '#B45309' : '#94a3b8'} opacity={kick ? 0.95 : 0.55}/>
+              {kick && <text x={cx} y={cy-18} fontSize="9" fontWeight="700" fill="#B45309" textAnchor="middle" fontFamily="Inter, sans-serif">KICK-OFF</text>}
+              {kick && <text x={cx} y={cy+28} fontSize="8" fill="#B45309" textAnchor="middle" fontFamily="Inter, sans-serif">spec freeze</text>}
+            </g>
+          );
+        })}
+        {phases.map((p, i) => {
+          const x0 = bx(p.from), x1 = bx(p.to) + 126;
+          return (
+            <g key={p.label}>
+              <rect x={x0} y="182" width={x1-x0} height="40" rx="8" fill="#004030" opacity="0.12"/>
+              <text x={(x0+x1)/2} y="207" fontSize="12" fontWeight="700" fill="#004030" textAnchor="middle" fontFamily="Inter, sans-serif">{p.label}</text>
+            </g>
+          );
+        })}
+      </svg>
+      <p className="text-center text-xs text-slate-500 dark:text-slate-400 mt-2 italic">{t.m2_svg_cap}</p>
+    </div>
+  );
+};
+
+/* ================= Labs（四件互動元件） ================= */
+const LabStageOrder = ({ t, onTouch }) => {
+  const [pos, setPos] = useState({});
+  const [checked, setChecked] = useState(false);
+  const [note, setNote] = useState('');
+  const [shuffledIds] = useState(() => [...STAGE_IDS].sort(() => Math.random() - 0.5));
+  const stageOf = id => t.stages.find(s => s.id === id);
+  const correctPos = id => STAGE_IDS.indexOf(id) + 1;
+  const n = shuffledIds.filter(id => parseInt(pos[id],10) === correctPos(id)).length;
+  const done = shuffledIds.every(id => pos[id]);
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab1_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.lab1_desc}</p>
+      <div className="space-y-2">
+        {shuffledIds.map(id => {
+          const s = stageOf(id), good = parseInt(pos[id],10) === correctPos(id);
+          return (
+            <div key={id} className={`flex items-center gap-3 p-2.5 rounded-lg border ${checked ? (good ? 'border-green-500 bg-green-50 dark:bg-green-900/20' : 'border-red-400 bg-red-50 dark:bg-red-900/20') : 'border-slate-200 dark:border-slate-700'}`}>
+              <select className="px-2 py-1.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm shrink-0"
+                value={pos[id] || ''} disabled={checked}
+                onChange={e => { setPos(p => ({...p, [id]: e.target.value})); onTouch && onTouch(); }}>
+                <option value="">–</option>
+                {[1,2,3,4,5,6].map(k => <option key={k} value={k}>{k}</option>)}
+              </select>
+              <span className="text-sm min-w-0">{s.n}</span>
+              {checked && !good && <span className="text-xs text-red-500 shrink-0 ml-auto">→ {correctPos(id)}</span>}
+            </div>
+          );
+        })}
+      </div>
+      <div className="mt-4">
+        <label className="block text-xs font-bold text-slate-500 mb-1">{t.lab1_ask}</label>
+        <textarea rows={2} className={inputCls} placeholder={t.lab1_ask_ph} value={note} onChange={e => setNote(e.target.value)} />
+      </div>
+      <div className="flex items-center gap-3 mt-4 flex-wrap">
+        {!checked
+          ? <button onClick={() => { setChecked(true); onTouch && onTouch(); }} disabled={!done}
+              className="px-5 py-2 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg text-sm disabled:opacity-40">{t.lab1_check}</button>
+          : <>
+              <span className="font-bold text-[#004030] dark:text-[#D8C3A5]">{t.lab1_score.replace('{n}', n)}</span>
+              <button onClick={() => { setPos({}); setChecked(false); }} className="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm">{t.lab1_reset}</button>
+            </>}
+      </div>
+      {checked && <p className="mt-3 text-sm italic text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-900/50 rounded-lg p-3 leading-relaxed">{t.lab1_model}</p>}
+    </div>
+  );
+};
+
+const LabAxisGrid = ({ t, onTouch }) => {
+  const [ans, setAns] = useState({});
+  const [checked, setChecked] = useState(false);
+  const n = t.lab2_items.filter((it, i) => ans[`a${i}`] === it.a).length;
+  const done = t.lab2_items.every((it, i) => ans[`a${i}`]);
+  const selCls = "px-2 py-1.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-xs w-full";
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab2_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.lab2_desc}</p>
+      <div className="space-y-3">
+        {t.lab2_items.map((it, i) => {
+          const good = ans[`a${i}`] === it.a;
+          return (
+            <div key={i} className={`border-b border-slate-100 dark:border-slate-700 pb-3 last:border-0 ${checked ? (good ? '' : '') : ''}`}>
+              <p className="text-sm mb-2">{i+1}. {it.s}</p>
+              <div className="grid grid-cols-2 gap-2">
+                <select className={`${selCls} ${checked ? (good ? 'border-green-500' : 'border-red-400') : ''}`} value={ans[`a${i}`] || ''} disabled={checked}
+                  onChange={e => { setAns(a => ({...a, [`a${i}`]: e.target.value})); onTouch && onTouch(); }}>
+                  <option value="">{t.select_ph}</option>
+                  {AXIS_VALS.map(v => <option key={v} value={v}>{t.axis_labels[v]}</option>)}
+                </select>
+                <select className={selCls} value={ans[`l${i}`] || ''} disabled={checked}
+                  onChange={e => { setAns(a => ({...a, [`l${i}`]: e.target.value})); onTouch && onTouch(); }}>
+                  <option value="">{t.select_ph}</option>
+                  {LEVEL_VALS.map(v => <option key={v} value={v}>{t.level_labels[v]}</option>)}
+                </select>
+              </div>
+              {checked && (
+                <p className="text-xs italic text-slate-500 dark:text-slate-400 mt-2">
+                  <strong>{t.lab2_ref}：{t.axis_labels[it.a]} ／ {t.level_labels[it.l]}</strong> — {it.e}
+                </p>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      <div className="flex items-center gap-3 mt-4 flex-wrap">
+        {!checked
+          ? <button onClick={() => { setChecked(true); onTouch && onTouch(); }} disabled={!done}
+              className="px-5 py-2 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg text-sm disabled:opacity-40">{t.lab2_check}</button>
+          : <>
+              <span className="font-bold text-[#004030] dark:text-[#D8C3A5]">{t.lab2_score.replace('{n}', n)}</span>
+              <button onClick={() => { setAns({}); setChecked(false); }} className="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm">{t.lab2_reset}</button>
+            </>}
+      </div>
+    </div>
+  );
+};
+
+const LabPdma = ({ t, onTouch }) => {
+  const [g, setG] = useState({});
+  const [checked, setChecked] = useState(false);
+  const total = t.lab3_items.reduce((s, it) => s + (parseInt(g[it.k]||'0',10)||0), 0);
+  const near = t.lab3_items.filter(it => Math.abs((parseInt(g[it.k]||'0',10)||0) - it.pct) <= 3).length;
+  const done = t.lab3_items.every(it => g[it.k] !== undefined && g[it.k] !== '');
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab3_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.lab3_desc}</p>
+      <div className="space-y-2">
+        {t.lab3_items.map(it => {
+          const mine = parseInt(g[it.k]||'0',10)||0;
+          return (
+            <div key={it.k} className="flex items-center gap-3">
+              <span className="text-sm flex-1 min-w-0 truncate">{it.n}</span>
+              <input type="number" min="0" max="100" disabled={checked}
+                className="w-20 px-2 py-1.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm text-right shrink-0"
+                value={g[it.k] ?? ''} onChange={e => { setG(s => ({...s, [it.k]: e.target.value.replace(/[^0-9]/g,'').slice(0,3)})); onTouch && onTouch(); }} />
+              <span className="text-xs text-slate-400 shrink-0 w-4">%</span>
+              {checked && (
+                <span className={`text-xs font-bold shrink-0 w-24 text-right ${Math.abs(mine-it.pct) <= 3 ? 'text-green-600 dark:text-green-400' : 'text-amber-600 dark:text-amber-400'}`}>
+                  {t.lab3_answer} {it.pct}%
+                </span>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      <div className="mt-3 flex items-center justify-between text-sm">
+        <span>{t.lab3_total}: <strong className={total === 100 ? 'text-green-600 dark:text-green-400' : 'text-amber-600 dark:text-amber-400'}>{total}%</strong></span>
+        {checked && <span className="font-bold text-[#004030] dark:text-[#D8C3A5]">{t.lab3_result.replace('{n}', near)}</span>}
+      </div>
+      <div className="flex items-center gap-3 mt-4 flex-wrap">
+        {!checked
+          ? <button onClick={() => { setChecked(true); onTouch && onTouch(); }} disabled={!done}
+              className="px-5 py-2 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg text-sm disabled:opacity-40">{t.lab3_check}</button>
+          : <button onClick={() => { setG({}); setChecked(false); }} className="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm">{t.lab3_reset}</button>}
+      </div>
+      {checked && <p className="mt-3 text-sm italic text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-900/50 rounded-lg p-3 leading-relaxed">{t.lab3_note}</p>}
+    </div>
+  );
+};
+
+const LabTpMap = ({ t, onTouch }) => {
+  const [pick, setPick] = useState(null);
+  const cur = t.lab4_items.find(it => it.k === pick);
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab4_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.lab4_desc}</p>
+      <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">{t.lab4_pick}</p>
+      <div className="flex flex-wrap gap-2">
+        {t.lab4_items.map(it => (
+          <button key={it.k} onClick={() => { setPick(it.k); onTouch && onTouch(); }}
+            className={`text-xs px-3 py-2 rounded-full font-bold border transition ${pick === it.k
+              ? 'bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] border-transparent'
+              : 'border-slate-300 dark:border-slate-600 hover:border-[#004030] dark:hover:border-[#D8C3A5]'}`}>{it.n}</button>
+        ))}
+      </div>
+      <div className="mt-4 p-4 rounded-lg bg-slate-50 dark:bg-slate-900/50 min-h-[104px]">
+        {cur ? (
+          <>
+            <div className="flex items-center gap-2 flex-wrap mb-2">
+              <span className="text-sm font-bold text-[#004030] dark:text-[#D8C3A5]">{cur.n}</span>
+              <span className="text-slate-400">→</span>
+              <span className="text-xs font-bold px-2 py-1 rounded-full bg-[#D8C3A5]/40 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]">{cur.tp}</span>
+            </div>
+            <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">{cur.d}</p>
+          </>
+        ) : <p className="text-sm text-slate-400">{t.lab4_pick}</p>}
+      </div>
+    </div>
+  );
+};
+
+/* ================= App ================= */
+function App() {
+  const LS_ANS = 'PMCS_W06_answers';
+  const LS_ANA = 'PMCS_W06_analytics';
+  const LS_STU = 'PMCS_W06_student';
+  const loadLS = (k, fb) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : fb; } catch { return fb; } };
+
+  const [lang, setLang] = useState('en');
+  const [isDark, setIsDark] = useState(true);
+  const [module, setModule] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [ttsState, setTtsState] = useState('idle');
+  const [answers, setAnswers] = useState(() => loadLS(LS_ANS, {}));
+  const [focus, setFocus] = useState(() => loadLS(LS_ANS + '_focus', {}));
+  const [memberCount, setMemberCount] = useState(() => loadLS(LS_ANS + '_mc', DEFAULT_MEMBERS));
+  const [sdl, setSdl] = useState(() => loadLS(LS_ANS + '_sdl', null));
+  const [studentInfo, setStudentInfo] = useState(() => loadLS(LS_STU, { group:'', dept:'', id:'', nameEn:'', nameZh:'', compiler:'' }));
+  const [analytics, setAnalytics] = useState(() => loadLS(LS_ANA, {
+    time: Array(TOTAL).fill(0), clicks: Array(TOTAL).fill(0),
+    quizCorrect: Array(TOTAL).fill(0), quizTotal: Array(TOTAL).fill(0),
+    cardsRead: Array(TOTAL).fill(0), cardsTotal: Array(TOTAL).fill(0), wrongTopics: {}
+  }));
+  const menuRef = useRef(null);
+  const t = dict[lang];
+
+  useEffect(() => { document.documentElement.classList.toggle('dark', isDark); }, [isDark]);
+  useEffect(() => { try { localStorage.setItem(LS_ANS, JSON.stringify(answers)); } catch {} }, [answers]);
+  useEffect(() => { try { localStorage.setItem(LS_ANS + '_focus', JSON.stringify(focus)); } catch {} }, [focus]);
+  useEffect(() => { try { localStorage.setItem(LS_ANS + '_mc', JSON.stringify(memberCount)); } catch {} }, [memberCount]);
+  useEffect(() => { try { sdl ? localStorage.setItem(LS_ANS + '_sdl', JSON.stringify(sdl)) : localStorage.removeItem(LS_ANS + '_sdl'); } catch {} }, [sdl]);
+  useEffect(() => { try { localStorage.setItem(LS_ANA, JSON.stringify(analytics)); } catch {} }, [analytics]);
+  useEffect(() => { try { localStorage.setItem(LS_STU, JSON.stringify(studentInfo)); } catch {} }, [studentInfo]);
+  useEffect(() => {
+    const id = setInterval(() => setAnalytics(a => { const ti = [...a.time]; ti[module] += 5; return {...a, time: ti}; }), 5000);
+    return () => clearInterval(id);
+  }, [module]);
+  useEffect(() => {
+    const onDoc = e => { if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false); };
+    document.addEventListener('mousedown', onDoc);
+    return () => document.removeEventListener('mousedown', onDoc);
+  }, []);
+
+  const importSdl = (r) => {
+    setSdl({ meta: r.meta, sections: r.sections });
+    setStudentInfo(st => ({
+      ...st,
+      group: r.meta.group || st.group,
+      id: (r.meta.student_id || st.id || '').replace(/[^0-9]/g, '').slice(0, 12),
+      nameEn: /^[\x00-\x7F]+$/.test(r.meta.student || '') ? (r.meta.student || st.nameEn) : st.nameEn,
+      nameZh: /^[\x00-\x7F]+$/.test(r.meta.student || '') ? st.nameZh : (r.meta.student || st.nameZh)
+    }));
+    if (r.meta.group) setA('g_group', r.meta.group);
+    if (r.meta.date) setA('g_date', r.meta.date);
+  };
+  const sdlFileName = () => {
+    if (!sdl) return '';
+    const m = sdl.meta;
+    const who = m.student || 'NA';
+    return `${m.course || 'PMCS'}_${m.semester || SEMESTER_DEFAULT}${m.week || WEEK_CODE}_${(m.topic || TOPIC_CAMEL).replace(/\s+/g,'')}_${m.group || 'NA'}-${who}_${(m.date || '').replace(/-/g,'')}.md`;
+  };
+  const bump = () => setAnalytics(a => { const c = [...a.clicks]; c[module] += 1; return {...a, clicks: c}; });
+  const setA = (id, val) => setAnswers(s => ({...s, [id]: val}));
+  const handleQuizSubmit = (mid, correct, total, wrong) => setAnalytics(a => {
+    const qc = [...a.quizCorrect], qt = [...a.quizTotal];
+    qc[mid] = correct; qt[mid] = total;
+    return {...a, quizCorrect: qc, quizTotal: qt, wrongTopics: {...a.wrongTopics, [mid]: wrong || []}};
+  });
+  const handleCardRead = (mid, r, s, tot) => setAnalytics(a => {
+    const cr = [...a.cardsRead], ct = [...a.cardsTotal]; cr[mid] = r; ct[mid] = tot;
+    return {...a, cardsRead: cr, cardsTotal: ct};
+  });
+
+  const filled = id => { const v = answers[id]; return v !== undefined && String(v).trim() !== ''; };
+  const sectionPct = n => { const c = CORE[n]; return c && c.length ? Math.round(c.filter(filled).length / c.length * 100) : 100; };
+  const pctPersonal = Math.round(PERSONAL_SECTIONS.reduce((s,n) => s + sectionPct(n), 0) / PERSONAL_SECTIONS.length);
+  const pctGroup = Math.round(GROUP_SECTIONS.reduce((s,n) => s + sectionPct(n), 0) / GROUP_SECTIONS.length);
+
+  const modulesList = [
+    { id:0, num:'0', icon:'📋', title:t.m0_nav, kind:null },
+    { id:1, num:'1', icon:'👥', title:t.m1_nav, kind:'G' },
+    { id:2, num:'2', icon:'🚦', title:t.m2_nav, kind:'P' },
+    { id:3, num:'3', icon:'🧭', title:t.m3_nav, kind:'P' },
+    { id:4, num:'4', icon:'🗣️', title:t.m4_nav, kind:'P' },
+    { id:5, num:'5', icon:'🔍', title:t.m5_nav, kind:'G' },
+    { id:6, num:'6', icon:'🎯', title:t.m6_nav, kind:'G' },
+    { id:7, num:'7', icon:'🎤', title:t.m7_nav, kind:'G' },
+    { id:IDX_LAB, num:String(IDX_LAB), icon:'⚡', title:t.mlab_nav, kind:null },
+    { id:IDX_RES, num:String(IDX_RES), icon:'🌐', title:t.mres_nav, kind:null },
+    { id:IDX_ANA, num:String(IDX_ANA), icon:'📊', title:t.analytics_title, kind:null }
+  ];
+  const go = m => { setModule(m); setMenuOpen(false); window.scrollTo({top:0,behavior:'smooth'}); };
+
+  /* ---------- TTS ---------- */
+  const handleTTS = (action) => {
+    if (!('speechSynthesis' in window)) return;
+    if (action === 'stop') { speechSynthesis.cancel(); setTtsState('idle'); return; }
+    if (action === 'pause') { speechSynthesis.pause(); setTtsState('paused'); return; }
+    if (ttsState === 'paused') { speechSynthesis.resume(); setTtsState('playing'); return; }
+    speechSynthesis.cancel();
+    const sep = lang === 'zh' ? '。 ' : '. ';
+    let texts = [];
+    if (module === 0) {
+      texts = [t.m0_title, t.m0_intro, t.m0_why, t.m0_why_desc, ...t.m0_stats.map(s => `${s.label}: ${s.val}`), ...t.m0_modules.map(m => `${m.title}. ${m.desc}`)];
+    } else if (module >= 1 && module <= NUM_LEARN) {
+      const k = `m${module}`;
+      texts = [t[`${k}_title`], t[`${k}_overview`], ...(t[`${k}_highlights`]||[]), t[`${k}_deep`], t[`${k}_wrapup`]];
+      if (module === 2) texts.push(...t.stages.map(s => `${s.n}. ${s.unit}`), ...t.m2_terms.flatMap(x => [x.front, x.back]));
+      if (module === 3) texts.push(...CASES.map(c => c[lang].title));
+    } else if (module === IDX_LAB) {
+      texts = [t.mlab_title, t.mlab_desc, t.lab1_title, t.lab1_desc, t.lab2_title, t.lab2_desc, t.lab3_title, t.lab3_desc, t.lab4_title, t.lab4_desc, t.lab5_title, t.lab5_desc];
+    } else if (module === IDX_RES) {
+      texts = [t.mres_title, t.mres_desc, ...t.res_req.map(r => `${r.label}. ${r.desc}`), ...t.res_opt.map(r => `${r.label}. ${r.desc}`)];
+    } else {
+      texts = [t.analytics_title, t.analytics_desc, `${t.analytics_pct_personal}: ${pctPersonal}%`, `${t.analytics_pct_group}: ${pctGroup}%`];
+      const weak = [1,2,3,4,5,6,7].filter(n => sectionPct(n) < 100);
+      if (weak.length) { texts.push(t.analytics_wp_tts_intro); weak.forEach(n => texts.push(t.analytics_wp_tts_module.replace('{name}', t[`m${n}_nav`]).replace('{acc}', sectionPct(n)))); }
+      else texts.push(t.analytics_wp_tts_allpass);
+    }
+    const utt = new SpeechSynthesisUtterance(texts.filter(Boolean).join(sep));
+    utt.rate = 0.95;
+    const voices = speechSynthesis.getVoices();
+    if (lang === 'zh') {
+      const v = voices.find(v=>v.lang==='zh-TW'&&v.name.includes('Yating')) || voices.find(v=>v.lang==='zh-TW') || voices.find(v=>v.lang.startsWith('zh'));
+      if (v) utt.voice = v; utt.lang = 'zh-TW';
+    } else {
+      const v = voices.find(v=>v.lang==='en-GB'&&(v.name.includes('Male')||v.name.includes('Daniel'))) || voices.find(v=>v.lang==='en-GB') || voices.find(v=>v.lang.startsWith('en'));
+      if (v) utt.voice = v; utt.lang = 'en-GB';
+    }
+    utt.onend = () => setTtsState('idle'); utt.onerror = () => setTtsState('idle');
+    speechSynthesis.speak(utt); setTtsState('playing');
+  };
+
+  /* ---------- Export ---------- */
+  const dstamp = () => { const d = new Date(), p = n => String(n).padStart(2,'0'); return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}`; };
+  const stamp = () => { const d = new Date(), p = n => String(n).padStart(2,'0');
+    return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}_${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`; };
+  const download = (content, filename, mime) => {
+    const blob = new Blob([content], {type: mime}); const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+  const okPersonal = !!(studentInfo.nameEn || studentInfo.nameZh);
+  const okGroup = !!(studentInfo.group && studentInfo.compiler);
+
+  const exportPersonal = () => {
+    if (!okPersonal) return;
+    const L = [];
+    L.push(`# PMCS W6 個人學習單 — ${dict.zh.subtitle}`);
+    L.push('');
+    L.push(`- 姓名：${studentInfo.nameEn} ${studentInfo.nameZh}　學號：${studentInfo.id}　系級：${studentInfo.dept}`);
+    L.push(`- 必讀：PMA · 硬體／軟體產品管理 https://lolopodcast.github.io/PM-PO-PL-PCC/ ／ EP26 Learning for Competence Building https://youtu.be/XQk_c0w80FQ`);
+    L.push(`- 個人完成度：${pctPersonal}%`);
+    if (sdl) L.push(`- 來源 SDL KB：${sdlFileName()}`);
+    L.push('');
+    L.push('## 2. Stage-Gate 定位');
+    L.push(`**挑選的產品**：${answers.prod_pick || '_(未填)_'}`);
+    L.push(`**為什麼挑它**：${answers.prod_why || '_(未填)_'}`);
+    L.push('');
+    L.push('| 階段 | 接力單位 | PM 在這一階段做什麼決定 |');
+    L.push('|---|---|---|');
+    dict.zh.stages.forEach(s => L.push(`| ${s.n}（${s.zhn}） | ${s.unit} | ${(answers[`stage_${s.id}`]||'').replace(/\n/g,' ')} |`));
+    L.push('');
+    L.push(`**Kick off gate 的位置與理由**：${answers.gate_kick || '_(未填)_'}`);
+    L.push('');
+    L.push('## 3. 兩軸判定');
+    L.push('| 案例 | 管理對象軸 | 層級軸 | 依據（引用工作內容原句） |');
+    L.push('|---|---|---|---|');
+    CASE_IDX.forEach(i => L.push(`| ${CASES[i].zh.title} | ${answers[`c${i}_axis`]||''} | ${answers[`c${i}_level`]||''} | ${(answers[`c${i}_evi`]||'').replace(/\n/g,' ')} |`));
+    L.push('');
+    L.push(`**觀察到的規律**：${answers.diag_pattern || '_(未填)_'}`);
+    L.push('');
+    L.push('## 4. 語言實驗室');
+    L.push('| 詞彙 | 自己的話 | 例句 |'); L.push('|---|---|---|');
+    [0,1,2,3,4].forEach(i => { if (filled(`t_term_${i}`)) L.push(`| ${answers[`t_term_${i}`]||''} | ${answers[`t_mean_${i}`]||''} | ${answers[`t_sent_${i}`]||''} |`); });
+    L.push('');
+    L.push('| 難發音 | 難在哪 | 記憶方法 |'); L.push('|---|---|---|');
+    [0,1,2].forEach(i => { if (filled(`p_word_${i}`)) L.push(`| ${answers[`p_word_${i}`]||''} | ${answers[`p_hard_${i}`]||''} | ${answers[`p_tip_${i}`]||''} |`); });
+    L.push(''); L.push('---');
+    L.push('_本檔為個人學習歷程檔案，不繳交。W10 建立知識庫時請從中挑選要保留的部分。_');
+    const who = (sanitizeName(studentInfo.nameEn).replace(/\s+/g,'') || studentInfo.id || 'me').replace(/[^\w-]/g,'') || 'me';
+    const sem = (sdl && sdl.meta.semester) || SEMESTER_DEFAULT;
+    const grp = studentInfo.group || 'NA';
+    download(L.join('\n'), `PMCS_${sem}W06_PMRoleAndNPD_${grp}-${who}_${dstamp()}.md`, 'text/markdown;charset=utf-8;');
+  };
+
+  const groupRows = () => {
+    const rows = [['Section','Field','Value']];
+    rows.push(['Info','Group', studentInfo.group]);
+    rows.push(['Info','Compiler', studentInfo.compiler]);
+    GROUP_SECTIONS.forEach(sec => FIELDS[sec].forEach(id => rows.push(['S'+sec, id, String(answers[id] ?? '')])));
+    rows.push(['S5','ComparedCases', CASE_IDX.filter(i => focus['c'+i]).map(i => 'c'+i).join(' ')]);
+    /* --- 自我描述欄位：讓教師端彙整台無需內建設定即可正確顯示本週判準 --- */
+    rows.push(['Meta','WeekTitleZH', dict.zh.subtitle]);
+    rows.push(['Meta','WeekTitleEN', dict.en.subtitle]);
+    rows.push(['Meta','CompareKey', 'ComparedCases']);
+    rows.push(['Meta','CompareN', '3']);
+    rows.push(['Meta','S6Fields', "[{\"id\": \"tp_reader\", \"zh\": \"晨報讀者\", \"en\": \"Brief reader\"}, {\"id\": \"tp_axis\", \"zh\": \"要找 PM 還是 PjM\", \"en\": \"PM or PjM\"}, {\"id\": \"tp_level\", \"zh\": \"保留哪些層級\", \"en\": \"Levels kept\"}, {\"id\": \"tp_why\", \"zh\": \"理由\", \"en\": \"Reason\"}, {\"id\": \"tp_action\", \"zh\": \"本週要做的一件事\", \"en\": \"One action this week\"}]"]);
+    rows.push(['Meta','Categorical', 'tp_axis']);
+    rows.push(['Meta','CategoricalZH', '各組晨報鎖定的軸別']);
+    rows.push(['Meta','CategoricalEN', 'Axis targeted by each group']);
+    rows.push(['Meta','CP5ZH', dict.zh.m5_wrapup]);
+    rows.push(['Meta','CP5EN', dict.en.m5_wrapup]);
+    rows.push(['Meta','CP6ZH', dict.zh.m6_wrapup]);
+    rows.push(['Meta','CP6EN', dict.en.m6_wrapup]);
+    rows.push(['Meta','CP7ZH', dict.zh.m7_wrapup]);
+    rows.push(['Meta','CP7EN', dict.en.m7_wrapup]);
+    rows.push(['Meta','GroupCompletionPct', String(pctGroup)]);
+    rows.push(['Meta','TimeSec', String(analytics.time.reduce((a,b)=>a+b,0))]);
+    const qc = analytics.quizCorrect.reduce((a,b)=>a+b,0), qt = analytics.quizTotal.reduce((a,b)=>a+b,0);
+    rows.push(['Meta','SelfCheck', `${qc}/${qt}`]);
+    return rows;
+  };
+  const exportGroupCSV = () => {
+    if (!okGroup) return;
+    const esc = v => `"${String(v).replace(/"/g,'""')}"`;
+    const csv = '﻿' + groupRows().map(r => r.map(esc).join(',')).join('\r\n');
+    download(csv, `PMCS_${(sdl && sdl.meta.semester) || SEMESTER_DEFAULT}W06_PMRoleAndNPD_${studentInfo.group}-ALL_${dstamp()}.csv`, 'text/csv;charset=utf-8;');
+  };
+  const exportGroupMD = () => {
+    if (!okGroup) return;
+    const L = [];
+    L.push(`# PMCS W6 小組學習單 — ${dict.zh.subtitle}`);
+    L.push('');
+    L.push(`- 組別：${studentInfo.group}　本週彙整人：${studentInfo.compiler}　日期：${answers.g_date || ''}`);
+    L.push(`- 小組完成度：${pctGroup}%`);
+    L.push('');
+    L.push('## 1. 小組與分工');
+    L.push('| 姓名 | 學號 | 負責段落 | 秒數 |'); L.push('|---|---|---|---|');
+    MEMBER_IDX.forEach(i => { if (filled(`m_name_${i}`)) L.push(`| ${answers[`m_name_${i}`]||''} | ${answers[`m_id_${i}`]||''} | ${answers[`m_part_${i}`]||''} | ${answers[`m_sec_${i}`]||''} |`); });
+    L.push('');
+    L.push('## 5. 小組綜整');
+    L.push(`- 比對的三則案例：${CASE_IDX.filter(i => focus['c'+i]).map(i => CASES[i].zh.title).join('、') || '_(未選)_'}`);
+    L.push(`- 略過的理由：${answers.syn_focus_why || '_(未填)_'}`);
+    L.push(`- 差異最大的一則：${answers.syn_diff || '_(未填)_'}`);
+    L.push(`- 為什麼會判不同：${answers.syn_why || '_(未填)_'}`);
+    L.push(`- 重新判定的案例與結論：${answers.syn_case || '_(未填)_'}`);
+    L.push(`- **組內通則**：${answers.syn_rule || '_(未填)_'}`);
+    L.push('');
+    L.push('## 6. 接到期末專案');
+    L.push(`- 晨報讀者：${answers.tp_reader || '_(未填)_'}`);
+    L.push(`- 要找 PM 還是 PjM：${answers.tp_axis || '_(未填)_'}`);
+    L.push(`- 保留哪些層級：${answers.tp_level || '_(未填)_'}`);
+    L.push(`- 理由：${answers.tp_why || '_(未填)_'}`);
+    L.push(`- 本週一件事：${answers.tp_action || '_(未填)_'}`);
+    L.push('');
+    L.push('## 7. 簡報計畫');
+    L.push(`- 開場句：${answers.pr_open || '_(未填)_'}`);
+    MEMBER_IDX.forEach(i => { if (filled(`pr_point_${i}`)) L.push(`- ${answers[`m_name_${i}`] || 'Speaker '+(i+1)}：${answers[`pr_point_${i}`]}`); });
+    L.push(`- 給全班的問題：${answers.pr_question || '_(未填)_'}`);
+    L.push(''); L.push('---');
+    L.push('_PMCS (EMI) · Prof. Shihmin Lo, NCNU · For Educational Use Only_');
+    download(L.join('\n'), `PMCS_${(sdl && sdl.meta.semester) || SEMESTER_DEFAULT}W06_PMRoleAndNPD_${studentInfo.group}-ALL_${dstamp()}.md`, 'text/markdown;charset=utf-8;');
+  };
+
+  const clearAll = () => {
+    if (!window.confirm(t.analytics_wp_clear_confirm)) return;
+    setAnswers({}); setFocus({}); setMemberCount(DEFAULT_MEMBERS); setSdl(null);
+    setAnalytics({ time: Array(TOTAL).fill(0), clicks: Array(TOTAL).fill(0), quizCorrect: Array(TOTAL).fill(0),
+      quizTotal: Array(TOTAL).fill(0), cardsRead: Array(TOTAL).fill(0), cardsTotal: Array(TOTAL).fill(0), wrongTopics: {} });
+    try { localStorage.removeItem(LS_ANS); localStorage.removeItem(LS_ANS + '_focus'); localStorage.removeItem(LS_ANA); localStorage.removeItem(LS_ANS + '_sdl'); } catch {}
+  };
+
+  /* ---------- Renderers ---------- */
+  const SavedHint = () => <p className="text-xs text-slate-500 dark:text-slate-400 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 rounded-lg p-3 leading-relaxed">{t.saved_hint}</p>;
+
+  const renderM0 = () => (
+    <>
+      <div className="rounded-2xl bg-[#004030] dark:bg-slate-800 text-white p-6 sm:p-10 border border-[#D8C3A5]/30">
+        <p className="text-[#D8C3A5] font-serif tracking-widest text-sm mb-2">{t.brand} · {t.title}</p>
+        <h1 className="font-serif font-black text-3xl sm:text-4xl md:text-5xl leading-tight mb-4">{t.subtitle}</h1>
+        <p className="text-slate-200 leading-relaxed text-base">{t.m0_intro}</p>
+        <button onClick={() => go(1)} className="mt-6 px-6 py-3 bg-[#D8C3A5] text-[#004030] font-bold rounded-lg hover:brightness-110 transition">{t.m0_start}</button>
+      </div>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        {t.m0_stats.map((s,i) => (
+          <div key={i} className="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 text-center">
+            <p className="font-serif font-black text-3xl text-[#004030] dark:text-[#D8C3A5]">{s.val}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{s.label}</p>
+          </div>
+        ))}
+      </div>
+      <div className="bg-[#004030]/5 dark:bg-[#D8C3A5]/5 rounded-xl p-5 border-l-4 border-[#D8C3A5]">
+        <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-2">{t.m0_why}</h3>
+        <p>{t.m0_why_desc}</p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {t.m0_modules.map((m,i) => (
+          <button key={i} onClick={() => go(i+1)} className="text-left bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5] hover:shadow-md transition">
+            <div className="flex items-center justify-between">
+              <span className="font-serif font-black text-[#D8C3A5] text-lg">{m.num}</span>
+              <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${m.tag === (lang==='zh'?'個人':'Individual') ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200' : 'bg-[#D8C3A5]/30 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>{m.tag}</span>
+            </div>
+            <p className="font-bold text-[#004030] dark:text-[#D8C3A5] mt-1">{m.title}</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">{m.desc}</p>
+          </button>
+        ))}
+      </div>
+      <SdlImport t={t} sdl={sdl} onImport={importSdl} onClear={() => setSdl(null)} />
+      <SavedHint />
+    </>
+  );
+
+  const renderM1 = () => (
+    <>
+      <Overview t={t} text={t.m1_overview} /><Highlights t={t} items={t.m1_highlights} /><DeepDive t={t} text={t.m1_deep} /><SavedHint />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{t.m1_group}</label>
+          <select className={inputCls} value={answers.g_group || ''} onChange={e => setA('g_group', e.target.value)}>
+            <option value="">{t.select_ph}</option>{t.group_options.map(g => <option key={g} value={g}>{g}</option>)}
+          </select>
+        </div>
+        <Field id="g_date" label={t.m1_date} type="date" value={answers.g_date} onChange={setA} />
+      </div>
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m1_members_label}</h3>
+        <div className="space-y-3">
+          {MEMBER_IDX.slice(0, memberCount).map(i => (
+            <div key={i} className="grid grid-cols-2 md:grid-cols-4 gap-2">
+              <input className={inputCls} placeholder={`${t.m1_col_name} ${i+1}`} value={answers[`m_name_${i}`]||''} onChange={e => setA(`m_name_${i}`, sanitizeName(e.target.value))} />
+              <input className={inputCls} placeholder={t.m1_col_id} value={answers[`m_id_${i}`]||''} onChange={e => setA(`m_id_${i}`, sanitizeStudentId(e.target.value))} />
+              <input className={inputCls} placeholder={t.m1_part_ph} value={answers[`m_part_${i}`]||''} onChange={e => setA(`m_part_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} type="number" min="0" max="600" placeholder={t.m1_col_sec} value={answers[`m_sec_${i}`]||''} onChange={e => setA(`m_sec_${i}`, e.target.value.replace(/[^0-9]/g,'').slice(0,3))} />
+            </div>
+          ))}
+        </div>
+        <div className="flex items-center gap-2 mt-3">
+          <button onClick={() => { setMemberCount(c => Math.max(1, c-1)); bump(); }} disabled={memberCount <= 1}
+            className="px-3 py-1.5 text-sm border border-slate-300 dark:border-slate-600 rounded-lg disabled:opacity-40">−</button>
+          <span className="text-sm text-slate-500 dark:text-slate-400">{t.m1_member_count.replace('{n}', memberCount)}</span>
+          <button onClick={() => { setMemberCount(c => Math.min(MAX_MEMBERS, c+1)); bump(); }} disabled={memberCount >= MAX_MEMBERS}
+            className="px-3 py-1.5 text-sm border border-slate-300 dark:border-slate-600 rounded-lg disabled:opacity-40">＋</button>
+        </div>
+        {(() => {
+          const total = MEMBER_IDX.slice(0, memberCount).reduce((s,i) => s + (parseInt(answers[`m_sec_${i}`]||'0',10)||0), 0);
+          const over = total > 600;
+          return <div className={`mt-4 p-3 rounded-lg text-sm ${over ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-300' : 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'}`}>
+            <strong>{t.m1_total_sec}: {total}s</strong> — {over ? t.m1_sec_warn : t.m1_sec_ok}</div>;
+        })()}
+      </div>
+      <Wrapup t={t} text={t.m1_wrapup} />
+    </>
+  );
+
+  const renderM2 = () => (
+    <>
+      <SdlPanel t={t} sdl={sdl} />
+      <Overview t={t} text={t.m2_overview} /><Highlights t={t} items={t.m2_highlights} /><DeepDive t={t} text={t.m2_deep} />
+      <StageGateDiagram t={t} filled={STAGE_IDS.filter(s => filled(`stage_${s}`))} />
+      <SavedHint />
+      <Field id="prod_pick" label={t.m2_prod_label} ph={t.m2_prod_ph} rows={2} value={answers.prod_pick} onChange={setA} />
+      <Field id="prod_why" label={t.m2_why_label} ph={t.m2_why_ph} rows={2} value={answers.prod_why} onChange={setA} />
+      <p className="text-xs text-slate-500 dark:text-slate-400 -mt-2">{t.m2_stage_hint}</p>
+      <div className="space-y-4">
+        {t.stages.map((s, i) => (
+          <div key={s.id} className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
+            <div className="flex items-baseline gap-2 flex-wrap mb-1">
+              <span className="font-serif font-black text-[#D8C3A5]">[{i+1}]</span>
+              <h4 className="font-serif font-bold text-[#004030] dark:text-[#D8C3A5]">{s.n}</h4>
+              <span className="text-xs text-slate-400">{s.unit}</span>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5]">{s.phase}</span>
+            </div>
+            <Field id={`stage_${s.id}`} ph={s.ph} rows={3} value={answers[`stage_${s.id}`]} onChange={setA} />
+          </div>
+        ))}
+      </div>
+      <Field id="gate_kick" label={t.m2_gate_label} ph={t.m2_gate_ph} rows={3} value={answers.gate_kick} onChange={setA} />
+      <FlipCardDeck key={`cards-${module}-${lang}`} terms={t.m2_terms} t={t} moduleId={2} onCardRead={handleCardRead} />
+      <Wrapup t={t} text={t.m2_wrapup} />
+    </>
+  );
+
+  const renderM3 = () => {
+    const n = CASE_IDX.filter(i => filled(`c${i}_axis`)).length;
+    return (
+      <>
+        <SdlPanel t={t} sdl={sdl} />
+        <Overview t={t} text={t.m3_overview} /><Highlights t={t} items={t.m3_highlights} /><DeepDive t={t} text={t.m3_deep} /><SavedHint />
+        <div className="space-y-6">
+          {CASE_IDX.map(i => {
+            const c = CASES[i][lang];
+            return (
+              <div key={i} className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
+                <h4 className="font-serif font-bold text-[#004030] dark:text-[#D8C3A5] mb-3">{c.title}</h4>
+                <div className="overflow-x-auto mb-4">
+                  <table className="w-full text-sm border-collapse">
+                    <tbody>
+                      {c.rows.map((r, k) => (
+                        <tr key={k} className="border-b border-slate-100 dark:border-slate-700 last:border-0 align-top">
+                          <th className="text-left font-bold text-slate-500 dark:text-slate-400 py-2 pr-3 w-40 whitespace-nowrap">{r[0]}</th>
+                          <td className="py-2 leading-relaxed">{r[1]}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-500 mb-1">{t.m3_axis_label}</label>
+                    <select className={inputCls} value={answers[`c${i}_axis`] || ''} onChange={e => setA(`c${i}_axis`, e.target.value)}>
+                      <option value="">{t.select_ph}</option>
+                      {AXIS_VALS.map(v => <option key={v} value={v}>{t.axis_labels[v]}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-500 mb-1">{t.m3_level_label}</label>
+                    <select className={inputCls} value={answers[`c${i}_level`] || ''} onChange={e => setA(`c${i}_level`, e.target.value)}>
+                      <option value="">{t.select_ph}</option>
+                      {LEVEL_VALS.map(v => <option key={v} value={v}>{t.level_labels[v]}</option>)}
+                    </select>
+                  </div>
+                </div>
+                <Field id={`c${i}_evi`} label={t.m3_evi_label} ph={t.m3_evi_ph} rows={2} value={answers[`c${i}_evi`]} onChange={setA} />
+              </div>
+            );
+          })}
+        </div>
+        <p className="text-sm font-bold text-[#004030] dark:text-[#D8C3A5]">{t.m3_count}: {n} / 4</p>
+        <Field id="diag_pattern" label={t.m3_pattern_label} ph={t.m3_pattern_ph} rows={3} value={answers.diag_pattern} onChange={setA} />
+        <Wrapup t={t} text={t.m3_wrapup} />
+      </>
+    );
+  };
+
+  const renderM4 = () => (
+    <>
+      <SdlPanel t={t} sdl={sdl} />
+      <Overview t={t} text={t.m4_overview} /><Highlights t={t} items={t.m4_highlights} /><DeepDive t={t} text={t.m4_deep} /><SavedHint />
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m4_terms_label}</h3>
+        <div className="space-y-3">
+          {[0,1,2,3,4].map(i => (
+            <div key={i} className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <input className={inputCls} placeholder={`${t.m4_col_term} ${i+1}`} value={answers[`t_term_${i}`]||''} onChange={e => setA(`t_term_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_mean} value={answers[`t_mean_${i}`]||''} onChange={e => setA(`t_mean_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_sent} value={answers[`t_sent_${i}`]||''} onChange={e => setA(`t_sent_${i}`, sanitizeText(e.target.value))} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3 mt-6">{t.m4_pron_label}</h3>
+        <div className="space-y-3">
+          {[0,1,2].map(i => (
+            <div key={i} className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <input className={inputCls} placeholder={`${t.m4_col_word} ${i+1}`} value={answers[`p_word_${i}`]||''} onChange={e => setA(`p_word_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_hard} value={answers[`p_hard_${i}`]||''} onChange={e => setA(`p_hard_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_tip} value={answers[`p_tip_${i}`]||''} onChange={e => setA(`p_tip_${i}`, sanitizeText(e.target.value))} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <Wrapup t={t} text={t.m4_wrapup} />
+    </>
+  );
+
+  const renderM5 = () => {
+    const chosen = CASE_IDX.filter(i => focus['c'+i]).length;
+    return (
+      <>
+        <Overview t={t} text={t.m5_overview} /><Highlights t={t} items={t.m5_highlights} /><DeepDive t={t} text={t.m5_deep} /><SavedHint />
+        <div>
+          <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m5_focus_label}</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {CASE_IDX.map(i => {
+              const on = !!focus['c'+i];
+              const blocked = !on && chosen >= 3;
+              return (
+                <label key={i} className={`flex items-center gap-3 p-3 rounded-lg border transition ${blocked ? 'opacity-40 cursor-not-allowed border-slate-200 dark:border-slate-700' : 'cursor-pointer border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5]'} bg-white dark:bg-slate-800`}>
+                  <input type="checkbox" className="w-4 h-4 accent-[#004030] dark:accent-[#D8C3A5]" checked={on} disabled={blocked}
+                    onChange={e => { setFocus(s => ({...s, ['c'+i]: e.target.checked})); bump(); }} />
+                  <span className="text-sm">{CASES[i][lang].title}</span>
+                </label>
+              );
+            })}
+          </div>
+          <p className={`mt-2 text-sm font-bold ${chosen === 3 ? 'text-green-600 dark:text-green-400' : 'text-amber-600 dark:text-amber-400'}`}>{chosen} / 3</p>
+        </div>
+        <Field id="syn_focus_why" label={t.m5_focus_why} ph={t.m5_focus_why_ph} rows={2} value={answers.syn_focus_why} onChange={setA} />
+        <div className="mb-5">
+          <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{t.m5_diff_label}</label>
+          <select className={inputCls} value={answers.syn_diff || ''} onChange={e => setA('syn_diff', e.target.value)}>
+            <option value="">{t.select_ph}</option>{CASE_IDX.map(i => <option key={i} value={CASES[i][lang].title}>{CASES[i][lang].title}</option>)}
+          </select>
+        </div>
+        <Field id="syn_why" label={t.m5_why_label} ph={t.m5_why_ph} rows={3} value={answers.syn_why} onChange={setA} />
+        <Field id="syn_case" label={t.m5_case_label} ph={t.m5_case_ph} rows={3} value={answers.syn_case} onChange={setA} />
+        <Field id="syn_rule" label={t.m5_rule_label} hint={t.m5_rule_note} ph={t.m5_rule_ph} rows={3} value={answers.syn_rule} onChange={setA} />
+        <Wrapup t={t} text={t.m5_wrapup} />
+      </>
+    );
+  };
+
+  const renderM6 = () => (
+    <>
+      <Overview t={t} text={t.m6_overview} /><Highlights t={t} items={t.m6_highlights} /><DeepDive t={t} text={t.m6_deep} /><SavedHint />
+      <Field id="tp_reader" label={t.m6_reader_label} ph={t.m6_reader_ph} rows={3} value={answers.tp_reader} onChange={setA} />
+      <div className="mb-5">
+        <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{t.m6_axis_label}</label>
+        <select className={inputCls} value={answers.tp_axis || ''} onChange={e => setA('tp_axis', e.target.value)}>
+          <option value="">{t.select_ph}</option>
+          {AXIS_VALS.map(v => <option key={v} value={v}>{t.axis_labels[v]}</option>)}
+        </select>
+      </div>
+      <Field id="tp_level" label={t.m6_level_label} hint={t.m6_note} ph={t.m6_level_ph} rows={2} value={answers.tp_level} onChange={setA} />
+      <Field id="tp_why" label={t.m6_why_label} ph={t.m6_why_ph} rows={3} value={answers.tp_why} onChange={setA} />
+      <Field id="tp_action" label={t.m6_action_label} ph={t.m6_action_ph} rows={2} value={answers.tp_action} onChange={setA} />
+      <Wrapup t={t} text={t.m6_wrapup} />
+    </>
+  );
+
+  const renderM7 = () => (
+    <>
+      <Overview t={t} text={t.m7_overview} /><Highlights t={t} items={t.m7_highlights} /><DeepDive t={t} text={t.m7_deep} /><SavedHint />
+      <Field id="pr_open" label={t.m7_open_label} ph={t.m7_open_ph} rows={2} value={answers.pr_open} onChange={setA} />
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m7_script_label}</h3>
+        <div className="space-y-3">
+          {MEMBER_IDX.slice(0, memberCount).map(i => (
+            <div key={i} className="grid grid-cols-1 md:grid-cols-4 gap-2">
+              <div className="md:col-span-1 flex items-center px-3 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-sm text-slate-600 dark:text-slate-300 truncate">
+                {answers[`m_name_${i}`] || `${t.m7_col_who} ${i+1}`}
+              </div>
+              <input className={`${inputCls} md:col-span-3`} placeholder={t.m7_col_point} value={answers[`pr_point_${i}`]||''} onChange={e => setA(`pr_point_${i}`, sanitizeText(e.target.value))} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="mt-5"><Field id="pr_question" label={t.m7_question_label} ph={t.m7_question_ph} rows={3} value={answers.pr_question} onChange={setA} /></div>
+      <Wrapup t={t} text={t.m7_wrapup} />
+    </>
+  );
+
+  const renderLab = () => (
+    <>
+      <p className="text-base text-slate-600 dark:text-slate-300">{t.mlab_desc}</p>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-4">
+        <LabStageOrder key={`lab1-${lang}`} t={t} onTouch={bump} />
+        <LabAxisGrid key={`lab2-${lang}`} t={t} onTouch={bump} />
+        <LabPdma key={`lab3-${lang}`} t={t} onTouch={bump} />
+        <LabTpMap key={`lab4-${lang}`} t={t} onTouch={bump} />
+        <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700 lg:col-span-2">
+          <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab5_title}</h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400">{t.lab5_desc}</p>
+          <ModuleQuiz key={`quiz-lab-${lang}`} questions={t.m2_q} t={t} moduleId={IDX_LAB} onQuizSubmit={handleQuizSubmit} />
+        </div>
+      </div>
+    </>
+  );
+
+  const renderRes = () => (
+    <>
+      <p className="text-base text-slate-600 dark:text-slate-300">{t.mres_desc}</p>
+      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-6 mb-3">{t.required_label}</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{t.res_req.map((r,i) => <LinkCard key={i} {...r} />)}</div>
+      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-8 mb-3">{t.optional_label}</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{t.res_opt.map((r,i) => <LinkCard key={i} {...r} />)}</div>
+    </>
+  );
+
+  const renderAna = () => {
+    const totalTime = analytics.time.reduce((a,b)=>a+b,0);
+    const qc = analytics.quizCorrect.reduce((a,b)=>a+b,0), qt = analytics.quizTotal.reduce((a,b)=>a+b,0);
+    const weak = [1,2,3,4,5,6,7].filter(n => sectionPct(n) < 100);
+    const stats = [
+      { val: pctPersonal + '%', label: t.analytics_pct_personal },
+      { val: pctGroup + '%', label: t.analytics_pct_group },
+      { val: totalTime + t.analytics_sec, label: t.analytics_total_time },
+      { val: qt > 0 ? Math.round(qc/qt*100) + '%' : '—', label: t.analytics_overall_acc }
+    ];
+    const setInfo = (k, v) => setStudentInfo(s => ({ ...s, [k]: v }));
+    return (
+      <>
+        <p className="text-base text-slate-600 dark:text-slate-300">{t.analytics_desc}</p>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-5">
+          {stats.map((s,i) => (
+            <div key={i} className="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 text-center">
+              <p className="font-serif font-black text-2xl text-[#004030] dark:text-[#D8C3A5]">{s.val}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{s.label}</p>
+            </div>
+          ))}
+        </div>
+
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-8 mb-3">{t.analytics_progress_title}</h3>
+        <div className="space-y-2">
+          {[1,2,3,4,5,6,7].map(n => {
+            const pct = sectionPct(n), kind = modulesList[n].kind;
+            return (
+              <button key={n} onClick={() => go(n)} className="w-full flex items-center gap-3 text-left p-3 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5] transition">
+                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded shrink-0 ${kind === 'P' ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200' : 'bg-[#D8C3A5]/30 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>{kind}</span>
+                <span className="text-sm w-36 sm:w-52 truncate shrink-0">{t[`m${n}_nav`]}</span>
+                <span className="flex-1 h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                  <span className={`block h-full ${pct === 100 ? 'bg-green-500' : 'bg-[#004030] dark:bg-[#D8C3A5]'}`} style={{width: pct + '%'}}></span>
+                </span>
+                <span className="text-sm font-bold w-12 text-right shrink-0">{pct}%</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-8 mb-3">{t.analytics_wp_title}</h3>
+        {weak.length === 0
+          ? <p className="p-4 rounded-lg bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 text-sm">{t.analytics_wp_allpass}</p>
+          : <div className="space-y-4">
+              <div className="space-y-2">
+                <p className="text-xs font-bold text-sky-700 dark:text-sky-300">{t.analytics_wp_personal_head}</p>
+                {PERSONAL_SECTIONS.filter(n => sectionPct(n) < 100).length === 0
+                  ? <p className="text-sm text-green-600 dark:text-green-400 pl-1">{t.analytics_wp_personal_done}</p>
+                  : PERSONAL_SECTIONS.filter(n => sectionPct(n) < 100).map(n => (
+                      <div key={n} className="p-3 rounded-lg bg-sky-50 dark:bg-sky-900/20 border border-sky-200 dark:border-sky-800/50 flex items-center justify-between gap-3">
+                        <span className="text-sm">{t[`m${n}_nav`]} — {sectionPct(n)}%</span>
+                        <button onClick={() => go(n)} className="text-xs font-bold text-sky-700 dark:text-sky-300 hover:underline shrink-0">{t.analytics_wp_goto}</button>
+                      </div>))}
+              </div>
+              <div className="space-y-2">
+                <p className="text-xs font-bold text-[#004030] dark:text-[#D8C3A5]">{t.analytics_wp_group_head}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 pl-1">{t.analytics_wp_group_note}</p>
+                {GROUP_SECTIONS.filter(n => sectionPct(n) < 100).length === 0
+                  ? <p className="text-sm text-green-600 dark:text-green-400 pl-1">{t.analytics_wp_group_done}</p>
+                  : GROUP_SECTIONS.filter(n => sectionPct(n) < 100).map(n => (
+                      <div key={n} className="p-3 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 flex items-center justify-between gap-3">
+                        <span className="text-sm">{t[`m${n}_nav`]} — {sectionPct(n)}%</span>
+                        <button onClick={() => go(n)} className="text-xs font-bold text-[#004030] dark:text-[#D8C3A5] hover:underline shrink-0">{t.analytics_wp_goto}</button>
+                      </div>))}
+              </div>
+            </div>}
+
+
+        <div className="mt-8 rounded-xl border-2 border-sky-200 dark:border-sky-800/60 bg-sky-50/50 dark:bg-sky-900/10 p-5">
+          <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5]">{t.analytics_personal_title}</h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-4">{t.analytics_personal_desc}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <InfoInput id="nameEn" label={t.analytics_name_en} ph={t.analytics_name_en_ph} value={studentInfo.nameEn} onChange={setInfo} />
+            <InfoInput id="nameZh" label={t.analytics_name_zh} ph={t.analytics_name_zh_ph} value={studentInfo.nameZh} onChange={setInfo} />
+            <InfoInput id="id" label={t.analytics_id} ph={t.analytics_id_ph} value={studentInfo.id} onChange={setInfo} san={sanitizeStudentId} />
+            <InfoInput id="dept" label={t.analytics_dept} ph={t.analytics_dept_ph} value={studentInfo.dept} onChange={setInfo} />
+          </div>
+          <button onClick={exportPersonal} disabled={!okPersonal}
+            className="mt-4 px-5 py-2.5 bg-sky-700 dark:bg-sky-300 text-white dark:text-sky-950 font-bold rounded-lg disabled:opacity-40">{t.analytics_export_personal}</button>
+          {!okPersonal && <p className="text-xs text-amber-600 dark:text-amber-400 mt-2">{t.analytics_need_personal}</p>}
+        </div>
+
+        <div className="mt-5 rounded-xl border-2 border-[#D8C3A5] dark:border-[#D8C3A5]/50 bg-[#D8C3A5]/10 p-5">
+          <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5]">{t.analytics_group_title}</h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-4">{t.analytics_group_desc}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div><label className="block text-xs font-bold text-slate-500 mb-1">{t.analytics_group}</label>
+              <select className={inputCls} value={studentInfo.group} onChange={e => setStudentInfo(s => ({...s, group: e.target.value}))}>
+                <option value="">{t.select_ph}</option>{t.group_options.map(g => <option key={g} value={g}>{g}</option>)}
+              </select></div>
+            <InfoInput id="compiler" label={t.analytics_compiler} ph={t.analytics_compiler_ph} value={studentInfo.compiler} onChange={setInfo} />
+          </div>
+          <div className="flex flex-wrap gap-3 mt-4">
+            <button onClick={exportGroupCSV} disabled={!okGroup} className="px-5 py-2.5 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg disabled:opacity-40">{t.analytics_export_csv}</button>
+            <button onClick={exportGroupMD} disabled={!okGroup} className="px-5 py-2.5 border-2 border-[#004030] dark:border-[#D8C3A5] text-[#004030] dark:text-[#D8C3A5] font-bold rounded-lg disabled:opacity-40">{t.analytics_export_md}</button>
+          </div>
+          {!okGroup && <p className="text-xs text-amber-600 dark:text-amber-400 mt-2">{t.analytics_need_group}</p>}
+        </div>
+
+        <div className="mt-6 flex items-center gap-3 flex-wrap">
+          <button onClick={clearAll} className="px-5 py-2.5 border border-red-400 text-red-600 dark:text-red-400 font-bold rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20">{t.analytics_wp_clear}</button>
+          <span className="text-xs text-slate-400">💾 {t.analytics_wp_saved}</span>
+        </div>
+      </>
+    );
+  };
+
+  const body = () => {
+    if (module === 0) return renderM0();
+    if (module === 1) return renderM1();
+    if (module === 2) return renderM2();
+    if (module === 3) return renderM3();
+    if (module === 4) return renderM4();
+    if (module === 5) return renderM5();
+    if (module === 6) return renderM6();
+    if (module === 7) return renderM7();
+    if (module === IDX_LAB) return renderLab();
+    if (module === IDX_RES) return renderRes();
+    return renderAna();
+  };
+  const cur = modulesList[module];
+
+  return (
+    <div className="min-h-screen flex flex-col pt-16 overflow-x-hidden">
+      <header className="fixed top-0 left-0 right-0 h-16 bg-[#004030] dark:bg-slate-900 text-white z-50 shadow-lg border-b border-[#D8C3A5]/30">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-1 sm:gap-2 min-w-0">
+            <div className="relative" ref={menuRef}>
+              <button onClick={() => setMenuOpen(!menuOpen)} className="p-2 hover:bg-white/10 rounded-lg" aria-label={t.nav_modules}>{menuOpen ? <IconX/> : <IconMenu/>}</button>
+              {menuOpen && (
+                <div className="absolute top-full left-0 mt-1 w-72 max-w-[calc(100vw-2rem)] max-h-[calc(100vh-5rem)] overflow-y-auto bg-white dark:bg-slate-800 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 z-[100]">
+                  {modulesList.map(m => (
+                    <button key={m.id} onClick={() => go(m.id)}
+                      className={`w-full flex items-center gap-3 px-4 py-3 text-sm transition ${module === m.id ? 'bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5] font-bold' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700'}`}>
+                      <span className="ui-decoration">{m.icon}</span><span className="truncate flex-1 text-left">{m.title}</span>
+                      {m.kind && <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded shrink-0 ${m.kind === 'P' ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200' : 'bg-[#D8C3A5]/40 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>{m.kind}</span>}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+            <button onClick={() => go(0)} className="p-2 hover:bg-white/10 rounded-lg" aria-label={t.nav_home}><IconHome size={18}/></button>
+            <button onClick={() => window.scrollTo({top:0,behavior:'smooth'})} className="flex items-center gap-2 min-w-0">
+              <span className="font-serif font-black text-[#D8C3A5] text-lg tracking-widest">{t.brand}</span>
+              <span className="hidden sm:inline font-serif font-bold text-sm md:text-base truncate">{t.title}</span>
+            </button>
+          </div>
+          <div className="flex items-center gap-1 sm:gap-2">
+            <button onClick={() => handleTTS(ttsState === 'playing' ? 'pause' : 'play')} className="p-2 hover:bg-white/10 rounded-lg" aria-label={t.audio_read}>{ttsState === 'playing' ? <IconPause size={18}/> : <IconPlay size={18}/>}</button>
+            <button onClick={() => handleTTS('stop')} className="p-2 hover:bg-white/10 rounded-lg" aria-label="Stop"><IconSquare size={18}/></button>
+            <button onClick={() => setLang(lang === 'en' ? 'zh' : 'en')} className="px-2 py-2 hover:bg-white/10 rounded-lg flex items-center gap-1"><IconGlobe size={18}/><span className="text-xs font-bold">{lang === 'en' ? '中' : 'EN'}</span></button>
+            <button onClick={() => setIsDark(!isDark)} className="p-2 hover:bg-white/10 rounded-lg" aria-label="Theme">{isDark ? <IconSun size={18}/> : <IconMoon size={18}/>}</button>
+          </div>
+        </div>
+      </header>
+
+      <div className="flex-1 w-full max-w-7xl mx-auto flex">
+        <aside className="hidden md:block w-64 shrink-0 border-r border-slate-200 dark:border-slate-700 py-8 px-3">
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 px-3 mb-3">{t.nav_modules}</p>
+          {modulesList.map(m => (
+            <button key={m.id} onClick={() => go(m.id)}
+              className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm mb-1 transition ${module === m.id ? 'bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5] font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'}`}>
+              <span className="ui-decoration shrink-0">{m.icon}</span>
+              <span className="truncate text-left flex-1">{m.title}</span>
+              {m.kind && <span className={`text-[10px] font-bold px-1 rounded shrink-0 ${m.kind === 'P' ? 'text-sky-700 dark:text-sky-300' : 'text-[#004030] dark:text-[#D8C3A5]'}`}>{m.kind}</span>}
+            </button>
+          ))}
+          <div className="mt-6 px-3 space-y-3">
+            <div>
+              <p className="text-xs text-slate-400 mb-1">{t.analytics_pct_personal}</p>
+              <div className="h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden"><div className={`h-full ${pctPersonal === 100 ? 'bg-green-500' : 'bg-sky-600 dark:bg-sky-400'}`} style={{width: pctPersonal + '%'}}></div></div>
+              <p className="text-xs font-bold text-sky-700 dark:text-sky-300 mt-1">{pctPersonal}%</p>
+            </div>
+            <div>
+              <p className="text-xs text-slate-400 mb-1">{t.analytics_pct_group}</p>
+              <div className="h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden"><div className={`h-full ${pctGroup === 100 ? 'bg-green-500' : 'bg-[#004030] dark:bg-[#D8C3A5]'}`} style={{width: pctGroup + '%'}}></div></div>
+              <p className="text-xs font-bold text-[#004030] dark:text-[#D8C3A5] mt-1">{pctGroup}%</p>
+            </div>
+          </div>
+        </aside>
+
+        <main className="flex-1 min-w-0 py-8 px-4 sm:px-6">
+          <div key={`${module}-${lang}`} className="space-y-6 text-lg leading-relaxed text-slate-700 dark:text-slate-300 animate-fade-in">
+            {module !== 0 && (
+              <div>
+                <H2 icon={cur.icon} number={cur.num}>{module <= NUM_LEARN ? t[`m${module}_title`] : module === IDX_LAB ? t.mlab_title : module === IDX_RES ? t.mres_title : t.analytics_title}</H2>
+                {cur.kind && <Badge kind={cur.kind} t={t} />}
+              </div>
+            )}
+            {body()}
+            <div className="mt-12 flex justify-between items-center pt-8 border-t border-slate-300 dark:border-slate-700 no-print">
+              <button onClick={() => go(Math.max(0, module-1))} disabled={module === 0}
+                className="px-5 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg text-sm font-bold hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-0">← {t.nav_prev}</button>
+              <button onClick={() => go(Math.min(TOTAL-1, module+1))} disabled={module === TOTAL-1}
+                className="px-5 py-2.5 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] rounded-lg text-sm font-bold disabled:opacity-0">{t.nav_next} →</button>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <footer className="h-8 bg-[#004030] flex items-center justify-between px-4 shrink-0">
+        <span className="text-[#D8C3A5]/60 text-[10px] sm:text-xs truncate">{t.date} · {t.copyright}</span>
+        <span className="text-[#D8C3A5]/60 text-[10px] sm:text-xs flex items-center gap-3 shrink-0">
+          <span className="hidden sm:inline">{t.architect_label}&nbsp;<a href={t.architect_url} target="_blank" rel="noopener noreferrer" className="text-[#D8C3A5] hover:text-white underline">Prof. Shihmin Lo</a></span>
+          <button onClick={() => window.scrollTo({top:0,behavior:'smooth'})} className="text-[#D8C3A5] hover:text-white font-bold">Top ↑</button>
+        </span>
+      </footer>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
