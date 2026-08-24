@@ -15,6 +15,8 @@ Each worksheet is one self-contained HTML file (`index.html`) — React, Tailwin
 
 ## Notes for maintenance
 
+- The index page carries a **passphrase curtain**, not security. The passphrase is hard-coded in front-end JavaScript, so anyone who opens view-source or DevTools can read it. It keeps casual passers-by out of the entry page; it is not a guarantee that the contents stay private, and it must never be reused as a password for any real account. Deep links such as `/W03/` bypass it by design — the worksheets are course material, and this layer is a curtain in the same sense as the domain lock below.
+- Unlocking is remembered in that browser's `localStorage` under `pmcs1151_gate`. A different computer, a cleared cache or a private window will ask again.
 - Every worksheet enforces a **domain lock**: it runs on `lolopodcast.github.io`, `localhost` and `127.0.0.1` only. Serving it from another host shows a notice instead of the content.
 - Required-reading links point at the six teaching SPAs (AIWE, AGEN, IPOB, JDKS, PLAN, CTRL) and at the Hub. Those URLs are hard-coded, so the repositories behind them must keep their current names.
 - The group CSV export carries a self-describing `Meta` block that configures the teacher's aggregator (`PMCS_Aggregator.html`). Changing a section-6 field id or a checkpoint wording means updating the aggregator's `WEEK_SPECS` too.
