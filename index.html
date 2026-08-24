@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PMCS 1151 · Worksheets 學習單</title>
+<meta name="description" content="Weekly worksheets for PMCS (EMI) — Introduction to Project Management and Career Strategy as a Product Manager in the AI Era.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#004030; --gold:#D8C3A5; --bg:#F7F5F0; --card:#FFFFFF;
+  --tx:#12241E; --tx2:#4A5C55; --line:#DED8CC; --accent:#004030;
+}
+html[data-theme="dark"]{
+  --bg:#03150F; --card:#0A2019; --tx:#EDE8DF; --tx2:#9DB0A7;
+  --line:#1C3A30; --accent:#D8C3A5;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font-family:Inter,"Noto Sans TC",system-ui,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+header{position:sticky;top:0;z-index:20;height:64px;display:flex;align-items:center;
+  background:var(--ink);color:#F3EFE7;border-bottom:1px solid rgba(216,195,165,.25)}
+html[data-theme="dark"] header{background:#02100B}
+header .wrap{display:flex;align-items:center;gap:14px;width:100%}
+.brand{font-family:Merriweather,Georgia,serif;font-weight:700;font-size:19px;letter-spacing:.02em;color:var(--gold)}
+.brand small{display:block;font-family:Inter,sans-serif;font-weight:400;font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:rgba(243,239,231,.62);margin-top:1px}
+.sp{flex:1}
+header button{font:inherit;font-size:13px;font-weight:500;cursor:pointer;padding:6px 13px;border-radius:999px;
+  background:transparent;color:#F3EFE7;border:1px solid rgba(216,195,165,.42);transition:.15s}
+header button:hover{background:rgba(216,195,165,.14)}
+
+.hero{padding:52px 0 34px;border-bottom:1px solid var(--line)}
+.hero h1{font-family:Merriweather,Georgia,serif;font-size:clamp(26px,4.2vw,40px);line-height:1.25;font-weight:700;letter-spacing:-.01em}
+.hero .sub{color:var(--tx2);font-size:16px;margin-top:12px;max-width:62ch}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.pill{font-size:12.5px;padding:5px 12px;border-radius:999px;border:1px solid var(--line);color:var(--tx2);background:var(--card)}
+.pill b{color:var(--accent);font-weight:600}
+
+.notice{margin:30px 0 0;padding:16px 18px;border-radius:10px;border:1px solid var(--line);
+  border-left:3px solid var(--accent);background:var(--card);font-size:14.5px;color:var(--tx2)}
+.notice b{color:var(--tx);font-weight:600}
+
+section{padding:38px 0 6px}
+.block-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.block-head h2{font-family:Merriweather,Georgia,serif;font-size:20px;font-weight:700}
+.block-head .rng{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.block-desc{color:var(--tx2);font-size:14.5px;margin-bottom:18px;max-width:70ch}
+
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.card{display:block;text-decoration:none;background:var(--card);border:1px solid var(--line);
+  border-radius:12px;padding:18px 18px 16px;transition:.16s;position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:var(--accent);opacity:0;transition:.16s}
+.card:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:0 6px 22px rgba(0,0,0,.10)}
+.card:hover::before{opacity:1}
+.card .wk{font-size:11.5px;letter-spacing:.16em;font-weight:600;color:var(--accent);text-transform:uppercase}
+.card .zh{font-family:Merriweather,Georgia,serif;font-size:16.5px;font-weight:700;margin-top:7px;line-height:1.42}
+.card .en{color:var(--tx2);font-size:13.5px;margin-top:5px;line-height:1.5}
+.card .go{margin-top:13px;font-size:12.5px;color:var(--accent);font-weight:600}
+
+footer{margin-top:52px;border-top:1px solid var(--line);padding:20px 0 34px;color:var(--tx2);font-size:12.5px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+footer a{color:var(--accent);text-decoration:none}
+footer a:hover{text-decoration:underline}
+[data-l]{display:none}
+html[lang="en"] [data-l="en"],html[lang="zh"] [data-l="zh"]{display:block}
+span[data-l],b[data-l]{display:none}
+html[lang="en"] span[data-l="en"],html[lang="zh"] span[data-l="zh"],
+html[lang="en"] b[data-l="en"],html[lang="zh"] b[data-l="zh"]{display:inline}
+@media (max-width:520px){.hero{padding:34px 0 26px}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand">PMCS<small>1151 · NCNU IBS</small></div>
+    <div class="sp"></div>
+    <button id="lang" type="button">中文</button>
+    <button id="theme" type="button" aria-label="theme">◑</button>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="hero">
+    <h1 data-l="en">Weekly Worksheets</h1>
+    <h1 data-l="zh">每週學習單</h1>
+    <p class="sub" data-l="en">Introduction to Project Management and Career Strategy as a Product Manager in the AI Era — twelve worksheets across four three-week blocks. Each one is done individually first, then consolidated as a group.</p>
+    <p class="sub" data-l="zh">AI 世代產品經理職涯策略與專案管理導論——四個三週區塊、共十二份學習單。每一份都先個人獨作，再由小組收攏成綜整成果。</p>
+    <div class="meta">
+      <span class="pill"><b>12</b> <span data-l="en">worksheets</span><span data-l="zh">份學習單</span></span>
+      <span class="pill"><b>6</b> <span data-l="en">groups</span><span data-l="zh">組</span></span>
+      <span class="pill"><span data-l="en">Prof. Shihmin Lo · IBS, NCNU</span><span data-l="zh">駱世民 教授 · 暨大國企系</span></span>
+    </div>
+    <div class="notice">
+      <span data-l="en"><b>Submission.</b> Every group submits the weekly worksheet on Moodle by <b>23:59 on the Tuesday</b> before class, whether or not it is presenting that week. Sections 2 to 4 are individual work and are not submitted; sections 1, 5, 6 and 7 are the group's consolidated work. A worksheet revised after class in light of the discussion and resubmitted earns a Bonus Assignment point.</span>
+      <span data-l="zh"><b>繳交方式。</b>各組每週均須繳交，不論該週是否輪到簡報，於課前<b>週二 23:59</b> 前上傳 Moodle。第 2 至 4 節為個人獨作、不繳交；第 1、5、6、7 節為小組綜整成果。課後依課堂討論修訂並重新繳交者，計加分作業（BA）一次。</span>
+    </div>
+  </div>
+
+  <section>
+    <div class="block-head">
+      <span class="rng">W3 – W5</span>
+      <h2 data-l="en">The Architecture of Working with AI</h2>
+      <h2 data-l="zh">AI 世代的工作架構</h2>
+    </div>
+    <p class="block-desc" data-l="en">Where your work actually lives, the four engineering dimensions of an agent system, and the path from intent to a governed, persistent agent.</p>
+    <p class="block-desc" data-l="zh">工作到底放在哪一層、Agent 系統的四個工程構面，以及從意圖到可治理、能持續運行的 Agent 的路徑。</p>
+    <div class="grid">
+      <a class="card" href="W03/"><div class="wk">Worksheet W3</div><div class="zh">你的工作到底放在哪裡？</div><div class="en">Where Does Your Work Actually Live?</div><div class="go">→ <span data-l="en">Open</span><span data-l="zh">開啟</span></div></a>
+      <a class="card" href="W04/"><div class="wk">Worksheet W4</div><div class="zh">一個 Agent 系統的四個工程構面</div><div class="en">Four Engineering Dimensions of One Agent System</div><div class="go">→ <span data-l="en">Open</span><span data-l="zh">開啟</span></div></a>
+      <a class="card" href="W05/"><div class="wk">Worksheet W5</div><div class="zh">從意圖到一個可治理、能持續跑的 Agent</div><div class="en">From Intent to a Governed, Persistent Agent</div><div class="go">→ <span data-l="en">Open</span><span data-l="zh">開啟</span></div></a>
+    </div>
+  </section>
+
+  <section>
+    <div class="block-head">
+      <span class="rng">W6 – W8</span>
+      <h2 data-l="en">The Product Manager: Role, Competency, Career</h2>
+      <h2 data-l="zh">產品經理的角色、職能與職涯</h2>
+    </div>
+    <p class="block-desc" data-l="en">Where the PM sits in the NPD process, competency as a function of knowledge, skills and attitude, and turning a career goal into one sentence of requirement.</p>
+    <p class="block-desc" data-l="zh">PM 在新產品開發流程裡的位置、職能作為知識與技能與態度的函數，以及把職涯目標收斂成一句需求。</p>
+    <div class="grid">
+      <a class="card" href="W06/"><div class="wk">Worksheet W6</div><div class="zh">PM 在 NPD 流程裡站在哪裡</div><div class="en">Where the PM Stands in the NPD Process</div><div class="go">→ <span data-l="en">Open</span><span data-l="zh">開啟</span></div></a>
+      <a class="card" href="W07/"><div class="wk">Worksheet W7</div><div class="zh">把職缺文本拆成 K／S／A</div><div class="en">Turning a Job Posting into K, S, A</div><div class="go">→ <span data-l="en">Open</span><span data-l="zh">開啟</span></div></a>
+      <a class="card" href="W08/"><div class="wk">Worksheet W8</div><div class="zh">把職涯目標變成一句需求</div><div class="en">Turning a Career Goal into One Sentence of Requirement</div><div class="go">→ <span data-l="en">Open</span><span data-l="zh">開啟</span></div></a>
+    </div>
+  </section>
+
+  <section>
+    <div class="block-head">
+      <span class="rng">W10 – W12</span>
+      <h2 data-l="en">Building Your Morning-Brief Agent</h2>
+      <h2 data-l="zh">建置你的晨報 Agent</h2>
+    </div>
+    <p class="block-desc" data-l="en">The same three diagrams walked a second time, but every cell is now answered against your own Term Project. The first round asked what this is; this round asks what goes here in my project.</p>
+    <p class="block-desc" data-l="zh">同樣三張圖走第二遍，但這次每一格都要用自己組的期末專案來回答。第一輪問「這是什麼」，第二輪問「我的專案這一格放什麼」。</p>
+    <div class="grid">
+      <a class="card" href="W10/"><div class="wk">Worksheet W10</div><div class="zh">把一次對話升級成有邊界的 Project</div><div class="en">From One Conversation to a Project with Boundaries</div><div class="go">→ <span data-l="en">Open</span><span data-l="zh">開啟</span></div></a>
+      <a class="card" href="W11/"><div class="wk">Worksheet W11</div><div class="zh">檢索、判定、法遵、資安：一次做對</div><div class="en">Retrieval, Classification, Compliance, Security</div><div class="go">→ <span data-l="en">Open</span><span data-l="zh">開啟</span></div></a>
+      <a class="card" href="W12/"><div class="wk">Worksheet W12</div><div class="zh">心跳、自我校正與上線</div><div class="en">Heartbeat, Self-Correction and Going Live</div><div class="go">→ <span data-l="en">Open</span><span data-l="zh">開啟</span></div></a>
+    </div>
+  </section>
+
+  <section>
+    <div class="block-head">
+      <span class="rng">W13 – W15</span>
+      <h2 data-l="en">Project Management: Planning, Controlling, Delivering</h2>
+      <h2 data-l="zh">專案管理：規劃、控制、交付</h2>
+    </div>
+    <p class="block-desc" data-l="en">Three weeks on project management proper, using your own Term Project as the material throughout. The W15 class day is D day for the whole cohort.</p>
+    <p class="block-desc" data-l="zh">三週專注於專案管理本身，練習素材全部是各組自己的期末專案。W15 上課日即為全班 D day。</p>
+    <div class="grid">
+      <a class="card" href="W13/"><div class="wk">Worksheet W13</div><div class="zh">三重限制、WBS 與關鍵路徑</div><div class="en">The Triple Constraint, the WBS and the Critical Path</div><div class="go">→ <span data-l="en">Open</span><span data-l="zh">開啟</span></div></a>
+      <a class="card" href="W14/"><div class="wk">Worksheet W14</div><div class="zh">風險識別、評估與應對</div><div class="en">Identifying, Assessing and Responding to Risk</div><div class="go">→ <span data-l="en">Open</span><span data-l="zh">開啟</span></div></a>
+      <a class="card" href="W15/"><div class="wk">Worksheet W15</div><div class="zh">交付、驗收與復盤　★ D day</div><div class="en">Delivery, Acceptance and the Retrospective　★ D day</div><div class="go">→ <span data-l="en">Open</span><span data-l="zh">開啟</span></div></a>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <span data-l="en">PMCS (EMI) · Semester 1151 · Prof. Shihmin Lo, Department of International Business Studies, National Chi Nan University</span>
+    <span data-l="zh">PMCS（全英授課）· 1151 學期 · 國立暨南國際大學國際企業學系 駱世民 教授</span>
+    <span>·</span>
+    <a href="https://lolopodcast.github.io/AI-Workshop-Hub/"><span data-l="en">AI Teaching Resources Hub</span><span data-l="zh">AI 教學資源總入口</span></a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  try{ var l=localStorage.getItem('pmcs1151_lang'); if(l==='zh'||l==='en') root.lang=l; }catch(e){}
+  try{ var t=localStorage.getItem('pmcs1151_theme'); if(t==='light'||t==='dark') root.dataset.theme=t; }catch(e){}
+  function paint(){
+    document.getElementById('lang').textContent = root.lang==='zh' ? 'EN' : '中文';
+  }
+  document.getElementById('lang').addEventListener('click',function(){
+    root.lang = root.lang==='zh' ? 'en' : 'zh';
+    try{ localStorage.setItem('pmcs1151_lang',root.lang); }catch(e){}
+    paint();
+  });
+  document.getElementById('theme').addEventListener('click',function(){
+    root.dataset.theme = root.dataset.theme==='dark' ? 'light' : 'dark';
+    try{ localStorage.setItem('pmcs1151_theme',root.dataset.theme); }catch(e){}
+  });
+  paint();
+})();
+</script>
+</body>
+</html>
