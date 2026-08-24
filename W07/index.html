@@ -420,7 +420,7 @@ const dict = {
     lab3_ref: "參考答案",
     lab3_note: "四則裡有一則是刻意設計的「掛 PM 實為 PjM」。如果你被職稱帶著走，那一則就會判錯——真實資料裡這種混用是常態，不是例外。",
     lab4_title: "④ 抽取規則產生器",
-    lab4_desc: "勾選你要用的來源欄位、正規化做法與判準詞，產出一份可以直接貼進 KB/ksa_taxonomy.md 的 Markdown 草稿。",
+    lab4_desc: "勾選你要用的來源欄位、正規化做法與判定詞，產出一份可以直接貼進 KB/ksa_taxonomy.md 的 Markdown 草稿。",
     lab4_src_label: "來源欄位",
     lab4_srcs: [
       { k:"edu", n:"學歷要求", d:"K" },
@@ -440,7 +440,7 @@ const dict = {
       { k:"keep", n:"保留原文關鍵詞與原始連結，供回溯" },
       { k:"split", n:"以逗號、頓號、換行切分後去重" }
     ],
-    lab4_term_label: "兩軸判準詞",
+    lab4_term_label: "兩軸判定詞",
     lab4_terms_pm: ["產品藍圖","產品生命週期","產品損益","市場需求","競品分析","定價","規格定義","EOL"],
     lab4_terms_pjm: ["時程","里程碑","資源調配","風險管控","跨部門協調","進度追蹤","交付驗收","工作分解結構"],
     lab4_undec_label: "判不出來時怎麼辦",
@@ -457,7 +457,7 @@ const dict = {
     mres_nav: "9. 學習資源", mres_title: "本週學習資源",
     mres_desc: "必讀兩份，符合本課程規則：每週必讀 = 一份互動教材加上至多一支十分鐘內的短片，本週沒有短片，改為兩份互動教材。第一份是本週主教材，第 2、3 節直接依據它；第二份是相鄰架構，當 competency framework 讀，補上談能力時的共同語彙。選讀不影響學習單，但寫成書面整理可計入加分作業。",
     res_req: [
-      { label: "JDKS · 讀懂一份 JD：把職缺文本拆成 K／S／A", url: "https://lolopodcast.github.io/JD-to-KSA/", desc: "本週主教材，也是第 2、3 節的直接依據。104 欄位結構、K／S／A 操作型定義與映射、A 的四象限、兩軸判定的判準詞。" },
+      { label: "JDKS · 讀懂一份 JD：把職缺文本拆成 K／S／A", url: "https://lolopodcast.github.io/JD-to-KSA/", desc: "本週主教材，也是第 2、3 節的直接依據。104 欄位結構、K／S／A 操作型定義與映射、A 的四象限、兩軸判定的判定詞。" },
       { label: "AICF · AI 素養共通語言學習平台", url: "https://lolopodcast.github.io/AICF-AI-Competency-Framework/", desc: "相鄰架構，請當 competency framework 讀：一套能力被拆成構面與層級之後，語彙如何被統一，正好對照本週的 K／S／A。" }
     ],
     res_opt: [
@@ -1469,7 +1469,7 @@ const LabRuleGen = ({ t, state, setState, onTouch, lang }) => {
       L.push('');
     }
     if (usePm || usePjm) {
-      L.push(lang === 'zh' ? '## 兩軸判準詞' : '## Two-axis decision terms');
+      L.push(lang === 'zh' ? '## 兩軸判定詞' : '## Two-axis decision terms');
       if (usePm) L.push('- PM: ' + t.lab4_terms_pm.join(', '));
       if (usePjm) L.push('- PjM: ' + t.lab4_terms_pjm.join(', '));
       L.push(lang === 'zh' ? '- 依據一律引用工作內容原句，不採信職稱。' : '- Evidence is always a sentence from the job description, never the title.');
