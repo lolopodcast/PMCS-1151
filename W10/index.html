@@ -1,1 +1,2151 @@
-W10
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PMCS Worksheet W10 — From One Conversation to a Project with Boundaries</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.7/babel.min.js"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: { extend: { fontFamily: { sans: ['Inter','sans-serif'], serif: ['Merriweather','serif'] } } }
+  }
+</script>
+<style>
+  @keyframes fadeInUp { from{opacity:0;transform:translateY(15px)} to{opacity:1;transform:translateY(0)} }
+  .animate-fade-in { animation: fadeInUp 0.5s ease-out forwards; }
+  .perspective { perspective: 1000px; }
+  .transform-style-3d { transform-style: preserve-3d; }
+  .backface-hidden { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  .rotate-y-180 { transform: rotateY(180deg); }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+  .dark ::-webkit-scrollbar-thumb { background: #475569; }
+  header, footer, button, [role="button"], .ui-decoration { -webkit-user-select: none; user-select: none; }
+  input, textarea, select { -webkit-user-select: text; user-select: text; }
+  html { overflow-x: hidden; }
+  @media print { header, footer, aside, .no-print { display: none !important; } }
+</style>
+</head>
+<body class="bg-[#f4f4f4] dark:bg-[#121212] selection:bg-[#004030] selection:text-white dark:selection:bg-[#D8C3A5] dark:selection:text-[#004030] overflow-x-hidden">
+<div id="root"></div>
+
+<script>
+(function(){
+  var ALLOWED = ['lolopodcast.github.io','localhost','127.0.0.1','claude.ai','anthropic.com','usercontent.goog'];
+  var REDIRECT = 'https://www.ibs.ncnu.edu.tw/index.php/faculty/tenured-professor/299-smlo';
+  var h = location.hostname;
+  var isFile = location.protocol === 'file:' || h === '';
+  var ok = isFile || ALLOWED.some(function(d){ return h === d || h.endsWith('.' + d); });
+  if (!ok) {
+    document.body.innerHTML = '<div style="text-align:center;padding:60px;font-family:sans-serif"><h1>Access Denied</h1><p>This resource is not authorised on this domain.</p></div>';
+    setTimeout(function(){ location.href = REDIRECT; }, 3000);
+    return;
+  }
+  if (window.self !== window.top) {
+    try { window.top.location.href = window.self.location.href; } catch(e) {}
+  }
+})();
+(function(){
+  var MSG = 'Intellectual Property of Prof. Shihmin Lo';
+  var el = null, timer = null;
+  window.showCopyrightToast = function(){
+    if (!el) {
+      el = document.createElement('div');
+      el.style.cssText = 'position:fixed;left:50%;bottom:48px;transform:translateX(-50%);background:#004030;color:#D8C3A5;padding:10px 20px;border-radius:10px;font-family:Inter,sans-serif;font-size:13px;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.3);opacity:0;transition:opacity .25s';
+      el.textContent = MSG;
+      document.body.appendChild(el);
+    }
+    el.style.opacity = '1';
+    clearTimeout(timer);
+    timer = setTimeout(function(){ el.style.opacity = '0'; }, 2000);
+  };
+  document.addEventListener('contextmenu', function(e){
+    var tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || tag === 'select') return true;
+    if (window.getSelection().toString().trim().length > 0) return true;
+    e.preventDefault(); window.showCopyrightToast();
+  });
+  document.addEventListener('keydown', function(e){
+    var k = (e.key || '').toLowerCase();
+    if (e.key === 'F12') { e.preventDefault(); window.showCopyrightToast(); return; }
+    if (e.ctrlKey && k === 'u') { e.preventDefault(); window.showCopyrightToast(); return; }
+    if (e.ctrlKey && e.shiftKey && ['i','j','c'].indexOf(k) >= 0) { e.preventDefault(); window.showCopyrightToast(); return; }
+  });
+  document.addEventListener('dragstart', function(e){
+    if (e.target.tagName === 'IMG' || (e.target.closest && e.target.closest('svg'))) e.preventDefault();
+  });
+})();
+</script>
+
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+/* ================= Answer obfuscation ================= */
+const _SALT = 'W102026';
+const _e = (s, n) => {
+  const p = s + ':' + n; let r = '';
+  for (let i = 0; i < p.length; i++) r += String.fromCharCode(p.charCodeAt(i) ^ ((i + 7) * 3 & 0xFF));
+  return btoa(r);
+};
+const _d = (token) => {
+  const dec = atob(token); let r = '';
+  for (let i = 0; i < dec.length; i++) r += String.fromCharCode(dec.charCodeAt(i) ^ ((i + 7) * 3 & 0xFF));
+  return parseInt(r.split(':')[1], 10);
+};
+const _A0 = _e(_SALT,0), _A1 = _e(_SALT,1), _A2 = _e(_SALT,2), _A3 = _e(_SALT,3);
+
+/* ================= Module map =================
+   M0 概要 / M1 分工[G] / M2 Repo 與持久資產[P] / M3 金鑰與版控[P] / M4 語言[P]
+   M5 小組綜整[G] / M6 依演化表建置[G] / M7 簡報計畫[G] / M8 Lab / M9 資源 / M10 完成度
+================================================= */
+const NUM_LEARN = 7;
+const TOTAL = 1 + NUM_LEARN + 3;
+const IDX_LAB = NUM_LEARN + 1;
+const IDX_RES = NUM_LEARN + 2;
+const IDX_ANA = NUM_LEARN + 3;
+const MAX_MEMBERS = 10;
+const DEFAULT_MEMBERS = 6;
+const MEMBER_IDX = [...Array(MAX_MEMBERS).keys()];
+const PERSONAL_SECTIONS = [2,3,4];
+const GROUP_SECTIONS = [1,5,6,7];
+
+const ASSET_IDS = ['theme','rules','sources','ksa','mem','key'];
+const S2_IDS = ['repo_url','repo_tree','kb_theme','kb_rules','kb_sources','kb_ksa','mem_design'];
+
+const sanitizeStudentId = (v) => v.replace(/[^0-9]/g, '').slice(0, 12);
+const sanitizeName = (v) => v.replace(/[<>"'&\\]/g, '').slice(0, 50);
+const sanitizeText = (v) => v.slice(0, 2000);
+
+/* ================= Icons ================= */
+const S = (p) => ({ width: p.size||20, height: p.size||20, viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:2, strokeLinecap:"round", strokeLinejoin:"round" });
+const IconMenu=(p)=><svg {...S(p)}><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>;
+const IconX=(p)=><svg {...S(p)}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>;
+const IconHome=(p)=><svg {...S(p)}><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>;
+const IconGlobe=(p)=><svg {...S(p)}><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>;
+const IconMoon=(p)=><svg {...S(p)}><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>;
+const IconSun=(p)=><svg {...S(p)}><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.2" y1="4.2" x2="5.6" y2="5.6"/><line x1="18.4" y1="18.4" x2="19.8" y2="19.8"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.2" y1="19.8" x2="5.6" y2="18.4"/><line x1="18.4" y1="5.6" x2="19.8" y2="4.2"/></svg>;
+const IconPlay=(p)=><svg {...S(p)}><polygon points="5 3 19 12 5 21 5 3"/></svg>;
+const IconPause=(p)=><svg {...S(p)}><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>;
+const IconSquare=(p)=><svg {...S(p)}><rect x="4" y="4" width="16" height="16" rx="2"/></svg>;
+const IconCheckCircle=(p)=><svg {...S(p)}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>;
+
+/* ================= Dictionary ================= */
+const dict = {
+  zh: {
+    brand: "PMCS",
+    title: "學習單 W10", subtitle: "把一次對話升級成有邊界的 Project",
+    nav_modules: "單元目錄", nav_prev: "上一單元", nav_next: "下一單元", nav_home: "首頁",
+    key_terms: "隨手參考卡", flip_prompt: "點擊翻轉",
+    flip_status: "已讀 {read} / 已顯示 {shown} / 總計 {total}",
+    flip_next: "下一組", flip_retry: "重新開始",
+    audio_read: "語音導覽",
+    quiz_title: "課前自我檢核", quiz_status: "答對 {correct} / 已答 {answered} / 總計 {total}",
+    quiz_next: "下一組", quiz_retry: "重新測驗",
+    submit: "提交答案", correct: "正確", incorrect: "錯誤", explanation: "解析",
+    overview_label: "Overview 本節任務",
+    highlights_label: "Highlights 關鍵字",
+    deep_dive_label: "Deep Dive 填寫說明",
+    wrapup_label: "Wrap-up 檢查點",
+    badge_personal: "個人填寫・不繳交",
+    badge_group: "小組共同・隨小組版繳交",
+    saved_hint: "✍️ 填寫內容自動存在你這台電腦的瀏覽器裡；換裝置不會跟著走，請務必到「完成度與匯出」頁匯出檔案。",
+    required_label: "必讀教材", optional_label: "選讀教材（可撰寫為 BA）",
+    select_ph: "請選擇",
+
+    m0_nav: "0. 執行概要",
+    m0_title: "這份學習單怎麼用",
+    m0_intro: "這是 PMCS 課程 W10 的課前學習單。W10 到 W12 是三張圖的第二輪——實作層。第一輪在 W3 到 W5，你們只是把地圖吸收進來；這一輪要在自己期末專案真實的痛點上重看同樣三張圖，它才會從知識變成能力。本週的主教材是 AIWE · AI 工作環境的層級模型，這是第二次讀，這次要把第 7 層「工作容器」真的建出來。主題是把期末專案從「一次對話」升級成「有邊界的 Project」，對應這條升級路徑：臨時工作 → 專用資料夾 → Project 規則 → KB／Memory → Harness → Verified Loop。請特別注意課堂的角色轉變：課內 50 分鐘只做三件事——教師示範、兩組簡報、卡關診斷；實際建置一律在課外的 SDL 完成。這三週的課堂是除錯門診，不是實作課，你帶著已經動手過的半成品和卡住的地方來，才有東西可以診斷。第 2 到第 4 節每人各填自己的、不繳交；第 5 到第 7 節由小組共同決定，隨小組版繳交。",
+    m0_why: "為什麼這一週要真的動手建 repo？",
+    m0_why_desc: "因為到目前為止，你們的期末專案都還活在一次一次的對話裡：關掉視窗，背景就沒了；換一個人做，規矩就變了。有邊界的 Project 是把這些散落的東西收進一個容器——資料夾、版本紀錄、規則檔、KB 與 Memory——讓下一次不必從零開始。這一節課要你動手，不是為了讓你變成工程師，而是因為產品經理必須知道自己在要求別人做什麼；沒有親手建過一次的人，寫出來的需求永遠會少掉最貴的那幾格。",
+    m0_stats: [
+      { val: "7", label: "AIWE 第 7 層，本週建出來" },
+      { val: "4", label: "個 KB 檔要有初版" },
+      { val: "6", label: "段升級路徑" },
+      { val: "50", label: "分鐘課內除錯門診" }
+    ],
+    m0_modules: [
+      { num: "01", title: "小組與分工", desc: "登錄組別、成員，敲定 10 分鐘簡報的 Jigsaw 分工。", tag: "小組" },
+      { num: "02", title: "Repo 與持久資產", desc: "貼出 repo 網址與資料夾結構，並寫出四個 KB 檔目前放了什麼。", tag: "個人" },
+      { num: "03", title: "金鑰與版控", desc: "金鑰放哪、怎麼確認沒進過 Git 歷史、commit 與還原怎麼約定。", tag: "個人" },
+      { num: "04", title: "語言實驗室", desc: "五個新詞、三個難發音，供課堂與加分作業使用。", tag: "個人" },
+      { num: "05", title: "小組綜整", desc: "六人的 repo 骨架比對，只挑三項，找出最大的落差並訂下通則。", tag: "小組" },
+      { num: "06", title: "依演化表建置", desc: "本組 repo 現況、四個 KB 檔完成度、最卡的一件事——除錯門診掛號單。", tag: "小組" },
+      { num: "07", title: "簡報計畫", desc: "誰講哪一段、各幾秒，以及要丟給全班的那一個問題。", tag: "小組" }
+    ],
+    m0_start: "開始填寫 →",
+
+    assets: [
+      { id:"theme", name:"KB／theme_config.md" },
+      { id:"rules", name:"KB／business_rules.md" },
+      { id:"sources", name:"KB／sources.md" },
+      { id:"ksa", name:"KB／ksa_taxonomy.md" },
+      { id:"mem", name:"Memory 設計" },
+      { id:"key", name:"金鑰放置位置" }
+    ],
+    path_stages: ["臨時工作","專用資料夾","Project 規則","KB／Memory","Harness","Verified Loop"],
+    path_caption: "本週的目標是把全組從前兩段推到第三、四段；Harness 與 Verified Loop 是 W11 與 W12 的事。",
+    s2_cells: [
+      { id:"repo_url", name:"REPO", sub:"GitHub 網址" },
+      { id:"repo_tree", name:"TREE", sub:"資料夾結構" },
+      { id:"kb_theme", name:"theme_config.md", sub:"呈現規範" },
+      { id:"kb_rules", name:"business_rules.md", sub:"判準" },
+      { id:"kb_sources", name:"sources.md", sub:"來源清單" },
+      { id:"kb_ksa", name:"ksa_taxonomy.md", sub:"K／S／A 詞表" },
+      { id:"mem_design", name:"MEMORY", sub:"跨次狀態" }
+    ],
+    m2_svg_layer: "AIWE 第 7 層 · 工作容器",
+    m2_svg_kb: "KB／ 穩定知識，要經審核才改",
+
+    m1_nav: "1. 小組與分工", m1_title: "小組與 Jigsaw 分工",
+    m1_overview: "先把行政資訊填好，並在小組討論時當場敲定簡報分工。本課程每次由兩組簡報，每組 10 分鐘，每位組員必須開口講 1 至 2 分鐘——這一節就是把「誰講哪一段、講幾秒」寫定，避免上台才在推派。",
+    m1_highlights: ["Jigsaw 協作","每人 1-2 分鐘","全組 10 分鐘","組員都要開口"],
+    m1_deep: "本週簡報的內容就是你們的 repo：資料夾結構一人、四個 KB 檔各一人（可兩人合講兩檔）、金鑰與版控一人、最卡的一件事一人。示範時請直接開螢幕給全班看真實的檔案，不要做成漂亮的簡報頁——這三週看的是實物。把秒數寫下來，總長度才控制得住。",
+    m1_group: "組別", m1_date: "填寫日期",
+    m1_members_label: "組員與分工（用下方加減鈕調整人數，上限 10 人）",
+    m1_member_count: "目前 {n} 位組員",
+    m1_col_name: "姓名", m1_col_id: "學號", m1_col_part: "負責段落", m1_col_sec: "秒數",
+    m1_part_ph: "例：business_rules.md 現況",
+    m1_total_sec: "目前規劃總長度",
+    m1_sec_warn: "超過 600 秒（10 分鐘），請壓縮。",
+    m1_sec_ok: "在 10 分鐘內，可行。",
+    m1_wrapup: "檢查點：每位出席組員都有分配到段落，且總秒數不超過 600。",
+
+    m2_nav: "2. Repo 與持久資產", m2_title: "Repo 與持久資產盤點",
+    m2_overview: "本週的個人核心任務，而且這一節要「做出來」而不是「寫想法」。先在課外把你們組的 repo 建起來，再回來填這一節：貼上真實的網址、貼上真實的資料夾結構、寫下四個 KB 檔裡目前真的有的內容。沒有動手的人，這一節會很難填——那個難填本身就是進度指標。",
+    m2_highlights: ["repo 網址","資料夾結構","四個 KB 檔","Memory 分界"],
+    m2_deep: "四個 KB 檔不是四個空殼子，各有各的職責：theme_config.md 管呈現（版面、語氣、格式），business_rules.md 管判準（什麼樣算通過、什麼不准做），sources.md 管來源（抓哪些網站、多久抓一次），ksa_taxonomy.md 管詞表（K／S／A 怎麼判、A 的四象限怎麼分）。Memory 跟 KB 的分界最容易混：KB 放的是穩定、要被審核才會改的知識；Memory 放的是跨次會變動的狀態，例如上次執行到哪、使用者這學期偏好的產業。如果一件事每天都會變，它就不該住在 KB。",
+    m2_svg_cap: "AIWE 第 7 層工作容器：repo 是外殼，四個 KB 檔是穩定知識，Memory 是跨次狀態；填好一項就亮一格",
+    m2_repo_label: "你們組的 repo 網址",
+    m2_repo_ph: "例：https://github.com/pmcs1151-g3/morning-brief",
+    m2_tree_label: "貼上你的資料夾結構",
+    m2_tree_hint: "在終端機跑 tree 或直接在 GitHub 上照著抄；有什麼就貼什麼，不要補上還沒建的東西。",
+    m2_tree_ph: "例：\nmorning-brief/\n├── KB/\n│   ├── theme_config.md\n│   ├── business_rules.md\n│   ├── sources.md\n│   └── ksa_taxonomy.md\n├── src/\n├── .env.example\n├── .gitignore\n└── README.md",
+    m2_kb_head: "四個 KB 檔目前放了什麼",
+    m2_theme_label: "KB／theme_config.md",
+    m2_theme_hint: "呈現規範：版面、語氣、字數、日期格式、輸出語言。",
+    m2_theme_ph: "例：晨報一頁，標題用 H2，每則三行；語氣中性不用驚嘆號；日期一律 YYYY-MM-DD。",
+    m2_rules_label: "KB／business_rules.md",
+    m2_rules_hint: "可檢查的判準：什麼樣算通過、什麼不准做。W4 到 W8 訂下的組內通則就是第一批內容。",
+    m2_rules_ph: "例：每則摘要 300 字以內；缺原始連結視為未通過；同一則職缺不得連兩天出現。",
+    m2_sources_label: "KB／sources.md",
+    m2_sources_hint: "來源清單：抓哪些網站、各自網址、更新頻率、抓取時段與限制。",
+    m2_sources_ph: "例：104 職缺搜尋頁（關鍵字 產品經理），每日 07:00 抓一次；只取摘要與連結，不全文複製。",
+    m2_ksa_label: "KB／ksa_taxonomy.md",
+    m2_ksa_hint: "K／S／A 詞表與判準，依 W6 到 W8 的既定規格：年資歸 S 不歸 K；A 分對上、對下、對內、對外。",
+    m2_ksa_ph: "例：學歷與科系→K；工作經歷、語文條件、擅長工具、工作技能→S；其他條件以 A 為主，需語意判讀。",
+    m2_mem_label: "Memory 要記什麼跨次狀態？跟 KB 的分界在哪？",
+    m2_mem_hint: "寫兩件事：Memory 打算存哪些會變動的狀態，以及你們怎麼判斷一件事該進 KB 還是進 Memory。",
+    m2_mem_ph: "例：Memory 存上次執行時間、已送出過的職缺編號、本學期鎖定的產業。判準是：需要經過審核才改的進 KB，跑一次就會變的進 Memory。",
+    m2_terms: [
+      { front: "Project（有邊界的專案）", back: "跨越單次對話而存在的工作容器：一個固定資料夾、一份規則、一組持久資產。它的價值在於下一次不必從零重講一遍背景。" },
+      { front: "AIWE 第 7 層 · 工作容器", back: "AI 工作環境層級模型裡承載持久資產的那一層。本週的任務就是把這一層從概念變成 repo 裡真實存在的資料夾與檔案。" },
+      { front: "theme_config.md", back: "呈現規範檔：版面、語氣、字數上限、日期與檔名格式、輸出語言。它決定產出長什麼樣子，不決定內容對不對。" },
+      { front: "business_rules.md", back: "判準檔：什麼樣算通過、什麼絕對不准做。它是驗收的依據，也是 Verified Loop 之後拿來自動檢查的那份清單。" },
+      { front: "sources.md", back: "來源檔：抓哪些網站、各自網址、更新頻率、抓取時段與法遵限制。來源沒有列清單，抓漏了也不會有人發現。" },
+      { front: "ksa_taxonomy.md", back: "詞表檔：K／S／A 的操作型定義與 104 欄位對映。年資歸 S 不歸 K；分辨 S 與 A 的尺是——S 有證據，A 沒有。" },
+      { front: "Memory 與 KB 的分界", back: "KB 放穩定、要經審核才改的知識；Memory 放跨次會變動的狀態。每天都會變的東西不該住在 KB。" },
+      { front: "第四道閘 · Persistence", back: "W5 的四道閘之一：Memory 與 KB 寫入前需經審核；祕密金鑰只放後端安全環境，不放前端、Git、Prompt、Memory 或 KB。" }
+    ],
+    m2_q: [
+      { q: "「使用者偏好的產業」這一條資訊，最適合放在哪裡？", opts: ["theme_config.md，因為它是呈現規範","business_rules.md，因為它是判準","Memory，因為它是跨次才會變動的狀態","sources.md，因為它是抓取來源設定"], ans: _A2, exp: "偏好會隨學期與使用者改變，屬於跨次狀態，該進 Memory；KB 放的是要經審核才改的穩定知識。" },
+      { q: "關於金鑰的放置，下列哪一個位置是安全的？", opts: ["放在 .env 且已 gitignore","放在 KB 檔裡，讓模型每次都讀得到","放在 Prompt 最前面，每次重貼一次","放在 README 裡，方便組員自己取用"], ans: _A0, exp: "安全的三個位置是：已 gitignore 的 .env、平台環境變數、Repo Secrets。KB、Prompt、README 都會外流。" },
+      { q: "「明天有人把 KB 改壞了」——最直接的還原依據是什麼？", opts: ["Git 的提交歷史，可以還原到前一版","Memory 的紀錄，模型會自己記得","重新跟模型口頭講一次原本的規則","從瀏覽器的暫存資料把舊內容找回來"], ans: _A0, exp: "版控存在的理由就是這個：只要有 commit，任何一次改壞都可以還原到前一個版本。" },
+      { q: "依 W5 的第四道閘 Persistence，下列哪一個說法正確？", opts: ["寫入 KB 或 Memory 之前要先經過審核","只要是模型自己產出的內容就可以直接寫入","金鑰放在 Memory 比放在 Git 安全","Persistence 只管檔案，不管金鑰放哪裡"], ans: _A0, exp: "Persistence 這道閘要求兩件事：寫入持久資產前先審核，以及祕密金鑰只放後端安全環境。" }
+    ],
+    m2_wrapup: "檢查點：repo 網址打得開，且四個 KB 檔都寫了實際內容，不是只有標題。",
+
+    m3_nav: "3. 金鑰與版控", m3_title: "金鑰與版本控管自查",
+    m3_overview: "這一節也是要「做出來」的：請真的打開你們的 repo 去看、真的跑一次搜尋，再回來填。金鑰一旦進過 Git 歷史，就算後來刪掉檔案也還在歷史裡——這件事只有親自查過的人才會相信。",
+    m3_highlights: ["金鑰位置","Git 歷史檢查",".gitignore","commit 與還原"],
+    m3_deep: "呼應 W5 的第四道閘 Persistence：Memory 與 KB 寫入前需審核；祕密金鑰只放後端安全環境，不放前端、Git、Prompt、Memory 或 KB。安全的位置只有三個——已被 gitignore 的 .env、部署平台的環境變數、GitHub Repo Secrets。查歷史的具體做法可以是：在 repo 根目錄跑 git log -p 搜尋金鑰前綴，或用 GitHub 的 repo 內搜尋輸入前綴看有沒有命中，或直接看 .gitignore 是不是在第一次 commit 就存在。寫下你用的是哪一種，不要只寫「有檢查過」。",
+    m3_key_label: "你們的金鑰現在放哪？",
+    m3_key_hint: "只有前三個選項是安全的。選到最後一項的組別，本週請先把它搬走再做別的事。",
+    key_opts: [
+      { v:"env", name:".env 檔，且 .env 已寫進 .gitignore" },
+      { v:"platform", name:"部署平台的環境變數設定" },
+      { v:"secrets", name:"GitHub Repo Secrets" },
+      { v:"none", name:"目前還沒有用到任何金鑰" },
+      { v:"other", name:"其他位置（危險，請在下方說明）" }
+    ],
+    m3_check_label: "跑 git log 或 GitHub 搜尋，確認金鑰從來沒有進過 Git 歷史——寫下你怎麼確認的",
+    m3_check_ph: "例：在 repo 根目錄跑 git log -p | grep -i \"sk-\"，沒有任何命中；另外在 GitHub 的 repo 搜尋列輸入金鑰前六碼，也是零結果。",
+    m3_gitignore_label: "貼上你的 .gitignore 內容",
+    m3_gitignore_ph: "例：\n.env\n.env.local\n__pycache__/\nnode_modules/\ndata/raw/\n.DS_Store",
+    m3_commit_label: "你們組約定多久 commit 一次？commit 訊息怎麼寫？",
+    m3_commit_ph: "例：每完成一件可以說清楚的事就 commit，至少每天一次；訊息格式 動詞: 對象，例如 add: sources.md 的 104 來源設定。",
+    m3_rollback_label: "如果明天有人把 KB 改壞了，你們怎麼還原？",
+    m3_rollback_ph: "例：先用 git log --oneline KB/ 找到最後一次正常的 commit，再用 git checkout <hash> -- KB/business_rules.md 只把那一個檔還原，然後重新 commit。",
+    m3_wrapup: "檢查點：金鑰位置是安全的三個選項之一，而且寫出了「怎麼確認金鑰沒進過 Git 歷史」的具體做法。",
+
+    m4_nav: "4. 語言實驗室", m4_title: "EMI 語言實驗室",
+    m4_overview: "本課程是全英授課。從本週必讀教材中挑出五個新的詞彙或片語，以及三個你唸起來不順的字。這一節取代原本的心智圖，產出直接用於課堂討論與加分作業。",
+    m4_highlights: ["新詞五個","難發音三個","自己的話","例句"],
+    m4_deep: "「用自己的話解釋」不要抄原文定義——抄定義只證明你找得到，改寫才證明你讀懂了。本週的字多半跟版控與資產有關，例如 repository、commit、rollback、taxonomy、persistence。例句請寫跟你們 repo 有關的句子，這樣同一份力氣可以用兩次。",
+    m4_terms_label: "五個新詞彙或片語",
+    m4_col_term: "詞彙／片語", m4_col_mean: "用自己的話解釋", m4_col_sent: "自己造一個句子",
+    m4_pron_label: "三個唸起來不順的字",
+    m4_col_word: "字", m4_col_hard: "難在哪裡", m4_col_tip: "你的記憶方法",
+    m4_wrapup: "檢查點：五個詞的解釋沒有一句是直接抄教材原文。",
+
+    m5_nav: "5. 小組綜整", m5_title: "小組綜整：六個人的 repo 骨架比對",
+    m5_overview: "這一節才是小組討論真正的工作。不是輪流念自己填了什麼，而是把六份放在一起比對——同樣一份規格，六個人建出來的骨架一定不一樣，最大的落差在哪裡？那個落差如果不收斂，期末專案就會出現六種寫法的 KB。",
+    m5_highlights: ["選取而非全丟","最大落差","共同範本","組內通則"],
+    m5_deep: "彙整方式有一條硬性規定：本週彙整人不得把六份個人匯出檔全部丟給 AI 叫它總結。可比對的集合有六項——四個 KB 檔、Memory 設計、金鑰位置——你們只能挑其中三項來比。選取而不是全丟，正是 Context Engineering 的核心，也正是你們這學期一直在練的那件事，只是這次對象是自己。",
+    m5_focus_label: "我們決定比對的三項（六項裡勾選三項）",
+    m5_focus_why: "為什麼略過另外三項？",
+    m5_focus_why_ph: "例：金鑰位置六個人都填「還沒有金鑰」，沒有差異可比；ksa_taxonomy 還沒有人動，等 W11 再比。",
+    m5_gap_label: "六人的 repo 骨架比對後，最大的落差是什麼？",
+    m5_gap_ph: "例：business_rules.md 有三個人寫成待辦清單、兩個人寫成一句話原則、一個人整份空白，同一個檔名底下其實是三種不同的東西。",
+    m5_evidence_label: "從六份裡舉兩個具體例子支持上面的判斷",
+    m5_evidence_ph: "例：A 的 business_rules 第一行是「要記得加連結」，D 的第一行是「缺原始連結即視為未通過」。前者沒有人能拿來檢查，後者可以。",
+    m5_case_label: "我們決定拿誰的做法當全組範本？",
+    m5_case_ph: "例：D 的 business_rules.md 與 C 的資料夾結構，兩份合併成本組範本。",
+    m5_rule_label: "從這次比對，我們訂下一條組內通則",
+    m5_rule_ph: "例：KB 檔的每一條都要寫成可以判斷通過或不通過的句子；任何人修改 KB 都要單獨開一個 commit，訊息寫成 kb: 檔名 — 改了什麼。",
+    m5_rule_note: "這條通則會直接寫進 business_rules.md，並在 W12 的 Verified Loop 變成自動檢查的依據。",
+    m5_wrapup: "檢查點：只比對了三項（不是全部丟給 AI），且訂出的通則是可以檢查的，不是「大家要常 commit」這種。",
+
+    m6_nav: "6. 依演化表建置", m6_title: "依演化表：repo 結構與四個 KB 檔的初版內容",
+    m6_overview: "這一節是除錯門診的掛號單。課堂 50 分鐘只做教師示範、兩組簡報與卡關診斷，實際建置在課外 SDL 完成；教師會直接針對你們填的「最卡的一件事」提問。寫得越具體，門診拿到的答案越有用。",
+    m6_highlights: ["repo 現況","KB 完成度","最卡的一件事","本週一件事"],
+    m6_deep: "「最卡的一件事」請寫成一個可以被回答的問題，不要寫狀態。「還在弄」不是卡關，「排程跑起來了但抓不到 104 的內容，看起來是被擋，不知道該換來源還是換抓法」才是卡關。教師在門診上能給的是判斷，不是幫你打字；你把問題定位得越準，能拿回去的東西越多。",
+    m6_repo_label: "本組 repo 網址",
+    m6_repo_ph: "例：https://github.com/pmcs1151-g3/morning-brief",
+    m6_kb_label: "四個 KB 檔的完成度",
+    kb_status_opts: [
+      { v:"4/4", name:"四個都有實際內容，可以跑" },
+      { v:"3/4", name:"三個有實際內容" },
+      { v:"2/4", name:"兩個有實際內容" },
+      { v:"1/4", name:"一個有實際內容" },
+      { v:"0/4", name:"還沒開始" }
+    ],
+    m6_blocker_label: "現在最卡的是哪一件事？",
+    m6_blocker_ph: "例：.env 在本機讀得到，但推到平台之後程式抓不到環境變數，不確定是平台設定沒生效還是程式讀取的方式不對。",
+    m6_next_label: "本週要做完的一件事",
+    m6_next_ph: "例：把 business_rules.md 的六條規矩全部改寫成可判斷通過或不通過的句子，並開一個 commit。",
+    m6_help_label: "需要教師或 TA 幫什麼？",
+    m6_help_ph: "例：請 TA 看一次我們的 .gitignore 與第一次 commit，確認 .env 從來沒有被追蹤過。",
+    m6_wrapup: "檢查點：最卡的那一件事寫得夠具體，教師看了就知道要問什麼，不是「還在弄」。",
+
+    m7_nav: "7. 簡報計畫", m7_title: "簡報計畫與提問",
+    m7_overview: "把第 1 節的分工變成可執行的腳本，並準備一個要丟給全班的問題。課堂上的 Q&A 就是靠各組的問題撐起來的。",
+    m7_highlights: ["開場句","段落腳本","Menti 提問","10 分鐘"],
+    m7_deep: "開場句請用英文寫完整一句，不要只寫關鍵字——上台最卡的永遠是第一句。要丟給全班的問題請避開是非題；好的問題應該是同學必須先做一個判斷才能回答的，例如「如果你們的 KB 被人改壞了三天才發現，你們打算靠什麼看出來？」",
+    m7_open_label: "英文開場句（完整一句）",
+    m7_open_ph: "例：Our repository has four KB files, and only one of them is written in a form we can actually check.",
+    m7_script_label: "段落腳本（每人一句話說明你要講的重點）",
+    m7_col_who: "誰", m7_col_point: "這一段的重點是什麼",
+    m7_question_label: "要丟給全班的一個問題（Menti 用）",
+    m7_question_ph: "例：If someone quietly broke your KB three days ago, what would tell you that it happened?",
+    m7_wrapup: "檢查點：開場句是完整的英文句子，且提問不是可以用「是／否」回答的問題。",
+
+    mlab_nav: "8. 互動實驗室", mlab_title: "互動實驗室",
+    mlab_desc: "四個小工具，幫你把第 2、3、6 節的判斷做得更有把握。這一頁不需要繳交，但操作紀錄會計入完成度，也會存在你這台電腦的瀏覽器裡。",
+    mlab_clear: "🗑 清除全部",
+    mlab_clear_confirm: "確定要清除互動實驗室的所有作答嗎？此操作無法復原。",
+    lab1_title: "① repo 骨架檢查器",
+    lab1_desc: "勾選你們的 repo 目前真的已經有的資料夾與檔案，看看完整度，以及最該補的三項。",
+    lab1_items: [
+      { k:"kb", n:"KB/ 資料夾", w:10, why:"沒有 KB/，持久資產就無處可放，每次對話都要重講背景。" },
+      { k:"theme", n:"KB/theme_config.md", w:9, why:"呈現規範沒寫下來，六個人做出來的晨報會長得不一樣。" },
+      { k:"rules", n:"KB/business_rules.md", w:9, why:"判準沒寫下來，就沒有東西可以拿來檢查輸出通過了沒有。" },
+      { k:"sources", n:"KB/sources.md", w:8, why:"來源沒有列清單，抓漏了也不會有人發現。" },
+      { k:"ksa", n:"KB/ksa_taxonomy.md", w:8, why:"詞表缺席，K／S／A 的判讀會退回各憑感覺。" },
+      { k:"gitignore", n:".gitignore", w:10, why:"沒有 .gitignore，金鑰遲早會被 commit 進 Git 歷史。" },
+      { k:"envex", n:".env.example", w:6, why:"沒有範例檔，新組員不知道要準備哪幾個環境變數。" },
+      { k:"readme", n:"README.md", w:7, why:"沒有 README，助教打開 repo 不知道從哪裡看起。" },
+      { k:"src", n:"src/ 程式碼資料夾", w:6, why:"程式碼散在根目錄，改一個檔要先找十分鐘。" },
+      { k:"docs", n:"docs/ 文件資料夾", w:4, why:"報告與截圖沒有固定位置，交件前會到處找。" },
+      { k:"data", n:"data/ 產出資料夾", w:4, why:"抓回來的資料混在程式碼裡，版本紀錄會很難讀。" },
+      { k:"wf", n:".github/workflows/ 排程設定", w:3, why:"現在沒有沒關係，但 W11 之後這一格會變成必需。" }
+    ],
+    lab1_result: "骨架完整度：{n} / {t} 項，加權 {p}%",
+    lab1_top3: "最該補的三項：",
+    lab1_done: "十二項都齊了。接下來要看的不是有沒有檔案，而是檔案裡有沒有內容。",
+    lab2_title: "② 金鑰放置風險評估",
+    lab2_desc: "八個位置逐一判斷：這裡放金鑰是安全還是危險？選完立刻顯示對錯與理由。",
+    lab2_items: [
+      { k:"env", n:".env 檔，且已寫進 .gitignore", safe:true, why:"金鑰只留在本機，不會進 Git 歷史。" },
+      { k:"platform", n:"部署平台的環境變數設定", safe:true, why:"由平台在執行時注入，程式碼裡看不到金鑰。" },
+      { k:"secrets", n:"GitHub Repo Secrets", safe:true, why:"加密保存，只在 Actions 執行時解開。" },
+      { k:"front", n:"前端 JavaScript 程式碼", safe:false, why:"前端程式碼任何人按右鍵都看得到，等於公開金鑰。" },
+      { k:"prompt", n:"Prompt 裡，每次貼上去", safe:false, why:"Prompt 會被記錄、被截圖、被貼到別的地方。" },
+      { k:"kb", n:"KB 檔，例如 sources.md", safe:false, why:"KB 會整份進 Context，也會跟著 repo 一起公開。" },
+      { k:"mem", n:"Memory 跨次記住", safe:false, why:"Memory 會被讀取與匯出，而且沒有加密。" },
+      { k:"readme", n:"README.md", safe:false, why:"README 是 repo 裡最公開、最多人第一眼看到的一頁。" }
+    ],
+    lab2_safe: "安全", lab2_risk: "危險",
+    lab2_score: "答對 {n} / {t}",
+    lab2_reset: "重做",
+    lab3_title: "③ KB 分工判斷器",
+    lab3_desc: "十二條資訊，各自該住在哪一個檔案裡？選完立刻顯示解析。",
+    lab3_targets: [
+      { id:"theme", name:"theme_config" },
+      { id:"rules", name:"business_rules" },
+      { id:"sources", name:"sources" },
+      { id:"ksa", name:"ksa_taxonomy" },
+      { id:"mem", name:"Memory" }
+    ],
+    lab3_items: [
+      { n:"晨報的標題層級、配色與字體", a:"theme", e:"這是呈現規範，屬於 theme_config。" },
+      { n:"摘要要用條列還是段落", a:"theme", e:"這是輸出樣式，屬於 theme_config。" },
+      { n:"日期一律寫成 YYYY-MM-DD", a:"theme", e:"這是格式約定，屬於 theme_config。" },
+      { n:"每則摘要字數上限 300 字", a:"rules", e:"這是可以檢查的判準，屬於 business_rules。" },
+      { n:"缺少原始連結即視為未通過", a:"rules", e:"這是驗收條件，屬於 business_rules。" },
+      { n:"同一則職缺不得連兩天出現", a:"rules", e:"這是去重規矩，屬於 business_rules。" },
+      { n:"要抓的來源網站清單與各自網址", a:"sources", e:"這是來源設定，屬於 sources。" },
+      { n:"各來源的更新頻率與抓取時段", a:"sources", e:"這是來源設定，屬於 sources。" },
+      { n:"「年資歸 S 不歸 K」這條判準", a:"ksa", e:"這是 K／S／A 的判讀規則，屬於 ksa_taxonomy。" },
+      { n:"A 的四象限：對上、對下、對內、對外", a:"ksa", e:"這是 K／S／A 詞表，屬於 ksa_taxonomy。" },
+      { n:"上次執行的時間戳", a:"mem", e:"這是跨次會變動的狀態，屬於 Memory。" },
+      { n:"使用者偏好的產業", a:"mem", e:"這是跨次沿用的個人偏好，屬於 Memory。" }
+    ],
+    lab3_score: "答對 {n} / {t}",
+    lab3_reset: "重做",
+    lab4_title: "④ Project vs 一次對話對照器",
+    lab4_desc: "勾選你們目前真的已經做到的事，看看你落在升級路徑的哪一段，以及下一步該做什麼。",
+    lab4_items: [
+      { k:"folder", lv:2, n:"這個任務有固定的資料夾，檔案都放在裡面" },
+      { k:"git", lv:2, n:"資料夾已經進 Git，每次改動都有版本紀錄" },
+      { k:"rules", lv:3, n:"有一份寫下來的 Project 規則，每次自動套用" },
+      { k:"nobrief", lv:3, n:"開新對話時不必再重講一次背景" },
+      { k:"kb", lv:4, n:"有 KB 檔存放領域知識與判準" },
+      { k:"mem", lv:4, n:"有 Memory 存放跨次會變動的狀態" },
+      { k:"tool", lv:5, n:"有可執行的工具或腳本，不是只有對話" },
+      { k:"key", lv:5, n:"金鑰放在後端安全環境，不在前端或 Prompt" },
+      { k:"verify", lv:6, n:"輸出有自動檢查，沒通過會重跑或叫人" },
+      { k:"stop", lv:6, n:"有停止條件與重試上限" }
+    ],
+    lab4_you: "你目前落在：{s}",
+    lab4_next: "下一步是推進到「{s}」，還缺這幾件：",
+    lab4_done: "六段都到齊了。接下來的功課不是再往上加，而是讓 Verified Loop 連續跑滿一週不出事。",
+    lab4_reset: "重做",
+    lab5_title: "課前自我檢核",
+    lab5_desc: "四題選擇題，確認你確實讀過本週必讀教材。答錯會顯示解析。",
+
+    mres_nav: "9. 學習資源", mres_title: "本週學習資源",
+    mres_desc: "必讀兩份，都是互動教材，本週沒有指定短片——因為時間要留給動手建 repo。第一份是本週主教材，也是第二次讀；第二份是相鄰架構，這次要動手做。選讀不影響學習單，但寫成書面整理可計入加分作業。",
+    res_req: [
+      { label: "AIWE · AI 工作環境的層級模型", url: "https://lolopodcast.github.io/AI-Work-Environment-Layers/", desc: "本週主教材，第二次讀。第一次讀是為了看見地圖，這次要把第 7 層「工作容器」真的建出來。" },
+      { label: "Git & GitHub Essentials for Non-Coders", url: "https://lolopodcast.github.io/Git-GitHub-VibeCoding-for-Non-Coders/", desc: "相鄰架構，這次動手做。repo、commit、.gitignore、還原與 Secrets 都在這裡。" }
+    ],
+    res_opt: [
+      { label: "Google NotebookLM 與 AI 工具工作流", url: "https://lolopodcast.github.io/NBLM-Gem-KB/", desc: "這次建自己的 KB。知識庫怎麼切檔、怎麼跟其他工具串起來。" },
+      { label: "AI SaaS 開發營 · LabSPA", url: "https://lolopodcast.github.io/Bootcamp_AI-SaaS-_-LabSPA/", desc: "從 repo 到可以給別人用的產品，中間還缺哪些東西。" },
+      { label: "IPOB · Vibe Coding AI Agent 系統化三維藍圖", url: "https://lolopodcast.github.io/Vibe-Coding-Agent-Blueprint/", desc: "W5 已讀，W12 會再用一次。這次可以先看它怎麼談驗證與收斂。" }
+    ],
+
+    analytics_title: "完成度與匯出",
+    analytics_desc: "個人層與小組層分開匯出。個人版留給你自己，作為學習歷程檔案；小組版由本週彙整人上傳 Moodle。",
+    analytics_personal_title: "個人匯出（第 2、3、4 節・不繳交）",
+    analytics_personal_desc: "填好姓名即可匯出。這份檔案留給你自己，也可以直接貼進 repo 的 docs/ 資料夾當作歷程紀錄。",
+    analytics_group_title: "小組匯出（第 1、5、6、7 節・繳交 Moodle）",
+    analytics_group_desc: "填好組別與本週彙整人即可匯出。CSV 與 Markdown 各一份，上傳至 Moodle 作業區。",
+    analytics_group: "組別", analytics_dept: "系級", analytics_dept_ph: "例：IBS1",
+    analytics_id: "學號", analytics_id_ph: "例：113212599",
+    analytics_name_en: "英文姓名", analytics_name_en_ph: "例：Shihmin Lo",
+    analytics_name_zh: "中文姓名", analytics_name_zh_ph: "例：王阿吉",
+    analytics_compiler: "本週彙整人", analytics_compiler_ph: "例：王阿吉",
+    analytics_export_personal: "匯出個人 Markdown",
+    analytics_export_csv: "匯出小組 CSV",
+    analytics_export_md: "匯出小組 Markdown",
+    analytics_need_personal: "請先填寫姓名",
+    analytics_need_group: "請先填寫組別與本週彙整人",
+    group_options: ["G1","G2","G3","G4","G5","G6","G7","G8","G9","G10","G11","G12","Others"],
+    analytics_pct_personal: "個人完成度", analytics_pct_group: "小組完成度",
+    analytics_total_time: "總填寫時間", analytics_overall_acc: "自我檢核答對率",
+    analytics_sec: "秒",
+    analytics_progress_title: "各節完成度",
+    analytics_wp_title: "尚未完成的節次",
+    analytics_wp_goto: "→ 前往填寫",
+    sdl_title: "先匯入你的 SDL 知識庫快照",
+    sdl_desc: "本週流程是：不使用 AI 手寫閱讀筆記 → 用 SDL 學習夥伴做蘇格拉底式對話 → 產出 KB.md → 在這裡匯入。匯入後會自動帶入你的身分欄位，並把 KB 的重點顯示在各節上方供你對照。這份學習單不是要你重想一遍，是把你已經想清楚的填成可比對的格式。",
+    sdl_ph: "把 SDL 產出的 KB.md 全文貼在這裡（含最上方的 --- frontmatter ---）",
+    sdl_parse: "解析並匯入",
+    sdl_file: "改用檔案上傳",
+    sdl_loaded: "✓ 已匯入 SDL KB",
+    sdl_clear: "清除並重新匯入",
+    sdl_ok: "匯入成功，身分欄位已自動帶入。",
+    sdl_err_empty: "內容是空的，請先貼上 KB.md 全文。",
+    sdl_err_format: "解析不出來。請確認貼的是 SDL 產出的 KB.md（開頭應該有 --- 的 frontmatter，內文有 §1 §2 等段落）。",
+    sdl_panel_title: "📖 你的 SDL KB 重點（對照用）",
+    sdl_panel_show: "展開",
+    sdl_panel_hide: "收合",
+    sdl_s1: "§1 本次學習摘要",
+    sdl_s2: "§2 知識綜整",
+    sdl_s4: "§4 學生親筆區塊",
+    sdl_s5: "§5 未解問題清單",
+    analytics_wp_personal_head: "個人層（你自己要填）",
+    analytics_wp_personal_done: "個人層已全部完成。",
+    analytics_wp_group_head: "小組層（小組討論時共同決定）",
+    analytics_wp_group_note: "若你不是本週彙整人，這幾節維持 0% 是正常的——個人匯出不受影響。",
+    analytics_wp_group_done: "小組層已全部完成。",
+    analytics_wp_allpass: "七節全部填寫完成，可以匯出了。",
+    analytics_wp_saved: "填寫內容已自動儲存於本機瀏覽器",
+    analytics_wp_clear: "🗑 清除全部",
+    analytics_wp_clear_confirm: "確定要清除所有填寫內容與歷程嗎？此操作無法復原，建議先匯出。",
+    analytics_wp_tts_intro: "以下是尚未完成的節次。",
+    analytics_wp_tts_module: "{name}，完成度 {acc}%。",
+    analytics_wp_tts_allpass: "七節全部填寫完成。",
+
+    date: "Version 2026.08.23",
+    copyright: "For Educational Use Only",
+    architect_label: "Architect:",
+    architect_url: "https://www.ibs.ncnu.edu.tw/index.php/faculty/tenured-professor/299-smlo"
+  },
+
+  en: {
+    brand: "PMCS",
+    title: "Worksheet W10", subtitle: "From One Conversation to a Project with Boundaries",
+    nav_modules: "Contents", nav_prev: "Previous", nav_next: "Next", nav_home: "Home",
+    key_terms: "Quick Reference Cards", flip_prompt: "Click to flip",
+    flip_status: "Read {read} / Shown {shown} / Total {total}",
+    flip_next: "Next", flip_retry: "Restart",
+    audio_read: "Audio Guide",
+    quiz_title: "Pre-Class Self-Check", quiz_status: "Correct {correct} / Answered {answered} / Total {total}",
+    quiz_next: "Next", quiz_retry: "Retry",
+    submit: "Submit", correct: "Correct", incorrect: "Incorrect", explanation: "Explanation",
+    overview_label: "Overview",
+    highlights_label: "Highlights",
+    deep_dive_label: "Deep Dive",
+    wrapup_label: "Wrap-up",
+    badge_personal: "Individual · not submitted",
+    badge_group: "Group · submitted with the group file",
+    saved_hint: "✍️ Your entries are saved in this browser on this computer only. They do not travel with you — always export from the Completion & Export page.",
+    required_label: "Required Materials", optional_label: "Optional Materials (eligible for BA)",
+    select_ph: "Select",
+
+    m0_nav: "0. Executive Summary",
+    m0_title: "How to Use This Worksheet",
+    m0_intro: "This is the pre-class worksheet for W10 of PMCS. Weeks 10 to 12 are the second pass over the same three diagrams — this time at the implementation layer. In the first pass, W3 to W5, you absorbed the map. In this pass you revisit it standing on the real sore points of your own Term Project, which is what turns a map into a capability. The main material this week is AIWE, the layered model of an AI work environment, read for the second time; this time you actually build layer 7, the work container. The theme is upgrading your Term Project from one conversation into a project with boundaries, along this path: ad-hoc work, then a dedicated folder, then project rules, then KB and Memory, then a Harness, then a Verified Loop. Note how the classroom changes: the 50 minutes in class hold only three things — a teacher demonstration, two group presentations, and blocker diagnosis. The building itself happens outside class in your SDL time. For these three weeks the classroom is a debugging clinic, not a build session, so bring something half-built and something stuck. Sections 2 to 4 are filled by each person and are not submitted; sections 5 to 7 are decided together and submitted with the group file.",
+    m0_why: "Why build an actual repository this week?",
+    m0_why_desc: "Because so far your Term Project has lived inside one conversation after another: close the window and the background is gone; hand it to someone else and the rules quietly change. A project with boundaries gathers those scattered pieces into one container — a folder, a version history, a rules file, a KB and a Memory — so that next time nobody starts from zero. You are not doing this to become an engineer. You are doing it because a product manager has to know what they are asking other people to build, and whoever has never built one writes requirements that always miss the most expensive cells.",
+    m0_stats: [
+      { val: "7", label: "AIWE layer 7, built this week" },
+      { val: "4", label: "KB files to draft" },
+      { val: "6", label: "stages on the upgrade path" },
+      { val: "50", label: "minutes of in-class clinic" }
+    ],
+    m0_modules: [
+      { num: "01", title: "Group & Roles", desc: "Register your group and members, and settle the jigsaw split for the 10-minute presentation.", tag: "Group" },
+      { num: "02", title: "Repo & Persistent Assets", desc: "Post the repo URL and folder tree, and write what each of the four KB files currently holds.", tag: "Individual" },
+      { num: "03", title: "Keys & Version Control", desc: "Where the key lives, how you proved it never entered Git history, and how you commit and roll back.", tag: "Individual" },
+      { num: "04", title: "Language Lab", desc: "Five new terms and three hard words, for class discussion and bonus work.", tag: "Individual" },
+      { num: "05", title: "Group Synthesis", desc: "Compare six repo skeletons on three chosen assets, name the biggest gap, and set one rule.", tag: "Group" },
+      { num: "06", title: "Build per the Evolution Table", desc: "Your repo, the readiness of the four KB files, and the one thing you are stuck on — the clinic slip.", tag: "Group" },
+      { num: "07", title: "Presentation Plan", desc: "Who speaks about what, for how many seconds, plus one question for the class.", tag: "Group" }
+    ],
+    m0_start: "Start →",
+
+    assets: [
+      { id:"theme", name:"KB / theme_config.md" },
+      { id:"rules", name:"KB / business_rules.md" },
+      { id:"sources", name:"KB / sources.md" },
+      { id:"ksa", name:"KB / ksa_taxonomy.md" },
+      { id:"mem", name:"Memory design" },
+      { id:"key", name:"Where the key lives" }
+    ],
+    path_stages: ["Ad-hoc work","Dedicated folder","Project rules","KB / Memory","Harness","Verified Loop"],
+    path_caption: "This week aims to move the whole group from the first two stages into the third and fourth; Harness and Verified Loop belong to W11 and W12.",
+    s2_cells: [
+      { id:"repo_url", name:"REPO", sub:"GitHub URL" },
+      { id:"repo_tree", name:"TREE", sub:"Folder structure" },
+      { id:"kb_theme", name:"theme_config.md", sub:"Presentation rules" },
+      { id:"kb_rules", name:"business_rules.md", sub:"Acceptance rules" },
+      { id:"kb_sources", name:"sources.md", sub:"Source list" },
+      { id:"kb_ksa", name:"ksa_taxonomy.md", sub:"K/S/A vocabulary" },
+      { id:"mem_design", name:"MEMORY", sub:"Cross-run state" }
+    ],
+    m2_svg_layer: "AIWE Layer 7 · Work Container",
+    m2_svg_kb: "KB/ — stable knowledge, changed only after review",
+
+    m1_nav: "1. Group & Roles", m1_title: "Group and Jigsaw Roles",
+    m1_overview: "Fill in the administrative details first, then settle the presentation split during group discussion. Two groups present each week for 10 minutes, and every member must speak for one to two minutes — this section pins down who covers what and for how long, so nobody is being volunteered at the podium.",
+    m1_highlights: ["Jigsaw collaboration","1-2 min each","10 min per group","Everyone speaks"],
+    m1_deep: "This week the presentation is your repository: one person on the folder tree, one per KB file (two people may pair up on two files), one on keys and version control, one on the thing you are stuck on. When you demonstrate, open the real files on screen rather than building pretty slides — for these three weeks the class looks at the actual object. Write the seconds down; that is the only way the total stays under control.",
+    m1_group: "Group", m1_date: "Date",
+    m1_members_label: "Members and roles (use the buttons below to set the size, up to 10)",
+    m1_member_count: "{n} members",
+    m1_col_name: "Name", m1_col_id: "Student ID", m1_col_part: "Assigned part", m1_col_sec: "Seconds",
+    m1_part_ph: "e.g. The state of business_rules.md",
+    m1_total_sec: "Planned total length",
+    m1_sec_warn: "Over 600 seconds (10 minutes) — trim it down.",
+    m1_sec_ok: "Within 10 minutes. Workable.",
+    m1_wrapup: "Checkpoint: every attending member has an assigned part, and the total stays under 600 seconds.",
+
+    m2_nav: "2. Repo & Persistent Assets", m2_title: "Taking Stock of the Repo and Its Persistent Assets",
+    m2_overview: "This week's individual core task, and this section asks you to build something rather than describe an intention. Set the group repository up outside class first, then come back and fill this in: the real URL, the real folder tree, and what the four KB files actually contain right now. If you have not touched anything, this section will be hard to fill — and that difficulty is itself the progress reading.",
+    m2_highlights: ["Repo URL","Folder tree","Four KB files","Memory boundary"],
+    m2_deep: "The four KB files are not four empty shells; each has its own job. theme_config.md governs presentation — layout, register, format. business_rules.md governs acceptance — what counts as passing and what is forbidden. sources.md governs where material comes from — which sites, how often, under what limits. ksa_taxonomy.md governs vocabulary — how K, S and A are judged and how the four quadrants of A are split. The boundary people confuse most is Memory versus KB: the KB holds stable knowledge that changes only after review, while Memory holds state that shifts between runs, such as where the last run stopped or which industry the user favours this term. If something changes daily, it does not live in the KB.",
+    m2_svg_cap: "AIWE layer 7, the work container: the repo is the shell, four KB files hold stable knowledge, Memory holds cross-run state. Each filled field lights one cell.",
+    m2_repo_label: "Your group's repository URL",
+    m2_repo_ph: "e.g. https://github.com/pmcs1151-g3/morning-brief",
+    m2_tree_label: "Paste your folder tree",
+    m2_tree_hint: "Run tree in the terminal, or copy what GitHub shows you. Paste what exists — do not add what you have not built yet.",
+    m2_tree_ph: "e.g.\nmorning-brief/\n├── KB/\n│   ├── theme_config.md\n│   ├── business_rules.md\n│   ├── sources.md\n│   └── ksa_taxonomy.md\n├── src/\n├── .env.example\n├── .gitignore\n└── README.md",
+    m2_kb_head: "What the four KB files currently hold",
+    m2_theme_label: "KB / theme_config.md",
+    m2_theme_hint: "Presentation rules: layout, register, length, date format, output language.",
+    m2_theme_ph: "e.g. One page; H2 headings; three lines per item; neutral register with no exclamation marks; dates always YYYY-MM-DD.",
+    m2_rules_label: "KB / business_rules.md",
+    m2_rules_hint: "Checkable acceptance rules. The group rules you set from W4 to W8 are the first entries here.",
+    m2_rules_ph: "e.g. Each summary under 300 words; a missing source link counts as a fail; the same posting may not appear on two consecutive days.",
+    m2_sources_label: "KB / sources.md",
+    m2_sources_hint: "The source list: which sites, their URLs, refresh frequency, fetch window and limits.",
+    m2_sources_ph: "e.g. The 104 job search page for the keyword product manager, fetched daily at 07:00; summary and link only, never the full text.",
+    m2_ksa_label: "KB / ksa_taxonomy.md",
+    m2_ksa_hint: "The K/S/A vocabulary and rules agreed in W6 to W8: years of experience belong to S, not K; A splits into upward, downward, inward and outward.",
+    m2_ksa_ph: "e.g. Education and major map to K; experience, languages, tools and job skills map to S; other requirements are mostly A and need semantic reading.",
+    m2_mem_label: "What cross-run state should Memory hold, and where is its boundary with the KB?",
+    m2_mem_hint: "Write two things: which changing state Memory will keep, and how you decide whether something belongs in the KB or in Memory.",
+    m2_mem_ph: "e.g. Memory keeps the last run time, the posting IDs already sent, and the industry we locked for this term. The test: anything that needs review before it changes goes to the KB; anything one run can change goes to Memory.",
+    m2_terms: [
+      { front: "A project with boundaries", back: "A working container that outlives a single conversation: one fixed folder, one set of rules, one set of persistent assets. Its value is that next time nobody has to re-explain the background." },
+      { front: "AIWE layer 7 · the work container", back: "The layer of the AI work environment model that carries persistent assets. This week's task is to turn that layer from a concept into folders and files that really exist in a repository." },
+      { front: "theme_config.md", back: "The presentation file: layout, register, length limits, date and filename formats, output language. It decides what the output looks like, not whether the content is right." },
+      { front: "business_rules.md", back: "The acceptance file: what counts as passing and what is absolutely forbidden. It is the basis of review, and later the checklist a Verified Loop runs automatically." },
+      { front: "sources.md", back: "The source file: which sites, their URLs, refresh frequency, fetch window and compliance limits. With no source list, a missed source is a miss nobody notices." },
+      { front: "ksa_taxonomy.md", back: "The vocabulary file: operational definitions of K, S and A mapped onto job-posting fields. Years of experience belong to S; the ruler between S and A is that S has evidence and A does not." },
+      { front: "The Memory / KB boundary", back: "The KB holds stable knowledge that changes only after review; Memory holds state that shifts between runs. Anything that changes daily does not belong in the KB." },
+      { front: "The fourth gate · Persistence", back: "One of the four gates from W5: writes into Memory or the KB need review first, and secret keys live only in a secure back-end environment — never in the front end, Git, prompts, Memory or the KB." }
+    ],
+    m2_q: [
+      { q: "Where does the fact that a user prefers a certain industry belong?", opts: ["theme_config.md, since it is a presentation rule","business_rules.md, since it is a judgement rule","Memory, since it is state that changes between runs","sources.md, since it configures where to fetch"], ans: _A2, exp: "A preference shifts with the term and the user, so it is cross-run state and belongs in Memory. The KB holds stable knowledge that changes only after review." },
+      { q: "Which of these is a safe place for an API key?", opts: ["In a .env file that is already gitignored","In a KB file so the model can always read it","At the top of the prompt, pasted every time","In the README so teammates can copy it"], ans: _A0, exp: "Only three places are safe: a gitignored .env file, platform environment variables, and repository secrets. KB files, prompts and READMEs all leak." },
+      { q: "Someone breaks the KB tomorrow. What do you restore from?", opts: ["The Git commit history, rolling back one version","Memory, because the model remembers the old rules","Telling the model the original rules once again","The browser cache, which still holds the old text"], ans: _A0, exp: "This is exactly why version control exists: as long as there is a commit, any bad edit can be rolled back to the previous version." },
+      { q: "Under the fourth gate, Persistence, which statement holds?", opts: ["Writes into KB or Memory must be reviewed first","Anything the model produces may be written in","A key is safer in Memory than in a Git repo","Persistence covers files but not where keys live"], ans: _A0, exp: "The Persistence gate demands two things: review before anything is written into a persistent asset, and secret keys kept only in a secure back-end environment." }
+    ],
+    m2_wrapup: "Checkpoint: the repo URL opens, and all four KB files carry real content rather than headings alone.",
+
+    m3_nav: "3. Keys & Version Control", m3_title: "Self-Audit on Keys and Version Control",
+    m3_overview: "This section also asks you to do something rather than describe it: open your repository, run the search for real, then come back and fill this in. Once a key has entered Git history, deleting the file later does not remove it from that history — only people who have checked for themselves believe this.",
+    m3_highlights: ["Where the key lives","Git history check",".gitignore","Commit and rollback"],
+    m3_deep: "This echoes the fourth gate from W5, Persistence: writes into Memory or the KB need review first, and secret keys live only in a secure back-end environment — never in the front end, Git, prompts, Memory or the KB. Only three places are safe: a gitignored .env file, platform environment variables, and GitHub repository secrets. A concrete way to check the history is to run git log -p in the repo root and search for the key prefix, or use the repository search box on GitHub with that prefix, or confirm that .gitignore existed from the very first commit. Write down which one you used; do not just write that you checked.",
+    m3_key_label: "Where does your key live right now?",
+    m3_key_hint: "Only the first three options are safe. If your group lands on the last one, move the key before you do anything else this week.",
+    key_opts: [
+      { v:"env", name:"A .env file, already listed in .gitignore" },
+      { v:"platform", name:"Environment variables on the deployment platform" },
+      { v:"secrets", name:"GitHub repository secrets" },
+      { v:"none", name:"We are not using any key yet" },
+      { v:"other", name:"Somewhere else (unsafe — explain below)" }
+    ],
+    m3_check_label: "Run git log or a GitHub search to confirm the key never entered Git history — write down how you confirmed it",
+    m3_check_ph: "e.g. Ran git log -p | grep -i \"sk-\" in the repo root with no hits, then searched the first six characters of the key in the GitHub repository search box, also zero results.",
+    m3_gitignore_label: "Paste the contents of your .gitignore",
+    m3_gitignore_ph: "e.g.\n.env\n.env.local\n__pycache__/\nnode_modules/\ndata/raw/\n.DS_Store",
+    m3_commit_label: "How often has your group agreed to commit, and how are commit messages written?",
+    m3_commit_ph: "e.g. Commit whenever one describable thing is finished, at least once a day; message format verb: object, such as add: 104 source settings in sources.md.",
+    m3_rollback_label: "If someone breaks the KB tomorrow, how do you restore it?",
+    m3_rollback_ph: "e.g. Find the last good commit with git log --oneline KB/, restore only that file with git checkout <hash> -- KB/business_rules.md, then commit again.",
+    m3_wrapup: "Checkpoint: the key sits in one of the three safe places, and there is a concrete account of how you confirmed it never entered Git history.",
+
+    m4_nav: "4. Language Lab", m4_title: "EMI Language Lab",
+    m4_overview: "This course is taught in English. Pick five new words or phrases from this week's required materials, plus three words you stumble over. This section replaces the former mindmap requirement; its output feeds class discussion and bonus work directly.",
+    m4_highlights: ["Five new terms","Three hard words","In your own words","Example sentences"],
+    m4_deep: "Do not copy the source definition into the in-your-own-words column — copying proves only that you found it; rewriting proves you understood it. Most of this week's vocabulary concerns version control and assets: repository, commit, rollback, taxonomy, persistence. Write the example sentences about your own repository so one effort does two jobs.",
+    m4_terms_label: "Five new words or phrases",
+    m4_col_term: "Term / phrase", m4_col_mean: "In your own words", m4_col_sent: "Your own sentence",
+    m4_pron_label: "Three words you stumble over",
+    m4_col_word: "Word", m4_col_hard: "What makes it hard", m4_col_tip: "Your memory trick",
+    m4_wrapup: "Checkpoint: not one of the five explanations is copied verbatim from the source.",
+
+    m5_nav: "5. Group Synthesis", m5_title: "Group Synthesis: Comparing Six Repo Skeletons",
+    m5_overview: "This section is the real work of the group discussion. Not taking turns reading out what you wrote, but putting all six side by side. Same specification, six different skeletons — where is the biggest gap? If that gap does not converge, your Term Project ends up with six different ways of writing the same KB.",
+    m5_highlights: ["Select, do not dump","The biggest gap","A shared template","A group rule"],
+    m5_deep: "One rule is mandatory here: this week's compiler must not dump all six individual exports into an AI and ask for a summary. The comparable set has six assets — the four KB files, the Memory design, and where the key lives — and you may compare only three of them. Selecting rather than dumping is the core of Context Engineering, and it is the very thing you have been practising all term, applied this time to yourselves.",
+    m5_focus_label: "The three assets we chose to compare (tick three of six)",
+    m5_focus_why: "Why did we skip the other three?",
+    m5_focus_why_ph: "e.g. All six of us wrote \"no key yet\", so there is nothing to compare; nobody has touched ksa_taxonomy, so we will compare it in W11.",
+    m5_gap_label: "After comparing six repo skeletons, what is the biggest gap?",
+    m5_gap_ph: "e.g. Three people wrote business_rules.md as a to-do list, two wrote it as a one-line principle, and one left it blank. Behind one filename there are really three different things.",
+    m5_evidence_label: "Two concrete examples from the six that support the judgement above",
+    m5_evidence_ph: "e.g. A's business_rules opens with \"remember to add links\"; D's opens with \"a missing source link counts as a fail\". Nobody can check the first one; anyone can check the second.",
+    m5_case_label: "Whose version did we adopt as the group template?",
+    m5_case_ph: "e.g. D's business_rules.md plus C's folder tree, merged into one group template.",
+    m5_rule_label: "From this comparison, our group sets one rule",
+    m5_rule_ph: "e.g. Every line in a KB file must be phrased so it can be judged pass or fail; any KB edit goes in its own commit, with the message kb: filename — what changed.",
+    m5_rule_note: "This rule goes straight into business_rules.md, and in W12 it becomes part of what the Verified Loop checks automatically.",
+    m5_wrapup: "Checkpoint: only three assets were compared (nothing was dumped wholesale into an AI), and the rule you set is checkable rather than something like \"everyone should commit often\".",
+
+    m6_nav: "6. Build per the Evolution Table", m6_title: "Per the Evolution Table: Repo Structure and First Drafts of the Four KB Files",
+    m6_overview: "This section is the clinic slip. The 50 minutes in class hold only a teacher demonstration, two group presentations and blocker diagnosis; the building happens outside class in SDL time. The teacher will ask directly about whatever you write as the thing you are stuck on, so the more specific it is, the more useful the answer.",
+    m6_highlights: ["Repo status","KB readiness","The blocker","One action this week"],
+    m6_deep: "Write the blocker as a question someone could answer, not as a status. \"Still working on it\" is not a blocker. \"The schedule fires, but it fetches nothing from the source and looks blocked; we cannot tell whether to change the source or the fetching method\" is a blocker. What the clinic can give you is a judgement, not typing help; the more precisely you locate the problem, the more you take home.",
+    m6_repo_label: "Our repository URL",
+    m6_repo_ph: "e.g. https://github.com/pmcs1151-g3/morning-brief",
+    m6_kb_label: "Readiness of the four KB files",
+    kb_status_opts: [
+      { v:"4/4", name:"All four hold real content and can run" },
+      { v:"3/4", name:"Three hold real content" },
+      { v:"2/4", name:"Two hold real content" },
+      { v:"1/4", name:"One holds real content" },
+      { v:"0/4", name:"Not started yet" }
+    ],
+    m6_blocker_label: "What is the one thing you are most stuck on right now?",
+    m6_blocker_ph: "e.g. The .env file is read fine locally, but after deploying, the program cannot see the environment variables; we cannot tell whether the platform setting never took effect or the program reads them the wrong way.",
+    m6_next_label: "One thing we will finish this week",
+    m6_next_ph: "e.g. Rewrite all six rules in business_rules.md so each can be judged pass or fail, and put it in one commit.",
+    m6_help_label: "What do you need from the teacher or the TA?",
+    m6_help_ph: "e.g. Ask the TA to look at our .gitignore and our first commit and confirm that .env was never tracked.",
+    m6_wrapup: "Checkpoint: the blocker is specific enough that the teacher knows what to ask about, rather than \"still working on it\".",
+
+    m7_nav: "7. Presentation Plan", m7_title: "Presentation Plan and Question",
+    m7_overview: "Turn section 1's split into a runnable script, and prepare one question to put to the class. The Q&A is carried entirely by the questions each group brings.",
+    m7_highlights: ["Opening line","Segment script","Menti question","10 minutes"],
+    m7_deep: "Write the opening line as a complete English sentence, not as keywords — the first sentence is always the one that jams. Avoid yes-or-no questions for the class; a good question forces a judgement first, for example: if someone broke your KB and you only noticed three days later, what would have told you?",
+    m7_open_label: "English opening line (one complete sentence)",
+    m7_open_ph: "e.g. Our repository has four KB files, and only one of them is written in a form we can actually check.",
+    m7_script_label: "Segment script (one sentence per speaker on the point they will make)",
+    m7_col_who: "Speaker", m7_col_point: "The point of this segment",
+    m7_question_label: "One question for the class (for Menti)",
+    m7_question_ph: "e.g. If someone quietly broke your KB three days ago, what would tell you that it happened?",
+    m7_wrapup: "Checkpoint: the opening line is a complete English sentence, and the question cannot be answered with yes or no.",
+
+    mlab_nav: "8. Interactive Lab", mlab_title: "Interactive Lab",
+    mlab_desc: "Four small tools to sharpen the judgements you made in sections 2, 3 and 6. Nothing here is submitted, but your activity counts towards completion and is stored in this browser.",
+    mlab_clear: "🗑 Clear all",
+    mlab_clear_confirm: "Clear every answer in the Interactive Lab? This cannot be undone.",
+    lab1_title: "① Repo Skeleton Checker",
+    lab1_desc: "Tick the folders and files your repository actually has, and see how complete the skeleton is and which three gaps matter most.",
+    lab1_items: [
+      { k:"kb", n:"KB/ folder", w:10, why:"With no KB/, persistent assets have nowhere to live and every conversation restarts from the background." },
+      { k:"theme", n:"KB/theme_config.md", w:9, why:"With no written presentation rules, six people produce six differently shaped briefs." },
+      { k:"rules", n:"KB/business_rules.md", w:9, why:"With no written acceptance rules, there is nothing to check the output against." },
+      { k:"sources", n:"KB/sources.md", w:8, why:"With no source list, a missed source is a miss nobody notices." },
+      { k:"ksa", n:"KB/ksa_taxonomy.md", w:8, why:"With no vocabulary file, K/S/A judgements fall back on everyone's private intuition." },
+      { k:"gitignore", n:".gitignore", w:10, why:"With no .gitignore, a key eventually gets committed into Git history." },
+      { k:"envex", n:".env.example", w:6, why:"With no example file, a new member cannot tell which environment variables to prepare." },
+      { k:"readme", n:"README.md", w:7, why:"With no README, the TA opens the repo and has no idea where to start." },
+      { k:"src", n:"src/ code folder", w:6, why:"Code scattered in the root means ten minutes of hunting before any edit." },
+      { k:"docs", n:"docs/ documents folder", w:4, why:"Reports and screenshots with no fixed home get hunted for on the deadline." },
+      { k:"data", n:"data/ output folder", w:4, why:"Fetched data mixed into the code makes the version history unreadable." },
+      { k:"wf", n:".github/workflows/ scheduling", w:3, why:"Missing is fine for now, but from W11 onwards this cell becomes required." }
+    ],
+    lab1_result: "Skeleton completeness: {n} / {t} items, weighted {p}%",
+    lab1_top3: "The three gaps that matter most:",
+    lab1_done: "All twelve are in place. The next question is not whether the files exist but whether they hold anything.",
+    lab2_title: "② Key Placement Risk Assessment",
+    lab2_desc: "Judge each of eight locations: is a key here safe or unsafe? The verdict and the reason appear as soon as you choose.",
+    lab2_items: [
+      { k:"env", n:"A .env file, already in .gitignore", safe:true, why:"The key stays on the local machine and never enters Git history." },
+      { k:"platform", n:"Environment variables on the platform", safe:true, why:"The platform injects it at run time, so the code never contains the key." },
+      { k:"secrets", n:"GitHub repository secrets", safe:true, why:"Stored encrypted and decrypted only while an action runs." },
+      { k:"front", n:"Front-end JavaScript code", safe:false, why:"Anyone can right-click and read front-end code, so the key is effectively public." },
+      { k:"prompt", n:"Inside the prompt, pasted each time", safe:false, why:"Prompts get logged, screenshotted and pasted elsewhere." },
+      { k:"kb", n:"A KB file such as sources.md", safe:false, why:"The whole KB enters the context, and it goes public with the repository." },
+      { k:"mem", n:"Memory, remembered across runs", safe:false, why:"Memory is read and exported, and it is not encrypted." },
+      { k:"readme", n:"README.md", safe:false, why:"The README is the most public page in the repository and the first one people open." }
+    ],
+    lab2_safe: "Safe", lab2_risk: "Unsafe",
+    lab2_score: "Correct {n} / {t}",
+    lab2_reset: "Reset",
+    lab3_title: "③ KB Routing Judge",
+    lab3_desc: "Twelve pieces of information — which file should each one live in? The explanation appears as soon as you choose.",
+    lab3_targets: [
+      { id:"theme", name:"theme_config" },
+      { id:"rules", name:"business_rules" },
+      { id:"sources", name:"sources" },
+      { id:"ksa", name:"ksa_taxonomy" },
+      { id:"mem", name:"Memory" }
+    ],
+    lab3_items: [
+      { n:"Heading levels, colours and fonts of the brief", a:"theme", e:"A presentation rule, so theme_config." },
+      { n:"Whether summaries use bullets or paragraphs", a:"theme", e:"An output style, so theme_config." },
+      { n:"Dates always written as YYYY-MM-DD", a:"theme", e:"A format convention, so theme_config." },
+      { n:"Each summary capped at 300 words", a:"rules", e:"A checkable acceptance rule, so business_rules." },
+      { n:"A missing source link counts as a fail", a:"rules", e:"An acceptance condition, so business_rules." },
+      { n:"The same posting may not appear two days running", a:"rules", e:"A de-duplication rule, so business_rules." },
+      { n:"The list of sites to fetch and their URLs", a:"sources", e:"A source setting, so sources." },
+      { n:"Refresh frequency and fetch window per source", a:"sources", e:"A source setting, so sources." },
+      { n:"The rule that years of experience count as S, not K", a:"ksa", e:"A K/S/A judgement rule, so ksa_taxonomy." },
+      { n:"The four quadrants of A: upward, downward, inward, outward", a:"ksa", e:"K/S/A vocabulary, so ksa_taxonomy." },
+      { n:"The timestamp of the last run", a:"mem", e:"State that changes between runs, so Memory." },
+      { n:"The industry the user prefers", a:"mem", e:"A personal preference carried across runs, so Memory." }
+    ],
+    lab3_score: "Correct {n} / {t}",
+    lab3_reset: "Reset",
+    lab4_title: "④ Project vs One Conversation",
+    lab4_desc: "Tick what your group genuinely does today, and see which stage of the upgrade path you sit on and what comes next.",
+    lab4_items: [
+      { k:"folder", lv:2, n:"This task has a fixed folder and every file lives in it" },
+      { k:"git", lv:2, n:"The folder is in Git and every change has a version record" },
+      { k:"rules", lv:3, n:"There is a written project rules file, applied every time" },
+      { k:"nobrief", lv:3, n:"A new conversation needs no re-explaining of the background" },
+      { k:"kb", lv:4, n:"KB files hold the domain knowledge and the acceptance rules" },
+      { k:"mem", lv:4, n:"Memory holds the state that changes between runs" },
+      { k:"tool", lv:5, n:"There are runnable tools or scripts, not only conversation" },
+      { k:"key", lv:5, n:"Keys live in a secure back end, not the front end or a prompt" },
+      { k:"verify", lv:6, n:"Output is checked automatically and reruns or calls a human on failure" },
+      { k:"stop", lv:6, n:"There are stop conditions and a retry ceiling" }
+    ],
+    lab4_you: "You are currently at: {s}",
+    lab4_next: "Next comes {s}, and these are still missing:",
+    lab4_done: "All six stages are in place. The remaining work is not adding another one but keeping the Verified Loop running cleanly for a full week.",
+    lab4_reset: "Reset",
+    lab5_title: "Pre-Class Self-Check",
+    lab5_desc: "Four multiple-choice questions to confirm you actually read this week's required materials. Wrong answers show an explanation.",
+
+    mres_nav: "9. Learning Resources", mres_title: "This Week's Resources",
+    mres_desc: "Two required items, both interactive, and no video this week — the time belongs to building the repository. The first is this week's main material, read for the second time; the second is the adjacent architecture, and this time you build with it. Optional items do not affect the worksheet, but a written summary of one counts as a Bonus Assignment.",
+    res_req: [
+      { label: "AIWE · Layers of the AI Work Environment", url: "https://lolopodcast.github.io/AI-Work-Environment-Layers/", desc: "This week's main material, read a second time. The first reading was for the map; this one is for actually building layer 7, the work container." },
+      { label: "Git & GitHub Essentials for Non-Coders", url: "https://lolopodcast.github.io/Git-GitHub-VibeCoding-for-Non-Coders/", desc: "The adjacent architecture, hands-on this time: repositories, commits, .gitignore, rollback and secrets all live here." }
+    ],
+    res_opt: [
+      { label: "Google NotebookLM & AI Tool Workflow", url: "https://lolopodcast.github.io/NBLM-Gem-KB/", desc: "Build your own KB this time: how to split the files and how to chain them with other tools." },
+      { label: "AI SaaS Bootcamp · LabSPA", url: "https://lolopodcast.github.io/Bootcamp_AI-SaaS-_-LabSPA/", desc: "What still sits between a repository and something other people can actually use." },
+      { label: "IPOB · A Three-Axis Blueprint for Vibe Coding AI Agents", url: "https://lolopodcast.github.io/Vibe-Coding-Agent-Blueprint/", desc: "Read in W5 and used again in W12. This time look at how it treats verification and convergence." }
+    ],
+
+    analytics_title: "Completion & Export",
+    analytics_desc: "The individual and group layers export separately. The individual file stays with you as a learning record; the group file is uploaded to Moodle by this week's compiler.",
+    analytics_personal_title: "Individual export (sections 2, 3, 4 · not submitted)",
+    analytics_personal_desc: "Enter your name to export. This file stays with you, and you can drop it straight into the docs/ folder of your repository as a progress record.",
+    analytics_group_title: "Group export (sections 1, 5, 6, 7 · submit to Moodle)",
+    analytics_group_desc: "Enter the group and this week's compiler to export. One CSV and one Markdown, uploaded to the Moodle assignment.",
+    analytics_group: "Group", analytics_dept: "Dept / Year", analytics_dept_ph: "e.g. IBS1",
+    analytics_id: "Student ID", analytics_id_ph: "e.g. 113212599",
+    analytics_name_en: "Name (English)", analytics_name_en_ph: "e.g. Shihmin Lo",
+    analytics_name_zh: "Name (Chinese)", analytics_name_zh_ph: "e.g. 王阿吉",
+    analytics_compiler: "This week's compiler", analytics_compiler_ph: "e.g. 王阿吉",
+    analytics_export_personal: "Export individual Markdown",
+    analytics_export_csv: "Export group CSV",
+    analytics_export_md: "Export group Markdown",
+    analytics_need_personal: "Enter your name first",
+    analytics_need_group: "Enter the group and this week's compiler first",
+    group_options: ["G1","G2","G3","G4","G5","G6","G7","G8","G9","G10","G11","G12","Others"],
+    analytics_pct_personal: "Individual completion", analytics_pct_group: "Group completion",
+    analytics_total_time: "Total time on worksheet", analytics_overall_acc: "Self-check accuracy",
+    analytics_sec: "s",
+    analytics_progress_title: "Completion by section",
+    analytics_wp_title: "Sections still incomplete",
+    analytics_wp_goto: "→ Go and fill it in",
+    sdl_title: "First, import your SDL knowledge-base snapshot",
+    sdl_desc: "This week's sequence is: read and take notes by hand without AI → run a Socratic session with the SDL learning partner → produce KB.md → import it here. Importing fills in your identity fields automatically and shows the key parts of your KB above each section. This worksheet is not asking you to think it through again; it turns what you already worked out into a format the group can compare.",
+    sdl_ph: "Paste the full KB.md produced by the SDL partner here (including the --- frontmatter --- at the top)",
+    sdl_parse: "Parse and import",
+    sdl_file: "Upload a file instead",
+    sdl_loaded: "✓ SDL KB imported",
+    sdl_clear: "Clear and re-import",
+    sdl_ok: "Imported. Your identity fields have been filled in.",
+    sdl_err_empty: "Nothing to parse — paste the full KB.md first.",
+    sdl_err_format: "Could not parse it. Check that this is the KB.md produced by the SDL partner (it should start with a --- frontmatter --- block and contain §1, §2 and similar sections).",
+    sdl_panel_title: "📖 Your SDL KB at a glance (for reference)",
+    sdl_panel_show: "Show",
+    sdl_panel_hide: "Hide",
+    sdl_s1: "§1 Learning summary",
+    sdl_s2: "§2 Knowledge synthesis",
+    sdl_s4: "§4 Student's own words",
+    sdl_s5: "§5 Open questions",
+    analytics_wp_personal_head: "Individual layer (yours to fill)",
+    analytics_wp_personal_done: "The individual layer is complete.",
+    analytics_wp_group_head: "Group layer (decided together in discussion)",
+    analytics_wp_group_note: "If you are not this week's compiler, 0% here is normal — it does not affect your individual export.",
+    analytics_wp_group_done: "The group layer is complete.",
+    analytics_wp_allpass: "All seven sections are complete. You are ready to export.",
+    analytics_wp_saved: "Your entries are saved automatically in this browser",
+    analytics_wp_clear: "🗑 Clear all",
+    analytics_wp_clear_confirm: "Clear every entry and all activity data? This cannot be undone — export first.",
+    analytics_wp_tts_intro: "The following sections are still incomplete.",
+    analytics_wp_tts_module: "{name}, {acc}% complete.",
+    analytics_wp_tts_allpass: "All seven sections are complete.",
+
+    date: "Version 2026.08.23",
+    copyright: "For Educational Use Only",
+    architect_label: "Architect:",
+    architect_url: "https://www.ibs.ncnu.edu.tw/index.php/faculty/tenured-professor/299-smlo"
+  }
+};
+
+/* ================= Field registry ================= */
+const FIELDS = {
+  1: ['g_group','g_date', ...MEMBER_IDX.flatMap(i => [`m_name_${i}`,`m_id_${i}`,`m_part_${i}`,`m_sec_${i}`])],
+  2: [...S2_IDS],
+  3: ['key_where','key_check','gitignore','commit_habit','rollback'],
+  4: [...[0,1,2,3,4].flatMap(i => [`t_term_${i}`,`t_mean_${i}`,`t_sent_${i}`]), ...[0,1,2].flatMap(i => [`p_word_${i}`,`p_hard_${i}`,`p_tip_${i}`])],
+  5: ['syn_focus_why','syn_gap','syn_evidence','syn_case','syn_rule'],
+  6: ['tp_repo','tp_kb_status','tp_blocker','tp_next','tp_help'],
+  7: ['pr_open','pr_question', ...MEMBER_IDX.map(i => `pr_point_${i}`)]
+};
+const CORE = {
+  1: ['g_group','g_date','m_name_0','m_part_0'],
+  2: [...S2_IDS],
+  3: ['key_where','key_check','gitignore','commit_habit','rollback'],
+  4: ['t_term_0','t_mean_0','t_term_1','t_mean_1','t_term_2','t_mean_2','t_term_3','t_mean_3','t_term_4','t_mean_4','p_word_0','p_word_1','p_word_2'],
+  5: ['syn_focus_why','syn_gap','syn_evidence','syn_case','syn_rule'],
+  6: ['tp_repo','tp_kb_status','tp_blocker','tp_next','tp_help'],
+  7: ['pr_open','pr_question','pr_point_0']
+};
+
+/* ================= UI atoms ================= */
+const H2 = ({ children, icon, number }) => (
+  <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-black text-[#004030] dark:text-[#D8C3A5] mb-4 flex items-center gap-3">
+    {icon && <span className="text-2xl ui-decoration">{icon}</span>}
+    {number !== undefined && <span>{number}.</span>}
+    <span>{children}</span>
+  </h2>
+);
+const Badge = ({ kind, t }) => (
+  <span className={`inline-block text-xs font-bold px-3 py-1 rounded-full mb-4 ${kind === 'P'
+    ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200'
+    : 'bg-[#D8C3A5]/30 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>
+    {kind === 'P' ? t.badge_personal : t.badge_group}
+  </span>
+);
+const Overview = ({ t, text }) => (
+  <div className="bg-[#004030]/5 dark:bg-[#D8C3A5]/5 rounded-xl p-5 border-l-4 border-[#D8C3A5]">
+    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-2">{t.overview_label}</h3>
+    <p>{text}</p>
+  </div>
+);
+const Highlights = ({ t, items }) => (
+  <div>
+    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.highlights_label}</h3>
+    <div className="flex flex-wrap gap-2">
+      {items.map((h,i) => <span key={i} className="px-3 py-1 bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5] rounded-full text-sm font-medium">{h}</span>)}
+    </div>
+  </div>
+);
+const DeepDive = ({ t, text }) => (
+  <div>
+    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.deep_dive_label}</h3>
+    <p className="p-4 bg-slate-100 dark:bg-slate-800 rounded-lg italic font-serif">{text}</p>
+  </div>
+);
+const Wrapup = ({ t, text }) => (
+  <div className="bg-slate-100 dark:bg-slate-800 rounded-xl p-5 flex gap-3 items-start">
+    <span className="text-[#004030] dark:text-[#D8C3A5] mt-0.5 shrink-0"><IconCheckCircle size={18}/></span>
+    <div>
+      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-1">{t.wrapup_label}</h3>
+      <p className="italic">{text}</p>
+    </div>
+  </div>
+);
+const inputCls = "w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 text-base focus:outline-none focus:ring-2 focus:ring-[#004030] dark:focus:ring-[#D8C3A5] transition";
+const monoCls = inputCls + " font-mono text-sm";
+const Field = ({ id, label, hint, ph, rows, value, onChange, type, mono }) => (
+  <div className="mb-5">
+    {label && <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{label}</label>}
+    {hint && <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 leading-relaxed">{hint}</p>}
+    {rows
+      ? <textarea rows={rows} className={mono ? monoCls : inputCls} placeholder={ph} value={value||''} onChange={e => onChange(id, sanitizeText(e.target.value))} />
+      : <input type={type||'text'} className={inputCls} placeholder={ph} value={value||''} onChange={e => onChange(id, sanitizeText(e.target.value))} />}
+  </div>
+);
+const InfoInput = ({ id, label, ph, value, onChange, san }) => (
+  <div>
+    <label className="block text-xs font-bold text-slate-500 mb-1">{label}</label>
+    <input className={inputCls} placeholder={ph} value={value || ''} onChange={e => onChange(id, (san || sanitizeName)(e.target.value))} />
+  </div>
+);
+
+/* ================= SDL KB import ================= */
+const SEMESTER_DEFAULT = '1151';
+const WEEK_CODE = 'W10';
+const TOPIC_CAMEL = 'ProjectAndAssets';
+
+const parseSdlKb = (text) => {
+  try {
+    const t = String(text || '').replace(/\r\n/g, '\n').trim();
+    if (!t) return { ok: false, error: 'empty' };
+    const fm = t.match(/^---\n([\s\S]*?)\n---/);
+    const meta = {};
+    if (fm) {
+      fm[1].split('\n').forEach(line => {
+        if (/^\s/.test(line)) return;               // skip nested (sources / interaction)
+        const m = line.match(/^([A-Za-z_]+):\s*(.*)$/);
+        if (m) meta[m[1]] = m[2].replace(/^["']|["']$/g, '').trim();
+      });
+    }
+    const sections = {};
+    const parts = t.split(/^##\s*§/m);
+    parts.shift();
+    parts.forEach(part => {
+      const n = part.match(/^(\d)/);
+      if (!n) return;
+      sections['s' + n[1]] = part.replace(/^\d[^\n]*\n?/, '').trim();
+    });
+    const hasAny = Object.keys(meta).length > 0 || Object.keys(sections).length > 0;
+    if (!hasAny) return { ok: false, error: 'format' };
+    return { ok: true, meta, sections, raw: t };
+  } catch (e) { return { ok: false, error: 'format' }; }
+};
+
+const SdlImport = ({ t, sdl, onImport, onClear }) => {
+  const [text, setText] = useState('');
+  const [msg, setMsg] = useState(null);
+  const fileRef = useRef(null);
+  const doParse = (raw) => {
+    const r = parseSdlKb(raw);
+    if (!r.ok) { setMsg({ ok: false, text: r.error === 'empty' ? t.sdl_err_empty : t.sdl_err_format }); return; }
+    onImport(r);
+    setMsg({ ok: true, text: t.sdl_ok });
+    setText('');
+  };
+  const onFile = (e) => {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    const rd = new FileReader();
+    rd.onload = () => doParse(rd.result);
+    rd.readAsText(f);
+    e.target.value = '';
+  };
+  return (
+    <div className="rounded-xl border-2 border-sky-200 dark:border-sky-800/60 bg-sky-50/50 dark:bg-sky-900/10 p-5">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5]">{t.sdl_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-3 leading-relaxed">{t.sdl_desc}</p>
+      {sdl ? (
+        <div className="rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4">
+          <p className="text-sm font-bold text-green-700 dark:text-green-400">{t.sdl_loaded}</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 break-all">
+            {[sdl.meta.course, sdl.meta.semester, sdl.meta.week, sdl.meta.topic].filter(Boolean).join(' · ')}
+            {sdl.meta.student ? ' · ' + sdl.meta.student : ''}{sdl.meta.group ? ' · ' + sdl.meta.group : ''}
+          </p>
+          <button onClick={onClear} className="mt-3 px-3 py-1.5 text-xs border border-red-400 text-red-600 dark:text-red-400 rounded-lg">{t.sdl_clear}</button>
+        </div>
+      ) : (
+        <>
+          <textarea rows={4} className={inputCls} placeholder={t.sdl_ph} value={text} onChange={e => setText(e.target.value)} />
+          <div className="flex flex-wrap items-center gap-3 mt-3">
+            <button onClick={() => doParse(text)} className="px-4 py-2 text-sm bg-sky-700 dark:bg-sky-300 text-white dark:text-sky-950 font-bold rounded-lg">{t.sdl_parse}</button>
+            <button onClick={() => fileRef.current && fileRef.current.click()} className="px-4 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg">{t.sdl_file}</button>
+            <input ref={fileRef} type="file" accept=".md,.markdown,.txt" onChange={onFile} className="hidden" />
+          </div>
+        </>
+      )}
+      {msg && <p className={`text-xs mt-2 ${msg.ok ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>{msg.text}</p>}
+    </div>
+  );
+};
+
+const SdlPanel = ({ t, sdl }) => {
+  const [open, setOpen] = useState(false);
+  if (!sdl) return null;
+  const rows = [
+    { k: 's1', label: t.sdl_s1 }, { k: 's2', label: t.sdl_s2 },
+    { k: 's4', label: t.sdl_s4 }, { k: 's5', label: t.sdl_s5 }
+  ].filter(r => sdl.sections[r.k]);
+  if (!rows.length) return null;
+  return (
+    <div className="rounded-xl border border-sky-200 dark:border-sky-800/60 bg-sky-50/40 dark:bg-sky-900/10">
+      <button onClick={() => setOpen(o => !o)} className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left">
+        <span className="text-sm font-bold text-sky-800 dark:text-sky-300">{t.sdl_panel_title}</span>
+        <span className="text-xs text-sky-700 dark:text-sky-400 shrink-0">{open ? t.sdl_panel_hide : t.sdl_panel_show}</span>
+      </button>
+      {open && (
+        <div className="px-4 pb-4 space-y-4 max-h-96 overflow-y-auto">
+          {rows.map(r => (
+            <div key={r.k}>
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">{r.label}</p>
+              <pre className="text-xs whitespace-pre-wrap font-sans text-slate-700 dark:text-slate-300 leading-relaxed">{sdl.sections[r.k]}</pre>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const LinkCard = ({label, url, desc}) => (
+  <a href={url} target="_blank" rel="noopener noreferrer"
+    className="block bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5] hover:shadow-md transition-all group">
+    <span className="font-bold font-serif text-sm text-[#004030] dark:text-[#D8C3A5] group-hover:underline">{label}</span>
+    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mt-1">{desc}</p>
+  </a>
+);
+
+/* ================= FlipCardDeck ================= */
+const FlipCardDeck = ({ terms, t, moduleId, onCardRead }) => {
+  const [groupIdx, setGroupIdx] = useState(0);
+  const [flipped, setFlipped] = useState({});
+  const [readSet, setReadSet] = useState(new Set());
+  const [shownSet, setShownSet] = useState(new Set());
+  const [shuffledOrder] = useState(() => [...Array(terms.length).keys()].sort(() => Math.random() - 0.5));
+  const groupSize = 2;
+  const totalGroups = Math.ceil(terms.length / groupSize);
+  const currentCardIndices = shuffledOrder.slice(groupIdx*groupSize, groupIdx*groupSize + groupSize);
+  useEffect(() => {
+    const ns = new Set(shownSet); currentCardIndices.forEach(i => ns.add(i));
+    if (ns.size !== shownSet.size) setShownSet(ns);
+  }, [groupIdx]);
+  const handleFlip = (i) => {
+    setFlipped(f => ({...f, [i]: !f[i]}));
+    if (!readSet.has(i)) { const nr = new Set(readSet); nr.add(i); setReadSet(nr); onCardRead && onCardRead(moduleId, nr.size, shownSet.size, terms.length); }
+  };
+  const statusText = t.flip_status.replace('{read}', readSet.size).replace('{shown}', shownSet.size).replace('{total}', terms.length);
+  return (
+    <div className="mt-8">
+      <h3 className="text-lg font-bold uppercase tracking-wider text-slate-500 mb-2">{t.key_terms}</h3>
+      <p className="text-sm text-slate-400 mb-4">{statusText}</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {currentCardIndices.map(i => (
+          <div key={i} className="perspective cursor-pointer h-44" onClick={() => handleFlip(i)}>
+            <div className={`transform-style-3d relative w-full h-full transition-transform duration-500 ${flipped[i] ? 'rotate-y-180' : ''}`}>
+              <div className="backface-hidden absolute inset-0 bg-white dark:bg-slate-800 rounded-xl p-4 flex flex-col items-center justify-center border border-slate-200 dark:border-slate-700 shadow-sm">
+                <p className="font-serif font-bold text-center text-[#004030] dark:text-[#D8C3A5]">{terms[i].front}</p>
+                <p className="text-xs text-slate-400 mt-2">{t.flip_prompt}</p>
+              </div>
+              <div className="backface-hidden rotate-y-180 absolute inset-0 bg-[#004030] dark:bg-slate-700 rounded-xl p-4 flex items-center justify-center overflow-y-auto">
+                <p className="text-sm text-center text-[#D8C3A5] dark:text-slate-200 leading-relaxed">{terms[i].back}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="flex items-center gap-3 mt-4">
+        <button onClick={() => { setGroupIdx(0); setFlipped({}); }} className="px-4 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700">{t.flip_retry}</button>
+        <button onClick={() => groupIdx < totalGroups-1 && setGroupIdx(groupIdx+1)} disabled={groupIdx >= totalGroups-1}
+          className="px-4 py-2 text-sm bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg disabled:opacity-40">{t.flip_next}</button>
+      </div>
+    </div>
+  );
+};
+
+/* ================= ModuleQuiz ================= */
+const ModuleQuiz = ({ questions, t, moduleId, onQuizSubmit }) => {
+  const [selected, setSelected] = useState({});
+  const [submitted, setSubmitted] = useState({});
+  const [groupIdx, setGroupIdx] = useState(0);
+  const groupSize = 2;
+  const [quizIndices] = useState(() => [...Array(questions.length).keys()].sort(() => Math.random() - 0.5));
+  const totalGroups = Math.ceil(quizIndices.length / groupSize);
+  const [shuffledMaps] = useState(() => quizIndices.map(qi => [...Array(questions[qi].opts.length).keys()].sort(() => Math.random() - 0.5)));
+  const computeCorrect = () => { let c = 0; quizIndices.forEach((qIdx, qi) => { if (selected[qi] !== undefined && shuffledMaps[qi][selected[qi]] === _d(questions[qIdx].ans)) c++; }); return c; };
+  const statusText = t.quiz_status.replace('{correct}', computeCorrect()).replace('{answered}', Object.keys(selected).length).replace('{total}', quizIndices.length);
+  const currentStart = groupIdx * groupSize;
+  const currentIndices = quizIndices.slice(currentStart, currentStart + groupSize);
+  const handleGroupSubmit = () => {
+    if (!currentIndices.every((_, i) => selected[currentStart+i] !== undefined)) return;
+    setSubmitted(s => ({...s, [groupIdx]: true}));
+    if (groupIdx === totalGroups - 1 || Object.keys(submitted).length + 1 === totalGroups) {
+      const wrong = []; let correct = 0;
+      quizIndices.forEach((qIdx, qi) => {
+        if (selected[qi] === undefined) return;
+        if (shuffledMaps[qi][selected[qi]] === _d(questions[qIdx].ans)) correct++; else wrong.push(questions[qIdx].q);
+      });
+      onQuizSubmit(moduleId, correct, quizIndices.length, wrong);
+    }
+  };
+  return (
+    <div className="mt-8 bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="text-lg font-bold font-serif text-[#004030] dark:text-[#D8C3A5] mb-2">{t.quiz_title}</h3>
+      <p className="text-sm text-slate-400 mb-6">{statusText}</p>
+      {currentIndices.map((qIdx, localI) => {
+        const qi = currentStart + localI, q = questions[qIdx], sMap = shuffledMaps[qi], isSub = !!submitted[groupIdx];
+        return (
+          <div key={qIdx} className="mb-6">
+            <p className="font-bold mb-3">{qi+1}. {q.q}</p>
+            <div className="space-y-2">
+              {sMap.map((origIdx, dIdx) => {
+                const isCorrect = origIdx === _d(q.ans), isSel = selected[qi] === dIdx;
+                return (
+                  <button key={dIdx} onClick={() => !isSub && setSelected(s => ({...s, [qi]: dIdx}))}
+                    className={`w-full text-left px-4 py-3 rounded-lg border transition-all text-sm ${isSub
+                      ? isCorrect ? 'bg-green-100 border-green-500 dark:bg-green-900/30'
+                        : isSel ? 'bg-red-100 border-red-400 dark:bg-red-900/30' : 'border-slate-200 dark:border-slate-700'
+                      : isSel ? 'border-[#004030] dark:border-[#D8C3A5] bg-[#004030]/5' : 'border-slate-200 dark:border-slate-700 hover:border-slate-400'}`}>
+                    {q.opts[origIdx]}
+                  </button>
+                );
+              })}
+            </div>
+            {isSub && (
+              <p className={`mt-2 text-sm italic ${shuffledMaps[qi][selected[qi]] === _d(q.ans) ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>
+                {shuffledMaps[qi][selected[qi]] === _d(q.ans) ? `✓ ${t.correct}` : `✗ ${t.incorrect}`} — {t.explanation}：{q.exp}
+              </p>
+            )}
+          </div>
+        );
+      })}
+      <div className="flex items-center gap-3 flex-wrap">
+        {!submitted[groupIdx]
+          ? <button onClick={handleGroupSubmit} disabled={!currentIndices.every((_,i) => selected[currentStart+i] !== undefined)}
+              className="px-6 py-2 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg disabled:opacity-40">{t.submit}</button>
+          : <>
+              {groupIdx < totalGroups-1 && <button onClick={() => setGroupIdx(groupIdx+1)} className="px-6 py-2 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg">{t.quiz_next}</button>}
+              <button onClick={() => { setGroupIdx(0); setSelected({}); setSubmitted({}); }} className="px-6 py-2 border border-[#004030] dark:border-[#D8C3A5] text-[#004030] dark:text-[#D8C3A5] font-bold rounded-lg">{t.quiz_retry}</button>
+            </>}
+      </div>
+    </div>
+  );
+};
+
+/* ================= Work-container SVG (AIWE layer 7) ================= */
+const ContainerDiagram = ({ t, filled }) => {
+  const COL = { repo:"#5B5BD6", kb:"#0E9F6E", mem:"#D97706" };
+  const tone = id => id === 'mem_design' ? COL.mem : (id.indexOf('kb_') === 0 ? COL.kb : COL.repo);
+  const cells = t.s2_cells;
+  const box = [
+    { x:24, y:38, w:278, h:44 }, { x:318, y:38, w:278, h:44 },
+    { x:24, y:112, w:134, h:62 }, { x:170, y:112, w:134, h:62 },
+    { x:316, y:112, w:134, h:62 }, { x:462, y:112, w:134, h:62 },
+    { x:24, y:188, w:572, h:46 }
+  ];
+  const doneN = cells.filter(c => filled && filled.includes(c.id)).length;
+  return (
+    <div className="w-full overflow-x-auto" onContextMenu={e => { e.preventDefault(); window.showCopyrightToast && window.showCopyrightToast(); }}>
+      <svg viewBox="0 0 620 250" className="w-full max-w-2xl mx-auto" draggable="false" role="img" aria-label={t.m2_svg_cap}>
+        <rect x="6" y="6" width="608" height="238" rx="12" fill="none" stroke="#94a3b8" strokeDasharray="6 5" strokeWidth="1.5"/>
+        <text x="20" y="26" fontSize="11.5" fill="#94a3b8" fontFamily="Inter, sans-serif">{t.m2_svg_layer}</text>
+        <text x="560" y="26" fontSize="11.5" fill="#94a3b8" fontFamily="Inter, sans-serif" textAnchor="end">{doneN} / 7</text>
+        <text x="24" y="103" fontSize="10" fill="#64748b" fontFamily="Inter, sans-serif">{t.m2_svg_kb}</text>
+        {cells.map((c, i) => {
+          const b = box[i], on = !!(filled && filled.includes(c.id)), col = tone(c.id);
+          return (
+            <g key={c.id}>
+              <rect x={b.x} y={b.y} width={b.w} height={b.h} rx="9" fill={col} opacity={on ? 0.92 : 0.20}/>
+              <text x={b.x+12} y={b.y+21} fontSize="11.5" fontWeight="700" fill={on ? "#ffffff" : "#334155"} fontFamily="Inter, sans-serif">{c.name}</text>
+              <foreignObject x={b.x+10} y={b.y+26} width={b.w-20} height={b.h-28}>
+                <div xmlns="http://www.w3.org/1999/xhtml" style={{fontSize:'9.5px',lineHeight:'1.3',color: on ? '#ffffff' : '#64748b',fontFamily:'Inter, sans-serif'}}>{c.sub}</div>
+              </foreignObject>
+            </g>
+          );
+        })}
+      </svg>
+      <p className="text-center text-xs text-slate-500 dark:text-slate-400 mt-2 italic">{t.m2_svg_cap}</p>
+    </div>
+  );
+};
+
+/* ================= Labs ================= */
+const LabRepoSkeleton = ({ t, state, setState, onTouch }) => {
+  const v = state || {};
+  const items = t.lab1_items;
+  const toggle = k => { setState({ ...v, [k]: !v[k] }); onTouch && onTouch(); };
+  const doneN = items.filter(it => v[it.k]).length;
+  const totalW = items.reduce((s, it) => s + it.w, 0);
+  const gotW = items.filter(it => v[it.k]).reduce((s, it) => s + it.w, 0);
+  const pct = Math.round(gotW / totalW * 100);
+  const top = items.filter(it => !v[it.k]).sort((a, b) => b.w - a.w).slice(0, 3);
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab1_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.lab1_desc}</p>
+      <div className="space-y-1.5">
+        {items.map(it => (
+          <label key={it.k} className="flex items-center justify-between gap-3 p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 cursor-pointer hover:border-[#004030] dark:hover:border-[#D8C3A5] transition">
+            <span className="flex items-center gap-3 min-w-0">
+              <input type="checkbox" className="w-4 h-4 accent-[#004030] dark:accent-[#D8C3A5] shrink-0" checked={!!v[it.k]} onChange={() => toggle(it.k)} />
+              <span className="text-sm font-mono truncate">{it.n}</span>
+            </span>
+            <span className="text-xs text-slate-400 shrink-0">{it.w}</span>
+          </label>
+        ))}
+      </div>
+      <div className="mt-4">
+        <div className="h-3 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+          <div className={`h-full transition-all ${pct === 100 ? 'bg-green-500' : 'bg-[#004030] dark:bg-[#D8C3A5]'}`} style={{width: pct + '%'}}></div>
+        </div>
+        <p className="font-bold mt-3">{t.lab1_result.replace('{n}', doneN).replace('{t}', items.length).replace('{p}', pct)}</p>
+        {top.length > 0
+          ? <>
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mt-3 mb-1">{t.lab1_top3}</p>
+              <ul className="text-sm space-y-1">{top.map(it => <li key={it.k} className="text-amber-700 dark:text-amber-300">· <span className="font-mono">{it.n}</span> — {it.why}</li>)}</ul>
+            </>
+          : <p className="text-sm text-green-600 dark:text-green-400 mt-2">{t.lab1_done}</p>}
+      </div>
+    </div>
+  );
+};
+
+const LabKeyRisk = ({ t, state, setState, onTouch }) => {
+  const v = state || {};
+  const items = t.lab2_items;
+  const pick = (k, val) => { setState({ ...v, [k]: val }); onTouch && onTouch(); };
+  const answered = items.filter(it => v[it.k] !== undefined);
+  const n = items.filter(it => v[it.k] !== undefined && v[it.k] === it.safe).length;
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab2_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.lab2_desc}</p>
+      <div className="space-y-3">
+        {items.map(it => {
+          const chosen = v[it.k];
+          const done = chosen !== undefined;
+          const right = done && chosen === it.safe;
+          return (
+            <div key={it.k} className="border-b border-slate-100 dark:border-slate-700 pb-3 last:border-0">
+              <p className="text-sm mb-2 font-mono">{it.n}</p>
+              <div className="flex gap-2 flex-wrap">
+                {[true, false].map(val => {
+                  const sel = chosen === val;
+                  const cls = !done ? 'border-slate-300 dark:border-slate-600'
+                    : val === it.safe ? 'bg-green-100 border-green-500 text-green-800 dark:bg-green-900/40 dark:text-green-200'
+                    : sel ? 'bg-red-100 border-red-400 text-red-700 dark:bg-red-900/40 dark:text-red-200'
+                    : 'border-slate-300 dark:border-slate-600 opacity-50';
+                  const base = !done && sel ? 'bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] border-transparent' : cls;
+                  return <button key={String(val)} onClick={() => !done && pick(it.k, val)}
+                    className={`text-xs px-4 py-1.5 rounded-full font-bold border transition ${base}`}>{val ? t.lab2_safe : t.lab2_risk}</button>;
+                })}
+              </div>
+              {done && <p className={`text-xs italic mt-2 ${right ? 'text-slate-500 dark:text-slate-400' : 'text-red-500 dark:text-red-400'}`}>{it.why}</p>}
+            </div>
+          );
+        })}
+      </div>
+      <div className="flex items-center gap-3 mt-4 flex-wrap">
+        <span className="font-bold text-[#004030] dark:text-[#D8C3A5]">{t.lab2_score.replace('{n}', n).replace('{t}', items.length)}</span>
+        {answered.length > 0 && <button onClick={() => { setState({}); onTouch && onTouch(); }} className="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm">{t.lab2_reset}</button>}
+      </div>
+    </div>
+  );
+};
+
+const LabKbRouting = ({ t, state, setState, onTouch }) => {
+  const v = state || {};
+  const items = t.lab3_items;
+  const pick = (i, val) => { setState({ ...v, [i]: val }); onTouch && onTouch(); };
+  const n = items.filter((it, i) => v[i] === it.a).length;
+  const answered = items.filter((it, i) => v[i] !== undefined).length;
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab3_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.lab3_desc}</p>
+      <div className="space-y-3">
+        {items.map((it, i) => {
+          const done = v[i] !== undefined;
+          const right = done && v[i] === it.a;
+          return (
+            <div key={i} className="border-b border-slate-100 dark:border-slate-700 pb-3 last:border-0">
+              <p className="text-sm mb-2">{i+1}. {it.n}</p>
+              <div className="flex gap-1.5 flex-wrap">
+                {t.lab3_targets.map(tg => {
+                  const sel = v[i] === tg.id;
+                  const cls = !done ? (sel ? 'bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] border-transparent' : 'border-slate-300 dark:border-slate-600')
+                    : tg.id === it.a ? 'bg-green-100 border-green-500 text-green-800 dark:bg-green-900/40 dark:text-green-200'
+                    : sel ? 'bg-red-100 border-red-400 text-red-700 dark:bg-red-900/40 dark:text-red-200'
+                    : 'border-slate-300 dark:border-slate-600 opacity-50';
+                  return <button key={tg.id} onClick={() => !done && pick(i, tg.id)}
+                    className={`text-[11px] px-2.5 py-1.5 rounded-full font-bold border transition font-mono ${cls}`}>{tg.name}</button>;
+                })}
+              </div>
+              {done && <p className={`text-xs italic mt-2 ${right ? 'text-slate-500 dark:text-slate-400' : 'text-red-500 dark:text-red-400'}`}>{it.e}</p>}
+            </div>
+          );
+        })}
+      </div>
+      <div className="flex items-center gap-3 mt-4 flex-wrap">
+        <span className="font-bold text-[#004030] dark:text-[#D8C3A5]">{t.lab3_score.replace('{n}', n).replace('{t}', items.length)}</span>
+        {answered > 0 && <button onClick={() => { setState({}); onTouch && onTouch(); }} className="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm">{t.lab3_reset}</button>}
+      </div>
+    </div>
+  );
+};
+
+const LabUpgradePath = ({ t, state, setState, onTouch }) => {
+  const v = state || {};
+  const items = t.lab4_items;
+  const toggle = k => { setState({ ...v, [k]: !v[k] }); onTouch && onTouch(); };
+  let level = 1;
+  for (let L = 2; L <= 6; L++) {
+    const need = items.filter(it => it.lv === L);
+    if (need.every(it => v[it.k])) level = L; else break;
+  }
+  const nextLv = level + 1;
+  const missing = items.filter(it => it.lv === nextLv && !v[it.k]);
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab4_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.lab4_desc}</p>
+      <div className="flex flex-wrap items-center gap-1.5 mb-4">
+        {t.path_stages.map((s, i) => (
+          <React.Fragment key={i}>
+            {i > 0 && <span className="text-slate-400 text-xs">→</span>}
+            <span className={`text-[11px] px-2.5 py-1 rounded-full font-bold border ${i+1 === level
+              ? 'bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] border-transparent'
+              : i+1 < level ? 'border-green-500 text-green-700 dark:text-green-300'
+              : 'border-slate-300 dark:border-slate-600 text-slate-500'}`}>{s}</span>
+          </React.Fragment>
+        ))}
+      </div>
+      <p className="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">{t.path_caption}</p>
+      <div className="space-y-1.5">
+        {items.map(it => (
+          <label key={it.k} className="flex items-center justify-between gap-3 p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 cursor-pointer hover:border-[#004030] dark:hover:border-[#D8C3A5] transition">
+            <span className="flex items-center gap-3 min-w-0">
+              <input type="checkbox" className="w-4 h-4 accent-[#004030] dark:accent-[#D8C3A5] shrink-0" checked={!!v[it.k]} onChange={() => toggle(it.k)} />
+              <span className="text-sm">{it.n}</span>
+            </span>
+            <span className="text-[10px] text-slate-400 shrink-0">L{it.lv}</span>
+          </label>
+        ))}
+      </div>
+      <div className="mt-4 p-4 rounded-lg bg-slate-50 dark:bg-slate-900/50">
+        <p className="font-bold text-[#004030] dark:text-[#D8C3A5]">{t.lab4_you.replace('{s}', t.path_stages[level-1])}</p>
+        {level >= 6
+          ? <p className="text-sm text-green-600 dark:text-green-400 mt-2">{t.lab4_done}</p>
+          : <>
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mt-3 mb-1">{t.lab4_next.replace('{s}', t.path_stages[nextLv-1])}</p>
+              <ul className="text-sm space-y-1">{missing.map(it => <li key={it.k} className="text-amber-700 dark:text-amber-300">· {it.n}</li>)}</ul>
+            </>}
+      </div>
+      <button onClick={() => { setState({}); onTouch && onTouch(); }} className="mt-4 px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm">{t.lab4_reset}</button>
+    </div>
+  );
+};
+
+/* ================= App ================= */
+function App() {
+  const LS_ANS = 'PMCS_W10_answers';
+  const LS_ANA = 'PMCS_W10_analytics';
+  const LS_STU = 'PMCS_W10_student';
+  const LS_LAB = 'PMCS_W10_lab';
+  const loadLS = (k, fb) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : fb; } catch { return fb; } };
+
+  const [lang, setLang] = useState('en');
+  const [isDark, setIsDark] = useState(true);
+  const [module, setModule] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [ttsState, setTtsState] = useState('idle');
+  const [answers, setAnswers] = useState(() => loadLS(LS_ANS, {}));
+  const [focus, setFocus] = useState(() => loadLS(LS_ANS + '_focus', {}));
+  const [memberCount, setMemberCount] = useState(() => loadLS(LS_ANS + '_mc', DEFAULT_MEMBERS));
+  const [sdl, setSdl] = useState(() => loadLS(LS_ANS + '_sdl', null));
+  const [lab, setLab] = useState(() => loadLS(LS_LAB, {}));
+  const [labNonce, setLabNonce] = useState(0);
+  const [studentInfo, setStudentInfo] = useState(() => loadLS(LS_STU, { group:'', dept:'', id:'', nameEn:'', nameZh:'', compiler:'' }));
+  const [analytics, setAnalytics] = useState(() => loadLS(LS_ANA, {
+    time: Array(TOTAL).fill(0), clicks: Array(TOTAL).fill(0),
+    quizCorrect: Array(TOTAL).fill(0), quizTotal: Array(TOTAL).fill(0),
+    cardsRead: Array(TOTAL).fill(0), cardsTotal: Array(TOTAL).fill(0), wrongTopics: {}
+  }));
+  const menuRef = useRef(null);
+  const t = dict[lang];
+
+  useEffect(() => { document.documentElement.classList.toggle('dark', isDark); }, [isDark]);
+  useEffect(() => { try { localStorage.setItem(LS_ANS, JSON.stringify(answers)); } catch {} }, [answers]);
+  useEffect(() => { try { localStorage.setItem(LS_ANS + '_focus', JSON.stringify(focus)); } catch {} }, [focus]);
+  useEffect(() => { try { localStorage.setItem(LS_ANS + '_mc', JSON.stringify(memberCount)); } catch {} }, [memberCount]);
+  useEffect(() => { try { sdl ? localStorage.setItem(LS_ANS + '_sdl', JSON.stringify(sdl)) : localStorage.removeItem(LS_ANS + '_sdl'); } catch {} }, [sdl]);
+  useEffect(() => { try { localStorage.setItem(LS_LAB, JSON.stringify(lab)); } catch {} }, [lab]);
+  useEffect(() => { try { localStorage.setItem(LS_ANA, JSON.stringify(analytics)); } catch {} }, [analytics]);
+  useEffect(() => { try { localStorage.setItem(LS_STU, JSON.stringify(studentInfo)); } catch {} }, [studentInfo]);
+  useEffect(() => {
+    const id = setInterval(() => setAnalytics(a => { const ti = [...a.time]; ti[module] += 5; return {...a, time: ti}; }), 5000);
+    return () => clearInterval(id);
+  }, [module]);
+  useEffect(() => {
+    const onDoc = e => { if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false); };
+    document.addEventListener('mousedown', onDoc);
+    return () => document.removeEventListener('mousedown', onDoc);
+  }, []);
+
+  const importSdl = (r) => {
+    setSdl({ meta: r.meta, sections: r.sections });
+    setStudentInfo(st => ({
+      ...st,
+      group: r.meta.group || st.group,
+      id: (r.meta.student_id || st.id || '').replace(/[^0-9]/g, '').slice(0, 12),
+      nameEn: /^[\x00-\x7F]+$/.test(r.meta.student || '') ? (r.meta.student || st.nameEn) : st.nameEn,
+      nameZh: /^[\x00-\x7F]+$/.test(r.meta.student || '') ? st.nameZh : (r.meta.student || st.nameZh)
+    }));
+    if (r.meta.group) setA('g_group', r.meta.group);
+    if (r.meta.date) setA('g_date', r.meta.date);
+  };
+  const sdlFileName = () => {
+    if (!sdl) return '';
+    const m = sdl.meta;
+    const who = m.student || 'NA';
+    return `${m.course || 'PMCS'}_${m.semester || SEMESTER_DEFAULT}${m.week || WEEK_CODE}_${(m.topic || TOPIC_CAMEL).replace(/\s+/g,'')}_${m.group || 'NA'}-${who}_${(m.date || '').replace(/-/g,'')}.md`;
+  };
+  const bump = () => setAnalytics(a => { const c = [...a.clicks]; c[module] += 1; return {...a, clicks: c}; });
+  const setA = (id, val) => setAnswers(s => ({...s, [id]: val}));
+  const setLabPart = (k) => (val) => setLab(s => ({...s, [k]: val}));
+  const handleQuizSubmit = (mid, correct, total, wrong) => setAnalytics(a => {
+    const qc = [...a.quizCorrect], qt = [...a.quizTotal];
+    qc[mid] = correct; qt[mid] = total;
+    return {...a, quizCorrect: qc, quizTotal: qt, wrongTopics: {...a.wrongTopics, [mid]: wrong || []}};
+  });
+  const handleCardRead = (mid, r, s, tot) => setAnalytics(a => {
+    const cr = [...a.cardsRead], ct = [...a.cardsTotal]; cr[mid] = r; ct[mid] = tot;
+    return {...a, cardsRead: cr, cardsTotal: ct};
+  });
+
+  const filled = id => { const v = answers[id]; return v !== undefined && String(v).trim() !== ''; };
+  const sectionPct = n => { const c = CORE[n]; return c && c.length ? Math.round(c.filter(filled).length / c.length * 100) : 100; };
+  const pctPersonal = Math.round(PERSONAL_SECTIONS.reduce((s,n) => s + sectionPct(n), 0) / PERSONAL_SECTIONS.length);
+  const pctGroup = Math.round(GROUP_SECTIONS.reduce((s,n) => s + sectionPct(n), 0) / GROUP_SECTIONS.length);
+  const optName = (list, v) => { const o = (list || []).find(x => x.v === v); return o ? o.name : (v || ''); };
+  const assetName = (id, d) => { const a = (d || t).assets.find(x => x.id === id); return a ? a.name : id; };
+
+  const modulesList = [
+    { id:0, num:'0', icon:'📋', title:t.m0_nav, kind:null },
+    { id:1, num:'1', icon:'👥', title:t.m1_nav, kind:'G' },
+    { id:2, num:'2', icon:'🗂️', title:t.m2_nav, kind:'P' },
+    { id:3, num:'3', icon:'🔐', title:t.m3_nav, kind:'P' },
+    { id:4, num:'4', icon:'🗣️', title:t.m4_nav, kind:'P' },
+    { id:5, num:'5', icon:'🔍', title:t.m5_nav, kind:'G' },
+    { id:6, num:'6', icon:'🩺', title:t.m6_nav, kind:'G' },
+    { id:7, num:'7', icon:'🎤', title:t.m7_nav, kind:'G' },
+    { id:IDX_LAB, num:String(IDX_LAB), icon:'⚡', title:t.mlab_nav, kind:null },
+    { id:IDX_RES, num:String(IDX_RES), icon:'🌐', title:t.mres_nav, kind:null },
+    { id:IDX_ANA, num:String(IDX_ANA), icon:'📊', title:t.analytics_title, kind:null }
+  ];
+  const go = m => { setModule(m); setMenuOpen(false); window.scrollTo({top:0,behavior:'smooth'}); };
+
+  /* ---------- TTS ---------- */
+  const handleTTS = (action) => {
+    if (!('speechSynthesis' in window)) return;
+    if (action === 'stop') { speechSynthesis.cancel(); setTtsState('idle'); return; }
+    if (action === 'pause') { speechSynthesis.pause(); setTtsState('paused'); return; }
+    if (ttsState === 'paused') { speechSynthesis.resume(); setTtsState('playing'); return; }
+    speechSynthesis.cancel();
+    const sep = lang === 'zh' ? '。 ' : '. ';
+    let texts = [];
+    if (module === 0) {
+      texts = [t.m0_title, t.m0_intro, t.m0_why, t.m0_why_desc, ...t.m0_stats.map(s => `${s.label}: ${s.val}`), ...t.m0_modules.map(m => `${m.title}. ${m.desc}`)];
+    } else if (module >= 1 && module <= NUM_LEARN) {
+      const k = `m${module}`;
+      texts = [t[`${k}_title`], t[`${k}_overview`], ...(t[`${k}_highlights`]||[]), t[`${k}_deep`], t[`${k}_wrapup`]];
+      if (module === 2) texts.push(...t.m2_terms.flatMap(x => [x.front, x.back]));
+    } else if (module === IDX_LAB) {
+      texts = [t.mlab_title, t.mlab_desc, t.lab1_title, t.lab1_desc, t.lab2_title, t.lab2_desc, t.lab3_title, t.lab3_desc, t.lab4_title, t.lab4_desc, t.lab5_title, t.lab5_desc];
+    } else if (module === IDX_RES) {
+      texts = [t.mres_title, t.mres_desc, ...t.res_req.map(r => `${r.label}. ${r.desc}`), ...t.res_opt.map(r => `${r.label}. ${r.desc}`)];
+    } else {
+      texts = [t.analytics_title, t.analytics_desc, `${t.analytics_pct_personal}: ${pctPersonal}%`, `${t.analytics_pct_group}: ${pctGroup}%`];
+      const weak = [1,2,3,4,5,6,7].filter(n => sectionPct(n) < 100);
+      if (weak.length) { texts.push(t.analytics_wp_tts_intro); weak.forEach(n => texts.push(t.analytics_wp_tts_module.replace('{name}', t[`m${n}_nav`]).replace('{acc}', sectionPct(n)))); }
+      else texts.push(t.analytics_wp_tts_allpass);
+    }
+    const utt = new SpeechSynthesisUtterance(texts.filter(Boolean).join(sep));
+    utt.rate = 0.95;
+    const voices = speechSynthesis.getVoices();
+    if (lang === 'zh') {
+      const v = voices.find(v=>v.lang==='zh-TW'&&v.name.includes('Yating')) || voices.find(v=>v.lang==='zh-TW') || voices.find(v=>v.lang.startsWith('zh'));
+      if (v) utt.voice = v; utt.lang = 'zh-TW';
+    } else {
+      const v = voices.find(v=>v.lang==='en-GB'&&(v.name.includes('Male')||v.name.includes('Daniel'))) || voices.find(v=>v.lang==='en-GB') || voices.find(v=>v.lang.startsWith('en'));
+      if (v) utt.voice = v; utt.lang = 'en-GB';
+    }
+    utt.onend = () => setTtsState('idle'); utt.onerror = () => setTtsState('idle');
+    speechSynthesis.speak(utt); setTtsState('playing');
+  };
+
+  /* ---------- Export ---------- */
+  const dstamp = () => { const d = new Date(), p = n => String(n).padStart(2,'0'); return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}`; };
+  const download = (content, filename, mime) => {
+    const blob = new Blob([content], {type: mime}); const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+  const okPersonal = !!(studentInfo.nameEn || studentInfo.nameZh);
+  const okGroup = !!(studentInfo.group && studentInfo.compiler);
+
+  const exportPersonal = () => {
+    if (!okPersonal) return;
+    const L = [];
+    L.push(`# PMCS W10 個人學習單 — ${dict.zh.subtitle}`);
+    L.push('');
+    L.push(`- 姓名：${studentInfo.nameEn} ${studentInfo.nameZh}　學號：${studentInfo.id}　系級：${studentInfo.dept}`);
+    L.push(`- 必讀：AIWE · AI 工作環境的層級模型 https://lolopodcast.github.io/AI-Work-Environment-Layers/ ／ Git & GitHub Essentials for Non-Coders https://lolopodcast.github.io/Git-GitHub-VibeCoding-for-Non-Coders/`);
+    L.push(`- 個人完成度：${pctPersonal}%`);
+    if (sdl) L.push(`- 來源 SDL KB：${sdlFileName()}`);
+    L.push('');
+    L.push('## 2. Repo 與持久資產');
+    L.push(`**repo 網址**：${answers.repo_url || '_(未填)_'}`);
+    L.push('');
+    L.push('**資料夾結構**：');
+    L.push('```');
+    L.push(answers.repo_tree || '(未填)');
+    L.push('```');
+    L.push('');
+    L.push('### KB／theme_config.md'); L.push(answers.kb_theme || '_(未填)_'); L.push('');
+    L.push('### KB／business_rules.md'); L.push(answers.kb_rules || '_(未填)_'); L.push('');
+    L.push('### KB／sources.md'); L.push(answers.kb_sources || '_(未填)_'); L.push('');
+    L.push('### KB／ksa_taxonomy.md'); L.push(answers.kb_ksa || '_(未填)_'); L.push('');
+    L.push('### Memory 設計與 KB 分界'); L.push(answers.mem_design || '_(未填)_'); L.push('');
+    L.push('## 3. 金鑰與版控');
+    L.push(`- 金鑰位置：${optName(dict.zh.key_opts, answers.key_where) || '_(未填)_'}`);
+    L.push(`- 怎麼確認金鑰沒進過 Git 歷史：${answers.key_check || '_(未填)_'}`);
+    L.push('- .gitignore：');
+    L.push('```');
+    L.push(answers.gitignore || '(未填)');
+    L.push('```');
+    L.push(`- commit 頻率與訊息格式：${answers.commit_habit || '_(未填)_'}`);
+    L.push(`- KB 改壞了怎麼還原：${answers.rollback || '_(未填)_'}`);
+    L.push('');
+    L.push('## 4. 語言實驗室');
+    L.push('| 詞彙 | 自己的話 | 例句 |'); L.push('|---|---|---|');
+    [0,1,2,3,4].forEach(i => { if (filled(`t_term_${i}`)) L.push(`| ${answers[`t_term_${i}`]||''} | ${answers[`t_mean_${i}`]||''} | ${answers[`t_sent_${i}`]||''} |`); });
+    L.push('');
+    L.push('| 難發音 | 難在哪 | 記憶方法 |'); L.push('|---|---|---|');
+    [0,1,2].forEach(i => { if (filled(`p_word_${i}`)) L.push(`| ${answers[`p_word_${i}`]||''} | ${answers[`p_hard_${i}`]||''} | ${answers[`p_tip_${i}`]||''} |`); });
+    L.push(''); L.push('---');
+    L.push('_本檔為個人學習歷程檔案，不繳交。可直接放進 repo 的 docs/ 資料夾當作本週歷程紀錄。_');
+    const who = (sanitizeName(studentInfo.nameEn).replace(/\s+/g,'') || studentInfo.id || 'me').replace(/[^\w-]/g,'') || 'me';
+    const sem = (sdl && sdl.meta.semester) || SEMESTER_DEFAULT;
+    const grp = studentInfo.group || 'NA';
+    download(L.join('\n'), `PMCS_${sem}W10_ProjectAndAssets_${grp}-${who}_${dstamp()}.md`, 'text/markdown;charset=utf-8;');
+  };
+
+  const groupRows = () => {
+    const rows = [['Section','Field','Value']];
+    rows.push(['Info','Group', studentInfo.group]);
+    rows.push(['Info','Compiler', studentInfo.compiler]);
+    GROUP_SECTIONS.forEach(sec => FIELDS[sec].forEach(id => rows.push(['S'+sec, id, String(answers[id] ?? '')])));
+    rows.push(['S5','ComparedAssets', ASSET_IDS.filter(a => focus[a]).join(' ')]);
+    /* --- 自我描述欄位：讓教師端彙整台無需內建設定即可正確顯示本週判準 --- */
+    rows.push(['Meta','WeekTitleZH', dict.zh.subtitle]);
+    rows.push(['Meta','WeekTitleEN', dict.en.subtitle]);
+    rows.push(['Meta','CompareKey', 'ComparedAssets']);
+    rows.push(['Meta','CompareN', '3']);
+    rows.push(['Meta','S6Fields', "[{\"id\": \"tp_repo\", \"zh\": \"本組 repo 網址\", \"en\": \"Group repository URL\"}, {\"id\": \"tp_kb_status\", \"zh\": \"四個 KB 檔完成度\", \"en\": \"Readiness of the four KB files\"}, {\"id\": \"tp_blocker\", \"zh\": \"最卡的一件事\", \"en\": \"The one blocker\"}, {\"id\": \"tp_next\", \"zh\": \"本週要做完的一件事\", \"en\": \"One action this week\"}, {\"id\": \"tp_help\", \"zh\": \"需要教師或 TA 幫什麼\", \"en\": \"Help needed from teacher or TA\"}]"]);
+    rows.push(['Meta','Categorical', 'tp_kb_status']);
+    rows.push(['Meta','CategoricalZH', '各組 KB 檔完成度']);
+    rows.push(['Meta','CategoricalEN', 'KB file readiness by group']);
+    rows.push(['Meta','CP5ZH', dict.zh.m5_wrapup]);
+    rows.push(['Meta','CP5EN', dict.en.m5_wrapup]);
+    rows.push(['Meta','CP6ZH', dict.zh.m6_wrapup]);
+    rows.push(['Meta','CP6EN', dict.en.m6_wrapup]);
+    rows.push(['Meta','CP7ZH', dict.zh.m7_wrapup]);
+    rows.push(['Meta','CP7EN', dict.en.m7_wrapup]);
+    rows.push(['Meta','GroupCompletionPct', String(pctGroup)]);
+    rows.push(['Meta','TimeSec', String(analytics.time.reduce((a,b)=>a+b,0))]);
+    const qc = analytics.quizCorrect.reduce((a,b)=>a+b,0), qt = analytics.quizTotal.reduce((a,b)=>a+b,0);
+    rows.push(['Meta','SelfCheck', `${qc}/${qt}`]);
+    return rows;
+  };
+  const exportGroupCSV = () => {
+    if (!okGroup) return;
+    const esc = v => `"${String(v).replace(/"/g,'""')}"`;
+    const csv = '﻿' + groupRows().map(r => r.map(esc).join(',')).join('\r\n');
+    download(csv, `PMCS_${(sdl && sdl.meta.semester) || SEMESTER_DEFAULT}W10_ProjectAndAssets_${studentInfo.group}-ALL_${dstamp()}.csv`, 'text/csv;charset=utf-8;');
+  };
+  const exportGroupMD = () => {
+    if (!okGroup) return;
+    const L = [];
+    L.push(`# PMCS W10 小組學習單 — ${dict.zh.subtitle}`);
+    L.push('');
+    L.push(`- 組別：${studentInfo.group}　本週彙整人：${studentInfo.compiler}　日期：${answers.g_date || ''}`);
+    L.push(`- 小組完成度：${pctGroup}%`);
+    L.push('');
+    L.push('## 1. 小組與分工');
+    L.push('| 姓名 | 學號 | 負責段落 | 秒數 |'); L.push('|---|---|---|---|');
+    MEMBER_IDX.forEach(i => { if (filled(`m_name_${i}`)) L.push(`| ${answers[`m_name_${i}`]||''} | ${answers[`m_id_${i}`]||''} | ${answers[`m_part_${i}`]||''} | ${answers[`m_sec_${i}`]||''} |`); });
+    L.push('');
+    L.push('## 5. 小組綜整');
+    L.push(`- 比對的三項：${ASSET_IDS.filter(a => focus[a]).map(a => assetName(a, dict.zh)).join('、') || '_(未選)_'}`);
+    L.push(`- 略過另外三項的理由：${answers.syn_focus_why || '_(未填)_'}`);
+    L.push(`- 最大的落差：${answers.syn_gap || '_(未填)_'}`);
+    L.push(`- 支持證據：${answers.syn_evidence || '_(未填)_'}`);
+    L.push(`- 全組範本採用誰的：${answers.syn_case || '_(未填)_'}`);
+    L.push(`- **組內通則**：${answers.syn_rule || '_(未填)_'}`);
+    L.push('');
+    L.push('## 6. 依演化表建置（除錯門診掛號單）');
+    L.push(`- 本組 repo：${answers.tp_repo || '_(未填)_'}`);
+    L.push(`- 四個 KB 檔完成度：${answers.tp_kb_status || '_(未填)_'}　${optName(dict.zh.kb_status_opts, answers.tp_kb_status)}`);
+    L.push(`- 最卡的一件事：${answers.tp_blocker || '_(未填)_'}`);
+    L.push(`- 本週要做完的一件事：${answers.tp_next || '_(未填)_'}`);
+    L.push(`- 需要教師或 TA 幫什麼：${answers.tp_help || '_(未填)_'}`);
+    L.push('');
+    L.push('## 7. 簡報計畫');
+    L.push(`- 開場句：${answers.pr_open || '_(未填)_'}`);
+    MEMBER_IDX.forEach(i => { if (filled(`pr_point_${i}`)) L.push(`- ${answers[`m_name_${i}`] || 'Speaker '+(i+1)}：${answers[`pr_point_${i}`]}`); });
+    L.push(`- 給全班的問題：${answers.pr_question || '_(未填)_'}`);
+    L.push(''); L.push('---');
+    L.push('_PMCS (EMI) · Prof. Shihmin Lo, NCNU · For Educational Use Only_');
+    download(L.join('\n'), `PMCS_${(sdl && sdl.meta.semester) || SEMESTER_DEFAULT}W10_ProjectAndAssets_${studentInfo.group}-ALL_${dstamp()}.md`, 'text/markdown;charset=utf-8;');
+  };
+
+  const clearAll = () => {
+    if (!window.confirm(t.analytics_wp_clear_confirm)) return;
+    setAnswers({}); setFocus({}); setMemberCount(DEFAULT_MEMBERS); setSdl(null); setLab({}); setLabNonce(n => n + 1);
+    setAnalytics({ time: Array(TOTAL).fill(0), clicks: Array(TOTAL).fill(0), quizCorrect: Array(TOTAL).fill(0),
+      quizTotal: Array(TOTAL).fill(0), cardsRead: Array(TOTAL).fill(0), cardsTotal: Array(TOTAL).fill(0), wrongTopics: {} });
+    try { localStorage.removeItem(LS_ANS); localStorage.removeItem(LS_ANS + '_focus'); localStorage.removeItem(LS_ANA); localStorage.removeItem(LS_ANS + '_sdl'); localStorage.removeItem(LS_LAB); } catch {}
+  };
+  const clearLab = () => {
+    if (!window.confirm(t.mlab_clear_confirm)) return;
+    setLab({}); setLabNonce(n => n + 1);
+    try { localStorage.removeItem(LS_LAB); } catch {}
+  };
+
+  /* ---------- Renderers ---------- */
+  const SavedHint = () => <p className="text-xs text-slate-500 dark:text-slate-400 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 rounded-lg p-3 leading-relaxed">{t.saved_hint}</p>;
+
+  const renderM0 = () => (
+    <>
+      <div className="rounded-2xl bg-[#004030] dark:bg-slate-800 text-white p-6 sm:p-10 border border-[#D8C3A5]/30">
+        <p className="text-[#D8C3A5] font-serif tracking-widest text-sm mb-2">{t.brand} · {t.title}</p>
+        <h1 className="font-serif font-black text-3xl sm:text-4xl md:text-5xl leading-tight mb-4">{t.subtitle}</h1>
+        <p className="text-slate-200 leading-relaxed text-base">{t.m0_intro}</p>
+        <button onClick={() => go(1)} className="mt-6 px-6 py-3 bg-[#D8C3A5] text-[#004030] font-bold rounded-lg hover:brightness-110 transition">{t.m0_start}</button>
+      </div>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        {t.m0_stats.map((s,i) => (
+          <div key={i} className="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 text-center">
+            <p className="font-serif font-black text-3xl text-[#004030] dark:text-[#D8C3A5]">{s.val}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{s.label}</p>
+          </div>
+        ))}
+      </div>
+      <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
+        <div className="flex flex-wrap items-center gap-1.5">
+          {t.path_stages.map((s, i) => (
+            <React.Fragment key={i}>
+              {i > 0 && <span className="text-slate-400 text-xs">→</span>}
+              <span className={`text-xs px-3 py-1 rounded-full font-bold border ${i < 4 ? 'border-[#004030] dark:border-[#D8C3A5] text-[#004030] dark:text-[#D8C3A5]' : 'border-slate-300 dark:border-slate-600 text-slate-500'}`}>{s}</span>
+            </React.Fragment>
+          ))}
+        </div>
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-3 leading-relaxed">{t.path_caption}</p>
+      </div>
+      <div className="bg-[#004030]/5 dark:bg-[#D8C3A5]/5 rounded-xl p-5 border-l-4 border-[#D8C3A5]">
+        <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-2">{t.m0_why}</h3>
+        <p>{t.m0_why_desc}</p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {t.m0_modules.map((m,i) => (
+          <button key={i} onClick={() => go(i+1)} className="text-left bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5] hover:shadow-md transition">
+            <div className="flex items-center justify-between">
+              <span className="font-serif font-black text-[#D8C3A5] text-lg">{m.num}</span>
+              <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${m.tag === (lang==='zh'?'個人':'Individual') ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200' : 'bg-[#D8C3A5]/30 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>{m.tag}</span>
+            </div>
+            <p className="font-bold text-[#004030] dark:text-[#D8C3A5] mt-1">{m.title}</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">{m.desc}</p>
+          </button>
+        ))}
+      </div>
+      <SdlImport t={t} sdl={sdl} onImport={importSdl} onClear={() => setSdl(null)} />
+      <SavedHint />
+    </>
+  );
+
+  const renderM1 = () => (
+    <>
+      <Overview t={t} text={t.m1_overview} /><Highlights t={t} items={t.m1_highlights} /><DeepDive t={t} text={t.m1_deep} /><SavedHint />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{t.m1_group}</label>
+          <select className={inputCls} value={answers.g_group || ''} onChange={e => setA('g_group', e.target.value)}>
+            <option value="">{t.select_ph}</option>{t.group_options.map(g => <option key={g} value={g}>{g}</option>)}
+          </select>
+        </div>
+        <Field id="g_date" label={t.m1_date} type="date" value={answers.g_date} onChange={setA} />
+      </div>
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m1_members_label}</h3>
+        <div className="space-y-3">
+          {MEMBER_IDX.slice(0, memberCount).map(i => (
+            <div key={i} className="grid grid-cols-2 md:grid-cols-4 gap-2">
+              <input className={inputCls} placeholder={`${t.m1_col_name} ${i+1}`} value={answers[`m_name_${i}`]||''} onChange={e => setA(`m_name_${i}`, sanitizeName(e.target.value))} />
+              <input className={inputCls} placeholder={t.m1_col_id} value={answers[`m_id_${i}`]||''} onChange={e => setA(`m_id_${i}`, sanitizeStudentId(e.target.value))} />
+              <input className={inputCls} placeholder={t.m1_part_ph} value={answers[`m_part_${i}`]||''} onChange={e => setA(`m_part_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} type="number" min="0" max="600" placeholder={t.m1_col_sec} value={answers[`m_sec_${i}`]||''} onChange={e => setA(`m_sec_${i}`, e.target.value.replace(/[^0-9]/g,'').slice(0,3))} />
+            </div>
+          ))}
+        </div>
+        <div className="flex items-center gap-2 mt-3">
+          <button onClick={() => { setMemberCount(c => Math.max(1, c-1)); bump(); }} disabled={memberCount <= 1}
+            className="px-3 py-1.5 text-sm border border-slate-300 dark:border-slate-600 rounded-lg disabled:opacity-40">−</button>
+          <span className="text-sm text-slate-500 dark:text-slate-400">{t.m1_member_count.replace('{n}', memberCount)}</span>
+          <button onClick={() => { setMemberCount(c => Math.min(MAX_MEMBERS, c+1)); bump(); }} disabled={memberCount >= MAX_MEMBERS}
+            className="px-3 py-1.5 text-sm border border-slate-300 dark:border-slate-600 rounded-lg disabled:opacity-40">＋</button>
+        </div>
+        {(() => {
+          const total = MEMBER_IDX.slice(0, memberCount).reduce((s,i) => s + (parseInt(answers[`m_sec_${i}`]||'0',10)||0), 0);
+          const over = total > 600;
+          return <div className={`mt-4 p-3 rounded-lg text-sm ${over ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-300' : 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'}`}>
+            <strong>{t.m1_total_sec}: {total}s</strong> — {over ? t.m1_sec_warn : t.m1_sec_ok}</div>;
+        })()}
+      </div>
+      <Wrapup t={t} text={t.m1_wrapup} />
+    </>
+  );
+
+  const renderM2 = () => (
+    <>
+      <SdlPanel t={t} sdl={sdl} />
+      <Overview t={t} text={t.m2_overview} /><Highlights t={t} items={t.m2_highlights} /><DeepDive t={t} text={t.m2_deep} />
+      <ContainerDiagram t={t} filled={S2_IDS.filter(id => filled(id))} />
+      <SavedHint />
+      <Field id="repo_url" label={t.m2_repo_label} ph={t.m2_repo_ph} value={answers.repo_url} onChange={setA} />
+      <Field id="repo_tree" label={t.m2_tree_label} hint={t.m2_tree_hint} ph={t.m2_tree_ph} rows={8} mono value={answers.repo_tree} onChange={setA} />
+      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m2_kb_head}</h3>
+      <Field id="kb_theme" label={t.m2_theme_label} hint={t.m2_theme_hint} ph={t.m2_theme_ph} rows={3} value={answers.kb_theme} onChange={setA} />
+      <Field id="kb_rules" label={t.m2_rules_label} hint={t.m2_rules_hint} ph={t.m2_rules_ph} rows={3} value={answers.kb_rules} onChange={setA} />
+      <Field id="kb_sources" label={t.m2_sources_label} hint={t.m2_sources_hint} ph={t.m2_sources_ph} rows={3} value={answers.kb_sources} onChange={setA} />
+      <Field id="kb_ksa" label={t.m2_ksa_label} hint={t.m2_ksa_hint} ph={t.m2_ksa_ph} rows={3} value={answers.kb_ksa} onChange={setA} />
+      <Field id="mem_design" label={t.m2_mem_label} hint={t.m2_mem_hint} ph={t.m2_mem_ph} rows={4} value={answers.mem_design} onChange={setA} />
+      <FlipCardDeck key={`cards-${module}-${lang}`} terms={t.m2_terms} t={t} moduleId={2} onCardRead={handleCardRead} />
+      <Wrapup t={t} text={t.m2_wrapup} />
+    </>
+  );
+
+  const renderM3 = () => (
+    <>
+      <SdlPanel t={t} sdl={sdl} />
+      <Overview t={t} text={t.m3_overview} /><Highlights t={t} items={t.m3_highlights} /><DeepDive t={t} text={t.m3_deep} /><SavedHint />
+      <div className="mb-5">
+        <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{t.m3_key_label}</label>
+        <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 leading-relaxed">{t.m3_key_hint}</p>
+        <select className={inputCls} value={answers.key_where || ''} onChange={e => setA('key_where', e.target.value)}>
+          <option value="">{t.select_ph}</option>{t.key_opts.map(o => <option key={o.v} value={o.v}>{o.name}</option>)}
+        </select>
+      </div>
+      <Field id="key_check" label={t.m3_check_label} ph={t.m3_check_ph} rows={3} value={answers.key_check} onChange={setA} />
+      <Field id="gitignore" label={t.m3_gitignore_label} ph={t.m3_gitignore_ph} rows={6} mono value={answers.gitignore} onChange={setA} />
+      <Field id="commit_habit" label={t.m3_commit_label} ph={t.m3_commit_ph} rows={3} value={answers.commit_habit} onChange={setA} />
+      <Field id="rollback" label={t.m3_rollback_label} ph={t.m3_rollback_ph} rows={3} value={answers.rollback} onChange={setA} />
+      <Wrapup t={t} text={t.m3_wrapup} />
+    </>
+  );
+
+  const renderM4 = () => (
+    <>
+      <SdlPanel t={t} sdl={sdl} />
+      <Overview t={t} text={t.m4_overview} /><Highlights t={t} items={t.m4_highlights} /><DeepDive t={t} text={t.m4_deep} /><SavedHint />
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m4_terms_label}</h3>
+        <div className="space-y-3">
+          {[0,1,2,3,4].map(i => (
+            <div key={i} className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <input className={inputCls} placeholder={`${t.m4_col_term} ${i+1}`} value={answers[`t_term_${i}`]||''} onChange={e => setA(`t_term_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_mean} value={answers[`t_mean_${i}`]||''} onChange={e => setA(`t_mean_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_sent} value={answers[`t_sent_${i}`]||''} onChange={e => setA(`t_sent_${i}`, sanitizeText(e.target.value))} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3 mt-6">{t.m4_pron_label}</h3>
+        <div className="space-y-3">
+          {[0,1,2].map(i => (
+            <div key={i} className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <input className={inputCls} placeholder={`${t.m4_col_word} ${i+1}`} value={answers[`p_word_${i}`]||''} onChange={e => setA(`p_word_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_hard} value={answers[`p_hard_${i}`]||''} onChange={e => setA(`p_hard_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_tip} value={answers[`p_tip_${i}`]||''} onChange={e => setA(`p_tip_${i}`, sanitizeText(e.target.value))} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <Wrapup t={t} text={t.m4_wrapup} />
+    </>
+  );
+
+  const renderM5 = () => {
+    const chosen = ASSET_IDS.filter(a => focus[a]).length;
+    return (
+      <>
+        <Overview t={t} text={t.m5_overview} /><Highlights t={t} items={t.m5_highlights} /><DeepDive t={t} text={t.m5_deep} /><SavedHint />
+        <div>
+          <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m5_focus_label}</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {t.assets.map(a => {
+              const on = !!focus[a.id];
+              const blocked = !on && chosen >= 3;
+              return (
+                <label key={a.id} className={`flex items-center gap-3 p-3 rounded-lg border transition ${blocked ? 'opacity-40 cursor-not-allowed border-slate-200 dark:border-slate-700' : 'cursor-pointer border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5]'} bg-white dark:bg-slate-800`}>
+                  <input type="checkbox" className="w-4 h-4 accent-[#004030] dark:accent-[#D8C3A5]" checked={on} disabled={blocked}
+                    onChange={e => { setFocus(s => ({...s, [a.id]: e.target.checked})); bump(); }} />
+                  <span className="text-sm font-mono">{a.name}</span>
+                </label>
+              );
+            })}
+          </div>
+          <p className={`mt-2 text-sm font-bold ${chosen === 3 ? 'text-green-600 dark:text-green-400' : 'text-amber-600 dark:text-amber-400'}`}>{chosen} / 3</p>
+        </div>
+        <Field id="syn_focus_why" label={t.m5_focus_why} ph={t.m5_focus_why_ph} rows={3} value={answers.syn_focus_why} onChange={setA} />
+        <Field id="syn_gap" label={t.m5_gap_label} ph={t.m5_gap_ph} rows={4} value={answers.syn_gap} onChange={setA} />
+        <Field id="syn_evidence" label={t.m5_evidence_label} ph={t.m5_evidence_ph} rows={4} value={answers.syn_evidence} onChange={setA} />
+        <Field id="syn_case" label={t.m5_case_label} ph={t.m5_case_ph} rows={2} value={answers.syn_case} onChange={setA} />
+        <Field id="syn_rule" label={t.m5_rule_label} hint={t.m5_rule_note} ph={t.m5_rule_ph} rows={3} value={answers.syn_rule} onChange={setA} />
+        <Wrapup t={t} text={t.m5_wrapup} />
+      </>
+    );
+  };
+
+  const renderM6 = () => (
+    <>
+      <Overview t={t} text={t.m6_overview} /><Highlights t={t} items={t.m6_highlights} /><DeepDive t={t} text={t.m6_deep} /><SavedHint />
+      <Field id="tp_repo" label={t.m6_repo_label} ph={t.m6_repo_ph} value={answers.tp_repo} onChange={setA} />
+      <div className="mb-5">
+        <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{t.m6_kb_label}</label>
+        <select className={inputCls} value={answers.tp_kb_status || ''} onChange={e => setA('tp_kb_status', e.target.value)}>
+          <option value="">{t.select_ph}</option>{t.kb_status_opts.map(o => <option key={o.v} value={o.v}>{o.v} — {o.name}</option>)}
+        </select>
+      </div>
+      <Field id="tp_blocker" label={t.m6_blocker_label} ph={t.m6_blocker_ph} rows={4} value={answers.tp_blocker} onChange={setA} />
+      <Field id="tp_next" label={t.m6_next_label} ph={t.m6_next_ph} rows={3} value={answers.tp_next} onChange={setA} />
+      <Field id="tp_help" label={t.m6_help_label} ph={t.m6_help_ph} rows={3} value={answers.tp_help} onChange={setA} />
+      <Wrapup t={t} text={t.m6_wrapup} />
+    </>
+  );
+
+  const renderM7 = () => (
+    <>
+      <Overview t={t} text={t.m7_overview} /><Highlights t={t} items={t.m7_highlights} /><DeepDive t={t} text={t.m7_deep} /><SavedHint />
+      <Field id="pr_open" label={t.m7_open_label} ph={t.m7_open_ph} rows={2} value={answers.pr_open} onChange={setA} />
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m7_script_label}</h3>
+        <div className="space-y-3">
+          {MEMBER_IDX.slice(0, memberCount).map(i => (
+            <div key={i} className="grid grid-cols-1 md:grid-cols-4 gap-2">
+              <div className="md:col-span-1 flex items-center px-3 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-sm text-slate-600 dark:text-slate-300 truncate">
+                {answers[`m_name_${i}`] || `${t.m7_col_who} ${i+1}`}
+              </div>
+              <input className={`${inputCls} md:col-span-3`} placeholder={t.m7_col_point} value={answers[`pr_point_${i}`]||''} onChange={e => setA(`pr_point_${i}`, sanitizeText(e.target.value))} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="mt-5"><Field id="pr_question" label={t.m7_question_label} ph={t.m7_question_ph} rows={3} value={answers.pr_question} onChange={setA} /></div>
+      <Wrapup t={t} text={t.m7_wrapup} />
+    </>
+  );
+
+  const renderLab = () => (
+    <>
+      <p className="text-base text-slate-600 dark:text-slate-300">{t.mlab_desc}</p>
+      <div className="flex items-center gap-3 flex-wrap">
+        <button onClick={clearLab} className="px-4 py-2 border border-red-400 text-red-600 dark:text-red-400 font-bold rounded-lg text-sm hover:bg-red-50 dark:hover:bg-red-900/20">{t.mlab_clear}</button>
+        <span className="text-xs text-slate-400">💾 {t.analytics_wp_saved}</span>
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-4">
+        <LabRepoSkeleton key={`lab1-${labNonce}-${lang}`} t={t} state={lab.l1} setState={setLabPart('l1')} onTouch={bump} />
+        <LabKeyRisk key={`lab2-${labNonce}-${lang}`} t={t} state={lab.l2} setState={setLabPart('l2')} onTouch={bump} />
+        <LabKbRouting key={`lab3-${labNonce}-${lang}`} t={t} state={lab.l3} setState={setLabPart('l3')} onTouch={bump} />
+        <LabUpgradePath key={`lab4-${labNonce}-${lang}`} t={t} state={lab.l4} setState={setLabPart('l4')} onTouch={bump} />
+      </div>
+      <div className="mt-6 bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+        <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab5_title}</h3>
+        <p className="text-sm text-slate-500 dark:text-slate-400">{t.lab5_desc}</p>
+        <ModuleQuiz key={`quiz-lab-${lang}`} questions={t.m2_q} t={t} moduleId={IDX_LAB} onQuizSubmit={handleQuizSubmit} />
+      </div>
+    </>
+  );
+
+  const renderRes = () => (
+    <>
+      <p className="text-base text-slate-600 dark:text-slate-300">{t.mres_desc}</p>
+      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-6 mb-3">{t.required_label}</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{t.res_req.map((r,i) => <LinkCard key={i} {...r} />)}</div>
+      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-8 mb-3">{t.optional_label}</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{t.res_opt.map((r,i) => <LinkCard key={i} {...r} />)}</div>
+    </>
+  );
+
+  const renderAna = () => {
+    const totalTime = analytics.time.reduce((a,b)=>a+b,0);
+    const qc = analytics.quizCorrect.reduce((a,b)=>a+b,0), qt = analytics.quizTotal.reduce((a,b)=>a+b,0);
+    const weak = [1,2,3,4,5,6,7].filter(n => sectionPct(n) < 100);
+    const stats = [
+      { val: pctPersonal + '%', label: t.analytics_pct_personal },
+      { val: pctGroup + '%', label: t.analytics_pct_group },
+      { val: totalTime + t.analytics_sec, label: t.analytics_total_time },
+      { val: qt > 0 ? Math.round(qc/qt*100) + '%' : '—', label: t.analytics_overall_acc }
+    ];
+    const setInfo = (k, v) => setStudentInfo(s => ({ ...s, [k]: v }));
+    return (
+      <>
+        <p className="text-base text-slate-600 dark:text-slate-300">{t.analytics_desc}</p>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-5">
+          {stats.map((s,i) => (
+            <div key={i} className="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 text-center">
+              <p className="font-serif font-black text-2xl text-[#004030] dark:text-[#D8C3A5]">{s.val}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{s.label}</p>
+            </div>
+          ))}
+        </div>
+
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-8 mb-3">{t.analytics_progress_title}</h3>
+        <div className="space-y-2">
+          {[1,2,3,4,5,6,7].map(n => {
+            const pct = sectionPct(n), kind = modulesList[n].kind;
+            return (
+              <button key={n} onClick={() => go(n)} className="w-full flex items-center gap-3 text-left p-3 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5] transition">
+                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded shrink-0 ${kind === 'P' ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200' : 'bg-[#D8C3A5]/30 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>{kind}</span>
+                <span className="text-sm w-36 sm:w-52 truncate shrink-0">{t[`m${n}_nav`]}</span>
+                <span className="flex-1 h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                  <span className={`block h-full ${pct === 100 ? 'bg-green-500' : 'bg-[#004030] dark:bg-[#D8C3A5]'}`} style={{width: pct + '%'}}></span>
+                </span>
+                <span className="text-sm font-bold w-12 text-right shrink-0">{pct}%</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-8 mb-3">{t.analytics_wp_title}</h3>
+        {weak.length === 0
+          ? <p className="p-4 rounded-lg bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 text-sm">{t.analytics_wp_allpass}</p>
+          : <div className="space-y-4">
+              <div className="space-y-2">
+                <p className="text-xs font-bold text-sky-700 dark:text-sky-300">{t.analytics_wp_personal_head}</p>
+                {PERSONAL_SECTIONS.filter(n => sectionPct(n) < 100).length === 0
+                  ? <p className="text-sm text-green-600 dark:text-green-400 pl-1">{t.analytics_wp_personal_done}</p>
+                  : PERSONAL_SECTIONS.filter(n => sectionPct(n) < 100).map(n => (
+                      <div key={n} className="p-3 rounded-lg bg-sky-50 dark:bg-sky-900/20 border border-sky-200 dark:border-sky-800/50 flex items-center justify-between gap-3">
+                        <span className="text-sm">{t[`m${n}_nav`]} — {sectionPct(n)}%</span>
+                        <button onClick={() => go(n)} className="text-xs font-bold text-sky-700 dark:text-sky-300 hover:underline shrink-0">{t.analytics_wp_goto}</button>
+                      </div>))}
+              </div>
+              <div className="space-y-2">
+                <p className="text-xs font-bold text-[#004030] dark:text-[#D8C3A5]">{t.analytics_wp_group_head}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 pl-1">{t.analytics_wp_group_note}</p>
+                {GROUP_SECTIONS.filter(n => sectionPct(n) < 100).length === 0
+                  ? <p className="text-sm text-green-600 dark:text-green-400 pl-1">{t.analytics_wp_group_done}</p>
+                  : GROUP_SECTIONS.filter(n => sectionPct(n) < 100).map(n => (
+                      <div key={n} className="p-3 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 flex items-center justify-between gap-3">
+                        <span className="text-sm">{t[`m${n}_nav`]} — {sectionPct(n)}%</span>
+                        <button onClick={() => go(n)} className="text-xs font-bold text-[#004030] dark:text-[#D8C3A5] hover:underline shrink-0">{t.analytics_wp_goto}</button>
+                      </div>))}
+              </div>
+            </div>}
+
+        <div className="mt-8 rounded-xl border-2 border-sky-200 dark:border-sky-800/60 bg-sky-50/50 dark:bg-sky-900/10 p-5">
+          <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5]">{t.analytics_personal_title}</h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-4">{t.analytics_personal_desc}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <InfoInput id="nameEn" label={t.analytics_name_en} ph={t.analytics_name_en_ph} value={studentInfo.nameEn} onChange={setInfo} />
+            <InfoInput id="nameZh" label={t.analytics_name_zh} ph={t.analytics_name_zh_ph} value={studentInfo.nameZh} onChange={setInfo} />
+            <InfoInput id="id" label={t.analytics_id} ph={t.analytics_id_ph} value={studentInfo.id} onChange={setInfo} san={sanitizeStudentId} />
+            <InfoInput id="dept" label={t.analytics_dept} ph={t.analytics_dept_ph} value={studentInfo.dept} onChange={setInfo} />
+          </div>
+          <button onClick={exportPersonal} disabled={!okPersonal}
+            className="mt-4 px-5 py-2.5 bg-sky-700 dark:bg-sky-300 text-white dark:text-sky-950 font-bold rounded-lg disabled:opacity-40">{t.analytics_export_personal}</button>
+          {!okPersonal && <p className="text-xs text-amber-600 dark:text-amber-400 mt-2">{t.analytics_need_personal}</p>}
+        </div>
+
+        <div className="mt-5 rounded-xl border-2 border-[#D8C3A5] dark:border-[#D8C3A5]/50 bg-[#D8C3A5]/10 p-5">
+          <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5]">{t.analytics_group_title}</h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-4">{t.analytics_group_desc}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div><label className="block text-xs font-bold text-slate-500 mb-1">{t.analytics_group}</label>
+              <select className={inputCls} value={studentInfo.group} onChange={e => setStudentInfo(s => ({...s, group: e.target.value}))}>
+                <option value="">{t.select_ph}</option>{t.group_options.map(g => <option key={g} value={g}>{g}</option>)}
+              </select></div>
+            <InfoInput id="compiler" label={t.analytics_compiler} ph={t.analytics_compiler_ph} value={studentInfo.compiler} onChange={setInfo} />
+          </div>
+          <div className="flex flex-wrap gap-3 mt-4">
+            <button onClick={exportGroupCSV} disabled={!okGroup} className="px-5 py-2.5 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg disabled:opacity-40">{t.analytics_export_csv}</button>
+            <button onClick={exportGroupMD} disabled={!okGroup} className="px-5 py-2.5 border-2 border-[#004030] dark:border-[#D8C3A5] text-[#004030] dark:text-[#D8C3A5] font-bold rounded-lg disabled:opacity-40">{t.analytics_export_md}</button>
+          </div>
+          {!okGroup && <p className="text-xs text-amber-600 dark:text-amber-400 mt-2">{t.analytics_need_group}</p>}
+        </div>
+
+        <div className="mt-6 flex items-center gap-3 flex-wrap">
+          <button onClick={clearAll} className="px-5 py-2.5 border border-red-400 text-red-600 dark:text-red-400 font-bold rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20">{t.analytics_wp_clear}</button>
+          <span className="text-xs text-slate-400">💾 {t.analytics_wp_saved}</span>
+        </div>
+      </>
+    );
+  };
+
+  const body = () => {
+    if (module === 0) return renderM0();
+    if (module === 1) return renderM1();
+    if (module === 2) return renderM2();
+    if (module === 3) return renderM3();
+    if (module === 4) return renderM4();
+    if (module === 5) return renderM5();
+    if (module === 6) return renderM6();
+    if (module === 7) return renderM7();
+    if (module === IDX_LAB) return renderLab();
+    if (module === IDX_RES) return renderRes();
+    return renderAna();
+  };
+  const cur = modulesList[module];
+
+  return (
+    <div className="min-h-screen flex flex-col pt-16 overflow-x-hidden">
+      <header className="fixed top-0 left-0 right-0 h-16 bg-[#004030] dark:bg-slate-900 text-white z-50 shadow-lg border-b border-[#D8C3A5]/30">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-1 sm:gap-2 min-w-0">
+            <div className="relative" ref={menuRef}>
+              <button onClick={() => setMenuOpen(!menuOpen)} className="p-2 hover:bg-white/10 rounded-lg" aria-label={t.nav_modules}>{menuOpen ? <IconX/> : <IconMenu/>}</button>
+              {menuOpen && (
+                <div className="absolute top-full left-0 mt-1 w-72 max-w-[calc(100vw-2rem)] max-h-[calc(100vh-5rem)] overflow-y-auto bg-white dark:bg-slate-800 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 z-[100]">
+                  {modulesList.map(m => (
+                    <button key={m.id} onClick={() => go(m.id)}
+                      className={`w-full flex items-center gap-3 px-4 py-3 text-sm transition ${module === m.id ? 'bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5] font-bold' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700'}`}>
+                      <span className="ui-decoration">{m.icon}</span><span className="truncate flex-1 text-left">{m.title}</span>
+                      {m.kind && <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded shrink-0 ${m.kind === 'P' ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200' : 'bg-[#D8C3A5]/40 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>{m.kind}</span>}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+            <button onClick={() => go(0)} className="p-2 hover:bg-white/10 rounded-lg" aria-label={t.nav_home}><IconHome size={18}/></button>
+            <button onClick={() => window.scrollTo({top:0,behavior:'smooth'})} className="flex items-center gap-2 min-w-0">
+              <span className="font-serif font-black text-[#D8C3A5] text-lg tracking-widest">{t.brand}</span>
+              <span className="hidden sm:inline font-serif font-bold text-sm md:text-base truncate">{t.title}</span>
+            </button>
+          </div>
+          <div className="flex items-center gap-1 sm:gap-2">
+            <button onClick={() => handleTTS(ttsState === 'playing' ? 'pause' : 'play')} className="p-2 hover:bg-white/10 rounded-lg" aria-label={t.audio_read}>{ttsState === 'playing' ? <IconPause size={18}/> : <IconPlay size={18}/>}</button>
+            <button onClick={() => handleTTS('stop')} className="p-2 hover:bg-white/10 rounded-lg" aria-label="Stop"><IconSquare size={18}/></button>
+            <button onClick={() => setLang(lang === 'en' ? 'zh' : 'en')} className="px-2 py-2 hover:bg-white/10 rounded-lg flex items-center gap-1"><IconGlobe size={18}/><span className="text-xs font-bold">{lang === 'en' ? '中' : 'EN'}</span></button>
+            <button onClick={() => setIsDark(!isDark)} className="p-2 hover:bg-white/10 rounded-lg" aria-label="Theme">{isDark ? <IconSun size={18}/> : <IconMoon size={18}/>}</button>
+          </div>
+        </div>
+      </header>
+
+      <div className="flex-1 w-full max-w-7xl mx-auto flex">
+        <aside className="hidden md:block w-64 shrink-0 border-r border-slate-200 dark:border-slate-700 py-8 px-3">
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 px-3 mb-3">{t.nav_modules}</p>
+          {modulesList.map(m => (
+            <button key={m.id} onClick={() => go(m.id)}
+              className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm mb-1 transition ${module === m.id ? 'bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5] font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'}`}>
+              <span className="ui-decoration shrink-0">{m.icon}</span>
+              <span className="truncate text-left flex-1">{m.title}</span>
+              {m.kind && <span className={`text-[10px] font-bold px-1 rounded shrink-0 ${m.kind === 'P' ? 'text-sky-700 dark:text-sky-300' : 'text-[#004030] dark:text-[#D8C3A5]'}`}>{m.kind}</span>}
+            </button>
+          ))}
+          <div className="mt-6 px-3 space-y-3">
+            <div>
+              <p className="text-xs text-slate-400 mb-1">{t.analytics_pct_personal}</p>
+              <div className="h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden"><div className={`h-full ${pctPersonal === 100 ? 'bg-green-500' : 'bg-sky-600 dark:bg-sky-400'}`} style={{width: pctPersonal + '%'}}></div></div>
+              <p className="text-xs font-bold text-sky-700 dark:text-sky-300 mt-1">{pctPersonal}%</p>
+            </div>
+            <div>
+              <p className="text-xs text-slate-400 mb-1">{t.analytics_pct_group}</p>
+              <div className="h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden"><div className={`h-full ${pctGroup === 100 ? 'bg-green-500' : 'bg-[#004030] dark:bg-[#D8C3A5]'}`} style={{width: pctGroup + '%'}}></div></div>
+              <p className="text-xs font-bold text-[#004030] dark:text-[#D8C3A5] mt-1">{pctGroup}%</p>
+            </div>
+          </div>
+        </aside>
+
+        <main className="flex-1 min-w-0 py-8 px-4 sm:px-6">
+          <div key={`${module}-${lang}`} className="space-y-6 text-lg leading-relaxed text-slate-700 dark:text-slate-300 animate-fade-in">
+            {module !== 0 && (
+              <div>
+                <H2 icon={cur.icon} number={cur.num}>{module <= NUM_LEARN ? t[`m${module}_title`] : module === IDX_LAB ? t.mlab_title : module === IDX_RES ? t.mres_title : t.analytics_title}</H2>
+                {cur.kind && <Badge kind={cur.kind} t={t} />}
+              </div>
+            )}
+            {body()}
+            <div className="mt-12 flex justify-between items-center pt-8 border-t border-slate-300 dark:border-slate-700 no-print">
+              <button onClick={() => go(Math.max(0, module-1))} disabled={module === 0}
+                className="px-5 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg text-sm font-bold hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-0">← {t.nav_prev}</button>
+              <button onClick={() => go(Math.min(TOTAL-1, module+1))} disabled={module === TOTAL-1}
+                className="px-5 py-2.5 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] rounded-lg text-sm font-bold disabled:opacity-0">{t.nav_next} →</button>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <footer className="h-8 bg-[#004030] flex items-center justify-between px-4 shrink-0">
+        <span className="text-[#D8C3A5]/60 text-[10px] sm:text-xs truncate">{t.date} · {t.copyright}</span>
+        <span className="text-[#D8C3A5]/60 text-[10px] sm:text-xs flex items-center gap-3 shrink-0">
+          <span className="hidden sm:inline">{t.architect_label}&nbsp;<a href={t.architect_url} target="_blank" rel="noopener noreferrer" className="text-[#D8C3A5] hover:text-white underline">Prof. Shihmin Lo</a></span>
+          <button onClick={() => window.scrollTo({top:0,behavior:'smooth'})} className="text-[#D8C3A5] hover:text-white font-bold">Top ↑</button>
+        </span>
+      </footer>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
