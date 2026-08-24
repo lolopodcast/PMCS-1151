@@ -1,1 +1,2201 @@
-W12
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PMCS Worksheet W12 — Heartbeat, Self-Correction and Going Live</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.7/babel.min.js"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: { extend: { fontFamily: { sans: ['Inter','sans-serif'], serif: ['Merriweather','serif'] } } }
+  }
+</script>
+<style>
+  @keyframes fadeInUp { from{opacity:0;transform:translateY(15px)} to{opacity:1;transform:translateY(0)} }
+  .animate-fade-in { animation: fadeInUp 0.5s ease-out forwards; }
+  .perspective { perspective: 1000px; }
+  .transform-style-3d { transform-style: preserve-3d; }
+  .backface-hidden { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  .rotate-y-180 { transform: rotateY(180deg); }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+  .dark ::-webkit-scrollbar-thumb { background: #475569; }
+  header, footer, button, [role="button"], .ui-decoration { -webkit-user-select: none; user-select: none; }
+  input, textarea, select { -webkit-user-select: text; user-select: text; }
+  html { overflow-x: hidden; }
+  @media print { header, footer, aside, .no-print { display: none !important; } }
+</style>
+</head>
+<body class="bg-[#f4f4f4] dark:bg-[#121212] selection:bg-[#004030] selection:text-white dark:selection:bg-[#D8C3A5] dark:selection:text-[#004030] overflow-x-hidden">
+<div id="root"></div>
+
+<script>
+(function(){
+  var ALLOWED = ['lolopodcast.github.io','localhost','127.0.0.1','claude.ai','anthropic.com','usercontent.goog'];
+  var REDIRECT = 'https://www.ibs.ncnu.edu.tw/index.php/faculty/tenured-professor/299-smlo';
+  var h = location.hostname;
+  var isFile = location.protocol === 'file:' || h === '';
+  var ok = isFile || ALLOWED.some(function(d){ return h === d || h.endsWith('.' + d); });
+  if (!ok) {
+    document.body.innerHTML = '<div style="text-align:center;padding:60px;font-family:sans-serif"><h1>Access Denied</h1><p>This resource is not authorised on this domain.</p></div>';
+    setTimeout(function(){ location.href = REDIRECT; }, 3000);
+    return;
+  }
+  if (window.self !== window.top) {
+    try { window.top.location.href = window.self.location.href; } catch(e) {}
+  }
+})();
+(function(){
+  var MSG = 'Intellectual Property of Prof. Shihmin Lo';
+  var el = null, timer = null;
+  window.showCopyrightToast = function(){
+    if (!el) {
+      el = document.createElement('div');
+      el.style.cssText = 'position:fixed;left:50%;bottom:48px;transform:translateX(-50%);background:#004030;color:#D8C3A5;padding:10px 20px;border-radius:10px;font-family:Inter,sans-serif;font-size:13px;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.3);opacity:0;transition:opacity .25s';
+      el.textContent = MSG;
+      document.body.appendChild(el);
+    }
+    el.style.opacity = '1';
+    clearTimeout(timer);
+    timer = setTimeout(function(){ el.style.opacity = '0'; }, 2000);
+  };
+  document.addEventListener('contextmenu', function(e){
+    var tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || tag === 'select') return true;
+    if (window.getSelection().toString().trim().length > 0) return true;
+    e.preventDefault(); window.showCopyrightToast();
+  });
+  document.addEventListener('keydown', function(e){
+    var k = (e.key || '').toLowerCase();
+    if (e.key === 'F12') { e.preventDefault(); window.showCopyrightToast(); return; }
+    if (e.ctrlKey && k === 'u') { e.preventDefault(); window.showCopyrightToast(); return; }
+    if (e.ctrlKey && e.shiftKey && ['i','j','c'].indexOf(k) >= 0) { e.preventDefault(); window.showCopyrightToast(); return; }
+  });
+  document.addEventListener('dragstart', function(e){
+    if (e.target.tagName === 'IMG' || (e.target.closest && e.target.closest('svg'))) e.preventDefault();
+  });
+})();
+</script>
+
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+/* ================= Answer obfuscation ================= */
+const _SALT = 'W122026';
+const _e = (s, n) => {
+  const p = s + ':' + n; let r = '';
+  for (let i = 0; i < p.length; i++) r += String.fromCharCode(p.charCodeAt(i) ^ ((i + 7) * 3 & 0xFF));
+  return btoa(r);
+};
+const _d = (token) => {
+  const dec = atob(token); let r = '';
+  for (let i = 0; i < dec.length; i++) r += String.fromCharCode(dec.charCodeAt(i) ^ ((i + 7) * 3 & 0xFF));
+  return parseInt(r.split(':')[1], 10);
+};
+const _A0 = _e(_SALT,0), _A1 = _e(_SALT,1), _A2 = _e(_SALT,2), _A3 = _e(_SALT,3);
+
+/* ================= Module map =================
+   M0 概要 / M1 分工[G] / M2 心跳與迴路[P] / M3 部署與降級[P] / M4 語言[P]
+   M5 小組綜整[G] / M6 依演化表[G] / M7 簡報計畫[G] / M8 Lab / M9 資源 / M10 完成度
+================================================= */
+const NUM_LEARN = 7;
+const TOTAL = 1 + NUM_LEARN + 3;
+const IDX_LAB = NUM_LEARN + 1;
+const IDX_RES = NUM_LEARN + 2;
+const IDX_ANA = NUM_LEARN + 3;
+const MAX_MEMBERS = 10;
+const DEFAULT_MEMBERS = 6;
+const MEMBER_IDX = [...Array(MAX_MEMBERS).keys()];
+const PERSONAL_SECTIONS = [2,3,4];
+const GROUP_SECTIONS = [1,5,6,7];
+
+const SET_IDS = ['sched','tz','notify','stop','qc','degrade'];
+const S2_IDS = ['cron_expr','tz_calc','fail_notify','loop_stop','qc_rule'];
+const S3_IDS = ['deploy_url','deploy_stack','blank_check','degrade_test','three_days'];
+const LOOP_NEED = [
+  ['cron_expr','tz_calc'],
+  ['loop_stop'],
+  ['fail_notify'],
+  ['qc_rule']
+];
+const STATUS_GOOD = '3days';
+
+const sanitizeStudentId = (v) => v.replace(/[^0-9]/g, '').slice(0, 12);
+const sanitizeName = (v) => v.replace(/[<>"'&\\]/g, '').slice(0, 50);
+const sanitizeText = (v) => v.slice(0, 2000);
+
+/* ================= Icons ================= */
+const S = (p) => ({ width: p.size||20, height: p.size||20, viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:2, strokeLinecap:"round", strokeLinejoin:"round" });
+const IconMenu=(p)=><svg {...S(p)}><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>;
+const IconX=(p)=><svg {...S(p)}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>;
+const IconHome=(p)=><svg {...S(p)}><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>;
+const IconGlobe=(p)=><svg {...S(p)}><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>;
+const IconMoon=(p)=><svg {...S(p)}><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>;
+const IconSun=(p)=><svg {...S(p)}><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.2" y1="4.2" x2="5.6" y2="5.6"/><line x1="18.4" y1="18.4" x2="19.8" y2="19.8"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.2" y1="19.8" x2="5.6" y2="18.4"/><line x1="18.4" y1="5.6" x2="19.8" y2="4.2"/></svg>;
+const IconPlay=(p)=><svg {...S(p)}><polygon points="5 3 19 12 5 21 5 3"/></svg>;
+const IconPause=(p)=><svg {...S(p)}><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>;
+const IconSquare=(p)=><svg {...S(p)}><rect x="4" y="4" width="16" height="16" rx="2"/></svg>;
+const IconCheckCircle=(p)=><svg {...S(p)}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>;
+
+/* ================= Dictionary ================= */
+const dict = {
+  zh: {
+    brand: "PMCS",
+    title: "學習單 W12", subtitle: "心跳、自我校正與上線",
+    nav_modules: "單元目錄", nav_prev: "上一單元", nav_next: "下一單元", nav_home: "首頁",
+    key_terms: "隨手參考卡", flip_prompt: "點擊翻轉",
+    flip_status: "已讀 {read} / 已顯示 {shown} / 總計 {total}",
+    flip_next: "下一組", flip_retry: "重新開始",
+    audio_read: "語音導覽",
+    quiz_title: "課前自我檢核", quiz_status: "答對 {correct} / 已答 {answered} / 總計 {total}",
+    quiz_next: "下一組", quiz_retry: "重新測驗",
+    submit: "提交答案", correct: "正確", incorrect: "錯誤", explanation: "解析",
+    overview_label: "Overview 本節任務",
+    highlights_label: "Highlights 關鍵字",
+    deep_dive_label: "Deep Dive 填寫說明",
+    wrapup_label: "Wrap-up 檢查點",
+    badge_personal: "個人填寫・不繳交",
+    badge_group: "小組共同・隨小組版繳交",
+    saved_hint: "✍️ 填寫內容自動存在你這台電腦的瀏覽器裡；換裝置不會跟著走，請務必到「完成度與匯出」頁匯出檔案。",
+    required_label: "必讀教材", optional_label: "選讀教材（可撰寫為 BA）",
+    select_ph: "請選擇",
+
+    m0_nav: "0. 執行概要",
+    m0_title: "這份學習單怎麼用",
+    m0_intro: "這是 PMCS 課程 W12 的課前學習單，也是三張圖第二輪的最後一週。W10 到 W12 是實作層：第一輪在 W3 到 W5 只是把地圖吸收進來，這一輪要站在自己期末專案真實的痛點上重看同樣三張圖。本週的主教材是 IPOB · Vibe Coding AI Agent 系統化三維藍圖，這是第二次讀，這次只讀 Output & Loop 那一欄與治理層。主題是 Output & Loop：心跳、自我校正與部署——排程怎麼設、時區怎麼換算、失敗了誰會知道、迴路什麼時候該停、輸出不合格怎麼自動退回重寫，以及最後那一步：把它放到公開網址上。請注意課堂的角色：課內 50 分鐘只做三件事——教師示範、兩組簡報、卡關診斷；實際建置一律在課外的 SDL 完成，課堂是除錯門診。最重要的一件事：W12 是課程里程碑，可運行版必須上線。第 3 節那一格公開網址就是本週的交件證據。這一輪結束後，W13 到 W15 轉入專案管理——規劃、控制、交付，D day 最晚在 W15。第 2 到第 4 節每人各填自己的、不繳交；第 5 到第 7 節由小組共同決定，隨小組版繳交。",
+    m0_why: "為什麼里程碑要壓在「上線」而不是「做完」？",
+    m0_why_desc: "因為「做完」是自己說了算，「上線」不是。一個放在自己筆電上、要手動按一下才會跑的東西，永遠測不出真正的問題：時區寫反了、金鑰沒帶進去、CDN 半夜升級把畫面弄成一片空白、額度用完之後整個流程靜悄悄地停掉而沒有人知道。這些都只有在真的排程、真的跑、真的失敗過一次之後才會現形。所以本週的判準只有一條——網址打得開，而且它會自己動。",
+    m0_stats: [
+      { val: "W12", label: "里程碑：可運行版上線" },
+      { val: "UTC+8", label: "台北時區換算基準" },
+      { val: "3", label: "天連續輸出（W16 驗收）" },
+      { val: "50", label: "分鐘課內除錯門診" }
+    ],
+    m0_modules: [
+      { num: "01", title: "小組與分工", desc: "登錄組別、成員，敲定 10 分鐘簡報的 Jigsaw 分工。", tag: "小組" },
+      { num: "02", title: "心跳與迴路", desc: "排程設定、時區換算、失敗通知、停止條件與 QC 判準。", tag: "個人" },
+      { num: "03", title: "部署與降級", desc: "公開網址、技術棧、空白畫面排查，以及降級模式的實測結果。", tag: "個人" },
+      { num: "04", title: "語言實驗室", desc: "五個新詞、三個難發音，供課堂與加分作業使用。", tag: "個人" },
+      { num: "05", title: "小組綜整", desc: "六人的心跳設定比對，只挑三項，找出差異最大的那一項並訂下通則。", tag: "小組" },
+      { num: "06", title: "依演化表建置", desc: "最終排程時間、失敗通知、停止條件與成本上限，以及里程碑自評。", tag: "小組" },
+      { num: "07", title: "簡報計畫", desc: "誰講哪一段、各幾秒，以及要丟給全班的那一個問題。", tag: "小組" }
+    ],
+    m0_start: "開始填寫 →",
+
+    loop: [
+      { name: "排程觸發", sub: "cron 到點，UTC 與台北要對得上" },
+      { name: "思考與呼叫工具", sub: "ReAct：想一步、動一步，受重試上限約束" },
+      { name: "觀察", sub: "看工具回傳什麼；失敗要有人被通知" },
+      { name: "QC 檢核", sub: "格式、字數、來源連結逐項比對" }
+    ],
+    loop_out: [
+      { name: "通過送出", sub: "達到驗收條件，晨報寄出" },
+      { name: "未過重試", sub: "退回重寫，次數計入上限" },
+      { name: "超過上限降級", sub: "停止重試，出簡版並標註缺漏" }
+    ],
+    loop_note: "沒有停止條件的迴路不是迴路，是一台印帳單的機器。",
+
+    settings: [
+      { id:"sched", name:"排程設定" },
+      { id:"tz", name:"時區換算" },
+      { id:"notify", name:"失敗通知" },
+      { id:"stop", name:"停止條件" },
+      { id:"qc", name:"QC 判準" },
+      { id:"degrade", name:"降級實測" }
+    ],
+    stack_opts: [
+      { v:"A", name:"A 案：GitHub Pages + GitHub Actions" },
+      { v:"B", name:"B 案：Netlify 或 Vercel + Serverless" },
+      { v:"O", name:"其他" }
+    ],
+    status_opts: [
+      { v:"3days", name:"已上線且跑過三天" },
+      { v:"live", name:"已上線但未滿三天" },
+      { v:"manual", name:"已上線但尚未自動執行" },
+      { v:"none", name:"還沒上線" }
+    ],
+    days_opts: [
+      { v:"0", name:"0 天，還沒有任何自動輸出" },
+      { v:"1", name:"1 天" },
+      { v:"2", name:"2 天" },
+      { v:"3", name:"3 天以上，已達 W16 基準" }
+    ],
+
+    m1_nav: "1. 小組與分工", m1_title: "小組與 Jigsaw 分工",
+    m1_overview: "先把行政資訊填好，並在小組討論時當場敲定簡報分工。本課程每次由兩組簡報，每組 10 分鐘，每位組員必須開口講 1 至 2 分鐘——這一節就是把「誰講哪一段、講幾秒」寫定，避免上台才在推派。",
+    m1_highlights: ["Jigsaw 協作","每人 1-2 分鐘","全組 10 分鐘","組員都要開口"],
+    m1_deep: "本週是里程碑週，簡報結構建議直接對著里程碑走：一人示範公開網址與當天輸出、一人講排程與時區換算、一人講停止條件與成本上限、一人講降級實測、一人講 QC 判準、一人講到 D day 之前的規劃。把秒數寫下來，總長度才控制得住。",
+    m1_group: "組別", m1_date: "填寫日期",
+    m1_members_label: "組員與分工（用下方加減鈕調整人數，上限 10 人）",
+    m1_member_count: "目前 {n} 位組員",
+    m1_col_name: "姓名", m1_col_id: "學號", m1_col_part: "負責段落", m1_col_sec: "秒數",
+    m1_part_ph: "例：排程與時區換算",
+    m1_total_sec: "目前規劃總長度",
+    m1_sec_warn: "超過 600 秒（10 分鐘），請壓縮。",
+    m1_sec_ok: "在 10 分鐘內，可行。",
+    m1_wrapup: "檢查點：每位出席組員都有分配到段落，且總秒數不超過 600。",
+
+    m2_nav: "2. 心跳與迴路", m2_title: "心跳與迴路：讓它自己動起來",
+    m2_overview: "本週個人核心任務的前半。一個每天自己跑的系統，靠的是五件事：排程怎麼設、時區怎麼算、失敗了誰會知道、什麼時候該停、以及輸出不合格時怎麼自動退回重寫。這五格請貼你真的設定過的內容，不要寫「打算這樣做」。",
+    m2_highlights: ["cron 排程","UTC 換算","失敗通知","停止條件","QC 回饋"],
+    m2_deep: "五格裡最常出事的是時區與停止條件。時區出錯的人幾乎都只寫了一個時間就送出，沒有把算式寫出來，於是把台北的 07:00 直接填成 UTC 的 7；停止條件出錯的人則是寫了「重試到成功為止」，那不是條件，是沒有條件。請把算法與數字都寫出來——算法可以被別人重算，數字可以被檢查，這兩件事才是 Loop Engineering 跟「希望它自己會好」的差別。",
+    m2_cron_label: "你的排程設定（貼上實際的 cron 或平台設定）",
+    m2_cron_hint: "GitHub Actions 的 schedule、Netlify 的 scheduled function、n8n 的 Cron 節點都可以，把原文貼上來。cron 欄位順序是：分 時 日 月 週。",
+    m2_cron_ph: "例：\non:\n  schedule:\n    - cron: '0 23 * * *'",
+    m2_tz_label: "UTC 與台北時區的換算：要早上 07:00 台北時間送達，UTC 該設幾點？寫出你的算法",
+    m2_tz_hint: "只寫一個時間不算，要寫出算式與日界線的判斷。排程平台幾乎都用 UTC 計時，台北是 UTC+8。",
+    m2_tz_ph: "例：台北 07:00 － 8 小時 = －1 小時，小於 0，所以加 24 變成 23:00，而且 UTC 日期要往前推一天，寫成 0 23 * * *。",
+    m2_notify_label: "排程失敗時通知誰、用什麼管道",
+    m2_notify_hint: "這一格不可以空白。沒有失敗通知的排程，等於沒有排程——它靜悄悄地死掉，你要到交件前一天才會發現。",
+    m2_notify_ph: "例：GitHub Actions 失敗時自動寄信到組長的信箱，同時用 Webhook 推到小組的 Discord 頻道，收件人是本週彙整人與組長兩位。",
+    m2_notify_warn: "⚠ 這一格還是空白。沒有失敗通知的排程等於沒有排程，請務必填寫。",
+    m2_notify_ok: "✓ 失敗通知已填寫。",
+    m2_stop_label: "ReAct Loop 的停止條件（重試上限幾次、單次成本上限多少）",
+    m2_stop_hint: "要有數字。可以用第 8 節的停止條件計算器先算過月成本與撞到額度的天數，再回來填。",
+    m2_stop_ph: "例：同一則摘要最多重寫 3 次；單次執行最多呼叫模型 12 次；單日成本上限 0.5 美元，超過就停止並發通知。",
+    m2_qc_label: "QC Feedback：格式或字數未過時，自動退回重寫的判準是什麼",
+    m2_qc_hint: "判準要能被程式判斷。「寫得不夠好」不能當判準，「少於 3 則」或「有任何一則缺少來源連結」可以。",
+    m2_qc_ph: "例：整份少於 3 則、任何一則超過 120 字、任何一則沒有 http 開頭的來源連結——三者任一成立就退回重寫，最多 3 次。",
+    m2_svg_layer: "LOOP · 心跳迴路",
+    m2_svg_cap: "五格填得越完整，心跳迴路就越亮；停止條件決定超過上限之後走降級而不是無限重試",
+    m2_terms: [
+      { front: "cron 運算式", back: "五個欄位依序是分、時、日、月、週。星號代表每一個，斜線代表間隔，所以 */15 是每 15 分鐘一次，0 23 * * * 是每天 23:00 一次。" },
+      { front: "UTC 與時區位移", back: "排程平台幾乎都以 UTC 計時。台北固定是 UTC+8，所以 UTC 時 = 台北時 − 8；結果小於 0 就加 24，並把日期往前推一天。" },
+      { front: "心跳 Heartbeat", back: "系統定時自己送出的存活訊號。有心跳才知道它還活著；沒有心跳的排程，失敗與從未執行在外觀上完全一樣。" },
+      { front: "ReAct Loop", back: "思考、行動、觀察三步反覆循環：想一步、呼叫一次工具、看回傳結果，再決定下一步。每一圈都要計入重試上限與成本。" },
+      { front: "停止條件", back: "迴路要停下來的判準：重試上限、成本上限、時間上限、連續失敗次數。沒有停止條件的迴路不是跑不完就是花光額度。" },
+      { front: "QC Feedback", back: "把驗收條件寫成機器判得出來的規則，未過就自動退回重寫。它讓「什麼樣算通過」從人的印象變成流程的一部分。" },
+      { front: "降級模式", back: "當來源掛掉、額度用完或金鑰失效時，系統仍照常產出，但只出得來的部分，並且明確標註缺了什麼。沒有實測過的降級模式不算存在。" },
+      { front: "冪等性 Idempotency", back: "同一個排程被重複觸發時，結果不會被重複計算或重複寄送。補跑與重試會不會製造出兩份晨報，看的就是這一格。" }
+    ],
+    m2_q: [
+      { q: "要讓晨報在台北時間每天早上 07:00 送達，而排程平台以 UTC 計時，cron 的小時欄位應該填多少？", opts: ["23，日期落在前一天","07，日期落在同一天","15，日期落在同一天","19，日期落在前一天"], ans: _A0, exp: "台北時 07 減 8 等於負 1，小於 0 就加 24 得 23，同時 UTC 日期要往前推一天，寫成 0 23 * * *。" },
+      { q: "cron 運算式 */15 * * * * 實際上多久執行一次？", opts: ["每 15 小時一次","每月 15 日一次","每 15 分鐘一次","每天 15 點一次"], ans: _A2, exp: "第一欄是分鐘，斜線代表間隔，所以 */15 是每 15 分鐘觸發一次，一天共 96 次。" },
+      { q: "關於降級模式，下列哪一個說法是正確的？", opts: ["寫在設計文件裡就算完成","實際觸發過才算真的有","只要程式碼有 try 就夠","組員都知道就不用測試"], ans: _A1, exp: "降級模式的價值在於它真的會在故障時運作。把金鑰改錯或把額度用完，看晨報有沒有照常出、有沒有標註缺漏，這才是驗證。" },
+      { q: "可運行版部署之後打開是一片空白，下列哪一項最可能是原因？", opts: ["CDN 沒鎖版本，套件破壞性升級","本機瀏覽器缺少了中文字型檔","網頁標題標籤裡的文字寫太長","伺服器的時區被設定成 UTC+0"], ans: _A0, exp: "單檔 SPA 從 CDN 載入函式庫，沒有鎖版本時上游一升級就可能整份掛掉。先看瀏覽器 console 的錯誤訊息最快。" }
+    ],
+    m2_wrapup: "檢查點：時區換算寫出了算法而不是只寫一個時間，且停止條件有具體數字。",
+
+    m3_nav: "3. 部署與降級", m3_title: "部署與降級實測：本週的里程碑",
+    m3_overview: "本週個人核心任務的後半，也是 W12 的里程碑。可運行版必須上線，而且要有一個打得開的公開網址。上線之後還有一件事非做不可：把它弄壞一次，看看降級模式到底會不會動。",
+    m3_highlights: ["公開網址","技術棧","空白畫面排查","降級實測","連續三天"],
+    m3_deep: "兩句話請記住。第一句：降級模式沒實測過就等於沒有——把 API 金鑰改成錯的、或把當日額度用完，然後看晨報有沒有照常出、有沒有明確標註哪些欄位缺漏，這才叫測過。第二句：W16 驗收要看連續三天的輸出，D、D+1、D+2 三份都要在，所以今天沒開始累積，那三天就永遠補不回來。空白畫面則是本週最常見的求救：先看瀏覽器 console 的錯誤訊息，再依序檢查 CDN 有沒有鎖版、是不是快取沒更新、同一個變數是不是在兩個 script 區塊裡重複宣告。",
+    m3_url_label: "可運行版的公開網址（本週里程碑）",
+    m3_url_hint: "貼完整網址，要 http 或 https 開頭。用無痕視窗開一次確認別人也打得開，不要只在自己登入的狀態下測。",
+    m3_url_ph: "例：https://your-team.github.io/pmcs-daily-brief/",
+    m3_url_bad: "⚠ 看起來不像完整網址，請確認有 https:// 開頭而且是別人也打得開的位址。",
+    m3_url_ok: "✓ 網址格式正確。請再用無痕視窗開一次確認。",
+    m3_stack_label: "技術棧",
+    m3_stack_hint: "A 案偏靜態與免費，B 案偏彈性與函式；選其他請在下一格說明。",
+    m3_blank_label: "有沒有遇到空白畫面？怎麼排查的",
+    m3_blank_hint: "提示：CDN 是否鎖版、快取是否更新、瀏覽器 console 有沒有錯誤訊息。沒遇過就寫「沒遇過」，並說明你怎麼確認畫面正常。",
+    m3_blank_ph: "例：第一次部署完全白畫面，console 出現 Identifier 'App' has already been declared，原因是兩個 script 區塊都宣告了 App；把重複的那段刪掉之後正常。另外把 react 鎖成 18.3.1。",
+    m3_degrade_label: "你實際測過降級嗎？把金鑰改錯或把額度用完，結果如何",
+    m3_degrade_hint: "寫出你怎麼弄壞它、弄壞之後晨報有沒有照常出、有沒有標註缺漏。沒測過就誠實寫沒測過——但這一格空著，W16 驗收會直接扣在這裡。",
+    m3_degrade_ph: "例：把 API 金鑰最後一碼改錯後手動觸發，晨報照常寄出，來源區塊顯示「今日 A 來源抓取失敗，以下為 B 來源結果」，共 2 則而非 3 則，標題加上了「部分缺漏」字樣。",
+    m3_days_label: "W16 要呈現 D、D+1、D+2 三天的成果，你現在累積了幾天的輸出",
+    m3_days_hint: "連續三天是 W16 的驗收基準，補不回來，所以越早開始累積越好。",
+    m3_days_warn: "⚠ 還沒累積到三天。W16 要看連續三天的輸出，這是補不回來的，請盡快讓它每天自己跑。",
+    m3_days_ok: "✓ 已達三天以上，符合 W16 驗收基準。",
+    m3_wrapup: "檢查點：公開網址打得開，而且降級是實際測過的，不是只寫了設計。",
+
+    m4_nav: "4. 語言實驗室", m4_title: "EMI 語言實驗室",
+    m4_overview: "本課程是全英授課。從本週必讀教材中挑出五個新的詞彙或片語，以及三個你唸起來不順的字。這一節的產出直接用於課堂討論與加分作業。",
+    m4_highlights: ["新詞五個","難發音三個","自己的話","例句"],
+    m4_deep: "「用自己的話解釋」不要抄原文定義——抄定義只證明你找得到，改寫才證明你讀懂了。例句請寫跟你的期末專案有關的句子，例如描述你的排程、你的停止條件或你的降級模式，這樣同一份力氣可以用兩次。",
+    m4_terms_label: "五個新詞彙或片語",
+    m4_col_term: "詞彙／片語", m4_col_mean: "用自己的話解釋", m4_col_sent: "自己造一個句子",
+    m4_pron_label: "三個唸起來不順的字",
+    m4_col_word: "字", m4_col_hard: "難在哪裡", m4_col_tip: "你的記憶方法",
+    m4_wrapup: "檢查點：五個詞的解釋沒有一句是直接抄教材原文。",
+
+    m5_nav: "5. 小組綜整", m5_title: "小組綜整：比對六個人的心跳設定",
+    m5_overview: "這一節才是小組討論真正的工作。六個人各自設了自己的排程、時區、通知、停止條件、QC 判準與降級測試，把它們放在一起比對，你會發現差異最大的那一項通常就是全組最沒共識、也最容易在 D day 出事的那一項。",
+    m5_highlights: ["六項挑三項","差異最大","選取而非全丟","組內通則"],
+    m5_deep: "彙整方式有一條硬性規定：本週彙整人不得把六份個人匯出檔全部丟給 AI 叫它總結。Context Engineering 的核心是選取，不是全丟。比對集合有六項——排程設定、時區換算、失敗通知、停止條件、QC 判準、降級實測——你們只能挑三項，再只取那三項的六人份內容。挑哪三項本身就是判斷：挑六個人寫得都一樣的那三項，比對不出東西；挑差異最大的三項，才會逼出通則。",
+    m5_focus_label: "我們決定比對的三項（勾選三項）",
+    m5_focus_why: "為什麼略過另外三項？",
+    m5_focus_why_ph: "例：排程設定六個人幾乎都是 0 23 * * *，差異太小；真正吵起來的是停止條件與降級實測，所以我們挑那兩項加上失敗通知。",
+    m5_gap_label: "六人的設定比對後，差異最大的是哪一項？差在哪裡",
+    m5_gap_ph: "例：停止條件。三個人完全沒寫數字，一個人寫重試 10 次，一個人寫 3 次，一個人只寫「失敗就停」。同一組對「什麼時候該放棄」的認知差到三倍以上。",
+    m5_evidence_label: "從六份裡舉兩個具體例子支持上面的判斷",
+    m5_evidence_ph: "例：A 的停止條件是「重試到成功為止」，完全沒有上限；D 寫的是「單日成本 0.5 美元、重試 3 次」。同一份晨報，兩個人的成本上限差距是無限大對 0.5 美元。",
+    m5_case_label: "全組範本採用誰的設定？為什麼",
+    m5_case_ph: "例：採用 D 的停止條件，因為它同時有次數上限與金額上限，而且兩個數字都是他實際算過的，不是猜的。",
+    m5_rule_label: "從這次比對，我們訂下一條組內通則",
+    m5_rule_ph: "例：本組所有排程任務一律寫明「重試上限次數」與「單日成本上限金額」兩個數字，缺任何一個就不准合併進主分支。",
+    m5_rule_note: "這條通則會累積到期末專案。它應該可以被別人拿去檢查你們的 repo，而不是一句期許。",
+    m5_wrapup: "檢查點：只比對了三項（不是全部丟給 AI），且訂出的通則是可以檢查的。",
+
+    m6_nav: "6. 依演化表建置", m6_title: "依演化表建置：心跳、通知、停止條件與里程碑自評",
+    m6_overview: "把第 5 節比對出來的共識，變成全組共用的一組設定。這一節寫下來的東西就是你們接下來到 D day 之間的實際規格，也是課堂除錯門診的掛號單。",
+    m6_highlights: ["最終排程","通知管道","成本上限","里程碑自評","D day"],
+    m6_deep: "W12 是里程碑週，tp_status 就是你們的里程碑自評——它會被彙整台直接畫成全班分布圖，所以請誠實選。選「還沒上線」不會被扣分，隱瞞才會，因為隱瞞會讓你們錯過這一週唯一能拿到的診斷。停止條件與成本上限那一格請務必寫出數字；沒有數字的停止條件，在門診上是沒辦法診斷的。最後一格請只寫一件事——到 D day 之前最關鍵的那一件，寫三件等於沒有優先順序。",
+    m6_schedule_label: "最終排程時間（含時區）",
+    m6_schedule_hint: "同時寫出台北時間與 UTC 的 cron，兩者要對得上。",
+    m6_schedule_ph: "例：每天台北時間 07:00 送達，排程設在 UTC 23:00（前一日），cron 為 0 23 * * *。",
+    m6_notify_label: "失敗通知管道與收件人",
+    m6_notify_hint: "管道與收件人都要寫。只寫「會通知」不算，要寫得出誰的信箱或哪一個頻道。",
+    m6_notify_ph: "例：GitHub Actions 內建的失敗信件寄給 repo 的三位協作者，另外用 Webhook 推到小組 Discord 的 #alerts 頻道，值日生每天早上 08:00 前確認。",
+    m6_stop_label: "停止條件與成本上限（要有數字）",
+    m6_stop_hint: "至少要有兩個數字：重試上限次數，以及單日或單月的成本上限金額。",
+    m6_stop_ph: "例：單則最多重寫 3 次；單次執行最多 12 次模型呼叫；單日成本上限 0.5 美元、單月上限 10 美元，達到上限即停止並發通知。",
+    m6_status_label: "可運行版狀態（本週里程碑自評）",
+    m6_status_hint: "誠實選。這一格會被彙整台畫成全班分布圖，是課堂除錯門診分配時間的依據。",
+    m6_status_note: "W12 是里程碑週，這一格就是你們的里程碑自評。",
+    m6_status_ok: "✓ 已上線並跑過三天，里程碑達成。",
+    m6_status_warn: "本週里程碑是可運行版上線。請在下一格寫出到 D day 之前最關鍵的那一件事。",
+    m6_next_label: "到 D day 之前最關鍵的一件事",
+    m6_next_hint: "只寫一件。D day 最晚在 W15，W13 到 W15 轉入專案管理：規劃、控制、交付。",
+    m6_next_ph: "例：先讓它連續三天自己跑起來，內容好不好之後再說——沒有連續三天，W16 就沒有東西可以呈現。",
+    m6_wrapup: "檢查點：停止條件與成本上限都有數字，且失敗通知寫出了管道與收件人。",
+
+    m7_nav: "7. 簡報計畫", m7_title: "簡報計畫與提問",
+    m7_overview: "把第 1 節的分工變成可執行的腳本，並準備一個要丟給全班的問題。課堂上的 10 分鐘 Q&A 就是靠各組的問題撐起來的。",
+    m7_highlights: ["開場句","段落腳本","Menti 提問","10 分鐘"],
+    m7_deep: "本週建議把公開網址與當天的實際輸出放在第一張投影片——里程碑週的簡報，最有說服力的一句話是「這是今天早上七點它自己寄出來的」。開場句請用英文寫完整一句，不要只寫關鍵字。要丟給全班的問題請避開是非題；好的問題應該逼同學先做一個判斷，例如「當額度用完的時候，你們寧可讓它停下來，還是寧可讓它出一份標註缺漏的簡版？」",
+    m7_open_label: "英文開場句（完整一句）",
+    m7_open_ph: "例：This page was written by nobody this morning — the schedule fired at seven and the brief was already there.",
+    m7_script_label: "段落腳本（每人一句話說明你要講的重點）",
+    m7_col_who: "誰", m7_col_point: "這一段的重點是什麼",
+    m7_question_label: "要丟給全班的一個問題（Menti 用）",
+    m7_question_ph: "例：When the quota runs out, would you rather let the agent stop, or let it ship a shorter brief that says what is missing?",
+    m7_wrapup: "檢查點：開場句是完整的英文句子，且提問不是可以用「是／否」回答的問題。",
+
+    mlab_nav: "8. 互動實驗室", mlab_title: "互動實驗室",
+    mlab_desc: "四個小工具，幫你把第 2、3、6 節的設定算清楚再填。這一頁不需要填寫，但操作紀錄會計入完成度，作答內容也會存在你這台電腦的瀏覽器裡。",
+    mlab_clear: "🗑 清除全部",
+    mlab_clear_confirm: "確定要清除互動實驗室的所有作答嗎？此操作無法復原。",
+    lab1_title: "① 時區換算器（台北 → UTC cron）",
+    lab1_desc: "輸入你希望晨報送達的台北時間，立刻算出對應的 UTC cron 運算式，並提醒日界線的陷阱。",
+    lab1_hh: "台北時（0-23）", lab1_mm: "台北分（0-59）",
+    lab1_utc: "對應的 UTC 時間",
+    lab1_cron: "UTC cron 運算式",
+    lab1_prev: "＊UTC 日期落在前一天",
+    lab1_same: "＊UTC 與台北是同一天",
+    lab1_formula: "算法：UTC 時 = 台北時 − 8。結果小於 0 就加 24，並把 UTC 日期往前推一天。",
+    lab1_dateline: "日界線提醒：台北時間 00:00 到 07:59 的排程，UTC 日期一定落在前一天——這是 GitHub Actions 的 cron 最常被寫錯的一格。",
+    lab1_dst: "日光節約時間提醒：台灣不實施 DST，台北固定 UTC+8，所以台北這一端不會位移。但若你的資料來源在美國或歐洲，那一端一年會位移一小時兩次，抓取視窗要留緩衝。",
+    lab1_preset: "載入 07:00 台北", lab1_reset: "重設",
+    lab2_title: "② cron 運算式判讀器",
+    lab2_desc: "六條 cron 運算式，判斷它實際多久跑一次、幾點跑。答完立即顯示逐題解析。",
+    lab2_hint: "欄位順序：分 時 日 月 週。星號是每一個，斜線是間隔，連字號是區間。",
+    lab2_score: "答對 {n} / {t}",
+    lab2_reset: "重做",
+    lab2_items: [
+      { k:"c1", expr:"*/15 * * * *", opts:["每 15 分鐘跑一次，一天 96 次","每 15 小時跑一次，一天 1 次","每天 15 點跑一次，一天 1 次","每月 15 日跑一次，一月 1 次"], a:0, why:"第一欄是分鐘，斜線代表間隔，所以每小時的 0、15、30、45 分各跑一次。" },
+      { k:"c2", expr:"0 23 * * *", opts:["每天 23:00 跑一次，一天 1 次","每 23 分鐘跑一次，一天多次","每月 23 日跑一次，一月 1 次","每週日 23 點跑，一週 1 次"], a:0, why:"分為 0、時為 23，其餘皆為星號，所以每天 23:00 觸發一次。若平台以 UTC 計時，這就是台北隔天早上 07:00。" },
+      { k:"c3", expr:"0 */4 * * *", opts:["每 4 小時跑一次，一天 6 次","每天 4 點跑一次，一天 1 次","每 4 分鐘跑一次，一天多次","每月 4 日跑一次，一月 1 次"], a:0, why:"時欄位用斜線代表間隔，於 0、4、8、12、16、20 各觸發一次，一天共 6 次。" },
+      { k:"c4", expr:"30 1 * * 1", opts:["每週一 01:30 跑，一週 1 次","每天 01:30 跑，一天 1 次","每月 1 日 01:30 跑一次","每 30 分鐘跑，一天多次"], a:0, why:"最後一欄是星期，1 代表星期一，所以只在每週一的 01:30 觸發一次。" },
+      { k:"c5", expr:"0 0 1 * *", opts:["每月 1 日 00:00 跑一次","每天 00:00 跑，一天 1 次","每週一 00:00 跑，一週 1 次","每小時整點跑，一天多次"], a:0, why:"第三欄是日，1 代表每月 1 日；時與分皆為 0，所以每月只在 1 日午夜觸發一次。" },
+      { k:"c6", expr:"15 9 * * 1-5", opts:["週一到週五 09:15 各跑一次","每天 09:15 跑，一天 1 次","每 15 分鐘跑，一天多次","每月 15 日 09 點跑一次"], a:0, why:"連字號代表區間，1-5 是星期一到星期五，所以工作日的 09:15 各觸發一次，週末不跑。" }
+    ],
+    lab3_title: "③ 停止條件計算器",
+    lab3_desc: "輸入單次呼叫成本、每日執行次數、重試上限與免費額度，算出月成本、撞到額度的天數，以及安全的重試上限建議。",
+    lab3_cost: "單次呼叫成本（USD）",
+    lab3_runs: "每日執行次數",
+    lab3_retry: "重試上限（次）",
+    lab3_quota: "免費額度（USD／月）",
+    lab3_calls: "最壞情況每日呼叫次數",
+    lab3_daily: "每日成本（USD）",
+    lab3_monthly: "月成本（30 天，USD）",
+    lab3_days: "撞到額度的天數",
+    lab3_safe: "安全的重試上限建議",
+    lab3_over: "⚠ 月成本已超過免費額度。請降低重試上限、減少每日執行次數，或改用更便宜的呼叫。",
+    lab3_ok: "✓ 月成本在免費額度之內。",
+    lab3_never: "不會撞到",
+    lab3_times: "次",
+    lab3_daysunit: "天",
+    lab3_note: "重試上限沒有數字就不是停止條件，成本上限沒有數字就不是預算。把這裡算出來的兩個數字直接填進第 2 節與第 6 節。",
+    lab3_preset: "載入範例", lab3_reset: "重設",
+    lab4_title: "④ 上線前檢查表",
+    lab4_desc: "十項逐一勾選，顯示完成度與最該補的三項。全部勾滿才算真的上線。",
+    lab4_pct: "完成度 {n} / 10（{p}%）",
+    lab4_top3: "最該補的三項：",
+    lab4_done: "✓ 十項全部完成，可以宣告可運行版上線了。",
+    lab4_reset: "重設",
+    lab4_items: [
+      { k:"url", n:"公開網址可以打開（用無痕視窗確認過）" },
+      { k:"cdn", n:"CDN 已鎖版本（react、babel、dompurify）" },
+      { k:"key", n:"金鑰不在前端，也不在 repo 的任何檔案裡" },
+      { k:"cron", n:"排程已設定，而且真的自己觸發過一次" },
+      { k:"notify", n:"失敗通知已實測，收件人真的收到過" },
+      { k:"degrade", n:"降級模式已實測，弄壞過一次並確認輸出" },
+      { k:"stop", n:"停止條件有上限數字（次數與金額）" },
+      { k:"src", n:"每一則輸出都附了原始來源連結" },
+      { k:"qc", n:"格式 QC 規則已設定，未過會自動退回" },
+      { k:"three", n:"已連續執行滿三天，D、D+1、D+2 都在" }
+    ],
+    lab5_title: "⑤ 課前自我檢核",
+    lab5_desc: "四題選擇題，確認你確實讀過本週必讀教材。答錯會顯示解析。",
+
+    mres_nav: "9. 學習資源", mres_title: "本週學習資源",
+    mres_desc: "必讀兩份。第一份是本週主教材，這是第二次讀，這次只讀 Output & Loop 那一欄與治理層；第二份是相鄰架構，用來決定執行環境。選讀不影響學習單，但寫成書面整理可計入加分作業。",
+    res_req: [
+      { label: "IPOB · Vibe Coding AI Agent 系統化三維藍圖", url: "https://lolopodcast.github.io/Vibe-Coding-Agent-Blueprint/", desc: "本週主教材，第二次讀。這次只讀 Output & Loop 那一欄與治理層——排程、自我校正、停止條件與部署都在那裡。" },
+      { label: "AIWF · AI Workflow Methodology", url: "https://lolopodcast.github.io/AI-Workflow-Methodology/", desc: "相鄰架構。用它來做執行環境的決策：什麼放在本機、什麼放在雲端排程、什麼該是無伺服器函式。" }
+    ],
+    res_opt: [
+      { label: "LoLo's Daily Brief", url: "https://lolopodcast.github.io/daily-brief/", desc: "拆解它的輸出結構當標竿：每一則有哪些欄位、來源怎麼標、缺漏怎麼寫。" },
+      { label: "EMI SPA Course Showcase Gallery", url: "https://lolopodcast.github.io/SPA-Gallery/", desc: "歷屆成果展示牆，看看別人的可運行版長什麼樣子。" },
+      { label: "AGEN · Agent Engineering 系統圖", url: "https://lolopodcast.github.io/Agent-Engineering-System-Map/", desc: "W11 已讀。這次回頭只對照 Loop 那一個構面，檢查你的停止條件與人工介入設計。" }
+    ],
+
+    analytics_title: "完成度與匯出",
+    analytics_desc: "個人層與小組層分開匯出。個人版留給你自己，作為學習歷程檔案；小組版由本週彙整人上傳 Moodle。",
+    analytics_personal_title: "個人匯出（第 2、3、4 節・不繳交）",
+    analytics_personal_desc: "填好姓名即可匯出。這份檔案留給你自己，可以直接放進 repo 的 docs／資料夾當作本週歷程紀錄。",
+    analytics_group_title: "小組匯出（第 1、5、6、7 節・繳交 Moodle）",
+    analytics_group_desc: "填好組別與本週彙整人即可匯出。CSV 與 Markdown 各一份，上傳至 Moodle 作業區。",
+    analytics_group: "組別", analytics_dept: "系級", analytics_dept_ph: "例：IBS1",
+    analytics_id: "學號", analytics_id_ph: "例：113212599",
+    analytics_name_en: "英文姓名", analytics_name_en_ph: "例：Shihmin Lo",
+    analytics_name_zh: "中文姓名", analytics_name_zh_ph: "例：王阿吉",
+    analytics_compiler: "本週彙整人", analytics_compiler_ph: "例：王阿吉",
+    analytics_export_personal: "匯出個人 Markdown",
+    analytics_export_csv: "匯出小組 CSV",
+    analytics_export_md: "匯出小組 Markdown",
+    analytics_need_personal: "請先填寫姓名",
+    analytics_need_group: "請先填寫組別與本週彙整人",
+    group_options: ["G1","G2","G3","G4","G5","G6","G7","G8","G9","G10","G11","G12","Others"],
+    analytics_pct_personal: "個人完成度", analytics_pct_group: "小組完成度",
+    analytics_total_time: "總填寫時間", analytics_overall_acc: "自我檢核答對率",
+    analytics_sec: "秒",
+    analytics_progress_title: "各節完成度",
+    analytics_wp_title: "尚未完成的節次",
+    analytics_wp_goto: "→ 前往填寫",
+    sdl_title: "先匯入你的 SDL 知識庫快照",
+    sdl_desc: "本週流程是：不使用 AI 手寫閱讀筆記 → 用 SDL 學習夥伴做蘇格拉底式對話 → 產出 KB.md → 在這裡匯入。匯入後會自動帶入你的身分欄位，並把 KB 的重點顯示在各節上方供你對照。這份學習單不是要你重想一遍，是把你已經想清楚的填成可比對的格式。",
+    sdl_ph: "把 SDL 產出的 KB.md 全文貼在這裡（含最上方的 --- frontmatter ---）",
+    sdl_parse: "解析並匯入",
+    sdl_file: "改用檔案上傳",
+    sdl_loaded: "✓ 已匯入 SDL KB",
+    sdl_clear: "清除並重新匯入",
+    sdl_ok: "匯入成功，身分欄位已自動帶入。",
+    sdl_err_empty: "內容是空的，請先貼上 KB.md 全文。",
+    sdl_err_format: "解析不出來。請確認貼的是 SDL 產出的 KB.md（開頭應該有 --- 的 frontmatter，內文有 §1 §2 等段落）。",
+    sdl_panel_title: "📖 你的 SDL KB 重點（對照用）",
+    sdl_panel_show: "展開",
+    sdl_panel_hide: "收合",
+    sdl_s1: "§1 本次學習摘要",
+    sdl_s2: "§2 知識綜整",
+    sdl_s4: "§4 學生親筆區塊",
+    sdl_s5: "§5 未解問題清單",
+    analytics_wp_personal_head: "個人層（你自己要填）",
+    analytics_wp_personal_done: "個人層已全部完成。",
+    analytics_wp_group_head: "小組層（小組討論時共同決定）",
+    analytics_wp_group_note: "若你不是本週彙整人，這幾節維持 0% 是正常的——個人匯出不受影響。",
+    analytics_wp_group_done: "小組層已全部完成。",
+    analytics_wp_allpass: "七節全部填寫完成，可以匯出了。",
+    analytics_wp_saved: "填寫內容已自動儲存於本機瀏覽器",
+    analytics_wp_clear: "🗑 清除全部",
+    analytics_wp_clear_confirm: "確定要清除所有填寫內容與歷程嗎？此操作無法復原，建議先匯出。",
+    analytics_wp_tts_intro: "以下是尚未完成的節次。",
+    analytics_wp_tts_module: "{name}，完成度 {acc}%。",
+    analytics_wp_tts_allpass: "七節全部填寫完成。",
+
+    date: "Version 2026.08.23",
+    copyright: "For Educational Use Only",
+    architect_label: "Architect:",
+    architect_url: "https://www.ibs.ncnu.edu.tw/index.php/faculty/tenured-professor/299-smlo"
+  },
+
+  en: {
+    brand: "PMCS",
+    title: "Worksheet W12", subtitle: "Heartbeat, Self-Correction and Going Live",
+    nav_modules: "Contents", nav_prev: "Previous", nav_next: "Next", nav_home: "Home",
+    key_terms: "Quick Reference Cards", flip_prompt: "Click to flip",
+    flip_status: "Read {read} / Shown {shown} / Total {total}",
+    flip_next: "Next", flip_retry: "Restart",
+    audio_read: "Audio Guide",
+    quiz_title: "Pre-Class Self-Check", quiz_status: "Correct {correct} / Answered {answered} / Total {total}",
+    quiz_next: "Next", quiz_retry: "Retry",
+    submit: "Submit", correct: "Correct", incorrect: "Incorrect", explanation: "Explanation",
+    overview_label: "Overview",
+    highlights_label: "Highlights",
+    deep_dive_label: "Deep Dive",
+    wrapup_label: "Wrap-up",
+    badge_personal: "Individual · not submitted",
+    badge_group: "Group · submitted with the group file",
+    saved_hint: "✍️ Your entries are saved in this browser on this computer only. They do not travel with you — always export from the Completion & Export page.",
+    required_label: "Required Materials", optional_label: "Optional Materials (eligible for BA)",
+    select_ph: "Select",
+
+    m0_nav: "0. Executive Summary",
+    m0_title: "How to Use This Worksheet",
+    m0_intro: "This is the pre-class worksheet for W12 of PMCS, and the last week of the second pass over the three diagrams. Weeks 10 to 12 are the implementation layer: in the first pass, W3 to W5, you absorbed the map; in this pass you revisit it standing on the real sore points of your own Term Project. The main material this week is IPOB, the systematic three-axis blueprint for Vibe Coding AI agents, read for the second time — and this time only the Output & Loop column and the governance layer. The theme is Output & Loop: heartbeat, self-correction and deployment. How the schedule is set, how the time zone converts, who hears about a failure, when the loop must stop, how a failing output is sent back for a rewrite, and finally the last step: putting it on a public address. Note the role of the classroom: the 50 minutes in class hold only three things — a teacher demonstration, two group presentations, and blocker diagnosis. The building happens outside class in your SDL time; the classroom is a debugging clinic. Most important of all: W12 is the course milestone, and the runnable version must go live. The public address in section 3 is this week's evidence. After this pass, W13 to W15 turn to project management — planning, control, delivery — with D day no later than W15. Sections 2 to 4 are filled by each person and are not submitted; sections 5 to 7 are decided together and submitted with the group file.",
+    m0_why: "Why is the milestone \"live\" rather than \"finished\"?",
+    m0_why_desc: "Because \"finished\" is something you declare, and \"live\" is not. Anything that sits on your own laptop and only runs when you press a button will never surface the real problems: the time zone written backwards, the key that never reached the runner, the CDN that upgraded overnight and turned the page white, the quota that ran out so the whole flow died in silence. All of those appear only after it is really scheduled, really running, and has really failed once. So this week has exactly one test: the address opens, and it moves by itself.",
+    m0_stats: [
+      { val: "W12", label: "milestone: the version goes live" },
+      { val: "UTC+8", label: "Taipei offset for the cron" },
+      { val: "3", label: "consecutive days (checked in W16)" },
+      { val: "50", label: "minutes of clinic in class" }
+    ],
+    m0_modules: [
+      { num: "01", title: "Group & Roles", desc: "Register your group and members, and settle the jigsaw split for the 10-minute presentation.", tag: "Group" },
+      { num: "02", title: "Heartbeat & Loop", desc: "Schedule, time-zone conversion, failure alerts, stop conditions and the QC rule.", tag: "Individual" },
+      { num: "03", title: "Deploy & Degrade", desc: "The public address, the stack, the blank-screen hunt, and your real degradation test.", tag: "Individual" },
+      { num: "04", title: "Language Lab", desc: "Five new terms and three hard words, for class discussion and bonus work.", tag: "Individual" },
+      { num: "05", title: "Group Synthesis", desc: "Compare six heartbeat settings, pick only three, find the widest gap and set one rule.", tag: "Group" },
+      { num: "06", title: "Build by the Table", desc: "Final schedule, failure alerts, stop conditions and cost ceiling, plus the milestone self-rating.", tag: "Group" },
+      { num: "07", title: "Presentation Plan", desc: "Who speaks about what, for how many seconds, plus one question for the class.", tag: "Group" }
+    ],
+    m0_start: "Start →",
+
+    loop: [
+      { name: "Scheduled trigger", sub: "The cron fires; UTC and Taipei must agree" },
+      { name: "Think & call tools", sub: "ReAct: one thought, one call, bounded by the retry cap" },
+      { name: "Observe", sub: "Read what came back; a failure must reach a person" },
+      { name: "QC check", sub: "Format, length and source links, item by item" }
+    ],
+    loop_out: [
+      { name: "Pass and ship", sub: "Acceptance met, the brief goes out" },
+      { name: "Fail and retry", sub: "Sent back for a rewrite, counted against the cap" },
+      { name: "Cap hit, degrade", sub: "Stop retrying, ship short and flag what is missing" }
+    ],
+    loop_note: "A loop with no stop condition is not a loop; it is a machine that prints invoices.",
+
+    settings: [
+      { id:"sched", name:"Schedule setting" },
+      { id:"tz", name:"Time-zone conversion" },
+      { id:"notify", name:"Failure alerting" },
+      { id:"stop", name:"Stop conditions" },
+      { id:"qc", name:"QC rule" },
+      { id:"degrade", name:"Degradation test" }
+    ],
+    stack_opts: [
+      { v:"A", name:"Option A: GitHub Pages + GitHub Actions" },
+      { v:"B", name:"Option B: Netlify or Vercel + Serverless" },
+      { v:"O", name:"Other" }
+    ],
+    status_opts: [
+      { v:"3days", name:"Live and has run for three days" },
+      { v:"live", name:"Live but fewer than three days" },
+      { v:"manual", name:"Live but not yet running on its own" },
+      { v:"none", name:"Not live yet" }
+    ],
+    days_opts: [
+      { v:"0", name:"0 days — no automatic output yet" },
+      { v:"1", name:"1 day" },
+      { v:"2", name:"2 days" },
+      { v:"3", name:"3 days or more — meets the W16 bar" }
+    ],
+
+    m1_nav: "1. Group & Roles", m1_title: "Group and Jigsaw Roles",
+    m1_overview: "Fill in the administrative details first, then settle the presentation split during group discussion. Two groups present each week for 10 minutes, and every member must speak for one to two minutes — this section pins down who covers what and for how long, so nobody is being volunteered at the podium.",
+    m1_highlights: ["Jigsaw collaboration","1-2 min each","10 min per group","Everyone speaks"],
+    m1_deep: "This is milestone week, so let the structure follow the milestone: one member demonstrates the public address and the output it produced today, one covers the schedule and the time-zone conversion, one covers stop conditions and the cost ceiling, one covers the degradation test, one covers the QC rule, and one covers the plan up to D day. Write the seconds down — that is the only way the total stays under control.",
+    m1_group: "Group", m1_date: "Date",
+    m1_members_label: "Members and roles (use the buttons below to set the size, up to 10)",
+    m1_member_count: "{n} members",
+    m1_col_name: "Name", m1_col_id: "Student ID", m1_col_part: "Assigned part", m1_col_sec: "Seconds",
+    m1_part_ph: "e.g. Schedule and time-zone conversion",
+    m1_total_sec: "Planned total length",
+    m1_sec_warn: "Over 600 seconds (10 minutes) — trim it down.",
+    m1_sec_ok: "Within 10 minutes. Workable.",
+    m1_wrapup: "Checkpoint: every attending member has an assigned part, and the total stays under 600 seconds.",
+
+    m2_nav: "2. Heartbeat & Loop", m2_title: "Heartbeat and Loop: Making It Move by Itself",
+    m2_overview: "The first half of this week's individual core task. A system that runs itself every day rests on five things: how the schedule is set, how the time zone is computed, who hears about a failure, when it must stop, and how a failing output is sent back for a rewrite. Paste what you actually configured, not what you intend to configure.",
+    m2_highlights: ["cron schedule","UTC conversion","Failure alerts","Stop conditions","QC feedback"],
+    m2_deep: "Of the five cells, time zone and stop conditions fail most often. Almost everyone who gets the time zone wrong wrote down a single time without the arithmetic, and so filled 07 into the UTC hour field for a 07:00 Taipei delivery. Everyone who gets stop conditions wrong wrote \"retry until it succeeds\", which is not a condition but the absence of one. Write out both the arithmetic and the numbers — arithmetic can be recomputed by someone else and numbers can be checked, and those two properties are the whole difference between Loop Engineering and hoping it sorts itself out.",
+    m2_cron_label: "Your schedule setting (paste the actual cron or platform configuration)",
+    m2_cron_hint: "A GitHub Actions schedule, a Netlify scheduled function, an n8n cron node — paste the real thing. The cron fields run: minute, hour, day of month, month, day of week.",
+    m2_cron_ph: "e.g.\non:\n  schedule:\n    - cron: '0 23 * * *'",
+    m2_tz_label: "Converting UTC and Taipei: for delivery at 07:00 Taipei time, what hour goes into UTC? Show your arithmetic",
+    m2_tz_hint: "A bare time does not count; show the arithmetic and the date-line judgement. Scheduling platforms almost all run on UTC, and Taipei is UTC+8.",
+    m2_tz_ph: "e.g. Taipei 07:00 minus 8 hours is minus 1, which is below zero, so add 24 to get 23:00 and move the UTC date back one day, giving 0 23 * * *.",
+    m2_notify_label: "Who is notified when the schedule fails, and through which channel",
+    m2_notify_hint: "This cell may not be left blank. A schedule with no failure alert is not a schedule — it dies quietly and you find out the day before submission.",
+    m2_notify_ph: "e.g. GitHub Actions emails the group leader on failure, and a webhook pushes the same event into our Discord channel; the recipients are the leader and this week's compiler.",
+    m2_notify_warn: "⚠ This cell is still blank. A schedule with no failure alert is not a schedule — please fill it in.",
+    m2_notify_ok: "✓ Failure alerting is filled in.",
+    m2_stop_label: "Stop conditions for the ReAct loop (retry cap, and the cost ceiling per run)",
+    m2_stop_hint: "Numbers required. Use the stop-condition calculator in section 8 to work out the monthly cost and the days to quota first, then come back.",
+    m2_stop_ph: "e.g. Each item may be rewritten at most 3 times; one run may call the model at most 12 times; the daily ceiling is USD 0.5, above which it stops and alerts.",
+    m2_qc_label: "QC feedback: what rule sends an output back for a rewrite when the format or the length fails",
+    m2_qc_hint: "The rule has to be machine-decidable. \"Not good enough\" is not a rule; \"fewer than 3 items\" or \"any item missing a source link\" is.",
+    m2_qc_ph: "e.g. Fewer than 3 items in total, any item over 120 words, or any item without an http source link — any one of the three sends it back, up to 3 times.",
+    m2_svg_layer: "LOOP · the heartbeat cycle",
+    m2_svg_cap: "The more of the five cells you complete, the more of the heartbeat cycle lights up; the stop condition decides whether hitting the cap degrades or retries forever",
+    m2_terms: [
+      { front: "cron expression", back: "Five fields in order: minute, hour, day of month, month, day of week. An asterisk means every one and a slash means a step, so */15 is every fifteen minutes and 0 23 * * * is daily at 23:00." },
+      { front: "UTC and offset", back: "Scheduling platforms almost all count in UTC. Taipei is fixed at UTC+8, so the UTC hour equals the Taipei hour minus 8; if that goes below zero, add 24 and move the date back a day." },
+      { front: "Heartbeat", back: "The liveness signal a system emits on its own schedule. With a heartbeat you know it is alive; without one, a failed run and a run that never happened look exactly the same from outside." },
+      { front: "ReAct loop", back: "Think, act, observe, repeated: one thought, one tool call, one look at what came back, then the next decision. Every turn counts against the retry cap and the budget." },
+      { front: "Stop condition", back: "The rule that ends the loop: a retry cap, a cost ceiling, a time limit, a run of consecutive failures. Without one, a loop either never finishes or spends the whole quota." },
+      { front: "QC feedback", back: "Acceptance criteria written as rules a machine can decide, so a failing output is sent back automatically. It moves \"what counts as passing\" out of somebody's head and into the process." },
+      { front: "Degradation mode", back: "When a source dies, the quota runs out or a key expires, the system still ships — but only the part it has, with an explicit note about what is missing. A degradation mode never tested does not exist." },
+      { front: "Idempotency", back: "Firing the same scheduled job twice does not double-count or double-send. Whether a catch-up run or a retry produces two briefs comes down to this one property." }
+    ],
+    m2_q: [
+      { q: "Your brief must arrive at 07:00 Taipei time and the scheduler counts in UTC. What goes in the hour field?", opts: ["23, on the previous UTC day","07, on the very same UTC day","15, on the very same UTC day","19, on the previous UTC day"], ans: _A0, exp: "Taipei 07 minus 8 is minus 1, which is below zero, so add 24 to get 23 and move the UTC date back one day: 0 23 * * *." },
+      { q: "How often does the cron expression */15 * * * * actually run?", opts: ["Once every fifteen hours","Once on the fifteenth day","Once every fifteen minutes","Once a day at fifteen past"], ans: _A2, exp: "The first field is minutes and the slash is a step, so it fires at 0, 15, 30 and 45 past every hour — 96 times a day." },
+      { q: "Which statement about a degradation mode is correct?", opts: ["Documenting the design is enough","It counts only once truly fired","A try block in the code covers it","Telling the team makes it tested"], ans: _A1, exp: "A degradation mode is worth something only if it really runs during a failure. Break the key or exhaust the quota, then check the brief still ships and says what is missing." },
+      { q: "Your deployed page opens completely blank. Which cause is the most likely one?", opts: ["An unpinned CDN shipped a breaking release","The local browser lacks a required font file","The title tag holds a string that is too long","The server clock was set to the UTC+0 zone"], ans: _A0, exp: "A single-file SPA loads its libraries from a CDN; with no pinned version an upstream release can take the whole page down. Read the browser console first." }
+    ],
+    m2_wrapup: "Checkpoint: the time-zone answer shows the arithmetic rather than a bare time, and the stop conditions carry concrete numbers.",
+
+    m3_nav: "3. Deploy & Degrade", m3_title: "Deployment and the Degradation Test: This Week's Milestone",
+    m3_overview: "The second half of this week's individual core task, and the W12 milestone. The runnable version must go live, with a public address that opens. Once it is up, one more thing is compulsory: break it on purpose and see whether the degradation mode actually works.",
+    m3_highlights: ["Public address","Stack","Blank-screen hunt","Degradation test","Three days"],
+    m3_deep: "Two sentences to keep. First: a degradation mode never tested does not exist — break the API key, or burn the day's quota, then check whether the brief still ships and whether it says clearly which fields are missing. That is what tested means. Second: W16 checks three consecutive days of output, D, D+1 and D+2, all three present, so a day you do not accumulate today can never be recovered. The blank screen is this week's most common distress call: read the browser console first, then check in order whether the CDN versions are pinned, whether the cache refreshed, and whether the same identifier is declared in two script blocks.",
+    m3_url_label: "The public address of your runnable version (this week's milestone)",
+    m3_url_hint: "Paste the full address starting with http or https. Open it once in a private window to confirm other people can reach it, rather than testing only while logged in.",
+    m3_url_ph: "e.g. https://your-team.github.io/pmcs-daily-brief/",
+    m3_url_bad: "⚠ That does not look like a full address. Check that it starts with https:// and that other people can open it.",
+    m3_url_ok: "✓ The address is well formed. Now open it once more in a private window.",
+    m3_stack_label: "Stack",
+    m3_stack_hint: "Option A leans static and free, option B leans flexible and function-based; if you pick Other, explain it in the next cell.",
+    m3_blank_label: "Did you hit a blank screen? How did you track it down?",
+    m3_blank_hint: "Hints: are the CDN versions pinned, did the cache refresh, does the browser console show an error. If you never hit one, say so and explain how you confirmed the page renders.",
+    m3_blank_ph: "e.g. The first deployment was completely white; the console said Identifier 'App' has already been declared because two script blocks both declared App. Removing the duplicate fixed it, and we pinned react to 18.3.1.",
+    m3_degrade_label: "Did you actually test degradation? Break the key or burn the quota — what happened?",
+    m3_degrade_hint: "Write how you broke it, whether the brief still shipped, and whether it flagged the gap. If you have not tested it, say so honestly — but a blank cell here is exactly where W16 will take marks off.",
+    m3_degrade_ph: "e.g. We changed the last character of the API key and fired the job by hand. The brief still went out, the source block read \"source A failed today, results below come from source B\", it carried 2 items instead of 3, and the title was marked as partial.",
+    m3_days_label: "W16 shows three days of output — D, D+1 and D+2. How many days have you accumulated so far?",
+    m3_days_hint: "Three consecutive days is the W16 bar and it cannot be back-filled, so the earlier you start accumulating, the safer you are.",
+    m3_days_warn: "⚠ Not three days yet. W16 looks for three consecutive days of output and it cannot be back-filled, so get it running daily as soon as you can.",
+    m3_days_ok: "✓ Three days or more — you meet the W16 bar.",
+    m3_wrapup: "Checkpoint: the public address opens, and degradation was actually tested rather than merely designed.",
+
+    m4_nav: "4. Language Lab", m4_title: "EMI Language Lab",
+    m4_overview: "This course is taught in English. Pick five new words or phrases from this week's required materials, plus three words you stumble over. What you produce here feeds class discussion and bonus work directly.",
+    m4_highlights: ["Five new terms","Three hard words","In your own words","Example sentences"],
+    m4_deep: "Do not copy the source definition into the \"in your own words\" column — copying proves only that you found it; rewriting proves you understood it. Write the example sentences about your own Term Project — your schedule, your stop condition, your degradation mode — so one effort does two jobs.",
+    m4_terms_label: "Five new words or phrases",
+    m4_col_term: "Term / phrase", m4_col_mean: "In your own words", m4_col_sent: "Your own sentence",
+    m4_pron_label: "Three words you stumble over",
+    m4_col_word: "Word", m4_col_hard: "What makes it hard", m4_col_tip: "Your memory trick",
+    m4_wrapup: "Checkpoint: not one of the five explanations is copied verbatim from the source.",
+
+    m5_nav: "5. Group Synthesis", m5_title: "Group Synthesis: Comparing Six Heartbeat Settings",
+    m5_overview: "This section is the real work of the group discussion. Six people each set their own schedule, time zone, alerting, stop conditions, QC rule and degradation test. Put them side by side and the widest gap is usually the item your group agrees on least — and the one most likely to break on D day.",
+    m5_highlights: ["Three of six","The widest gap","Select, do not dump","A group rule"],
+    m5_deep: "One rule is mandatory here: this week's compiler must NOT dump all six individual exports into an AI and ask for a summary. The core of Context Engineering is selection, not dumping. The comparison set has six items — schedule setting, time-zone conversion, failure alerting, stop conditions, QC rule, degradation test — and you may pick only three, then take only those three from each member. Choosing which three is itself the judgement: the three everyone wrote identically teach you nothing, while the three that diverge most are what force a rule out of you.",
+    m5_focus_label: "The three items we chose to compare (tick three)",
+    m5_focus_why: "Why did we skip the other three?",
+    m5_focus_why_ph: "e.g. Almost all six wrote 0 23 * * * for the schedule, so there was nothing to compare; the real argument was about stop conditions and the degradation test, so we took those two plus alerting.",
+    m5_gap_label: "After comparing the six, which item diverged most, and how?",
+    m5_gap_ph: "e.g. Stop conditions. Three people wrote no numbers at all, one wrote a cap of 10 retries, one wrote 3, and one wrote only \"stop on failure\". Within one group, the idea of when to give up varied by more than a factor of three.",
+    m5_evidence_label: "Two concrete examples from the six that support the judgement above",
+    m5_evidence_ph: "e.g. A's stop condition is \"retry until it succeeds\" with no cap at all; D's reads \"USD 0.5 a day, 3 retries\". For the same brief, one ceiling is unbounded and the other is fifty cents.",
+    m5_case_label: "Whose setting did we adopt as the group template, and why?",
+    m5_case_ph: "e.g. D's stop condition, because it carries both a retry cap and a money cap, and both numbers were actually computed rather than guessed.",
+    m5_rule_label: "From this comparison, our group sets one rule",
+    m5_rule_ph: "e.g. Every scheduled job in this group states a retry cap and a daily cost ceiling as explicit numbers; anything missing either one is not merged into the main branch.",
+    m5_rule_note: "These rules accumulate towards the Term Project. Somebody else should be able to check your repo against this rule, so it must not read as an aspiration.",
+    m5_wrapup: "Checkpoint: only three items were compared (nothing was dumped wholesale into an AI), and the rule you set is checkable.",
+
+    m6_nav: "6. Build by the Table", m6_title: "Build by the Table: Heartbeat, Alerts, Stop Conditions and the Milestone",
+    m6_overview: "Turn the consensus from section 5 into one shared configuration for the whole group. What you write here is the working specification between now and D day, and it doubles as your registration slip for the debugging clinic.",
+    m6_highlights: ["Final schedule","Alert channel","Cost ceiling","Milestone rating","D day"],
+    m6_deep: "W12 is milestone week, and tp_status is your milestone self-rating — the aggregator plots it as a class-wide distribution, so answer honestly. Choosing \"not live yet\" costs you nothing; hiding it costs you the one diagnosis this week can give you. The stop-conditions cell must carry numbers: a stop condition without numbers cannot be diagnosed in the clinic. And write only one thing in the last cell — the single most critical action before D day. Three things means no priority at all.",
+    m6_schedule_label: "Final schedule time (with the time zone)",
+    m6_schedule_hint: "State both the Taipei time and the UTC cron, and make sure the two agree.",
+    m6_schedule_ph: "e.g. Delivered at 07:00 Taipei time daily, scheduled at 23:00 UTC the previous day, cron 0 23 * * *.",
+    m6_notify_label: "Failure alert channel and recipients",
+    m6_notify_hint: "Both the channel and the recipients. \"Someone gets notified\" does not count; name a mailbox or a channel.",
+    m6_notify_ph: "e.g. The built-in GitHub Actions failure email goes to all three collaborators on the repo, a webhook pushes to the #alerts channel in our Discord, and the member on duty confirms it before 08:00 each morning.",
+    m6_stop_label: "Stop conditions and the cost ceiling (numbers required)",
+    m6_stop_hint: "At least two numbers: the retry cap, and a daily or monthly cost ceiling.",
+    m6_stop_ph: "e.g. Each item rewritten at most 3 times; at most 12 model calls per run; a ceiling of USD 0.5 a day and USD 10 a month, at which point it stops and alerts.",
+    m6_status_label: "Live-version status (this week's milestone self-rating)",
+    m6_status_hint: "Answer honestly. The aggregator plots this as a class-wide distribution and uses it to allocate clinic time.",
+    m6_status_note: "W12 is milestone week, and this cell is your milestone self-rating.",
+    m6_status_ok: "✓ Live and running for three days — milestone met.",
+    m6_status_warn: "This week's milestone is the runnable version going live. Use the next cell for the single most critical action before D day.",
+    m6_next_label: "The one most critical action before D day",
+    m6_next_hint: "Only one. D day falls no later than W15, and W13 to W15 turn to project management: planning, control, delivery.",
+    m6_next_ph: "e.g. Get it running by itself for three consecutive days first and worry about the content later — without three days there is nothing to show in W16.",
+    m6_wrapup: "Checkpoint: the stop conditions and the cost ceiling both carry numbers, and the failure alert names both a channel and a recipient.",
+
+    m7_nav: "7. Presentation Plan", m7_title: "Presentation Plan and Question",
+    m7_overview: "Turn section 1's split into a runnable script, and prepare one question to put to the class. The 10-minute Q&A is carried entirely by the questions each group brings.",
+    m7_highlights: ["Opening line","Segment script","Menti question","10 minutes"],
+    m7_deep: "This week, put the public address and today's real output on the first slide — in milestone week the most persuasive sentence available to you is \"nobody wrote this; it sent itself at seven this morning.\" Write the opening line as a complete English sentence rather than keywords. Avoid yes-or-no questions for the class; a good one forces a judgement first, for example: when the quota runs out, would you rather it stopped, or shipped a shorter brief that names what is missing?",
+    m7_open_label: "English opening line (one complete sentence)",
+    m7_open_ph: "e.g. This page was written by nobody this morning — the schedule fired at seven and the brief was already there.",
+    m7_script_label: "Segment script (one sentence per speaker on the point they will make)",
+    m7_col_who: "Speaker", m7_col_point: "The point of this segment",
+    m7_question_label: "One question for the class (for Menti)",
+    m7_question_ph: "e.g. When the quota runs out, would you rather let the agent stop, or let it ship a shorter brief that says what is missing?",
+    m7_wrapup: "Checkpoint: the opening line is a complete English sentence, and the question cannot be answered with yes or no.",
+
+    mlab_nav: "8. Interactive Lab", mlab_title: "Interactive Lab",
+    mlab_desc: "Four small tools to work out the settings for sections 2, 3 and 6 before you fill them in. Nothing here needs filling in, but your activity counts towards completion and your answers are kept in this browser.",
+    mlab_clear: "🗑 Clear all",
+    mlab_clear_confirm: "Clear every answer in the Interactive Lab? This cannot be undone.",
+    lab1_title: "① Time-Zone Converter (Taipei → UTC cron)",
+    lab1_desc: "Enter the Taipei time you want the brief to arrive, and get the matching UTC cron expression together with the date-line warning.",
+    lab1_hh: "Taipei hour (0-23)", lab1_mm: "Taipei minute (0-59)",
+    lab1_utc: "Matching UTC time",
+    lab1_cron: "UTC cron expression",
+    lab1_prev: "* The UTC date falls on the previous day",
+    lab1_same: "* UTC and Taipei fall on the same day",
+    lab1_formula: "The arithmetic: UTC hour = Taipei hour − 8. If the result is below zero, add 24 and move the UTC date back one day.",
+    lab1_dateline: "Date-line warning: any Taipei schedule between 00:00 and 07:59 lands on the previous UTC date — the single field most often written wrong in a GitHub Actions cron.",
+    lab1_dst: "Daylight saving warning: Taiwan does not observe DST, so Taipei stays at UTC+8 and your end never shifts. If your sources sit in the United States or Europe, that end shifts by an hour twice a year, so leave slack in the fetch window.",
+    lab1_preset: "Load 07:00 Taipei", lab1_reset: "Reset",
+    lab2_title: "② cron Expression Reader",
+    lab2_desc: "Six cron expressions. Work out how often each one runs and at what time; an explanation appears for every item.",
+    lab2_hint: "Field order: minute, hour, day of month, month, day of week. Asterisk is every, slash is a step, hyphen is a range.",
+    lab2_score: "Correct {n} / {t}",
+    lab2_reset: "Reset",
+    lab2_items: [
+      { k:"c1", expr:"*/15 * * * *", opts:["Every 15 minutes, 96 times a day","Every 15 hours, about once a day","At 15:00 each day, once per day","On the 15th monthly, once a month"], a:0, why:"The first field is minutes and the slash is a step, so it fires at 0, 15, 30 and 45 past every hour." },
+      { k:"c2", expr:"0 23 * * *", opts:["At 23:00 every day, once per day","Every 23 minutes, many times a day","On the 23rd monthly, once a month","At 23:00 on Sundays, once a week"], a:0, why:"Minute 0, hour 23, everything else an asterisk, so it fires daily at 23:00. On a UTC platform that is 07:00 the next morning in Taipei." },
+      { k:"c3", expr:"0 */4 * * *", opts:["Every 4 hours, 6 times per day","At 04:00 each day, once per day","Every 4 minutes, many times a day","On the 4th monthly, once a month"], a:0, why:"The slash in the hour field is a step, so it fires at 00, 04, 08, 12, 16 and 20 — six times a day." },
+      { k:"c4", expr:"30 1 * * 1", opts:["At 01:30 on Mondays, once a week","At 01:30 every day, once per day","On the 1st monthly at 01:30 only","Every 30 minutes, many times a day"], a:0, why:"The last field is the day of week and 1 means Monday, so it fires only at 01:30 each Monday." },
+      { k:"c5", expr:"0 0 1 * *", opts:["On the 1st monthly at midnight","At midnight every day, once a day","At midnight on Mondays each week","On the hour, many times per day"], a:0, why:"The third field is the day of month and 1 means the first, with hour and minute both zero, so it fires once a month at midnight." },
+      { k:"c6", expr:"15 9 * * 1-5", opts:["At 09:15 Monday through Friday","At 09:15 every day, once per day","Every 15 minutes, many times a day","On the 15th monthly at 09:00 only"], a:0, why:"A hyphen is a range and 1-5 is Monday to Friday, so it fires at 09:15 on weekdays and skips the weekend." }
+    ],
+    lab3_title: "③ Stop-Condition Calculator",
+    lab3_desc: "Enter the cost per call, the runs per day, the retry cap and the free quota to get the monthly cost, the days until the quota is hit, and a safe retry cap.",
+    lab3_cost: "Cost per call (USD)",
+    lab3_runs: "Runs per day",
+    lab3_retry: "Retry cap",
+    lab3_quota: "Free quota (USD / month)",
+    lab3_calls: "Worst-case calls per day",
+    lab3_daily: "Cost per day (USD)",
+    lab3_monthly: "Cost per month (30 days, USD)",
+    lab3_days: "Days until the quota is hit",
+    lab3_safe: "Suggested safe retry cap",
+    lab3_over: "⚠ The monthly cost already exceeds the free quota. Lower the retry cap, cut the runs per day, or use a cheaper call.",
+    lab3_ok: "✓ The monthly cost sits inside the free quota.",
+    lab3_never: "Never reached",
+    lab3_times: "calls",
+    lab3_daysunit: "days",
+    lab3_note: "A retry cap without a number is not a stop condition, and a cost ceiling without a number is not a budget. Put the two numbers from here straight into sections 2 and 6.",
+    lab3_preset: "Load an example", lab3_reset: "Reset",
+    lab4_title: "④ Pre-Launch Checklist",
+    lab4_desc: "Ten items to tick off one by one, with your completion and the three you most need to fix. Only a full ten counts as live.",
+    lab4_pct: "Completion {n} / 10 ({p}%)",
+    lab4_top3: "The three to fix first:",
+    lab4_done: "✓ All ten are done — you may declare the runnable version live.",
+    lab4_reset: "Reset",
+    lab4_items: [
+      { k:"url", n:"The public address opens (confirmed in a private window)" },
+      { k:"cdn", n:"CDN versions are pinned (react, babel, dompurify)" },
+      { k:"key", n:"No key sits in the front end or anywhere in the repo" },
+      { k:"cron", n:"The schedule is set and has really fired on its own once" },
+      { k:"notify", n:"Failure alerting is tested; a recipient really received one" },
+      { k:"degrade", n:"Degradation is tested; you broke it once and checked the output" },
+      { k:"stop", n:"Stop conditions carry ceiling numbers (count and money)" },
+      { k:"src", n:"Every item in the output carries its original source link" },
+      { k:"qc", n:"A format QC rule is set and sends failures back automatically" },
+      { k:"three", n:"It has run three days in a row — D, D+1 and D+2 all present" }
+    ],
+    lab5_title: "⑤ Pre-Class Self-Check",
+    lab5_desc: "Four multiple-choice questions to confirm you actually read this week's required materials. Wrong answers show an explanation.",
+
+    mres_nav: "9. Learning Resources", mres_title: "This Week's Resources",
+    mres_desc: "Two required items. The first is this week's main material, read for the second time — and this time only the Output & Loop column and the governance layer. The second is the adjacent architecture, used for deciding the execution environment. Optional items do not affect the worksheet, but a written summary of one counts as a Bonus Assignment.",
+    res_req: [
+      { label: "IPOB · Vibe Coding AI Agent Blueprint", url: "https://lolopodcast.github.io/Vibe-Coding-Agent-Blueprint/", desc: "This week's main material, read a second time. Read only the Output & Loop column and the governance layer — scheduling, self-correction, stop conditions and deployment all live there." },
+      { label: "AIWF · AI Workflow Methodology", url: "https://lolopodcast.github.io/AI-Workflow-Methodology/", desc: "The adjacent architecture. Use it to decide the execution environment: what stays local, what runs on a cloud schedule, and what belongs in a serverless function." }
+    ],
+    res_opt: [
+      { label: "LoLo's Daily Brief", url: "https://lolopodcast.github.io/daily-brief/", desc: "Take its output structure apart as a benchmark: which fields each item carries, how sources are marked, and how gaps are stated." },
+      { label: "EMI SPA Course Showcase Gallery", url: "https://lolopodcast.github.io/SPA-Gallery/", desc: "The showcase wall from previous cohorts — see what other people's runnable versions look like." },
+      { label: "AGEN · The Agent Engineering System Map", url: "https://lolopodcast.github.io/Agent-Engineering-System-Map/", desc: "Required in W11. Come back to the Loop facet only, and check your stop conditions and human-handover design against it." }
+    ],
+
+    analytics_title: "Completion & Export",
+    analytics_desc: "The individual and group layers export separately. The individual file stays with you as a learning record; the group file is uploaded to Moodle by this week's compiler.",
+    analytics_personal_title: "Individual export (sections 2, 3, 4 · not submitted)",
+    analytics_personal_desc: "Enter your name to export. This file stays with you and can go straight into the docs folder of your repo as this week's record.",
+    analytics_group_title: "Group export (sections 1, 5, 6, 7 · submit to Moodle)",
+    analytics_group_desc: "Enter the group and this week's compiler to export. One CSV and one Markdown, uploaded to the Moodle assignment.",
+    analytics_group: "Group", analytics_dept: "Dept / Year", analytics_dept_ph: "e.g. IBS1",
+    analytics_id: "Student ID", analytics_id_ph: "e.g. 113212599",
+    analytics_name_en: "Name (English)", analytics_name_en_ph: "e.g. Shihmin Lo",
+    analytics_name_zh: "Name (Chinese)", analytics_name_zh_ph: "e.g. 王阿吉",
+    analytics_compiler: "This week's compiler", analytics_compiler_ph: "e.g. 王阿吉",
+    analytics_export_personal: "Export individual Markdown",
+    analytics_export_csv: "Export group CSV",
+    analytics_export_md: "Export group Markdown",
+    analytics_need_personal: "Enter your name first",
+    analytics_need_group: "Enter the group and this week's compiler first",
+    group_options: ["G1","G2","G3","G4","G5","G6","G7","G8","G9","G10","G11","G12","Others"],
+    analytics_pct_personal: "Individual completion", analytics_pct_group: "Group completion",
+    analytics_total_time: "Total time on worksheet", analytics_overall_acc: "Self-check accuracy",
+    analytics_sec: "s",
+    analytics_progress_title: "Completion by section",
+    analytics_wp_title: "Sections still incomplete",
+    analytics_wp_goto: "→ Go and fill it in",
+    sdl_title: "First, import your SDL knowledge-base snapshot",
+    sdl_desc: "This week's sequence is: read and take notes by hand without AI → run a Socratic session with the SDL learning partner → produce KB.md → import it here. Importing fills in your identity fields automatically and shows the key parts of your KB above each section. This worksheet is not asking you to think it through again; it turns what you already worked out into a format the group can compare.",
+    sdl_ph: "Paste the full KB.md produced by the SDL partner here (including the --- frontmatter --- at the top)",
+    sdl_parse: "Parse and import",
+    sdl_file: "Upload a file instead",
+    sdl_loaded: "✓ SDL KB imported",
+    sdl_clear: "Clear and re-import",
+    sdl_ok: "Imported. Your identity fields have been filled in.",
+    sdl_err_empty: "Nothing to parse — paste the full KB.md first.",
+    sdl_err_format: "Could not parse it. Check that this is the KB.md produced by the SDL partner (it should start with a --- frontmatter --- block and contain §1, §2 and similar sections).",
+    sdl_panel_title: "📖 Your SDL KB at a glance (for reference)",
+    sdl_panel_show: "Show",
+    sdl_panel_hide: "Hide",
+    sdl_s1: "§1 Learning summary",
+    sdl_s2: "§2 Knowledge synthesis",
+    sdl_s4: "§4 Student's own words",
+    sdl_s5: "§5 Open questions",
+    analytics_wp_personal_head: "Individual layer (yours to fill)",
+    analytics_wp_personal_done: "The individual layer is complete.",
+    analytics_wp_group_head: "Group layer (decided together in discussion)",
+    analytics_wp_group_note: "If you are not this week's compiler, 0% here is normal — it does not affect your individual export.",
+    analytics_wp_group_done: "The group layer is complete.",
+    analytics_wp_allpass: "All seven sections are complete. You are ready to export.",
+    analytics_wp_saved: "Your entries are saved automatically in this browser",
+    analytics_wp_clear: "🗑 Clear all",
+    analytics_wp_clear_confirm: "Clear every entry and all activity data? This cannot be undone — export first.",
+    analytics_wp_tts_intro: "The following sections are still incomplete.",
+    analytics_wp_tts_module: "{name}, {acc}% complete.",
+    analytics_wp_tts_allpass: "All seven sections are complete.",
+
+    date: "Version 2026.08.23",
+    copyright: "For Educational Use Only",
+    architect_label: "Architect:",
+    architect_url: "https://www.ibs.ncnu.edu.tw/index.php/faculty/tenured-professor/299-smlo"
+  }
+};
+
+/* ================= Field registry ================= */
+const FIELDS = {
+  1: ['g_group','g_date', ...MEMBER_IDX.flatMap(i => [`m_name_${i}`,`m_id_${i}`,`m_part_${i}`,`m_sec_${i}`])],
+  2: [...S2_IDS],
+  3: [...S3_IDS],
+  4: [...[0,1,2,3,4].flatMap(i => [`t_term_${i}`,`t_mean_${i}`,`t_sent_${i}`]), ...[0,1,2].flatMap(i => [`p_word_${i}`,`p_hard_${i}`,`p_tip_${i}`])],
+  5: ['syn_focus_why','syn_gap','syn_evidence','syn_case','syn_rule'],
+  6: ['tp_schedule','tp_notify','tp_stop','tp_status','tp_next'],
+  7: ['pr_open','pr_question', ...MEMBER_IDX.map(i => `pr_point_${i}`)]
+};
+const CORE = {
+  1: ['g_group','g_date','m_name_0','m_part_0'],
+  2: [...S2_IDS],
+  3: [...S3_IDS],
+  4: ['t_term_0','t_mean_0','t_term_1','t_mean_1','t_term_2','t_mean_2','t_term_3','t_mean_3','t_term_4','t_mean_4','p_word_0','p_word_1','p_word_2'],
+  5: ['syn_focus_why','syn_gap','syn_evidence','syn_case','syn_rule'],
+  6: ['tp_schedule','tp_notify','tp_stop','tp_status','tp_next'],
+  7: ['pr_open','pr_question','pr_point_0']
+};
+
+/* ================= UI atoms ================= */
+const H2 = ({ children, icon, number }) => (
+  <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-black text-[#004030] dark:text-[#D8C3A5] mb-4 flex items-center gap-3">
+    {icon && <span className="text-2xl ui-decoration">{icon}</span>}
+    {number !== undefined && <span>{number}.</span>}
+    <span>{children}</span>
+  </h2>
+);
+const Badge = ({ kind, t }) => (
+  <span className={`inline-block text-xs font-bold px-3 py-1 rounded-full mb-4 ${kind === 'P'
+    ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200'
+    : 'bg-[#D8C3A5]/30 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>
+    {kind === 'P' ? t.badge_personal : t.badge_group}
+  </span>
+);
+const Overview = ({ t, text }) => (
+  <div className="bg-[#004030]/5 dark:bg-[#D8C3A5]/5 rounded-xl p-5 border-l-4 border-[#D8C3A5]">
+    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-2">{t.overview_label}</h3>
+    <p>{text}</p>
+  </div>
+);
+const Highlights = ({ t, items }) => (
+  <div>
+    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.highlights_label}</h3>
+    <div className="flex flex-wrap gap-2">
+      {items.map((h,i) => <span key={i} className="px-3 py-1 bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5] rounded-full text-sm font-medium">{h}</span>)}
+    </div>
+  </div>
+);
+const DeepDive = ({ t, text }) => (
+  <div>
+    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.deep_dive_label}</h3>
+    <p className="p-4 bg-slate-100 dark:bg-slate-800 rounded-lg italic font-serif">{text}</p>
+  </div>
+);
+const Wrapup = ({ t, text }) => (
+  <div className="bg-slate-100 dark:bg-slate-800 rounded-xl p-5 flex gap-3 items-start">
+    <span className="text-[#004030] dark:text-[#D8C3A5] mt-0.5 shrink-0"><IconCheckCircle size={18}/></span>
+    <div>
+      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-1">{t.wrapup_label}</h3>
+      <p className="italic">{text}</p>
+    </div>
+  </div>
+);
+const inputCls = "w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 text-base focus:outline-none focus:ring-2 focus:ring-[#004030] dark:focus:ring-[#D8C3A5] transition";
+const monoCls = inputCls + " font-mono text-sm";
+const Field = ({ id, label, hint, ph, rows, value, onChange, type, mono }) => (
+  <div className="mb-5">
+    {label && <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{label}</label>}
+    {hint && <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 leading-relaxed">{hint}</p>}
+    {rows
+      ? <textarea rows={rows} className={mono ? monoCls : inputCls} placeholder={ph} value={value||''} onChange={e => onChange(id, sanitizeText(e.target.value))} />
+      : <input type={type||'text'} className={mono ? monoCls : inputCls} placeholder={ph} value={value||''} onChange={e => onChange(id, sanitizeText(e.target.value))} />}
+  </div>
+);
+const InfoInput = ({ id, label, ph, value, onChange, san }) => (
+  <div>
+    <label className="block text-xs font-bold text-slate-500 mb-1">{label}</label>
+    <input className={inputCls} placeholder={ph} value={value || ''} onChange={e => onChange(id, (san || sanitizeName)(e.target.value))} />
+  </div>
+);
+
+/* ================= SDL KB import ================= */
+const SEMESTER_DEFAULT = '1151';
+const WEEK_CODE = 'W12';
+const TOPIC_CAMEL = 'OutputAndLoop';
+
+const parseSdlKb = (text) => {
+  try {
+    const t = String(text || '').replace(/\r\n/g, '\n').trim();
+    if (!t) return { ok: false, error: 'empty' };
+    const fm = t.match(/^---\n([\s\S]*?)\n---/);
+    const meta = {};
+    if (fm) {
+      fm[1].split('\n').forEach(line => {
+        if (/^\s/.test(line)) return;               // skip nested (sources / interaction)
+        const m = line.match(/^([A-Za-z_]+):\s*(.*)$/);
+        if (m) meta[m[1]] = m[2].replace(/^["']|["']$/g, '').trim();
+      });
+    }
+    const sections = {};
+    const parts = t.split(/^##\s*§/m);
+    parts.shift();
+    parts.forEach(part => {
+      const n = part.match(/^(\d)/);
+      if (!n) return;
+      sections['s' + n[1]] = part.replace(/^\d[^\n]*\n?/, '').trim();
+    });
+    const hasAny = Object.keys(meta).length > 0 || Object.keys(sections).length > 0;
+    if (!hasAny) return { ok: false, error: 'format' };
+    return { ok: true, meta, sections, raw: t };
+  } catch (e) { return { ok: false, error: 'format' }; }
+};
+
+const SdlImport = ({ t, sdl, onImport, onClear }) => {
+  const [text, setText] = useState('');
+  const [msg, setMsg] = useState(null);
+  const fileRef = useRef(null);
+  const doParse = (raw) => {
+    const r = parseSdlKb(raw);
+    if (!r.ok) { setMsg({ ok: false, text: r.error === 'empty' ? t.sdl_err_empty : t.sdl_err_format }); return; }
+    onImport(r);
+    setMsg({ ok: true, text: t.sdl_ok });
+    setText('');
+  };
+  const onFile = (e) => {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    const rd = new FileReader();
+    rd.onload = () => doParse(rd.result);
+    rd.readAsText(f);
+    e.target.value = '';
+  };
+  return (
+    <div className="rounded-xl border-2 border-sky-200 dark:border-sky-800/60 bg-sky-50/50 dark:bg-sky-900/10 p-5">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5]">{t.sdl_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-3 leading-relaxed">{t.sdl_desc}</p>
+      {sdl ? (
+        <div className="rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4">
+          <p className="text-sm font-bold text-green-700 dark:text-green-400">{t.sdl_loaded}</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 break-all">
+            {[sdl.meta.course, sdl.meta.semester, sdl.meta.week, sdl.meta.topic].filter(Boolean).join(' · ')}
+            {sdl.meta.student ? ' · ' + sdl.meta.student : ''}{sdl.meta.group ? ' · ' + sdl.meta.group : ''}
+          </p>
+          <button onClick={onClear} className="mt-3 px-3 py-1.5 text-xs border border-red-400 text-red-600 dark:text-red-400 rounded-lg">{t.sdl_clear}</button>
+        </div>
+      ) : (
+        <>
+          <textarea rows={4} className={inputCls} placeholder={t.sdl_ph} value={text} onChange={e => setText(e.target.value)} />
+          <div className="flex flex-wrap items-center gap-3 mt-3">
+            <button onClick={() => doParse(text)} className="px-4 py-2 text-sm bg-sky-700 dark:bg-sky-300 text-white dark:text-sky-950 font-bold rounded-lg">{t.sdl_parse}</button>
+            <button onClick={() => fileRef.current && fileRef.current.click()} className="px-4 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg">{t.sdl_file}</button>
+            <input ref={fileRef} type="file" accept=".md,.markdown,.txt" onChange={onFile} className="hidden" />
+          </div>
+        </>
+      )}
+      {msg && <p className={`text-xs mt-2 ${msg.ok ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>{msg.text}</p>}
+    </div>
+  );
+};
+
+const SdlPanel = ({ t, sdl }) => {
+  const [open, setOpen] = useState(false);
+  if (!sdl) return null;
+  const rows = [
+    { k: 's1', label: t.sdl_s1 }, { k: 's2', label: t.sdl_s2 },
+    { k: 's4', label: t.sdl_s4 }, { k: 's5', label: t.sdl_s5 }
+  ].filter(r => sdl.sections[r.k]);
+  if (!rows.length) return null;
+  return (
+    <div className="rounded-xl border border-sky-200 dark:border-sky-800/60 bg-sky-50/40 dark:bg-sky-900/10">
+      <button onClick={() => setOpen(o => !o)} className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left">
+        <span className="text-sm font-bold text-sky-800 dark:text-sky-300">{t.sdl_panel_title}</span>
+        <span className="text-xs text-sky-700 dark:text-sky-400 shrink-0">{open ? t.sdl_panel_hide : t.sdl_panel_show}</span>
+      </button>
+      {open && (
+        <div className="px-4 pb-4 space-y-4 max-h-96 overflow-y-auto">
+          {rows.map(r => (
+            <div key={r.k}>
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">{r.label}</p>
+              <pre className="text-xs whitespace-pre-wrap font-sans text-slate-700 dark:text-slate-300 leading-relaxed">{sdl.sections[r.k]}</pre>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const LinkCard = ({label, url, desc}) => (
+  <a href={url} target="_blank" rel="noopener noreferrer"
+    className="block bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5] hover:shadow-md transition-all group">
+    <span className="font-bold font-serif text-sm text-[#004030] dark:text-[#D8C3A5] group-hover:underline">{label}</span>
+    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mt-1">{desc}</p>
+  </a>
+);
+
+/* ================= FlipCardDeck ================= */
+const FlipCardDeck = ({ terms, t, moduleId, onCardRead }) => {
+  const [groupIdx, setGroupIdx] = useState(0);
+  const [flipped, setFlipped] = useState({});
+  const [readSet, setReadSet] = useState(new Set());
+  const [shownSet, setShownSet] = useState(new Set());
+  const [shuffledOrder] = useState(() => [...Array(terms.length).keys()].sort(() => Math.random() - 0.5));
+  const groupSize = 2;
+  const totalGroups = Math.ceil(terms.length / groupSize);
+  const currentCardIndices = shuffledOrder.slice(groupIdx*groupSize, groupIdx*groupSize + groupSize);
+  useEffect(() => {
+    const ns = new Set(shownSet); currentCardIndices.forEach(i => ns.add(i));
+    if (ns.size !== shownSet.size) setShownSet(ns);
+  }, [groupIdx]);
+  const handleFlip = (i) => {
+    setFlipped(f => ({...f, [i]: !f[i]}));
+    if (!readSet.has(i)) { const nr = new Set(readSet); nr.add(i); setReadSet(nr); onCardRead && onCardRead(moduleId, nr.size, shownSet.size, terms.length); }
+  };
+  const statusText = t.flip_status.replace('{read}', readSet.size).replace('{shown}', shownSet.size).replace('{total}', terms.length);
+  return (
+    <div className="mt-8">
+      <h3 className="text-lg font-bold uppercase tracking-wider text-slate-500 mb-2">{t.key_terms}</h3>
+      <p className="text-sm text-slate-400 mb-4">{statusText}</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {currentCardIndices.map(i => (
+          <div key={i} className="perspective cursor-pointer h-44" onClick={() => handleFlip(i)}>
+            <div className={`transform-style-3d relative w-full h-full transition-transform duration-500 ${flipped[i] ? 'rotate-y-180' : ''}`}>
+              <div className="backface-hidden absolute inset-0 bg-white dark:bg-slate-800 rounded-xl p-4 flex flex-col items-center justify-center border border-slate-200 dark:border-slate-700 shadow-sm">
+                <p className="font-serif font-bold text-center text-[#004030] dark:text-[#D8C3A5]">{terms[i].front}</p>
+                <p className="text-xs text-slate-400 mt-2">{t.flip_prompt}</p>
+              </div>
+              <div className="backface-hidden rotate-y-180 absolute inset-0 bg-[#004030] dark:bg-slate-700 rounded-xl p-4 flex items-center justify-center overflow-y-auto">
+                <p className="text-sm text-center text-[#D8C3A5] dark:text-slate-200 leading-relaxed">{terms[i].back}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="flex items-center gap-3 mt-4">
+        <button onClick={() => { setGroupIdx(0); setFlipped({}); }} className="px-4 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700">{t.flip_retry}</button>
+        <button onClick={() => groupIdx < totalGroups-1 && setGroupIdx(groupIdx+1)} disabled={groupIdx >= totalGroups-1}
+          className="px-4 py-2 text-sm bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg disabled:opacity-40">{t.flip_next}</button>
+      </div>
+    </div>
+  );
+};
+
+/* ================= ModuleQuiz ================= */
+const ModuleQuiz = ({ questions, t, moduleId, onQuizSubmit }) => {
+  const [selected, setSelected] = useState({});
+  const [submitted, setSubmitted] = useState({});
+  const [groupIdx, setGroupIdx] = useState(0);
+  const groupSize = 2;
+  const [quizIndices] = useState(() => [...Array(questions.length).keys()].sort(() => Math.random() - 0.5));
+  const totalGroups = Math.ceil(quizIndices.length / groupSize);
+  const [shuffledMaps] = useState(() => quizIndices.map(qi => [...Array(questions[qi].opts.length).keys()].sort(() => Math.random() - 0.5)));
+  const computeCorrect = () => { let c = 0; quizIndices.forEach((qIdx, qi) => { if (selected[qi] !== undefined && shuffledMaps[qi][selected[qi]] === _d(questions[qIdx].ans)) c++; }); return c; };
+  const statusText = t.quiz_status.replace('{correct}', computeCorrect()).replace('{answered}', Object.keys(selected).length).replace('{total}', quizIndices.length);
+  const currentStart = groupIdx * groupSize;
+  const currentIndices = quizIndices.slice(currentStart, currentStart + groupSize);
+  const handleGroupSubmit = () => {
+    if (!currentIndices.every((_, i) => selected[currentStart+i] !== undefined)) return;
+    setSubmitted(s => ({...s, [groupIdx]: true}));
+    if (groupIdx === totalGroups - 1 || Object.keys(submitted).length + 1 === totalGroups) {
+      const wrong = []; let correct = 0;
+      quizIndices.forEach((qIdx, qi) => {
+        if (selected[qi] === undefined) return;
+        if (shuffledMaps[qi][selected[qi]] === _d(questions[qIdx].ans)) correct++; else wrong.push(questions[qIdx].q);
+      });
+      onQuizSubmit(moduleId, correct, quizIndices.length, wrong);
+    }
+  };
+  return (
+    <div className="mt-8 bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="text-lg font-bold font-serif text-[#004030] dark:text-[#D8C3A5] mb-2">{t.quiz_title}</h3>
+      <p className="text-sm text-slate-400 mb-6">{statusText}</p>
+      {currentIndices.map((qIdx, localI) => {
+        const qi = currentStart + localI, q = questions[qIdx], sMap = shuffledMaps[qi], isSub = !!submitted[groupIdx];
+        return (
+          <div key={qIdx} className="mb-6">
+            <p className="font-bold mb-3">{qi+1}. {q.q}</p>
+            <div className="space-y-2">
+              {sMap.map((origIdx, dIdx) => {
+                const isCorrect = origIdx === _d(q.ans), isSel = selected[qi] === dIdx;
+                return (
+                  <button key={dIdx} onClick={() => !isSub && setSelected(s => ({...s, [qi]: dIdx}))}
+                    className={`w-full text-left px-4 py-3 rounded-lg border transition-all text-sm ${isSub
+                      ? isCorrect ? 'bg-green-100 border-green-500 dark:bg-green-900/30'
+                        : isSel ? 'bg-red-100 border-red-400 dark:bg-red-900/30' : 'border-slate-200 dark:border-slate-700'
+                      : isSel ? 'border-[#004030] dark:border-[#D8C3A5] bg-[#004030]/5' : 'border-slate-200 dark:border-slate-700 hover:border-slate-400'}`}>
+                    {q.opts[origIdx]}
+                  </button>
+                );
+              })}
+            </div>
+            {isSub && (
+              <p className={`mt-2 text-sm italic ${shuffledMaps[qi][selected[qi]] === _d(q.ans) ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>
+                {shuffledMaps[qi][selected[qi]] === _d(q.ans) ? `✓ ${t.correct}` : `✗ ${t.incorrect}`} — {t.explanation}：{q.exp}
+              </p>
+            )}
+          </div>
+        );
+      })}
+      <div className="flex items-center gap-3 flex-wrap">
+        {!submitted[groupIdx]
+          ? <button onClick={handleGroupSubmit} disabled={!currentIndices.every((_,i) => selected[currentStart+i] !== undefined)}
+              className="px-6 py-2 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg disabled:opacity-40">{t.submit}</button>
+          : <>
+              {groupIdx < totalGroups-1 && <button onClick={() => setGroupIdx(groupIdx+1)} className="px-6 py-2 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg">{t.quiz_next}</button>}
+              <button onClick={() => { setGroupIdx(0); setSelected({}); setSubmitted({}); }} className="px-6 py-2 border border-[#004030] dark:border-[#D8C3A5] text-[#004030] dark:text-[#D8C3A5] font-bold rounded-lg">{t.quiz_retry}</button>
+            </>}
+      </div>
+    </div>
+  );
+};
+
+/* ================= Heartbeat loop SVG ================= */
+const HeartbeatDiagram = ({ t, filledIds }) => {
+  const COL = ["#5B5BD6","#0E9F6E","#D97706","#DB2777"];
+  const lit = LOOP_NEED.map(need => need.every(id => filledIds.includes(id)));
+  const doneN = lit.filter(Boolean).length;
+  const outLit = [lit.every(Boolean), filledIds.includes('qc_rule'), filledIds.includes('loop_stop')];
+  const OUTCOL = ["#0E9F6E","#D97706","#DB2777"];
+  return (
+    <div className="w-full overflow-x-auto" onContextMenu={e => { e.preventDefault(); window.showCopyrightToast && window.showCopyrightToast(); }}>
+      <svg viewBox="0 0 620 290" className="w-full max-w-2xl mx-auto" draggable="false" role="img" aria-label={t.m2_svg_cap}>
+        <rect x="6" y="6" width="608" height="278" rx="12" fill="none" stroke="#94a3b8" strokeDasharray="6 5" strokeWidth="1.5"/>
+        <text x="20" y="26" fontSize="11.5" fill="#94a3b8" fontFamily="Inter, sans-serif">{t.m2_svg_layer}</text>
+        <text x="600" y="26" fontSize="11.5" fill="#94a3b8" fontFamily="Inter, sans-serif" textAnchor="end">{doneN} / 4</text>
+        {t.loop.map((f, i) => {
+          const x = 24 + i * 148, on = lit[i];
+          return (
+            <g key={i}>
+              <rect x={x} y="46" width="128" height="104" rx="10" fill={COL[i]} opacity={on ? 0.92 : 0.20}/>
+              <text x={x+12} y="68" fontSize="12" fontWeight="700" fill={on ? "#ffffff" : "#334155"} fontFamily="Inter, sans-serif">{String(i+1)}</text>
+              <foreignObject x={x+10} y="74" width="108" height="72">
+                <div xmlns="http://www.w3.org/1999/xhtml" style={{fontSize:'10px',lineHeight:'1.35',color: on ? '#ffffff' : '#475569',fontFamily:'Inter, sans-serif'}}>
+                  <strong>{f.name}</strong><br/>{f.sub}
+                </div>
+              </foreignObject>
+              {i < 3 && <text x={x+134} y="102" fontSize="14" fill="#94a3b8" fontFamily="Inter, sans-serif">→</text>}
+            </g>
+          );
+        })}
+        <path d="M 500 154 L 500 172 L 88 172 L 88 154" fill="none" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="5 4"/>
+        <polygon points="88,146 84,156 92,156" fill="#94a3b8"/>
+        {t.loop_out.map((o, i) => {
+          const x = 24 + i * 191, on = outLit[i];
+          return (
+            <g key={i}>
+              <rect x={x} y="190" width="182" height="56" rx="8" fill={OUTCOL[i]} opacity={on ? 0.85 : 0.16}/>
+              <foreignObject x={x+10} y="196" width="162" height="46">
+                <div xmlns="http://www.w3.org/1999/xhtml" style={{fontSize:'10px',lineHeight:'1.3',color: on ? '#ffffff' : '#475569',fontFamily:'Inter, sans-serif'}}>
+                  <strong>{o.name}</strong><br/>{o.sub}
+                </div>
+              </foreignObject>
+            </g>
+          );
+        })}
+        <foreignObject x="24" y="252" width="572" height="24">
+          <div xmlns="http://www.w3.org/1999/xhtml" style={{fontSize:'10.5px',lineHeight:'1.3',color:'#64748b',fontFamily:'Inter, sans-serif'}}>{t.loop_note}</div>
+        </foreignObject>
+      </svg>
+      <p className="text-center text-xs text-slate-500 dark:text-slate-400 mt-2 italic">{t.m2_svg_cap}</p>
+    </div>
+  );
+};
+
+/* ================= Labs ================= */
+const num = (v, fb) => { const n = parseFloat(v); return isFinite(n) ? n : fb; };
+const pad2 = (n) => String(n).padStart(2, '0');
+
+const LabTimeZone = ({ t, state, setState, onTouch }) => {
+  const v = state || {};
+  const hh = v.hh === undefined ? 7 : Math.max(0, Math.min(23, Math.round(num(v.hh, 7))));
+  const mm = v.mm === undefined ? 0 : Math.max(0, Math.min(59, Math.round(num(v.mm, 0))));
+  const set = (k, val) => { setState({ ...v, [k]: val }); onTouch && onTouch(); };
+  const raw = hh - 8;
+  const prev = raw < 0;
+  const uh = (raw + 24) % 24;
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab1_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.lab1_desc}</p>
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <label className="block text-xs font-bold text-slate-500 mb-1">{t.lab1_hh}</label>
+          <input type="number" min="0" max="23" className={inputCls} value={v.hh === undefined ? 7 : v.hh} onChange={e => set('hh', e.target.value)} />
+        </div>
+        <div>
+          <label className="block text-xs font-bold text-slate-500 mb-1">{t.lab1_mm}</label>
+          <input type="number" min="0" max="59" className={inputCls} value={v.mm === undefined ? 0 : v.mm} onChange={e => set('mm', e.target.value)} />
+        </div>
+      </div>
+      <div className="mt-4 p-4 rounded-lg bg-slate-50 dark:bg-slate-900/50 space-y-2">
+        <p className="text-sm">{t.lab1_utc}: <strong className="font-mono">{pad2(uh)}:{pad2(mm)}</strong></p>
+        <p className="text-sm">{t.lab1_cron}: <strong className="font-mono text-[#004030] dark:text-[#D8C3A5]">{mm} {uh} * * *</strong></p>
+        <p className={`text-xs font-bold ${prev ? 'text-amber-600 dark:text-amber-400' : 'text-green-600 dark:text-green-400'}`}>{prev ? t.lab1_prev : t.lab1_same}</p>
+      </div>
+      <div className="flex items-center gap-3 mt-3 flex-wrap">
+        <button onClick={() => { setState({ hh: 7, mm: 0 }); onTouch && onTouch(); }}
+          className="px-4 py-2 text-sm bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg">{t.lab1_preset}</button>
+        <button onClick={() => { setState({}); onTouch && onTouch(); }} className="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm">{t.lab1_reset}</button>
+      </div>
+      <p className="text-xs text-slate-500 dark:text-slate-400 mt-3 leading-relaxed">{t.lab1_formula}</p>
+      <p className="text-xs text-amber-600 dark:text-amber-400 mt-2 leading-relaxed">{t.lab1_dateline}</p>
+      <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">{t.lab1_dst}</p>
+    </div>
+  );
+};
+
+const LabCronReader = ({ t, state, setState, onTouch }) => {
+  const v = state || {};
+  const items = t.lab2_items;
+  const pick = (k, val) => { setState({ ...v, [k]: val }); onTouch && onTouch(); };
+  const answered = items.filter(it => v[it.k] !== undefined).length;
+  const n = items.filter(it => v[it.k] !== undefined && v[it.k] === it.a).length;
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab2_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">{t.lab2_desc}</p>
+      <p className="text-xs text-slate-400 mb-4">{t.lab2_hint}</p>
+      <div className="space-y-4">
+        {items.map((it, i) => {
+          const chosen = v[it.k], done = chosen !== undefined;
+          return (
+            <div key={it.k} className="border-b border-slate-100 dark:border-slate-700 pb-4 last:border-0">
+              <p className="text-sm mb-2">{i+1}. <span className="font-mono bg-slate-100 dark:bg-slate-900/60 px-2 py-1 rounded">{it.expr}</span></p>
+              <div className="space-y-2">
+                {it.opts.map((o, oi) => {
+                  const sel = chosen === oi;
+                  const cls = !done ? (sel ? 'border-[#004030] dark:border-[#D8C3A5] bg-[#004030]/5' : 'border-slate-200 dark:border-slate-700 hover:border-slate-400')
+                    : oi === it.a ? 'bg-green-100 border-green-500 dark:bg-green-900/30'
+                    : sel ? 'bg-red-100 border-red-400 dark:bg-red-900/30' : 'border-slate-200 dark:border-slate-700 opacity-60';
+                  return <button key={oi} onClick={() => !done && pick(it.k, oi)}
+                    className={`w-full text-left px-4 py-2.5 rounded-lg border transition-all text-sm ${cls}`}>{o}</button>;
+                })}
+              </div>
+              {done && <p className={`text-xs italic mt-2 ${chosen === it.a ? 'text-slate-500 dark:text-slate-400' : 'text-red-500 dark:text-red-400'}`}>{it.why}</p>}
+            </div>
+          );
+        })}
+      </div>
+      <div className="flex items-center gap-3 mt-4 flex-wrap">
+        <span className="font-bold text-[#004030] dark:text-[#D8C3A5]">{t.lab2_score.replace('{n}', n).replace('{t}', items.length)}</span>
+        {answered > 0 && <button onClick={() => { setState({}); onTouch && onTouch(); }} className="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm">{t.lab2_reset}</button>}
+      </div>
+    </div>
+  );
+};
+
+const LabStopCalc = ({ t, state, setState, onTouch }) => {
+  const v = state || {};
+  const cost = Math.max(0, num(v.cost, 0.01));
+  const runs = Math.max(1, Math.round(num(v.runs, 1)));
+  const retry = Math.max(0, Math.round(num(v.retry, 3)));
+  const quota = Math.max(0, num(v.quota, 5));
+  const set = (k, val) => { setState({ ...v, [k]: val }); onTouch && onTouch(); };
+  const calls = runs * (1 + retry);
+  const daily = calls * cost;
+  const monthly = daily * 30;
+  const days = daily > 0 ? quota / daily : Infinity;
+  const perRunDay = runs * cost;
+  const safeRetry = perRunDay > 0 ? Math.max(0, Math.floor(quota / (30 * perRunDay)) - 1) : 0;
+  const over = monthly > quota;
+  const fmt = (x) => (Math.round(x * 10000) / 10000).toString();
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab3_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.lab3_desc}</p>
+      <div className="grid grid-cols-2 gap-3">
+        <div><label className="block text-xs font-bold text-slate-500 mb-1">{t.lab3_cost}</label>
+          <input type="number" min="0" step="0.001" className={inputCls} value={v.cost === undefined ? 0.01 : v.cost} onChange={e => set('cost', e.target.value)} /></div>
+        <div><label className="block text-xs font-bold text-slate-500 mb-1">{t.lab3_runs}</label>
+          <input type="number" min="1" className={inputCls} value={v.runs === undefined ? 1 : v.runs} onChange={e => set('runs', e.target.value)} /></div>
+        <div><label className="block text-xs font-bold text-slate-500 mb-1">{t.lab3_retry}</label>
+          <input type="number" min="0" className={inputCls} value={v.retry === undefined ? 3 : v.retry} onChange={e => set('retry', e.target.value)} /></div>
+        <div><label className="block text-xs font-bold text-slate-500 mb-1">{t.lab3_quota}</label>
+          <input type="number" min="0" step="0.1" className={inputCls} value={v.quota === undefined ? 5 : v.quota} onChange={e => set('quota', e.target.value)} /></div>
+      </div>
+      <div className="mt-4 p-4 rounded-lg bg-slate-50 dark:bg-slate-900/50 space-y-1.5 text-sm">
+        <p>{t.lab3_calls}: <strong>{calls}</strong> {t.lab3_times}</p>
+        <p>{t.lab3_daily}: <strong>{fmt(daily)}</strong></p>
+        <p>{t.lab3_monthly}: <strong className={over ? 'text-red-500' : 'text-[#004030] dark:text-[#D8C3A5]'}>{fmt(monthly)}</strong></p>
+        <p>{t.lab3_days}: <strong>{isFinite(days) ? fmt(Math.floor(days)) + ' ' + t.lab3_daysunit : t.lab3_never}</strong></p>
+        <p>{t.lab3_safe}: <strong className="text-[#004030] dark:text-[#D8C3A5]">{safeRetry}</strong></p>
+        <p className={`pt-1 ${over ? 'text-red-500 dark:text-red-400' : 'text-green-600 dark:text-green-400'}`}>{over ? t.lab3_over : t.lab3_ok}</p>
+      </div>
+      <div className="mt-3 h-3 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+        <div className={`h-full transition-all ${over ? 'bg-red-500' : 'bg-[#004030] dark:bg-[#D8C3A5]'}`} style={{width: Math.min(100, quota > 0 ? monthly/quota*100 : 100) + '%'}}></div>
+      </div>
+      <div className="flex items-center gap-3 mt-3 flex-wrap">
+        <button onClick={() => { setState({ cost: 0.02, runs: 3, retry: 3, quota: 5 }); onTouch && onTouch(); }}
+          className="px-4 py-2 text-sm bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg">{t.lab3_preset}</button>
+        <button onClick={() => { setState({}); onTouch && onTouch(); }} className="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm">{t.lab3_reset}</button>
+      </div>
+      <p className="text-xs text-slate-500 dark:text-slate-400 mt-3 leading-relaxed">{t.lab3_note}</p>
+    </div>
+  );
+};
+
+const LabGoLive = ({ t, state, setState, onTouch }) => {
+  const v = state || {};
+  const items = t.lab4_items;
+  const n = items.filter(it => v[it.k]).length;
+  const pct = Math.round(n / items.length * 100);
+  const top3 = items.filter(it => !v[it.k]).slice(0, 3);
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab4_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.lab4_desc}</p>
+      <div className="space-y-2">
+        {items.map(it => (
+          <label key={it.k} className="flex items-start gap-3 p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 cursor-pointer hover:border-[#004030] dark:hover:border-[#D8C3A5] transition">
+            <input type="checkbox" className="w-4 h-4 mt-0.5 shrink-0 accent-[#004030] dark:accent-[#D8C3A5]" checked={!!v[it.k]}
+              onChange={e => { setState({ ...v, [it.k]: e.target.checked }); onTouch && onTouch(); }} />
+            <span className="text-sm leading-relaxed">{it.n}</span>
+          </label>
+        ))}
+      </div>
+      <div className="mt-4 p-4 rounded-lg bg-slate-50 dark:bg-slate-900/50">
+        <p className="font-bold text-[#004030] dark:text-[#D8C3A5]">{t.lab4_pct.replace('{n}', n).replace('{p}', pct)}</p>
+        <div className="mt-2 h-3 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+          <div className={`h-full transition-all ${pct === 100 ? 'bg-green-500' : 'bg-[#004030] dark:bg-[#D8C3A5]'}`} style={{width: pct + '%'}}></div>
+        </div>
+        {top3.length === 0
+          ? <p className="text-sm text-green-600 dark:text-green-400 mt-3">{t.lab4_done}</p>
+          : <>
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mt-3 mb-1">{t.lab4_top3}</p>
+              <ul className="text-sm space-y-1">{top3.map(it => <li key={it.k} className="text-amber-700 dark:text-amber-300">· {it.n}</li>)}</ul>
+            </>}
+      </div>
+      <div className="flex items-center gap-3 mt-3 flex-wrap">
+        {n > 0 && <button onClick={() => { setState({}); onTouch && onTouch(); }} className="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm">{t.lab4_reset}</button>}
+      </div>
+    </div>
+  );
+};
+
+/* ================= App ================= */
+function App() {
+  const LS_ANS = 'PMCS_W12_answers';
+  const LS_ANA = 'PMCS_W12_analytics';
+  const LS_STU = 'PMCS_W12_student';
+  const LS_LAB = 'PMCS_W12_lab';
+  const loadLS = (k, fb) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : fb; } catch { return fb; } };
+
+  const [lang, setLang] = useState('en');
+  const [isDark, setIsDark] = useState(true);
+  const [module, setModule] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [ttsState, setTtsState] = useState('idle');
+  const [answers, setAnswers] = useState(() => loadLS(LS_ANS, {}));
+  const [focus, setFocus] = useState(() => loadLS(LS_ANS + '_focus', {}));
+  const [memberCount, setMemberCount] = useState(() => loadLS(LS_ANS + '_mc', DEFAULT_MEMBERS));
+  const [sdl, setSdl] = useState(() => loadLS(LS_ANS + '_sdl', null));
+  const [lab, setLab] = useState(() => loadLS(LS_LAB, {}));
+  const [labNonce, setLabNonce] = useState(0);
+  const [studentInfo, setStudentInfo] = useState(() => loadLS(LS_STU, { group:'', dept:'', id:'', nameEn:'', nameZh:'', compiler:'' }));
+  const [analytics, setAnalytics] = useState(() => loadLS(LS_ANA, {
+    time: Array(TOTAL).fill(0), clicks: Array(TOTAL).fill(0),
+    quizCorrect: Array(TOTAL).fill(0), quizTotal: Array(TOTAL).fill(0),
+    cardsRead: Array(TOTAL).fill(0), cardsTotal: Array(TOTAL).fill(0), wrongTopics: {}
+  }));
+  const menuRef = useRef(null);
+  const t = dict[lang];
+
+  useEffect(() => { document.documentElement.classList.toggle('dark', isDark); }, [isDark]);
+  useEffect(() => { try { localStorage.setItem(LS_ANS, JSON.stringify(answers)); } catch {} }, [answers]);
+  useEffect(() => { try { localStorage.setItem(LS_ANS + '_focus', JSON.stringify(focus)); } catch {} }, [focus]);
+  useEffect(() => { try { localStorage.setItem(LS_ANS + '_mc', JSON.stringify(memberCount)); } catch {} }, [memberCount]);
+  useEffect(() => { try { sdl ? localStorage.setItem(LS_ANS + '_sdl', JSON.stringify(sdl)) : localStorage.removeItem(LS_ANS + '_sdl'); } catch {} }, [sdl]);
+  useEffect(() => { try { localStorage.setItem(LS_LAB, JSON.stringify(lab)); } catch {} }, [lab]);
+  useEffect(() => { try { localStorage.setItem(LS_ANA, JSON.stringify(analytics)); } catch {} }, [analytics]);
+  useEffect(() => { try { localStorage.setItem(LS_STU, JSON.stringify(studentInfo)); } catch {} }, [studentInfo]);
+  useEffect(() => {
+    const id = setInterval(() => setAnalytics(a => { const ti = [...a.time]; ti[module] += 5; return {...a, time: ti}; }), 5000);
+    return () => clearInterval(id);
+  }, [module]);
+  useEffect(() => {
+    const onDoc = e => { if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false); };
+    document.addEventListener('mousedown', onDoc);
+    return () => document.removeEventListener('mousedown', onDoc);
+  }, []);
+
+  const importSdl = (r) => {
+    setSdl({ meta: r.meta, sections: r.sections });
+    setStudentInfo(st => ({
+      ...st,
+      group: r.meta.group || st.group,
+      id: (r.meta.student_id || st.id || '').replace(/[^0-9]/g, '').slice(0, 12),
+      nameEn: /^[\x00-\x7F]+$/.test(r.meta.student || '') ? (r.meta.student || st.nameEn) : st.nameEn,
+      nameZh: /^[\x00-\x7F]+$/.test(r.meta.student || '') ? st.nameZh : (r.meta.student || st.nameZh)
+    }));
+    if (r.meta.group) setA('g_group', r.meta.group);
+    if (r.meta.date) setA('g_date', r.meta.date);
+  };
+  const sdlFileName = () => {
+    if (!sdl) return '';
+    const m = sdl.meta;
+    const who = m.student || 'NA';
+    return `${m.course || 'PMCS'}_${m.semester || SEMESTER_DEFAULT}${m.week || WEEK_CODE}_${(m.topic || TOPIC_CAMEL).replace(/\s+/g,'')}_${m.group || 'NA'}-${who}_${(m.date || '').replace(/-/g,'')}.md`;
+  };
+  const bump = () => setAnalytics(a => { const c = [...a.clicks]; c[module] += 1; return {...a, clicks: c}; });
+  const setA = (id, val) => setAnswers(s => ({...s, [id]: val}));
+  const setLabPart = (k) => (val) => setLab(s => ({...s, [k]: val}));
+  const handleQuizSubmit = (mid, correct, total, wrong) => setAnalytics(a => {
+    const qc = [...a.quizCorrect], qt = [...a.quizTotal];
+    qc[mid] = correct; qt[mid] = total;
+    return {...a, quizCorrect: qc, quizTotal: qt, wrongTopics: {...a.wrongTopics, [mid]: wrong || []}};
+  });
+  const handleCardRead = (mid, r, s, tot) => setAnalytics(a => {
+    const cr = [...a.cardsRead], ct = [...a.cardsTotal]; cr[mid] = r; ct[mid] = tot;
+    return {...a, cardsRead: cr, cardsTotal: ct};
+  });
+
+  const filled = id => { const v = answers[id]; return v !== undefined && String(v).trim() !== ''; };
+  const sectionPct = n => { const c = CORE[n]; return c && c.length ? Math.round(c.filter(filled).length / c.length * 100) : 100; };
+  const pctPersonal = Math.round(PERSONAL_SECTIONS.reduce((s,n) => s + sectionPct(n), 0) / PERSONAL_SECTIONS.length);
+  const pctGroup = Math.round(GROUP_SECTIONS.reduce((s,n) => s + sectionPct(n), 0) / GROUP_SECTIONS.length);
+  const optName = (list, v) => { const o = (list || []).find(x => x.v === v); return o ? o.name : (v || ''); };
+  const setName = (id, d) => { const s = (d || t).settings.find(x => x.id === id); return s ? s.name : id; };
+
+  const modulesList = [
+    { id:0, num:'0', icon:'📋', title:t.m0_nav, kind:null },
+    { id:1, num:'1', icon:'👥', title:t.m1_nav, kind:'G' },
+    { id:2, num:'2', icon:'💓', title:t.m2_nav, kind:'P' },
+    { id:3, num:'3', icon:'🚀', title:t.m3_nav, kind:'P' },
+    { id:4, num:'4', icon:'🗣️', title:t.m4_nav, kind:'P' },
+    { id:5, num:'5', icon:'🔍', title:t.m5_nav, kind:'G' },
+    { id:6, num:'6', icon:'🩺', title:t.m6_nav, kind:'G' },
+    { id:7, num:'7', icon:'🎤', title:t.m7_nav, kind:'G' },
+    { id:IDX_LAB, num:String(IDX_LAB), icon:'⚡', title:t.mlab_nav, kind:null },
+    { id:IDX_RES, num:String(IDX_RES), icon:'🌐', title:t.mres_nav, kind:null },
+    { id:IDX_ANA, num:String(IDX_ANA), icon:'📊', title:t.analytics_title, kind:null }
+  ];
+  const go = m => { setModule(m); setMenuOpen(false); window.scrollTo({top:0,behavior:'smooth'}); };
+
+  /* ---------- TTS ---------- */
+  const handleTTS = (action) => {
+    if (!('speechSynthesis' in window)) return;
+    if (action === 'stop') { speechSynthesis.cancel(); setTtsState('idle'); return; }
+    if (action === 'pause') { speechSynthesis.pause(); setTtsState('paused'); return; }
+    if (ttsState === 'paused') { speechSynthesis.resume(); setTtsState('playing'); return; }
+    speechSynthesis.cancel();
+    const sep = lang === 'zh' ? '。 ' : '. ';
+    let texts = [];
+    if (module === 0) {
+      texts = [t.m0_title, t.m0_intro, t.m0_why, t.m0_why_desc, ...t.m0_stats.map(s => `${s.label}: ${s.val}`), ...t.m0_modules.map(m => `${m.title}. ${m.desc}`)];
+    } else if (module >= 1 && module <= NUM_LEARN) {
+      const k = `m${module}`;
+      texts = [t[`${k}_title`], t[`${k}_overview`], ...(t[`${k}_highlights`]||[]), t[`${k}_deep`], t[`${k}_wrapup`]];
+      if (module === 2) texts.push(...t.loop.map(f => `${f.name}. ${f.sub}`), t.loop_note, ...t.m2_terms.flatMap(x => [x.front, x.back]));
+    } else if (module === IDX_LAB) {
+      texts = [t.mlab_title, t.mlab_desc, t.lab1_title, t.lab1_desc, t.lab2_title, t.lab2_desc, t.lab3_title, t.lab3_desc, t.lab4_title, t.lab4_desc, t.lab5_title, t.lab5_desc];
+    } else if (module === IDX_RES) {
+      texts = [t.mres_title, t.mres_desc, ...t.res_req.map(r => `${r.label}. ${r.desc}`), ...t.res_opt.map(r => `${r.label}. ${r.desc}`)];
+    } else {
+      texts = [t.analytics_title, t.analytics_desc, `${t.analytics_pct_personal}: ${pctPersonal}%`, `${t.analytics_pct_group}: ${pctGroup}%`];
+      const weak = [1,2,3,4,5,6,7].filter(n => sectionPct(n) < 100);
+      if (weak.length) { texts.push(t.analytics_wp_tts_intro); weak.forEach(n => texts.push(t.analytics_wp_tts_module.replace('{name}', t[`m${n}_nav`]).replace('{acc}', sectionPct(n)))); }
+      else texts.push(t.analytics_wp_tts_allpass);
+    }
+    const utt = new SpeechSynthesisUtterance(texts.filter(Boolean).join(sep));
+    utt.rate = 0.95;
+    const voices = speechSynthesis.getVoices();
+    if (lang === 'zh') {
+      const v = voices.find(v=>v.lang==='zh-TW'&&v.name.includes('Yating')) || voices.find(v=>v.lang==='zh-TW') || voices.find(v=>v.lang.startsWith('zh'));
+      if (v) utt.voice = v; utt.lang = 'zh-TW';
+    } else {
+      const v = voices.find(v=>v.lang==='en-GB'&&(v.name.includes('Male')||v.name.includes('Daniel'))) || voices.find(v=>v.lang==='en-GB') || voices.find(v=>v.lang.startsWith('en'));
+      if (v) utt.voice = v; utt.lang = 'en-GB';
+    }
+    utt.onend = () => setTtsState('idle'); utt.onerror = () => setTtsState('idle');
+    speechSynthesis.speak(utt); setTtsState('playing');
+  };
+
+  /* ---------- Export ---------- */
+  const dstamp = () => { const d = new Date(), p = n => String(n).padStart(2,'0'); return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}`; };
+  const download = (content, filename, mime) => {
+    const blob = new Blob([content], {type: mime}); const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+  const okPersonal = !!(studentInfo.nameEn || studentInfo.nameZh);
+  const okGroup = !!(studentInfo.group && studentInfo.compiler);
+
+  const exportPersonal = () => {
+    if (!okPersonal) return;
+    const L = [];
+    L.push(`# PMCS W12 個人學習單 — ${dict.zh.subtitle}`);
+    L.push('');
+    L.push(`- 姓名：${studentInfo.nameEn} ${studentInfo.nameZh}　學號：${studentInfo.id}　系級：${studentInfo.dept}`);
+    L.push(`- 必讀：IPOB · Vibe Coding AI Agent 系統化三維藍圖 https://lolopodcast.github.io/Vibe-Coding-Agent-Blueprint/ ／ AIWF · AI Workflow Methodology https://lolopodcast.github.io/AI-Workflow-Methodology/`);
+    L.push(`- 個人完成度：${pctPersonal}%`);
+    if (sdl) L.push(`- 來源 SDL KB：${sdlFileName()}`);
+    L.push('');
+    L.push('## 2. 心跳與迴路');
+    L.push('**排程設定**：');
+    L.push('```');
+    L.push(answers.cron_expr || '(未填)');
+    L.push('```');
+    L.push('');
+    L.push(`**UTC 與台北時區換算（算法）**：${answers.tz_calc || '_(未填)_'}`);
+    L.push(`**失敗通知對象與管道**：${answers.fail_notify || '_(未填)_'}`);
+    L.push(`**停止條件（重試上限與成本上限）**：${answers.loop_stop || '_(未填)_'}`);
+    L.push(`**QC Feedback 判準**：${answers.qc_rule || '_(未填)_'}`);
+    L.push('');
+    L.push('## 3. 部署與降級實測');
+    L.push(`- 可運行版公開網址：${answers.deploy_url || '_(未填)_'}`);
+    L.push(`- 技術棧：${optName(dict.zh.stack_opts, answers.deploy_stack) || '_(未填)_'}`);
+    L.push(`- 空白畫面排查：${answers.blank_check || '_(未填)_'}`);
+    L.push(`- 降級實測結果：${answers.degrade_test || '_(未填)_'}`);
+    L.push(`- 已累積輸出天數：${optName(dict.zh.days_opts, answers.three_days) || '_(未填)_'}`);
+    L.push('');
+    L.push('## 4. 語言實驗室');
+    L.push('| 詞彙 | 自己的話 | 例句 |'); L.push('|---|---|---|');
+    [0,1,2,3,4].forEach(i => { if (filled(`t_term_${i}`)) L.push(`| ${answers[`t_term_${i}`]||''} | ${answers[`t_mean_${i}`]||''} | ${answers[`t_sent_${i}`]||''} |`); });
+    L.push('');
+    L.push('| 難發音 | 難在哪 | 記憶方法 |'); L.push('|---|---|---|');
+    [0,1,2].forEach(i => { if (filled(`p_word_${i}`)) L.push(`| ${answers[`p_word_${i}`]||''} | ${answers[`p_hard_${i}`]||''} | ${answers[`p_tip_${i}`]||''} |`); });
+    L.push(''); L.push('---');
+    L.push('_本檔為個人學習歷程檔案，不繳交。可直接放進 repo 的 docs／資料夾當作本週歷程紀錄。_');
+    const who = (sanitizeName(studentInfo.nameEn).replace(/\s+/g,'') || studentInfo.id || 'me').replace(/[^\w-]/g,'') || 'me';
+    const sem = (sdl && sdl.meta.semester) || SEMESTER_DEFAULT;
+    const grp = studentInfo.group || 'NA';
+    download(L.join('\n'), `PMCS_${sem}W12_OutputAndLoop_${grp}-${who}_${dstamp()}.md`, 'text/markdown;charset=utf-8;');
+  };
+
+  const groupRows = () => {
+    const rows = [['Section','Field','Value']];
+    rows.push(['Info','Group', studentInfo.group]);
+    rows.push(['Info','Compiler', studentInfo.compiler]);
+    GROUP_SECTIONS.forEach(sec => FIELDS[sec].forEach(id => rows.push(['S'+sec, id, String(answers[id] ?? '')])));
+    rows.push(['S5','ComparedSettings', SET_IDS.filter(k => focus[k]).join(' ')]);
+    /* --- 自我描述欄位：讓教師端彙整台無需內建設定即可正確顯示本週判準 --- */
+    rows.push(['Meta','WeekTitleZH', dict.zh.subtitle]);
+    rows.push(['Meta','WeekTitleEN', dict.en.subtitle]);
+    rows.push(['Meta','CompareKey', 'ComparedSettings']);
+    rows.push(['Meta','CompareN', '3']);
+    rows.push(['Meta','S6Fields', "[{\"id\": \"tp_schedule\", \"zh\": \"最終排程時間（含時區）\", \"en\": \"Final schedule time with time zone\"}, {\"id\": \"tp_notify\", \"zh\": \"失敗通知管道與收件人\", \"en\": \"Failure alert channel and recipients\"}, {\"id\": \"tp_stop\", \"zh\": \"停止條件與成本上限\", \"en\": \"Stop conditions and cost ceiling\"}, {\"id\": \"tp_status\", \"zh\": \"可運行版狀態\", \"en\": \"Live-version status\"}, {\"id\": \"tp_next\", \"zh\": \"到 D day 之前最關鍵的一件事\", \"en\": \"The one critical action before D day\"}]"]);
+    rows.push(['Meta','Categorical', 'tp_status']);
+    rows.push(['Meta','CategoricalZH', '各組可運行版狀態']);
+    rows.push(['Meta','CategoricalEN', 'Live-version status by group']);
+    rows.push(['Meta','CP5ZH', dict.zh.m5_wrapup]);
+    rows.push(['Meta','CP5EN', dict.en.m5_wrapup]);
+    rows.push(['Meta','CP6ZH', dict.zh.m6_wrapup]);
+    rows.push(['Meta','CP6EN', dict.en.m6_wrapup]);
+    rows.push(['Meta','CP7ZH', dict.zh.m7_wrapup]);
+    rows.push(['Meta','CP7EN', dict.en.m7_wrapup]);
+    rows.push(['Meta','GroupCompletionPct', String(pctGroup)]);
+    rows.push(['Meta','TimeSec', String(analytics.time.reduce((a,b)=>a+b,0))]);
+    const qc = analytics.quizCorrect.reduce((a,b)=>a+b,0), qt = analytics.quizTotal.reduce((a,b)=>a+b,0);
+    rows.push(['Meta','SelfCheck', `${qc}/${qt}`]);
+    return rows;
+  };
+  const exportGroupCSV = () => {
+    if (!okGroup) return;
+    const esc = v => `"${String(v).replace(/"/g,'""')}"`;
+    const csv = '﻿' + groupRows().map(r => r.map(esc).join(',')).join('\r\n');
+    download(csv, `PMCS_${(sdl && sdl.meta.semester) || SEMESTER_DEFAULT}W12_OutputAndLoop_${studentInfo.group}-ALL_${dstamp()}.csv`, 'text/csv;charset=utf-8;');
+  };
+  const exportGroupMD = () => {
+    if (!okGroup) return;
+    const L = [];
+    L.push(`# PMCS W12 小組學習單 — ${dict.zh.subtitle}`);
+    L.push('');
+    L.push(`- 組別：${studentInfo.group}　本週彙整人：${studentInfo.compiler}　日期：${answers.g_date || ''}`);
+    L.push(`- 小組完成度：${pctGroup}%`);
+    L.push('');
+    L.push('## 1. 小組與分工');
+    L.push('| 姓名 | 學號 | 負責段落 | 秒數 |'); L.push('|---|---|---|---|');
+    MEMBER_IDX.forEach(i => { if (filled(`m_name_${i}`)) L.push(`| ${answers[`m_name_${i}`]||''} | ${answers[`m_id_${i}`]||''} | ${answers[`m_part_${i}`]||''} | ${answers[`m_sec_${i}`]||''} |`); });
+    L.push('');
+    L.push('## 5. 小組綜整');
+    L.push(`- 比對的三項：${SET_IDS.filter(k => focus[k]).map(k => setName(k, dict.zh)).join('、') || '_(未選)_'}`);
+    L.push(`- 略過另外三項的理由：${answers.syn_focus_why || '_(未填)_'}`);
+    L.push(`- 差異最大的一項：${answers.syn_gap || '_(未填)_'}`);
+    L.push(`- 支持證據：${answers.syn_evidence || '_(未填)_'}`);
+    L.push(`- 全組範本採用誰的：${answers.syn_case || '_(未填)_'}`);
+    L.push(`- **組內通則**：${answers.syn_rule || '_(未填)_'}`);
+    L.push('');
+    L.push('## 6. 依演化表建置（除錯門診掛號單）');
+    L.push(`- 最終排程時間（含時區）：${answers.tp_schedule || '_(未填)_'}`);
+    L.push(`- 失敗通知管道與收件人：${answers.tp_notify || '_(未填)_'}`);
+    L.push(`- 停止條件與成本上限：${answers.tp_stop || '_(未填)_'}`);
+    L.push(`- **可運行版狀態（里程碑自評）**：${optName(dict.zh.status_opts, answers.tp_status) || '_(未填)_'}`);
+    L.push(`- 到 D day 之前最關鍵的一件事：${answers.tp_next || '_(未填)_'}`);
+    L.push('');
+    L.push('## 7. 簡報計畫');
+    L.push(`- 開場句：${answers.pr_open || '_(未填)_'}`);
+    MEMBER_IDX.forEach(i => { if (filled(`pr_point_${i}`)) L.push(`- ${answers[`m_name_${i}`] || 'Speaker '+(i+1)}：${answers[`pr_point_${i}`]}`); });
+    L.push(`- 給全班的問題：${answers.pr_question || '_(未填)_'}`);
+    L.push(''); L.push('---');
+    L.push('_PMCS (EMI) · Prof. Shihmin Lo, NCNU · For Educational Use Only_');
+    download(L.join('\n'), `PMCS_${(sdl && sdl.meta.semester) || SEMESTER_DEFAULT}W12_OutputAndLoop_${studentInfo.group}-ALL_${dstamp()}.md`, 'text/markdown;charset=utf-8;');
+  };
+
+  const clearAll = () => {
+    if (!window.confirm(t.analytics_wp_clear_confirm)) return;
+    setAnswers({}); setFocus({}); setMemberCount(DEFAULT_MEMBERS); setSdl(null); setLab({}); setLabNonce(n => n + 1);
+    setAnalytics({ time: Array(TOTAL).fill(0), clicks: Array(TOTAL).fill(0), quizCorrect: Array(TOTAL).fill(0),
+      quizTotal: Array(TOTAL).fill(0), cardsRead: Array(TOTAL).fill(0), cardsTotal: Array(TOTAL).fill(0), wrongTopics: {} });
+    try { localStorage.removeItem(LS_ANS); localStorage.removeItem(LS_ANS + '_focus'); localStorage.removeItem(LS_ANA); localStorage.removeItem(LS_ANS + '_sdl'); localStorage.removeItem(LS_LAB); } catch {}
+  };
+  const clearLab = () => {
+    if (!window.confirm(t.mlab_clear_confirm)) return;
+    setLab({}); setLabNonce(n => n + 1);
+    try { localStorage.removeItem(LS_LAB); } catch {}
+  };
+
+  /* ---------- Renderers ---------- */
+  const SavedHint = () => <p className="text-xs text-slate-500 dark:text-slate-400 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 rounded-lg p-3 leading-relaxed">{t.saved_hint}</p>;
+
+  const renderM0 = () => (
+    <>
+      <div className="rounded-2xl bg-[#004030] dark:bg-slate-800 text-white p-6 sm:p-10 border border-[#D8C3A5]/30">
+        <p className="text-[#D8C3A5] font-serif tracking-widest text-sm mb-2">{t.brand} · {t.title}</p>
+        <h1 className="font-serif font-black text-3xl sm:text-4xl md:text-5xl leading-tight mb-4">{t.subtitle}</h1>
+        <p className="text-slate-200 leading-relaxed text-base">{t.m0_intro}</p>
+        <button onClick={() => go(1)} className="mt-6 px-6 py-3 bg-[#D8C3A5] text-[#004030] font-bold rounded-lg hover:brightness-110 transition">{t.m0_start}</button>
+      </div>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        {t.m0_stats.map((s,i) => (
+          <div key={i} className="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 text-center">
+            <p className="font-serif font-black text-3xl text-[#004030] dark:text-[#D8C3A5]">{s.val}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{s.label}</p>
+          </div>
+        ))}
+      </div>
+      <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
+        <div className="flex flex-wrap items-center gap-1.5">
+          {t.loop.map((f, i) => (
+            <React.Fragment key={i}>
+              {i > 0 && <span className="text-slate-400 text-xs">→</span>}
+              <span className="text-xs px-3 py-1 rounded-full font-bold border border-[#004030] dark:border-[#D8C3A5] text-[#004030] dark:text-[#D8C3A5]">{f.name}</span>
+            </React.Fragment>
+          ))}
+          <span className="text-slate-400 text-xs">→</span>
+          {t.loop_out.map((o, i) => (
+            <span key={i} className="text-xs px-3 py-1 rounded-full font-bold bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5]">{o.name}</span>
+          ))}
+        </div>
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-3 leading-relaxed">{t.loop_note}</p>
+      </div>
+      <div className="bg-[#004030]/5 dark:bg-[#D8C3A5]/5 rounded-xl p-5 border-l-4 border-[#D8C3A5]">
+        <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-2">{t.m0_why}</h3>
+        <p>{t.m0_why_desc}</p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {t.m0_modules.map((m,i) => (
+          <button key={i} onClick={() => go(i+1)} className="text-left bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5] hover:shadow-md transition">
+            <div className="flex items-center justify-between">
+              <span className="font-serif font-black text-[#D8C3A5] text-lg">{m.num}</span>
+              <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${m.tag === (lang==='zh'?'個人':'Individual') ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200' : 'bg-[#D8C3A5]/30 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>{m.tag}</span>
+            </div>
+            <p className="font-bold text-[#004030] dark:text-[#D8C3A5] mt-1">{m.title}</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">{m.desc}</p>
+          </button>
+        ))}
+      </div>
+      <SdlImport t={t} sdl={sdl} onImport={importSdl} onClear={() => setSdl(null)} />
+      <SavedHint />
+    </>
+  );
+
+  const renderM1 = () => (
+    <>
+      <Overview t={t} text={t.m1_overview} /><Highlights t={t} items={t.m1_highlights} /><DeepDive t={t} text={t.m1_deep} /><SavedHint />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{t.m1_group}</label>
+          <select className={inputCls} value={answers.g_group || ''} onChange={e => setA('g_group', e.target.value)}>
+            <option value="">{t.select_ph}</option>{t.group_options.map(g => <option key={g} value={g}>{g}</option>)}
+          </select>
+        </div>
+        <Field id="g_date" label={t.m1_date} type="date" value={answers.g_date} onChange={setA} />
+      </div>
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m1_members_label}</h3>
+        <div className="space-y-3">
+          {MEMBER_IDX.slice(0, memberCount).map(i => (
+            <div key={i} className="grid grid-cols-2 md:grid-cols-4 gap-2">
+              <input className={inputCls} placeholder={`${t.m1_col_name} ${i+1}`} value={answers[`m_name_${i}`]||''} onChange={e => setA(`m_name_${i}`, sanitizeName(e.target.value))} />
+              <input className={inputCls} placeholder={t.m1_col_id} value={answers[`m_id_${i}`]||''} onChange={e => setA(`m_id_${i}`, sanitizeStudentId(e.target.value))} />
+              <input className={inputCls} placeholder={t.m1_part_ph} value={answers[`m_part_${i}`]||''} onChange={e => setA(`m_part_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} type="number" min="0" max="600" placeholder={t.m1_col_sec} value={answers[`m_sec_${i}`]||''} onChange={e => setA(`m_sec_${i}`, e.target.value.replace(/[^0-9]/g,'').slice(0,3))} />
+            </div>
+          ))}
+        </div>
+        <div className="flex items-center gap-2 mt-3">
+          <button onClick={() => { setMemberCount(c => Math.max(1, c-1)); bump(); }} disabled={memberCount <= 1}
+            className="px-3 py-1.5 text-sm border border-slate-300 dark:border-slate-600 rounded-lg disabled:opacity-40">−</button>
+          <span className="text-sm text-slate-500 dark:text-slate-400">{t.m1_member_count.replace('{n}', memberCount)}</span>
+          <button onClick={() => { setMemberCount(c => Math.min(MAX_MEMBERS, c+1)); bump(); }} disabled={memberCount >= MAX_MEMBERS}
+            className="px-3 py-1.5 text-sm border border-slate-300 dark:border-slate-600 rounded-lg disabled:opacity-40">＋</button>
+        </div>
+        {(() => {
+          const total = MEMBER_IDX.slice(0, memberCount).reduce((s,i) => s + (parseInt(answers[`m_sec_${i}`]||'0',10)||0), 0);
+          const over = total > 600;
+          return <div className={`mt-4 p-3 rounded-lg text-sm ${over ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-300' : 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'}`}>
+            <strong>{t.m1_total_sec}: {total}s</strong> — {over ? t.m1_sec_warn : t.m1_sec_ok}</div>;
+        })()}
+      </div>
+      <Wrapup t={t} text={t.m1_wrapup} />
+    </>
+  );
+
+  const renderM2 = () => {
+    const notifyOk = filled('fail_notify');
+    return (
+      <>
+        <SdlPanel t={t} sdl={sdl} />
+        <Overview t={t} text={t.m2_overview} /><Highlights t={t} items={t.m2_highlights} /><DeepDive t={t} text={t.m2_deep} />
+        <HeartbeatDiagram t={t} filledIds={S2_IDS.filter(filled)} />
+        <SavedHint />
+        <Field id="cron_expr" label={t.m2_cron_label} hint={t.m2_cron_hint} ph={t.m2_cron_ph} rows={5} mono value={answers.cron_expr} onChange={setA} />
+        <Field id="tz_calc" label={t.m2_tz_label} hint={t.m2_tz_hint} ph={t.m2_tz_ph} rows={4} value={answers.tz_calc} onChange={setA} />
+        <div>
+          <Field id="fail_notify" label={t.m2_notify_label} hint={t.m2_notify_hint} ph={t.m2_notify_ph} rows={4} value={answers.fail_notify} onChange={setA} />
+          <p className={`-mt-3 mb-5 p-3 rounded-lg text-sm leading-relaxed ${notifyOk
+            ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'
+            : 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-300'}`}>{notifyOk ? t.m2_notify_ok : t.m2_notify_warn}</p>
+        </div>
+        <Field id="loop_stop" label={t.m2_stop_label} hint={t.m2_stop_hint} ph={t.m2_stop_ph} rows={4} value={answers.loop_stop} onChange={setA} />
+        <Field id="qc_rule" label={t.m2_qc_label} hint={t.m2_qc_hint} ph={t.m2_qc_ph} rows={4} value={answers.qc_rule} onChange={setA} />
+        <FlipCardDeck key={`cards-${module}-${lang}`} terms={t.m2_terms} t={t} moduleId={2} onCardRead={handleCardRead} />
+        <Wrapup t={t} text={t.m2_wrapup} />
+      </>
+    );
+  };
+
+  const renderM3 = () => {
+    const url = String(answers.deploy_url || '').trim();
+    const urlOk = /^https?:\/\/[^\s]+\.[^\s]+/.test(url);
+    const dv = answers.three_days || '';
+    return (
+      <>
+        <SdlPanel t={t} sdl={sdl} />
+        <Overview t={t} text={t.m3_overview} /><Highlights t={t} items={t.m3_highlights} /><DeepDive t={t} text={t.m3_deep} /><SavedHint />
+        <div>
+          <Field id="deploy_url" label={t.m3_url_label} hint={t.m3_url_hint} ph={t.m3_url_ph} rows={2} mono value={answers.deploy_url} onChange={setA} />
+          {url !== '' && (
+            <p className={`-mt-3 mb-5 p-3 rounded-lg text-sm leading-relaxed ${urlOk
+              ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'
+              : 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300'}`}>{urlOk ? t.m3_url_ok : t.m3_url_bad}</p>
+          )}
+        </div>
+        <div className="mb-5">
+          <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{t.m3_stack_label}</label>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 leading-relaxed">{t.m3_stack_hint}</p>
+          <select className={inputCls} value={answers.deploy_stack || ''} onChange={e => setA('deploy_stack', e.target.value)}>
+            <option value="">{t.select_ph}</option>{t.stack_opts.map(o => <option key={o.v} value={o.v}>{o.name}</option>)}
+          </select>
+        </div>
+        <Field id="blank_check" label={t.m3_blank_label} hint={t.m3_blank_hint} ph={t.m3_blank_ph} rows={5} value={answers.blank_check} onChange={setA} />
+        <Field id="degrade_test" label={t.m3_degrade_label} hint={t.m3_degrade_hint} ph={t.m3_degrade_ph} rows={5} value={answers.degrade_test} onChange={setA} />
+        <div className="mb-5">
+          <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{t.m3_days_label}</label>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 leading-relaxed">{t.m3_days_hint}</p>
+          <select className={inputCls} value={dv} onChange={e => setA('three_days', e.target.value)}>
+            <option value="">{t.select_ph}</option>{t.days_opts.map(o => <option key={o.v} value={o.v}>{o.name}</option>)}
+          </select>
+          {dv && (
+            <p className={`mt-3 p-3 rounded-lg text-sm leading-relaxed ${dv === '3'
+              ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'
+              : 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300'}`}>{dv === '3' ? t.m3_days_ok : t.m3_days_warn}</p>
+          )}
+        </div>
+        <Wrapup t={t} text={t.m3_wrapup} />
+      </>
+    );
+  };
+
+  const renderM4 = () => (
+    <>
+      <SdlPanel t={t} sdl={sdl} />
+      <Overview t={t} text={t.m4_overview} /><Highlights t={t} items={t.m4_highlights} /><DeepDive t={t} text={t.m4_deep} /><SavedHint />
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m4_terms_label}</h3>
+        <div className="space-y-3">
+          {[0,1,2,3,4].map(i => (
+            <div key={i} className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <input className={inputCls} placeholder={`${t.m4_col_term} ${i+1}`} value={answers[`t_term_${i}`]||''} onChange={e => setA(`t_term_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_mean} value={answers[`t_mean_${i}`]||''} onChange={e => setA(`t_mean_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_sent} value={answers[`t_sent_${i}`]||''} onChange={e => setA(`t_sent_${i}`, sanitizeText(e.target.value))} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3 mt-6">{t.m4_pron_label}</h3>
+        <div className="space-y-3">
+          {[0,1,2].map(i => (
+            <div key={i} className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <input className={inputCls} placeholder={`${t.m4_col_word} ${i+1}`} value={answers[`p_word_${i}`]||''} onChange={e => setA(`p_word_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_hard} value={answers[`p_hard_${i}`]||''} onChange={e => setA(`p_hard_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_tip} value={answers[`p_tip_${i}`]||''} onChange={e => setA(`p_tip_${i}`, sanitizeText(e.target.value))} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <Wrapup t={t} text={t.m4_wrapup} />
+    </>
+  );
+
+  const renderM5 = () => {
+    const chosen = SET_IDS.filter(k => focus[k]).length;
+    return (
+      <>
+        <Overview t={t} text={t.m5_overview} /><Highlights t={t} items={t.m5_highlights} /><DeepDive t={t} text={t.m5_deep} /><SavedHint />
+        <div>
+          <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m5_focus_label}</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {t.settings.map(s => {
+              const on = !!focus[s.id];
+              const blocked = !on && chosen >= 3;
+              return (
+                <label key={s.id} className={`flex items-center gap-3 p-3 rounded-lg border transition ${blocked ? 'opacity-40 cursor-not-allowed border-slate-200 dark:border-slate-700' : 'cursor-pointer border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5]'} bg-white dark:bg-slate-800`}>
+                  <input type="checkbox" className="w-4 h-4 accent-[#004030] dark:accent-[#D8C3A5]" checked={on} disabled={blocked}
+                    onChange={e => { setFocus(st => ({...st, [s.id]: e.target.checked})); bump(); }} />
+                  <span className="text-sm">{s.name}</span>
+                </label>
+              );
+            })}
+          </div>
+          <p className={`mt-2 text-sm font-bold ${chosen === 3 ? 'text-green-600 dark:text-green-400' : 'text-amber-600 dark:text-amber-400'}`}>{chosen} / 3</p>
+        </div>
+        <Field id="syn_focus_why" label={t.m5_focus_why} ph={t.m5_focus_why_ph} rows={3} value={answers.syn_focus_why} onChange={setA} />
+        <Field id="syn_gap" label={t.m5_gap_label} ph={t.m5_gap_ph} rows={4} value={answers.syn_gap} onChange={setA} />
+        <Field id="syn_evidence" label={t.m5_evidence_label} ph={t.m5_evidence_ph} rows={4} value={answers.syn_evidence} onChange={setA} />
+        <Field id="syn_case" label={t.m5_case_label} ph={t.m5_case_ph} rows={3} value={answers.syn_case} onChange={setA} />
+        <Field id="syn_rule" label={t.m5_rule_label} hint={t.m5_rule_note} ph={t.m5_rule_ph} rows={3} value={answers.syn_rule} onChange={setA} />
+        <Wrapup t={t} text={t.m5_wrapup} />
+      </>
+    );
+  };
+
+  const renderM6 = () => {
+    const sv = answers.tp_status || '';
+    return (
+      <>
+        <Overview t={t} text={t.m6_overview} /><Highlights t={t} items={t.m6_highlights} /><DeepDive t={t} text={t.m6_deep} /><SavedHint />
+        <Field id="tp_schedule" label={t.m6_schedule_label} hint={t.m6_schedule_hint} ph={t.m6_schedule_ph} rows={3} value={answers.tp_schedule} onChange={setA} />
+        <Field id="tp_notify" label={t.m6_notify_label} hint={t.m6_notify_hint} ph={t.m6_notify_ph} rows={4} value={answers.tp_notify} onChange={setA} />
+        <Field id="tp_stop" label={t.m6_stop_label} hint={t.m6_stop_hint} ph={t.m6_stop_ph} rows={4} value={answers.tp_stop} onChange={setA} />
+        <div className="mb-5">
+          <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{t.m6_status_label}</label>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 leading-relaxed">{t.m6_status_hint}</p>
+          <select className={inputCls} value={sv} onChange={e => setA('tp_status', e.target.value)}>
+            <option value="">{t.select_ph}</option>{t.status_opts.map(o => <option key={o.v} value={o.v}>{o.name}</option>)}
+          </select>
+          <p className="mt-2 text-xs font-bold text-[#004030] dark:text-[#D8C3A5]">{t.m6_status_note}</p>
+          {sv && (
+            <p className={`mt-3 p-3 rounded-lg text-sm leading-relaxed ${sv === STATUS_GOOD
+              ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'
+              : 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300'}`}>{sv === STATUS_GOOD ? t.m6_status_ok : t.m6_status_warn}</p>
+          )}
+        </div>
+        <Field id="tp_next" label={t.m6_next_label} hint={t.m6_next_hint} ph={t.m6_next_ph} rows={3} value={answers.tp_next} onChange={setA} />
+        <Wrapup t={t} text={t.m6_wrapup} />
+      </>
+    );
+  };
+
+  const renderM7 = () => (
+    <>
+      <Overview t={t} text={t.m7_overview} /><Highlights t={t} items={t.m7_highlights} /><DeepDive t={t} text={t.m7_deep} /><SavedHint />
+      <Field id="pr_open" label={t.m7_open_label} ph={t.m7_open_ph} rows={2} value={answers.pr_open} onChange={setA} />
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m7_script_label}</h3>
+        <div className="space-y-3">
+          {MEMBER_IDX.slice(0, memberCount).map(i => (
+            <div key={i} className="grid grid-cols-1 md:grid-cols-4 gap-2">
+              <div className="md:col-span-1 flex items-center px-3 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-sm text-slate-600 dark:text-slate-300 truncate">
+                {answers[`m_name_${i}`] || `${t.m7_col_who} ${i+1}`}
+              </div>
+              <input className={`${inputCls} md:col-span-3`} placeholder={t.m7_col_point} value={answers[`pr_point_${i}`]||''} onChange={e => setA(`pr_point_${i}`, sanitizeText(e.target.value))} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="mt-5"><Field id="pr_question" label={t.m7_question_label} ph={t.m7_question_ph} rows={3} value={answers.pr_question} onChange={setA} /></div>
+      <Wrapup t={t} text={t.m7_wrapup} />
+    </>
+  );
+
+  const renderLab = () => (
+    <>
+      <p className="text-base text-slate-600 dark:text-slate-300">{t.mlab_desc}</p>
+      <div className="flex items-center gap-3 flex-wrap">
+        <button onClick={clearLab} className="px-4 py-2 border border-red-400 text-red-600 dark:text-red-400 font-bold rounded-lg text-sm hover:bg-red-50 dark:hover:bg-red-900/20">{t.mlab_clear}</button>
+        <span className="text-xs text-slate-400">💾 {t.analytics_wp_saved}</span>
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-4">
+        <LabTimeZone key={`lab1-${labNonce}-${lang}`} t={t} state={lab.l1} setState={setLabPart('l1')} onTouch={bump} />
+        <LabCronReader key={`lab2-${labNonce}-${lang}`} t={t} state={lab.l2} setState={setLabPart('l2')} onTouch={bump} />
+        <LabStopCalc key={`lab3-${labNonce}-${lang}`} t={t} state={lab.l3} setState={setLabPart('l3')} onTouch={bump} />
+        <LabGoLive key={`lab4-${labNonce}-${lang}`} t={t} state={lab.l4} setState={setLabPart('l4')} onTouch={bump} />
+      </div>
+      <div className="mt-6 bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+        <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab5_title}</h3>
+        <p className="text-sm text-slate-500 dark:text-slate-400">{t.lab5_desc}</p>
+        <ModuleQuiz key={`quiz-lab-${lang}`} questions={t.m2_q} t={t} moduleId={IDX_LAB} onQuizSubmit={handleQuizSubmit} />
+      </div>
+    </>
+  );
+
+  const renderRes = () => (
+    <>
+      <p className="text-base text-slate-600 dark:text-slate-300">{t.mres_desc}</p>
+      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-6 mb-3">{t.required_label}</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{t.res_req.map((r,i) => <LinkCard key={i} {...r} />)}</div>
+      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-8 mb-3">{t.optional_label}</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{t.res_opt.map((r,i) => <LinkCard key={i} {...r} />)}</div>
+    </>
+  );
+
+  const renderAna = () => {
+    const totalTime = analytics.time.reduce((a,b)=>a+b,0);
+    const qc = analytics.quizCorrect.reduce((a,b)=>a+b,0), qt = analytics.quizTotal.reduce((a,b)=>a+b,0);
+    const weak = [1,2,3,4,5,6,7].filter(n => sectionPct(n) < 100);
+    const stats = [
+      { val: pctPersonal + '%', label: t.analytics_pct_personal },
+      { val: pctGroup + '%', label: t.analytics_pct_group },
+      { val: totalTime + t.analytics_sec, label: t.analytics_total_time },
+      { val: qt > 0 ? Math.round(qc/qt*100) + '%' : '—', label: t.analytics_overall_acc }
+    ];
+    const setInfo = (k, v) => setStudentInfo(s => ({ ...s, [k]: v }));
+    return (
+      <>
+        <p className="text-base text-slate-600 dark:text-slate-300">{t.analytics_desc}</p>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-5">
+          {stats.map((s,i) => (
+            <div key={i} className="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 text-center">
+              <p className="font-serif font-black text-2xl text-[#004030] dark:text-[#D8C3A5]">{s.val}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{s.label}</p>
+            </div>
+          ))}
+        </div>
+
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-8 mb-3">{t.analytics_progress_title}</h3>
+        <div className="space-y-2">
+          {[1,2,3,4,5,6,7].map(n => {
+            const pct = sectionPct(n), kind = modulesList[n].kind;
+            return (
+              <button key={n} onClick={() => go(n)} className="w-full flex items-center gap-3 text-left p-3 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5] transition">
+                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded shrink-0 ${kind === 'P' ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200' : 'bg-[#D8C3A5]/30 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>{kind}</span>
+                <span className="text-sm w-36 sm:w-52 truncate shrink-0">{t[`m${n}_nav`]}</span>
+                <span className="flex-1 h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                  <span className={`block h-full ${pct === 100 ? 'bg-green-500' : 'bg-[#004030] dark:bg-[#D8C3A5]'}`} style={{width: pct + '%'}}></span>
+                </span>
+                <span className="text-sm font-bold w-12 text-right shrink-0">{pct}%</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-8 mb-3">{t.analytics_wp_title}</h3>
+        {weak.length === 0
+          ? <p className="p-4 rounded-lg bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 text-sm">{t.analytics_wp_allpass}</p>
+          : <div className="space-y-4">
+              <div className="space-y-2">
+                <p className="text-xs font-bold text-sky-700 dark:text-sky-300">{t.analytics_wp_personal_head}</p>
+                {PERSONAL_SECTIONS.filter(n => sectionPct(n) < 100).length === 0
+                  ? <p className="text-sm text-green-600 dark:text-green-400 pl-1">{t.analytics_wp_personal_done}</p>
+                  : PERSONAL_SECTIONS.filter(n => sectionPct(n) < 100).map(n => (
+                      <div key={n} className="p-3 rounded-lg bg-sky-50 dark:bg-sky-900/20 border border-sky-200 dark:border-sky-800/50 flex items-center justify-between gap-3">
+                        <span className="text-sm">{t[`m${n}_nav`]} — {sectionPct(n)}%</span>
+                        <button onClick={() => go(n)} className="text-xs font-bold text-sky-700 dark:text-sky-300 hover:underline shrink-0">{t.analytics_wp_goto}</button>
+                      </div>))}
+              </div>
+              <div className="space-y-2">
+                <p className="text-xs font-bold text-[#004030] dark:text-[#D8C3A5]">{t.analytics_wp_group_head}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 pl-1">{t.analytics_wp_group_note}</p>
+                {GROUP_SECTIONS.filter(n => sectionPct(n) < 100).length === 0
+                  ? <p className="text-sm text-green-600 dark:text-green-400 pl-1">{t.analytics_wp_group_done}</p>
+                  : GROUP_SECTIONS.filter(n => sectionPct(n) < 100).map(n => (
+                      <div key={n} className="p-3 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 flex items-center justify-between gap-3">
+                        <span className="text-sm">{t[`m${n}_nav`]} — {sectionPct(n)}%</span>
+                        <button onClick={() => go(n)} className="text-xs font-bold text-[#004030] dark:text-[#D8C3A5] hover:underline shrink-0">{t.analytics_wp_goto}</button>
+                      </div>))}
+              </div>
+            </div>}
+
+        <div className="mt-8 rounded-xl border-2 border-sky-200 dark:border-sky-800/60 bg-sky-50/50 dark:bg-sky-900/10 p-5">
+          <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5]">{t.analytics_personal_title}</h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-4">{t.analytics_personal_desc}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <InfoInput id="nameEn" label={t.analytics_name_en} ph={t.analytics_name_en_ph} value={studentInfo.nameEn} onChange={setInfo} />
+            <InfoInput id="nameZh" label={t.analytics_name_zh} ph={t.analytics_name_zh_ph} value={studentInfo.nameZh} onChange={setInfo} />
+            <InfoInput id="id" label={t.analytics_id} ph={t.analytics_id_ph} value={studentInfo.id} onChange={setInfo} san={sanitizeStudentId} />
+            <InfoInput id="dept" label={t.analytics_dept} ph={t.analytics_dept_ph} value={studentInfo.dept} onChange={setInfo} />
+          </div>
+          <button onClick={exportPersonal} disabled={!okPersonal}
+            className="mt-4 px-5 py-2.5 bg-sky-700 dark:bg-sky-300 text-white dark:text-sky-950 font-bold rounded-lg disabled:opacity-40">{t.analytics_export_personal}</button>
+          {!okPersonal && <p className="text-xs text-amber-600 dark:text-amber-400 mt-2">{t.analytics_need_personal}</p>}
+        </div>
+
+        <div className="mt-5 rounded-xl border-2 border-[#D8C3A5] dark:border-[#D8C3A5]/50 bg-[#D8C3A5]/10 p-5">
+          <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5]">{t.analytics_group_title}</h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-4">{t.analytics_group_desc}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div><label className="block text-xs font-bold text-slate-500 mb-1">{t.analytics_group}</label>
+              <select className={inputCls} value={studentInfo.group} onChange={e => setStudentInfo(s => ({...s, group: e.target.value}))}>
+                <option value="">{t.select_ph}</option>{t.group_options.map(g => <option key={g} value={g}>{g}</option>)}
+              </select></div>
+            <InfoInput id="compiler" label={t.analytics_compiler} ph={t.analytics_compiler_ph} value={studentInfo.compiler} onChange={setInfo} />
+          </div>
+          <div className="flex flex-wrap gap-3 mt-4">
+            <button onClick={exportGroupCSV} disabled={!okGroup} className="px-5 py-2.5 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg disabled:opacity-40">{t.analytics_export_csv}</button>
+            <button onClick={exportGroupMD} disabled={!okGroup} className="px-5 py-2.5 border-2 border-[#004030] dark:border-[#D8C3A5] text-[#004030] dark:text-[#D8C3A5] font-bold rounded-lg disabled:opacity-40">{t.analytics_export_md}</button>
+          </div>
+          {!okGroup && <p className="text-xs text-amber-600 dark:text-amber-400 mt-2">{t.analytics_need_group}</p>}
+        </div>
+
+        <div className="mt-6 flex items-center gap-3 flex-wrap">
+          <button onClick={clearAll} className="px-5 py-2.5 border border-red-400 text-red-600 dark:text-red-400 font-bold rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20">{t.analytics_wp_clear}</button>
+          <span className="text-xs text-slate-400">💾 {t.analytics_wp_saved}</span>
+        </div>
+      </>
+    );
+  };
+
+  const body = () => {
+    if (module === 0) return renderM0();
+    if (module === 1) return renderM1();
+    if (module === 2) return renderM2();
+    if (module === 3) return renderM3();
+    if (module === 4) return renderM4();
+    if (module === 5) return renderM5();
+    if (module === 6) return renderM6();
+    if (module === 7) return renderM7();
+    if (module === IDX_LAB) return renderLab();
+    if (module === IDX_RES) return renderRes();
+    return renderAna();
+  };
+  const cur = modulesList[module];
+
+  return (
+    <div className="min-h-screen flex flex-col pt-16 overflow-x-hidden">
+      <header className="fixed top-0 left-0 right-0 h-16 bg-[#004030] dark:bg-slate-900 text-white z-50 shadow-lg border-b border-[#D8C3A5]/30">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-1 sm:gap-2 min-w-0">
+            <div className="relative" ref={menuRef}>
+              <button onClick={() => setMenuOpen(!menuOpen)} className="p-2 hover:bg-white/10 rounded-lg" aria-label={t.nav_modules}>{menuOpen ? <IconX/> : <IconMenu/>}</button>
+              {menuOpen && (
+                <div className="absolute top-full left-0 mt-1 w-72 max-w-[calc(100vw-2rem)] max-h-[calc(100vh-5rem)] overflow-y-auto bg-white dark:bg-slate-800 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 z-[100]">
+                  {modulesList.map(m => (
+                    <button key={m.id} onClick={() => go(m.id)}
+                      className={`w-full flex items-center gap-3 px-4 py-3 text-sm transition ${module === m.id ? 'bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5] font-bold' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700'}`}>
+                      <span className="ui-decoration">{m.icon}</span><span className="truncate flex-1 text-left">{m.title}</span>
+                      {m.kind && <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded shrink-0 ${m.kind === 'P' ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200' : 'bg-[#D8C3A5]/40 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>{m.kind}</span>}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+            <button onClick={() => go(0)} className="p-2 hover:bg-white/10 rounded-lg" aria-label={t.nav_home}><IconHome size={18}/></button>
+            <button onClick={() => window.scrollTo({top:0,behavior:'smooth'})} className="flex items-center gap-2 min-w-0">
+              <span className="font-serif font-black text-[#D8C3A5] text-lg tracking-widest">{t.brand}</span>
+              <span className="hidden sm:inline font-serif font-bold text-sm md:text-base truncate">{t.title}</span>
+            </button>
+          </div>
+          <div className="flex items-center gap-1 sm:gap-2">
+            <button onClick={() => handleTTS(ttsState === 'playing' ? 'pause' : 'play')} className="p-2 hover:bg-white/10 rounded-lg" aria-label={t.audio_read}>{ttsState === 'playing' ? <IconPause size={18}/> : <IconPlay size={18}/>}</button>
+            <button onClick={() => handleTTS('stop')} className="p-2 hover:bg-white/10 rounded-lg" aria-label="Stop"><IconSquare size={18}/></button>
+            <button onClick={() => setLang(lang === 'en' ? 'zh' : 'en')} className="px-2 py-2 hover:bg-white/10 rounded-lg flex items-center gap-1"><IconGlobe size={18}/><span className="text-xs font-bold">{lang === 'en' ? '中' : 'EN'}</span></button>
+            <button onClick={() => setIsDark(!isDark)} className="p-2 hover:bg-white/10 rounded-lg" aria-label="Theme">{isDark ? <IconSun size={18}/> : <IconMoon size={18}/>}</button>
+          </div>
+        </div>
+      </header>
+
+      <div className="flex-1 w-full max-w-7xl mx-auto flex">
+        <aside className="hidden md:block w-64 shrink-0 border-r border-slate-200 dark:border-slate-700 py-8 px-3">
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 px-3 mb-3">{t.nav_modules}</p>
+          {modulesList.map(m => (
+            <button key={m.id} onClick={() => go(m.id)}
+              className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm mb-1 transition ${module === m.id ? 'bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5] font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'}`}>
+              <span className="ui-decoration shrink-0">{m.icon}</span>
+              <span className="truncate text-left flex-1">{m.title}</span>
+              {m.kind && <span className={`text-[10px] font-bold px-1 rounded shrink-0 ${m.kind === 'P' ? 'text-sky-700 dark:text-sky-300' : 'text-[#004030] dark:text-[#D8C3A5]'}`}>{m.kind}</span>}
+            </button>
+          ))}
+          <div className="mt-6 px-3 space-y-3">
+            <div>
+              <p className="text-xs text-slate-400 mb-1">{t.analytics_pct_personal}</p>
+              <div className="h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden"><div className={`h-full ${pctPersonal === 100 ? 'bg-green-500' : 'bg-sky-600 dark:bg-sky-400'}`} style={{width: pctPersonal + '%'}}></div></div>
+              <p className="text-xs font-bold text-sky-700 dark:text-sky-300 mt-1">{pctPersonal}%</p>
+            </div>
+            <div>
+              <p className="text-xs text-slate-400 mb-1">{t.analytics_pct_group}</p>
+              <div className="h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden"><div className={`h-full ${pctGroup === 100 ? 'bg-green-500' : 'bg-[#004030] dark:bg-[#D8C3A5]'}`} style={{width: pctGroup + '%'}}></div></div>
+              <p className="text-xs font-bold text-[#004030] dark:text-[#D8C3A5] mt-1">{pctGroup}%</p>
+            </div>
+          </div>
+        </aside>
+
+        <main className="flex-1 min-w-0 py-8 px-4 sm:px-6">
+          <div key={`${module}-${lang}`} className="space-y-6 text-lg leading-relaxed text-slate-700 dark:text-slate-300 animate-fade-in">
+            {module !== 0 && (
+              <div>
+                <H2 icon={cur.icon} number={cur.num}>{module <= NUM_LEARN ? t[`m${module}_title`] : module === IDX_LAB ? t.mlab_title : module === IDX_RES ? t.mres_title : t.analytics_title}</H2>
+                {cur.kind && <Badge kind={cur.kind} t={t} />}
+              </div>
+            )}
+            {body()}
+            <div className="mt-12 flex justify-between items-center pt-8 border-t border-slate-300 dark:border-slate-700 no-print">
+              <button onClick={() => go(Math.max(0, module-1))} disabled={module === 0}
+                className="px-5 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg text-sm font-bold hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-0">← {t.nav_prev}</button>
+              <button onClick={() => go(Math.min(TOTAL-1, module+1))} disabled={module === TOTAL-1}
+                className="px-5 py-2.5 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] rounded-lg text-sm font-bold disabled:opacity-0">{t.nav_next} →</button>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <footer className="h-8 bg-[#004030] flex items-center justify-between px-4 shrink-0">
+        <span className="text-[#D8C3A5]/60 text-[10px] sm:text-xs truncate">{t.date} · {t.copyright}</span>
+        <span className="text-[#D8C3A5]/60 text-[10px] sm:text-xs flex items-center gap-3 shrink-0">
+          <span className="hidden sm:inline">{t.architect_label}&nbsp;<a href={t.architect_url} target="_blank" rel="noopener noreferrer" className="text-[#D8C3A5] hover:text-white underline">Prof. Shihmin Lo</a></span>
+          <button onClick={() => window.scrollTo({top:0,behavior:'smooth'})} className="text-[#D8C3A5] hover:text-white font-bold">Top ↑</button>
+        </span>
+      </footer>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
