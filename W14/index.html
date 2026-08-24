@@ -484,7 +484,7 @@ const dict = {
     m5_gap_label: "等級判定的落差：同一項風險，六個人給的等級差多少？差在哪裡",
     m5_gap_ph: "例：排程失敗未察覺，兩個人給 6（中），一個人給 20（極高）。差別在可能性的評分——給 20 的那位把「我們沒有心跳紀錄」也算進可能性，其他人只評了 cron 本身會不會壞。",
     m5_evidence_label: "應對策略選擇的分歧：從六份裡舉兩個具體例子",
-    m5_evidence_ph: "例：同樣是來源網站改版，A 選規避（改用官方 API），D 選減輕（保留前一日快取）。A 沒算過重寫抓取層要花多久，D 算過快取只要兩小時，成本效益的判斷完全沒對齊。",
+    m5_evidence_ph: "例：同樣是來源網站改版，A 選規避（改用官方 API），D 選減輕（保留前一日快取）。A 沒算過重寫抓取層要花多久，D 算過快取只要兩小時，成本效益的判斷完全談不攏。",
     m5_case_label: "觸發條件比對：誰寫得最可觀察？全組採用誰的寫法，為什麼",
     m5_case_ph: "例：採用 D 的寫法「心跳紀錄超過二十六小時沒有更新」。它可觀察、出現在事件之前、而且帶一個數字；其他五份多半寫「排程壞掉的時候」，那是事件本身。",
     m5_rule_label: "從這次比對，我們訂下一條觸發條件的書寫通則",
@@ -2024,7 +2024,7 @@ function App() {
     rows.push(['Info','Compiler', studentInfo.compiler]);
     GROUP_SECTIONS.forEach(sec => FIELDS[sec].forEach(id => rows.push(['S'+sec, id, String(answers[id] ?? '')])));
     rows.push(['S5','ComparedRisks', RISK_IDS.filter(k => focus[k]).join(' ')]);
-    /* --- 自我描述欄位：讓教師端彙整台無需內建設定即可正確顯示本週判準 --- */
+    /* --- 自我描述欄位：讓教師端彙整台無需內建設定即可正確顯示本週的檢查點措辭 --- */
     rows.push(['Meta','WeekTitleZH', dict.zh.subtitle]);
     rows.push(['Meta','WeekTitleEN', dict.en.subtitle]);
     rows.push(['Meta','CompareKey', 'ComparedRisks']);
