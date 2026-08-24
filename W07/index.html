@@ -1,1 +1,2326 @@
-W07
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PMCS Worksheet W7 — Turning a Job Posting into K, S, A</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.7/babel.min.js"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: { extend: { fontFamily: { sans: ['Inter','sans-serif'], serif: ['Merriweather','serif'] } } }
+  }
+</script>
+<style>
+  @keyframes fadeInUp { from{opacity:0;transform:translateY(15px)} to{opacity:1;transform:translateY(0)} }
+  .animate-fade-in { animation: fadeInUp 0.5s ease-out forwards; }
+  .perspective { perspective: 1000px; }
+  .transform-style-3d { transform-style: preserve-3d; }
+  .backface-hidden { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  .rotate-y-180 { transform: rotateY(180deg); }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+  .dark ::-webkit-scrollbar-thumb { background: #475569; }
+  header, footer, button, [role="button"], .ui-decoration { -webkit-user-select: none; user-select: none; }
+  input, textarea, select { -webkit-user-select: text; user-select: text; }
+  html { overflow-x: hidden; }
+  @media print { header, footer, aside, .no-print { display: none !important; } }
+</style>
+</head>
+<body class="bg-[#f4f4f4] dark:bg-[#121212] selection:bg-[#004030] selection:text-white dark:selection:bg-[#D8C3A5] dark:selection:text-[#004030] overflow-x-hidden">
+<div id="root"></div>
+
+<script>
+(function(){
+  var ALLOWED = ['lolopodcast.github.io','localhost','127.0.0.1','claude.ai','anthropic.com','usercontent.goog'];
+  var REDIRECT = 'https://www.ibs.ncnu.edu.tw/index.php/faculty/tenured-professor/299-smlo';
+  var h = location.hostname;
+  var isFile = location.protocol === 'file:' || h === '';
+  var ok = isFile || ALLOWED.some(function(d){ return h === d || h.endsWith('.' + d); });
+  if (!ok) {
+    document.body.innerHTML = '<div style="text-align:center;padding:60px;font-family:sans-serif"><h1>Access Denied</h1><p>This resource is not authorised on this domain.</p></div>';
+    setTimeout(function(){ location.href = REDIRECT; }, 3000);
+    return;
+  }
+  if (window.self !== window.top) {
+    try { window.top.location.href = window.self.location.href; } catch(e) {}
+  }
+})();
+(function(){
+  var MSG = 'Intellectual Property of Prof. Shihmin Lo';
+  var el = null, timer = null;
+  window.showCopyrightToast = function(){
+    if (!el) {
+      el = document.createElement('div');
+      el.style.cssText = 'position:fixed;left:50%;bottom:48px;transform:translateX(-50%);background:#004030;color:#D8C3A5;padding:10px 20px;border-radius:10px;font-family:Inter,sans-serif;font-size:13px;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.3);opacity:0;transition:opacity .25s';
+      el.textContent = MSG;
+      document.body.appendChild(el);
+    }
+    el.style.opacity = '1';
+    clearTimeout(timer);
+    timer = setTimeout(function(){ el.style.opacity = '0'; }, 2000);
+  };
+  document.addEventListener('contextmenu', function(e){
+    var tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || tag === 'select') return true;
+    if (window.getSelection().toString().trim().length > 0) return true;
+    e.preventDefault(); window.showCopyrightToast();
+  });
+  document.addEventListener('keydown', function(e){
+    var k = (e.key || '').toLowerCase();
+    if (e.key === 'F12') { e.preventDefault(); window.showCopyrightToast(); return; }
+    if (e.ctrlKey && k === 'u') { e.preventDefault(); window.showCopyrightToast(); return; }
+    if (e.ctrlKey && e.shiftKey && ['i','j','c'].indexOf(k) >= 0) { e.preventDefault(); window.showCopyrightToast(); return; }
+  });
+  document.addEventListener('dragstart', function(e){
+    if (e.target.tagName === 'IMG' || (e.target.closest && e.target.closest('svg'))) e.preventDefault();
+  });
+})();
+</script>
+
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+/* ================= Answer obfuscation ================= */
+const _SALT = 'W072026';
+const _e = (s, n) => {
+  const p = s + ':' + n; let r = '';
+  for (let i = 0; i < p.length; i++) r += String.fromCharCode(p.charCodeAt(i) ^ ((i + 7) * 3 & 0xFF));
+  return btoa(r);
+};
+const _d = (token) => {
+  const dec = atob(token); let r = '';
+  for (let i = 0; i < dec.length; i++) r += String.fromCharCode(dec.charCodeAt(i) ^ ((i + 7) * 3 & 0xFF));
+  return parseInt(r.split(':')[1], 10);
+};
+const _A0 = _e(_SALT,0), _A1 = _e(_SALT,1), _A2 = _e(_SALT,2), _A3 = _e(_SALT,3);
+
+/* ================= Module map =================
+   M0 概要 / M1 分工[G] / M2 K/S/A 抽取[P] / M3 四象限與兩軸[P] / M4 語言[P]
+   M5 小組綜整[G] / M6 抽取規則初版[G] / M7 簡報計畫[G] / M8 Lab / M9 資源 / M10 完成度
+================================================= */
+const NUM_LEARN = 7;
+const TOTAL = 1 + NUM_LEARN + 3;
+const IDX_LAB = NUM_LEARN + 1;
+const IDX_RES = NUM_LEARN + 2;
+const IDX_ANA = NUM_LEARN + 3;
+const MAX_MEMBERS = 10;
+const DEFAULT_MEMBERS = 6;
+const MEMBER_IDX = [...Array(MAX_MEMBERS).keys()];
+const PERSONAL_SECTIONS = [2,3,4];
+const GROUP_SECTIONS = [1,5,6,7];
+
+const KSA_IDS = ['K','S','A'];
+const EXTRACT_IDS = ['k_edu','k_major','s_exp','s_lang','s_tool','s_skill','a_other','a_content'];
+const QUAD_IDS = ['up','down','in','out'];
+const AXIS_VALS = ['PM','PjM','Undecidable'];
+const LEVEL_VALS = ['Specialist','Engineer','Junior','Senior','Director+','Undecidable'];
+
+const sanitizeStudentId = (v) => v.replace(/[^0-9]/g, '').slice(0, 12);
+const sanitizeName = (v) => v.replace(/[<>"'&\\]/g, '').slice(0, 50);
+const sanitizeText = (v) => v.slice(0, 2000);
+
+/* ================= Icons ================= */
+const S = (p) => ({ width: p.size||20, height: p.size||20, viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:2, strokeLinecap:"round", strokeLinejoin:"round" });
+const IconMenu=(p)=><svg {...S(p)}><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>;
+const IconX=(p)=><svg {...S(p)}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>;
+const IconHome=(p)=><svg {...S(p)}><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>;
+const IconGlobe=(p)=><svg {...S(p)}><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>;
+const IconMoon=(p)=><svg {...S(p)}><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>;
+const IconSun=(p)=><svg {...S(p)}><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.2" y1="4.2" x2="5.6" y2="5.6"/><line x1="18.4" y1="18.4" x2="19.8" y2="19.8"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.2" y1="19.8" x2="5.6" y2="18.4"/><line x1="18.4" y1="5.6" x2="19.8" y2="4.2"/></svg>;
+const IconPlay=(p)=><svg {...S(p)}><polygon points="5 3 19 12 5 21 5 3"/></svg>;
+const IconPause=(p)=><svg {...S(p)}><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>;
+const IconSquare=(p)=><svg {...S(p)}><rect x="4" y="4" width="16" height="16" rx="2"/></svg>;
+const IconCheckCircle=(p)=><svg {...S(p)}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>;
+
+/* ================= Dictionary ================= */
+const dict = {
+  zh: {
+    brand: "PMCS",
+    title: "學習單 W7", subtitle: "把職缺文本拆成 K／S／A",
+    nav_modules: "單元目錄", nav_prev: "上一單元", nav_next: "下一單元", nav_home: "首頁",
+    key_terms: "隨手參考卡", flip_prompt: "點擊翻轉",
+    flip_status: "已讀 {read} / 已顯示 {shown} / 總計 {total}",
+    flip_next: "下一組", flip_retry: "重新開始",
+    audio_read: "語音導覽",
+    quiz_title: "課前自我檢核", quiz_status: "答對 {correct} / 已答 {answered} / 總計 {total}",
+    quiz_next: "下一組", quiz_retry: "重新測驗",
+    submit: "提交答案", correct: "正確", incorrect: "錯誤", explanation: "解析",
+    overview_label: "Overview 本節任務",
+    highlights_label: "Highlights 關鍵字",
+    deep_dive_label: "Deep Dive 填寫說明",
+    wrapup_label: "Wrap-up 檢查點",
+    badge_personal: "個人填寫・不繳交",
+    badge_group: "小組共同・隨小組版繳交",
+    saved_hint: "✍️ 填寫內容自動存在你這台電腦的瀏覽器裡；換裝置不會跟著走，請務必到「完成度與匯出」頁匯出檔案。",
+    required_label: "必讀教材", optional_label: "選讀教材（可撰寫為 BA）",
+    select_ph: "請選擇",
+
+    m0_nav: "0. 執行概要",
+    m0_title: "這份學習單怎麼用",
+    m0_intro: "這是 PMCS 課程 W7 的課前學習單。本週必讀教材兩份：JDKS · 讀懂一份 JD（主教材，第 2、3 節直接依據它），以及 AICF · AI 素養共通語言學習平台（當 competency framework 讀，提供相鄰的能力語彙架構）。上週你分辨了 PM 與 PjM 是兩條獨立的軸；這一週要把那把尺實際拿去量一份真實文本。你要自己到 104 或 LinkedIn 找一則真實職缺（PM 或 PjM 皆可），把它拆成 K 知識、S 技能、A 態度三個構面，再把 A 分進對上／對下／對內／對外四個象限，最後用工作內容的原句判定它的兩軸位置。這份學習單分成個人層與小組層：第 2 到第 4 節每個人各填自己的、不繳交；第 5 節小組只挑三則 JD 做比對，這一節才是小組討論真正的工作；第 6、7 節由小組共同決定。個人部分約四十分鐘，小組討論約四十分鐘。",
+    m0_why: "為什麼要親手拆一則真的 JD？",
+    m0_why_desc: "因為職缺文本是企業對能力最誠實的一次公開表態。企業填學歷、年資、語文、工具這些結構化欄位時非常具體，一講到態度就退回自由文字——這個落差本身就是證據：K 與 S 可以被驗證，A 不行。你親手拆過一遍，才會知道晨報要抽的東西到底長什麼樣、哪些能用規則抽、哪些只能靠語意判讀而且判不準。這一節的產出會直接變成 W10 知識庫裡 ksa_taxonomy.md 的第一版。",
+    m0_stats: [
+      { val: "3", label: "個能力構面" },
+      { val: "8", label: "個抽取欄位" },
+      { val: "7", label: "節填寫任務" },
+      { val: "40+40", label: "分鐘個人＋小組" }
+    ],
+    m0_modules: [
+      { num: "01", title: "小組與分工", desc: "登錄組別、成員，敲定 10 分鐘簡報的 Jigsaw 分工。", tag: "小組" },
+      { num: "02", title: "K/S/A 抽取", desc: "自己找一則真實職缺，拆成 K 知識、S 技能、A 態度三個構面。", tag: "個人" },
+      { num: "03", title: "四象限與兩軸", desc: "把態度詞分進四象限，再用工作內容的原句判定 PM／PjM 與層級。", tag: "個人" },
+      { num: "04", title: "語言實驗室", desc: "五個新詞、三個難發音，供課堂與加分作業使用。", tag: "個人" },
+      { num: "05", title: "小組綜整", desc: "六人的 JD 只挑三則比對，找出差異最大的構面，訂出組內通則。", tag: "小組" },
+      { num: "06", title: "抽取規則初版", desc: "三構面各寫一條抽取規則，並寫明判不出來時怎麼辦。", tag: "小組" },
+      { num: "07", title: "簡報計畫", desc: "誰講哪一段、各幾秒，以及要丟給全班的那一個問題。", tag: "小組" }
+    ],
+    m0_start: "開始填寫 →",
+
+    ksa: [
+      { id:"K", name:"K 知識 Knowledge", q:"這個職缺要求什麼領域知識基礎？",
+        src:"104 欄位：學歷要求、科系要求",
+        note:"規則式可抽。這兩欄是選單或短語，正規化之後可以直接比對。",
+        fields:[
+          { id:"k_edu", label:"學歷要求", ph:"例：大學以上" },
+          { id:"k_major", label:"科系要求", ph:"例：原文列了七個科系，摘成「電子／資訊／商管」三類" }
+        ] },
+      { id:"S", name:"S 技能 Skills", q:"要有什麼可被驗證的能力才做得動？",
+        src:"104 欄位：工作經歷、語文條件、擅長工具、工作技能",
+        note:"規則式可抽。年資歸 S 不歸 K——它是「足以完成任務」的證據，不是知識本身。",
+        fields:[
+          { id:"s_exp", label:"工作經歷", ph:"例：3 年以上（產業別不拘）" },
+          { id:"s_lang", label:"語文條件", ph:"例：英文聽說讀寫中等以上" },
+          { id:"s_tool", label:"擅長工具", ph:"例：試算表、簡報軟體、專案排程工具" },
+          { id:"s_skill", label:"工作技能", ph:"例：市場調查、規格文件撰寫" }
+        ] },
+      { id:"A", name:"A 態度 Attitude", q:"企業在文字裡透露它想要什麼樣的人？",
+        src:"104 欄位：其他條件（態度為主，混雜）、工作內容（三者皆有）",
+        note:"需語意判讀，不是規則式。這裡最容易失準，也是本週要你親眼看見的地方。",
+        fields:[
+          { id:"a_other", label:"其他條件裡的態度類要求", ph:"例：抗壓性強、主動積極（只抄關鍵詞，不抄整句）" },
+          { id:"a_content", label:"工作內容裡出現的態度類形容詞", ph:"例：跨部門協調需「主動」、面對客戶需「耐心」" }
+        ] }
+    ],
+
+    quads: [
+      { id:"up", name:"對上", hint:"面對主管與高階：回報、承接指派、爭取資源" },
+      { id:"down", name:"對下", hint:"面對部屬：帶人、培育、績效。多數非主管職這一格會是空的" },
+      { id:"in", name:"對內", hint:"面對自己與同儕：抗壓、細心、自律、跨部門合作" },
+      { id:"out", name:"對外", hint:"面對客戶、供應商、通路：服務熱忱、談判、溝通" }
+    ],
+    axis_labels: { PM: "PM 產品經理（管產品）", PjM: "PjM 專案經理（管專案）", Undecidable: "無法判定" },
+    level_labels: { Specialist: "PM Specialist 產品專員", Engineer: "PM Engineer 產品工程師", Junior: "Junior PM", Senior: "Senior PM", "Director+": "PM Director 以上", Undecidable: "無法判定" },
+
+    m1_nav: "1. 小組與分工", m1_title: "小組與 Jigsaw 分工",
+    m1_overview: "先把行政資訊填好，並在小組討論時當場敲定簡報分工。本課程每次由兩組簡報，每組 10 分鐘，每位組員必須開口講 1 至 2 分鐘——這一節就是把「誰講哪一段、講幾秒」寫定，避免上台才在推派。",
+    m1_highlights: ["Jigsaw 協作","每人 1-2 分鐘","全組 10 分鐘","組員都要開口"],
+    m1_deep: "本週的分工可以照構面切：K 一人、S 一人、A 一人，第四人講四象限、第五人講兩軸判定與依據句、第六人講組內通則與抽取規則。把秒數寫下來，總長度才控制得住。",
+    m1_group: "組別", m1_date: "填寫日期",
+    m1_members_label: "組員與分工（用下方加減鈕調整人數，上限 10 人）",
+    m1_member_count: "目前 {n} 位組員",
+    m1_col_name: "姓名", m1_col_id: "學號", m1_col_part: "負責段落", m1_col_sec: "秒數",
+    m1_part_ph: "例：A 態度四象限",
+    m1_total_sec: "目前規劃總長度",
+    m1_sec_warn: "超過 600 秒（10 分鐘），請壓縮。",
+    m1_sec_ok: "在 10 分鐘內，可行。",
+    m1_wrapup: "檢查點：每位出席組員都有分配到段落，且總秒數不超過 600。",
+
+    m2_nav: "2. K/S/A 抽取", m2_title: "K／S／A 抽取：拆一則你自己找到的真實職缺",
+    m2_overview: "本週的個人核心任務。請自己到 104 或 LinkedIn 找一則真實職缺，PM 或 PjM 皆可，不要用教材裡的合成範例。找到之後，依照 104 的欄位結構把它拆進 K、S、A 三個構面的八個抽取欄位。挑職缺時建議選欄位填得比較完整的那種，太潦草的職缺拆不出東西。",
+    m2_highlights: ["K 知識","S 技能","A 態度","摘要不複製"],
+    m2_deep: "拆解時最常見的兩個錯誤：一是把年資塞進 K，二是把工作內容整段搬到 A。年資屬於 S，因為它是「足以完成任務」的證據；工作內容則要先讀懂再挑出態度類的形容詞，而不是整段複製。如果某一格職缺根本沒寫，就寫「原職缺未列」——空白與「沒有要求」是兩件不同的事，之後訂抽取規則時你會需要這個分別。",
+    m2_rule_note: "只填摘要與關鍵詞，不要整段複製 JD 原文。這正是課綱「禁止全文複製，強制衍生摘要＋原連結」的實作，也是你們 TP 之後要遵守的同一條規則：資料進到你的系統時，留下的是摘要與可回溯的連結，不是別人的原文。",
+    m2_jd_title_label: "職稱（原文照抄職稱本身即可）",
+    m2_jd_title_ph: "例：資深產品經理 Senior Product Manager",
+    m2_jd_company_label: "公司或產業（不方便寫公司名就只寫產業）",
+    m2_jd_company_ph: "例：消費性電子／網通設備",
+    m2_jd_url_label: "職缺連結",
+    m2_jd_url_ph: "例：https://www.104.com.tw/job/xxxxxxx",
+    m2_svg_cap: "三個構面的抽取完成度：K 與 S 來自結構化欄位可規則式抽取，A 來自自由文字只能語意判讀",
+    m2_progress: "抽取完成度",
+    m2_terms: [
+      { front: "K 知識 Knowledge", back: "該領域的知識基礎。在 104 對應學歷要求與科系要求兩欄，是選單或短語，可以規則式抽取與正規化。" },
+      { front: "S 技能 Skills", back: "足以完成任務的能力，而且有證據。對應工作經歷、語文條件、擅長工具、工作技能四欄。年資歸這裡，不歸知識。" },
+      { front: "A 態度 Attitude", back: "企業想要的行為傾向，沒有證據。散在其他條件與工作內容裡，只能語意判讀，也因此最不可靠。" },
+      { front: "S 與 A 的分界", back: "分辨兩者最實用的一把尺：S 有證據，A 沒有。可以被第三方查核的放 S，只能靠自我宣稱的放 A。" },
+      { front: "A 的四象限", back: "對上、對下、對內、對外。把散落的態度詞分進這四格，才看得出企業真正在意的是哪一種關係。" },
+      { front: "管理責任欄位", back: "104 的結構化欄位之一，直接預測「對下」象限會不會有字。非主管職幾乎永遠是空的，這是很好用的先驗。" },
+      { front: "衍生摘要", back: "把原文讀懂之後改寫成的關鍵詞與短語，並保留原始連結。課綱禁止全文複製，要求的就是這個。" },
+      { front: "無法判定", back: "抽取規則裡最重要的一格。判不出來時標記為無法判定並進待審清單，比硬猜一個答案誠實，也比較好修。" }
+    ],
+    m2_q: [
+      { q: "「工作經歷 3 年以上」依本週的操作型定義應該歸到哪一個構面？", opts: ["K 知識，因為年資代表領域知識的累積量","S 技能，因為年資是足以完成任務的證據","A 態度，因為年資反映求職者的穩定度","不歸任何構面，年資只是行政篩選條件"], ans: _A1, exp: "年資歸 S。它不是知識本身，而是「足以完成任務」的證據，所以放在技能構面。" },
+      { q: "分辨 S 與 A 最實用的一把尺是什麼？", opts: ["S 有可驗證的證據，A 沒有可驗證的證據","S 出現在條件要求，A 出現在福利制度","S 由企業填寫，A 一律由求職者自行宣稱","S 屬於硬技能，A 一定屬於軟體操作能力"], ans: _A0, exp: "S 有證據、A 沒有。企業填結構化欄位時很具體，一到態度就退回自由文字，這正是 A 不可觀察的證據。" },
+      { q: "判定一則職缺偏 PM 還是偏 PjM 時，本週要求依據的是哪裡？", opts: ["職稱原文，因為職稱最直接表明角色","工作內容的原句，因為職稱經常被混用","職務類別欄位，因為它是結構化的分類","工作待遇級距，因為薪資反映角色份量"], ans: _A1, exp: "職稱混用是單向且普遍的，絕大多數是名義上叫 PM、實際做 PjM，所以依據一律引用工作內容的原句。" },
+      { q: "關於 104 的「管理責任」欄位，下列敘述何者正確？", opts: ["它可以預測 A 的對下象限會不會出現字","它決定 K 構面要不要納入學歷要求條件","它取代工作經歷成為判定層級的唯一依據","它屬於福利制度，與能力構面完全無關聯"], ans: _A0, exp: "管理責任欄位直接預測「對下」象限。非主管職這一欄多半寫不需負擔管理責任，對下那一格自然就是空的。" }
+    ],
+    m2_wrapup: "檢查點：八個抽取欄位都填了摘要或關鍵詞，沒有任何一格是整段複製 JD 原文。",
+
+    m3_nav: "3. 四象限與兩軸", m3_title: "四象限與兩軸判定",
+    m3_overview: "把第 2 節抓到的態度詞拿來做兩件事。第一件：分進對上、對下、對內、對外四個象限，看清楚企業在意的是哪一種關係。第二件：回到工作內容，判定這則職缺在兩軸上的位置——管理對象是產品還是專案，層級落在哪一階——並且引用讓你這樣判的那一句原句。",
+    m3_highlights: ["對上對下對內對外","管理責任欄位","依據引用原句","可觀察性"],
+    m3_deep: "判定兩軸時有一條硬規定：依據一律引用工作內容的原句，不採信職稱。偏 PM 的詞是產品藍圖、產品生命週期、產品損益、市場需求、競品分析、定價、規格定義、EOL；偏 PjM 的詞是時程、里程碑、資源調配、風險管控、跨部門協調、進度追蹤、交付驗收、工作分解結構與甘特圖。層級則看三件事一起：工作經歷的年資、管理責任欄位、以及工作內容的動詞（執行協調 → 制定決策 → 帶領團隊）。判不出來就選無法判定，不要硬湊——這一週要你看見的正是判不出來有多常發生。",
+    m3_quad_label: "把第 2 節抓到的態度詞分進四個象限",
+    m3_quad_hint: "104 的「管理責任」欄位可以預測「對下」象限會不會有字——非主管職幾乎永遠是空的。這一格空白不是你漏填，是這則職缺本來就沒有。",
+    m3_quad_ph: "填關鍵詞即可，用頓號分隔",
+    m3_axis_label: "兩軸判定",
+    m3_axis_obj_label: "軸一：管理對象",
+    m3_axis_level_label: "軸二：層級",
+    m3_axis_evi_label: "依據：引用工作內容的哪一句讓你這樣判？",
+    m3_axis_evi_ph: "例：工作內容寫「建立並維護工作分解結構，逐週追蹤各單位交付進度」，這是專案的語言，不是產品的語言。",
+    m3_critique_label: "批判題：你填的這些 A，有哪一個是可觀察、可驗證的？如果都不是，企業在哪一關才真正篩它？",
+    m3_critique_ph: "例：抗壓性強、主動積極都無法從履歷驗證。企業真正篩 A 的關卡其實是面試與試用期，紙本階段篩的仍然是 K 與 S。",
+    m3_count: "已填的象限數",
+    m3_wrapup: "檢查點：四象限至少三格有字，且兩軸判定的依據引用的是工作內容的原句，不是職稱。",
+
+    m4_nav: "4. 語言實驗室", m4_title: "EMI 語言實驗室",
+    m4_overview: "本課程是全英授課。從本週必讀教材中挑出五個新的詞彙或片語，以及三個你唸起來不順的字。這一節取代原本的心智圖，產出直接用於課堂討論與加分作業。",
+    m4_highlights: ["新詞五個","難發音三個","自己的話","例句"],
+    m4_deep: "「用自己的話解釋」不要抄原文定義——抄定義只證明你找得到，改寫才證明你讀懂了。本週的詞彙可以從 competency、taxonomy、normalisation、attribute、credential 這一類職能語彙裡挑。例句請寫跟你的期末專案有關的句子，這樣同一份力氣可以用兩次。",
+    m4_terms_label: "五個新詞彙或片語",
+    m4_col_term: "詞彙／片語", m4_col_mean: "用自己的話解釋", m4_col_sent: "自己造一個句子",
+    m4_pron_label: "三個唸起來不順的字",
+    m4_col_word: "字", m4_col_hard: "難在哪裡", m4_col_tip: "你的記憶方法",
+    m4_wrapup: "檢查點：五個詞的解釋沒有一句是直接抄教材原文。",
+
+    m5_nav: "5. 小組綜整", m5_title: "小組綜整：六則 JD 只挑三則比對",
+    m5_overview: "這一節才是小組討論真正的工作。六個人各自抓了一則真實職缺，不要輪流念，也不要六則全丟給 AI 叫它總結——只挑三則放在一起比對。同樣一份主教材、六則不同的職缺，K、S、A 哪一個構面的差異最大？那個構面就是抽取規則最難寫的地方。",
+    m5_highlights: ["只挑三則","差異最大的構面","可貼進 KB","組內通則"],
+    m5_deep: "只挑三則不是偷懶，是選取。上一次你們學過，把全部內容丟給模型正是「過量」與「污染」；這一週同樣的道理換成資料面——比對三則你們讀得完、講得出理由，比對六則就會變成請 AI 幫你們產生一段沒有人真正檢查過的結論。選哪三則要有理由：可以挑差異最大的三則，也可以挑同一個職稱但內容明顯不同的三則。最後那條組內通則要寫成可以直接貼進 KB/ksa_taxonomy.md 的規則句，不是感想。",
+    m5_focus_label: "我們決定比對的三則 JD（勾選三則）",
+    m5_focus_hint: "依第 1 節的組員順序列出。名字沒填的會顯示為 JD 編號。",
+    m5_focus_why: "為什麼挑這三則？",
+    m5_focus_why_ph: "例：這三則都掛 PM，但工作內容一則講產品損益、一則講里程碑、一則只講整理資料，差異最能看出問題。",
+    m5_diff_label: "六人抓的 JD 裡，K／S／A 哪一個構面差異最大？",
+    m5_evidence_label: "從三則裡舉兩個具體例子支持上面的判斷",
+    m5_evidence_ph: "例：A 的 A 構面只有「抗壓性強」四個字，C 的其他條件寫了六個態度詞，同樣是 PM 職缺，A 構面的密度差了一個量級。",
+    m5_case_label: "我們選來當範例的是哪一則？",
+    m5_case_ph: "例：JD3 的「PM 專案管理師」，因為它是典型的掛 PM 實為 PjM。",
+    m5_rule_label: "從這次比對，我們訂下一條組內通則",
+    m5_rule_ph: "例：年資一律歸 S 並正規化為整數年；原文寫「3～5 年」取下界 3；寫「不拘」記為 0；沒有這一欄記為 null，不得記為 0。",
+    m5_rule_note: "這條通則會累積到期末專案。W10 建 KB 時，它就是 KB/ksa_taxonomy.md 的第一批內容——所以請寫成規則句，可以直接貼過去的那種。",
+    m5_wrapup: "檢查點：只比對了三則（不是全部丟給 AI），且訂出的通則可以直接貼進 KB／ksa_taxonomy.md。",
+
+    m6_nav: "6. 抽取規則初版", m6_title: "抽取規則初版：三構面各一條，外加判不出來時怎麼辦",
+    m6_overview: "每一份學習單都有接到期末專案的這一節。這一週要交出的是晨報的抽取規則初版：K、S、A 三個構面各寫一條規則，說清楚從哪一欄取、怎麼正規化。然後最重要的一格——判不出來時怎麼辦。",
+    m6_highlights: ["從哪一欄取","怎麼正規化","無法判定比例","本週一件事"],
+    m6_deep: "晨報必須顯示「無法判定」的比例，而不是把判不出來的資料悄悄丟掉或硬猜一個值。超過三成就代表關鍵詞表要修——這是 Loop Engineering 的實例：系統自己回報一個可觀察的指標，你依據那個指標去修規則，修完再看指標有沒有降。沒有這個回報，你永遠不知道自己的規則爛在哪裡；有了它，修規則就變成一件可以排進待辦的事。",
+    m6_rule_k_label: "K 的抽取規則：從哪一欄取、怎麼正規化",
+    m6_rule_k_ph: "例：取學歷要求與科系要求兩欄。學歷正規化為高中／專科／大學／碩士／博士五級；科系用同義詞表合併為電子／資訊／機械／商管／其他五類，原文一併保留。",
+    m6_rule_s_label: "S 的抽取規則：從哪一欄取、怎麼正規化",
+    m6_rule_s_ph: "例：取工作經歷、語文條件、擅長工具、工作技能四欄。年資轉為整數年並取下界；工具與技能以逗號與頓號切分後去重，再對照工具同義詞表。",
+    m6_rule_a_label: "A 的抽取規則：從哪一欄取、怎麼正規化",
+    m6_rule_a_ph: "例：取其他條件與工作內容兩欄，用態度關鍵詞表比對，命中才收；每個命中詞同時標記四象限，對下象限僅在管理責任欄位不為「不需負擔」時才允許。",
+    m6_undecided_label: "判不出來時怎麼辦？",
+    m6_undecided_ph: "例：兩軸任一軸命中詞數相同或都是零，就標記 undecided，寫入待審清單並保留原句；晨報首頁顯示 undecided 佔比，超過三成就在當日待辦裡開一條「修關鍵詞表」。",
+    m6_undecided_note: "這一格是本節的重點。只寫判定成功的情況等於沒有規則——真實資料裡判不出來的比例，往往比你想的高很多。",
+    m6_action_label: "針對抽取規則，我們這一週要做的一件事",
+    m6_action_ph: "例：這週把六人的 JD 各手工跑一次規則，統計判不出來的比例，看看是不是真的超過三成。",
+    m6_wrapup: "檢查點：抽取規則寫出了「判不出來時怎麼辦」，不是只寫判定成功的情況。",
+
+    m7_nav: "7. 簡報計畫", m7_title: "簡報計畫與提問",
+    m7_overview: "把第 1 節的分工變成可執行的腳本，並準備一個要丟給全班的問題。課堂上的 10 分鐘 Q&A 就是靠各組的問題撐起來的。",
+    m7_highlights: ["開場句","段落腳本","Menti 提問","10 分鐘"],
+    m7_deep: "開場句請用英文寫完整一句，不要只寫關鍵字——上台最卡的永遠是第一句。要丟給全班的問題請避開是非題；好的問題應該是同學必須先做一個判斷才能回答的，例如「如果一則職缺的 A 全部都不可驗證，企業到底在哪一關篩掉人？」",
+    m7_open_label: "英文開場句（完整一句）",
+    m7_open_ph: "例：We pulled six real postings from 104, and the same word appeared in five of them without ever being verifiable.",
+    m7_script_label: "段落腳本（每人一句話說明你要講的重點）",
+    m7_col_who: "誰", m7_col_point: "這一段的重點是什麼",
+    m7_question_label: "要丟給全班的一個問題（Menti 用）",
+    m7_question_ph: "例：If none of the attitude requirements in a posting can be verified on paper, at which stage does the employer actually screen for them?",
+    m7_wrapup: "檢查點：開場句是完整的英文句子，且提問不是可以用「是／否」回答的問題。",
+
+    mlab_nav: "8. 互動實驗室", mlab_title: "互動實驗室",
+    mlab_desc: "四個自我檢核工具。這一頁不是再教你一次定義，而是讓你把第 2 到第 6 節的填答拿回來檢查一遍：抽得對不對、分得合不合理、判得站不站得住、規則寫不寫得出來。操作紀錄會計入完成度。",
+    mlab_clear: "🗑 清除全部",
+    mlab_clear_confirm: "確定要清除這一頁四個工具的所有輸入嗎？此操作無法復原。",
+    lab1_title: "① 抽取結果自我檢查器",
+    lab1_desc: "把你在第 2 節填的內容貼進來，規則式檢查三件事：有沒有整段複製原文、是不是只把職稱抄了一遍、三個構面是不是都有內容。",
+    lab1_jd: "職稱",
+    lab1_jd_ph: "例：資深產品經理",
+    lab1_k: "K 的內容（學歷＋科系）",
+    lab1_s: "S 的內容（經歷＋語文＋工具＋技能）",
+    lab1_a: "A 的內容（其他條件＋工作內容的態度詞）",
+    lab1_ph: "貼上你填的摘要與關鍵詞",
+    lab1_check: "檢查", lab1_reset: "重做",
+    lab1_c1: "沒有整段複製 JD 原文",
+    lab1_c1_bad: "有一格看起來像整段原文：字數過長或句號、分號過多。請改寫成關鍵詞。",
+    lab1_c1_ok: "三格都在摘要與關鍵詞的長度範圍內。",
+    lab1_c2: "不是只把職稱抄一遍",
+    lab1_c2_bad: "有一格的內容幾乎就是職稱本身。職稱不是能力，請回到欄位去抽。",
+    lab1_c2_ok: "沒有任何一格只是職稱的複寫。",
+    lab1_c3: "三個構面都有內容",
+    lab1_c3_bad: "有構面是空的。若原職缺真的沒寫，請填「原職缺未列」，空白與未要求是兩件事。",
+    lab1_c3_ok: "K、S、A 三格都有內容。",
+    lab1_pass: "三項全過。這份抽取結果可以拿去第 5 節比對。",
+    lab1_fail: "有項目未過，請依上面的說明修一次再檢查。",
+    lab2_title: "② A 詞彙四象限分流器",
+    lab2_desc: "十個從真實職缺常見句型合成的態度詞。把每一個分進四象限，再看看你的「對下」那一格有幾個。",
+    lab2_items: [
+      { w:"主動積極", q:"in" },
+      { w:"抗壓性強", q:"in" },
+      { w:"具良好溝通協調能力", q:"in" },
+      { w:"願意配合主管指派的臨時任務", q:"up" },
+      { w:"能獨立作業", q:"in" },
+      { w:"樂於跨部門合作", q:"in" },
+      { w:"具客戶服務熱忱", q:"out" },
+      { w:"能定期向上回報進度", q:"up" },
+      { w:"具供應商談判經驗尤佳", q:"out" },
+      { w:"細心負責", q:"in" }
+    ],
+    lab2_check: "看分布", lab2_reset: "重做",
+    lab2_dist: "你的分布",
+    lab2_ref: "參考分流",
+    lab2_ask: "你的「對下」有幾個？為什麼會這樣？",
+    lab2_ask_ph: "寫下你的解釋，再展開下面的說明對照。",
+    lab2_reveal: "參考分流裡，對下象限是零。原因是這十個詞都來自非主管職的常見句型，而帶人、培育、績效這類詞只有在「管理責任」欄位不是「不需負擔管理責任」時才會出現。所以「對下」空白通常不是你分錯，而是這則職缺本來就不帶人——這也是為什麼管理責任欄位可以當成對下象限的先驗。",
+    lab3_title: "③ 兩軸判定練習",
+    lab3_desc: "四則依 104 欄位結構自行合成的職缺片段（非任何真實職缺原文）。先判管理對象，再判層級，然後對照參考答案與理由。",
+    lab3_cases: [
+      { k:"L1", title:"片段一｜產品經理・工業用感測模組",
+        rows: [
+          ["工作內容","負責感測模組產品線的世代規劃與產品藍圖；蒐集系統廠需求並整理為市場需求文件；分析競品規格與定價帶並提出建議售價與毛利結構；與研發共同定義規格書並主導規格定案；追蹤上市後銷售並於生命週期末期提出停產建議。"],
+          ["管理責任","不需負擔管理責任"],
+          ["工作經歷","5 年以上"]
+        ], a:"PM", l:"Senior",
+        e:"工作內容整段都是產品的語言：產品藍圖、市場需求、定價帶、規格定案、生命週期末期。動詞是提出與定義，不是執行；年資 5 年以上且不帶人，落在 Senior PM。" },
+      { k:"L2", title:"片段二｜PM 專案管理師・車用連接器事業處",
+        rows: [
+          ["工作內容","擔任客戶案件的單一窗口，負責時程規劃與里程碑管控；每週召開跨部門會議協調研發、採購與生產的資源調配；建立並維護工作分解結構與甘特圖，逐週追蹤各單位交付進度；辨識風險並提出因應方案；負責送樣、交付驗收與客戶稽核文件。"],
+          ["管理責任","不需負擔管理責任"],
+          ["工作經歷","2 年以上"]
+        ], a:"PjM", l:"Junior",
+        e:"職稱掛 PM，工作內容卻全是專案的語言：時程、里程碑、資源調配、工作分解結構、進度追蹤、交付驗收。這就是典型的掛 PM 實為 PjM，也是為什麼依據不能採信職稱。" },
+      { k:"L3", title:"片段三｜產品管理專員・家用照明",
+        rows: [
+          ["工作內容","協助整理競品規格與售價資料並更新比較表；維護產品規格表與型錄素材；彙整通路端回報的問題並轉交相關單位；協助主管準備新品提案簡報所需資料。"],
+          ["管理責任","不需負擔管理責任"],
+          ["工作經歷","經歷不拘"]
+        ], a:"PM", l:"Specialist",
+        e:"對象仍是產品（競品、規格、型錄、新品提案），但動詞全是協助、整理、維護、彙整，沒有任何決策或定義的權責，年資不拘，落在 PM Specialist 產品專員。" },
+      { k:"L4", title:"片段四｜產品總監・網通事業群",
+        rows: [
+          ["工作內容","綜理企業級路由器產品線的產品策略與產品線組合規劃，並對產品線損益負責；決定各世代產品的投入與退場時機與資源配置；帶領 15 人產品管理團隊並執行年度績效檢核；代表公司與策略客戶及晶片供應商進行商務談判。"],
+          ["管理責任","需負擔管理責任，管理人數 15 人以上"],
+          ["工作經歷","10 年以上"]
+        ], a:"PM", l:"Director+",
+        e:"對象是產品線與組合，並對損益負責，動詞是綜理、決定、帶領；管理責任欄位明確寫出 15 人，三個訊號一致指向 PM Director 以上。" }
+    ],
+    lab3_axis: "管理對象", lab3_level: "層級",
+    lab3_check: "對答案", lab3_reset: "重做",
+    lab3_score: "兩軸都判對 {n} / 4",
+    lab3_ref: "參考答案",
+    lab3_note: "四則裡有一則是刻意設計的「掛 PM 實為 PjM」。如果你被職稱帶著走，那一則就會判錯——真實資料裡這種混用是常態，不是例外。",
+    lab4_title: "④ 抽取規則產生器",
+    lab4_desc: "勾選你要用的來源欄位、正規化做法與判準詞，產出一份可以直接貼進 KB/ksa_taxonomy.md 的 Markdown 草稿。",
+    lab4_src_label: "來源欄位",
+    lab4_srcs: [
+      { k:"edu", n:"學歷要求", d:"K" },
+      { k:"major", n:"科系要求", d:"K" },
+      { k:"exp", n:"工作經歷", d:"S" },
+      { k:"lang", n:"語文條件", d:"S" },
+      { k:"tool", n:"擅長工具", d:"S" },
+      { k:"skill", n:"工作技能", d:"S" },
+      { k:"other", n:"其他條件", d:"A" },
+      { k:"content", n:"工作內容", d:"A" }
+    ],
+    lab4_norm_label: "正規化做法",
+    lab4_norms: [
+      { k:"lower", n:"英文一律轉小寫後比對" },
+      { k:"year", n:"年資轉整數年，區間取下界，不拘記 0，未列記 null" },
+      { k:"syn", n:"以同義詞表合併寫法（例：Excel／試算表／樞紐分析）" },
+      { k:"keep", n:"保留原文關鍵詞與原始連結，供回溯" },
+      { k:"split", n:"以逗號、頓號、換行切分後去重" }
+    ],
+    lab4_term_label: "兩軸判準詞",
+    lab4_terms_pm: ["產品藍圖","產品生命週期","產品損益","市場需求","競品分析","定價","規格定義","EOL"],
+    lab4_terms_pjm: ["時程","里程碑","資源調配","風險管控","跨部門協調","進度追蹤","交付驗收","工作分解結構"],
+    lab4_undec_label: "判不出來時怎麼辦",
+    lab4_undecs: [
+      { k:"flag", n:"標記 undecided 並寫入待審清單" },
+      { k:"ratio", n:"晨報顯示 undecided 佔比，超過三成就開一條修關鍵詞表的待辦" },
+      { k:"keepsrc", n:"保留原句與連結，不刪除資料" },
+      { k:"noguess", n:"不允許以職稱回推，寧可留白" }
+    ],
+    lab4_out_label: "產出草稿（可貼進 KB/ksa_taxonomy.md）",
+    lab4_copy: "複製 Markdown", lab4_copied: "已複製",
+    lab4_empty: "先勾選左邊的選單，草稿會即時產生。",
+
+    mres_nav: "9. 學習資源", mres_title: "本週學習資源",
+    mres_desc: "必讀兩份，符合本課程規則：每週必讀 = 一份互動教材加上至多一支十分鐘內的短片，本週沒有短片，改為兩份互動教材。第一份是本週主教材，第 2、3 節直接依據它；第二份是相鄰架構，當 competency framework 讀，補上談能力時的共同語彙。選讀不影響學習單，但寫成書面整理可計入加分作業。",
+    res_req: [
+      { label: "JDKS · 讀懂一份 JD：把職缺文本拆成 K／S／A", url: "https://lolopodcast.github.io/JD-to-KSA/", desc: "本週主教材，也是第 2、3 節的直接依據。104 欄位結構、K／S／A 操作型定義與映射、A 的四象限、兩軸判定的判準詞。" },
+      { label: "AICF · AI 素養共通語言學習平台", url: "https://lolopodcast.github.io/AICF-AI-Competency-Framework/", desc: "相鄰架構，請當 competency framework 讀：一套能力被拆成構面與層級之後，語彙如何被統一，正好對照本週的 K／S／A。" }
+    ],
+    res_opt: [
+      { label: "TU · Thinking Upgrader", url: "https://lolopodcast.github.io/Thinking-Upgrader/", desc: "思考升級的工具箱。抽取規則寫不出來時，多半卡在問題定義而不是技術。" },
+      { label: "Human Intelligence · Adaptive Cognition", url: "https://lolopodcast.github.io/Human-Intelligence_Adaptive-Cognition/", desc: "人類智能與適應性認知。對照本週的 A 構面：為什麼態度難以被觀察與測量。" },
+      { label: "CSA · 生涯策略架構", url: "https://lolopodcast.github.io/Career-Strategy-Architecture/", desc: "下週主教材。把 K／S／A 從讀懂別人的職缺，轉成規劃自己的路徑。" }
+    ],
+
+    analytics_title: "完成度與匯出",
+    analytics_desc: "個人層與小組層分開匯出。個人版留給你自己，作為學習歷程檔案；小組版由本週彙整人上傳 Moodle。",
+    analytics_personal_title: "個人匯出（第 2、3、4 節・不繳交）",
+    analytics_personal_desc: "填好姓名即可匯出。這份檔案留給你自己，到 W10 建知識庫時再從中挑選要保留的部分。",
+    analytics_group_title: "小組匯出（第 1、5、6、7 節・繳交 Moodle）",
+    analytics_group_desc: "填好組別與本週彙整人即可匯出。CSV 與 Markdown 各一份，上傳至 Moodle 作業區。",
+    analytics_group: "組別", analytics_dept: "系級", analytics_dept_ph: "例：IBS1",
+    analytics_id: "學號", analytics_id_ph: "例：113212599",
+    analytics_name_en: "英文姓名", analytics_name_en_ph: "例：Shihmin Lo",
+    analytics_name_zh: "中文姓名", analytics_name_zh_ph: "例：王阿吉",
+    analytics_compiler: "本週彙整人", analytics_compiler_ph: "例：王阿吉",
+    analytics_export_personal: "匯出個人 Markdown",
+    analytics_export_csv: "匯出小組 CSV",
+    analytics_export_md: "匯出小組 Markdown",
+    analytics_need_personal: "請先填寫姓名",
+    analytics_need_group: "請先填寫組別與本週彙整人",
+    group_options: ["G1","G2","G3","G4","G5","G6","G7","G8","G9","G10","G11","G12","Others"],
+    analytics_pct_personal: "個人完成度", analytics_pct_group: "小組完成度",
+    analytics_total_time: "總填寫時間", analytics_overall_acc: "自我檢核答對率",
+    analytics_sec: "秒",
+    analytics_progress_title: "各節完成度",
+    analytics_wp_title: "尚未完成的節次",
+    analytics_wp_goto: "→ 前往填寫",
+    sdl_title: "先匯入你的 SDL 知識庫快照",
+    sdl_desc: "本週流程是：不使用 AI 手寫閱讀筆記 → 用 SDL 學習夥伴做蘇格拉底式對話 → 產出 KB.md → 在這裡匯入。匯入後會自動帶入你的身分欄位，並把 KB 的重點顯示在各節上方供你對照。這份學習單不是要你重想一遍，是把你已經想清楚的填成可比對的格式。",
+    sdl_ph: "把 SDL 產出的 KB.md 全文貼在這裡（含最上方的 --- frontmatter ---）",
+    sdl_parse: "解析並匯入",
+    sdl_file: "改用檔案上傳",
+    sdl_loaded: "✓ 已匯入 SDL KB",
+    sdl_clear: "清除並重新匯入",
+    sdl_ok: "匯入成功，身分欄位已自動帶入。",
+    sdl_err_empty: "內容是空的，請先貼上 KB.md 全文。",
+    sdl_err_format: "解析不出來。請確認貼的是 SDL 產出的 KB.md（開頭應該有 --- 的 frontmatter，內文有 §1 §2 等段落）。",
+    sdl_panel_title: "📖 你的 SDL KB 重點（對照用）",
+    sdl_panel_show: "展開",
+    sdl_panel_hide: "收合",
+    sdl_s1: "§1 本次學習摘要",
+    sdl_s2: "§2 知識綜整",
+    sdl_s4: "§4 學生親筆區塊",
+    sdl_s5: "§5 未解問題清單",
+    analytics_wp_personal_head: "個人層（你自己要填）",
+    analytics_wp_personal_done: "個人層已全部完成。",
+    analytics_wp_group_head: "小組層（小組討論時共同決定）",
+    analytics_wp_group_note: "若你不是本週彙整人，這幾節維持 0% 是正常的——個人匯出不受影響。",
+    analytics_wp_group_done: "小組層已全部完成。",
+    analytics_wp_allpass: "七節全部填寫完成，可以匯出了。",
+    analytics_wp_saved: "填寫內容已自動儲存於本機瀏覽器",
+    analytics_wp_clear: "🗑 清除全部",
+    analytics_wp_clear_confirm: "確定要清除所有填寫內容與歷程嗎？此操作無法復原，建議先匯出。",
+    analytics_wp_tts_intro: "以下是尚未完成的節次。",
+    analytics_wp_tts_module: "{name}，完成度 {acc}%。",
+    analytics_wp_tts_allpass: "七節全部填寫完成。",
+
+    date: "Version 2026.08.23",
+    copyright: "For Educational Use Only",
+    architect_label: "Architect:",
+    architect_url: "https://www.ibs.ncnu.edu.tw/index.php/faculty/tenured-professor/299-smlo"
+  },
+
+  en: {
+    brand: "PMCS",
+    title: "Worksheet W7", subtitle: "Turning a Job Posting into K, S, A",
+    nav_modules: "Contents", nav_prev: "Previous", nav_next: "Next", nav_home: "Home",
+    key_terms: "Quick Reference Cards", flip_prompt: "Click to flip",
+    flip_status: "Read {read} / Shown {shown} / Total {total}",
+    flip_next: "Next", flip_retry: "Restart",
+    audio_read: "Audio Guide",
+    quiz_title: "Pre-Class Self-Check", quiz_status: "Correct {correct} / Answered {answered} / Total {total}",
+    quiz_next: "Next", quiz_retry: "Retry",
+    submit: "Submit", correct: "Correct", incorrect: "Incorrect", explanation: "Explanation",
+    overview_label: "Overview",
+    highlights_label: "Highlights",
+    deep_dive_label: "Deep Dive",
+    wrapup_label: "Wrap-up",
+    badge_personal: "Individual · not submitted",
+    badge_group: "Group · submitted with the group file",
+    saved_hint: "✍️ Your entries are saved in this browser on this computer only. They do not travel with you — always export from the Completion & Export page.",
+    required_label: "Required Materials", optional_label: "Optional Materials (eligible for BA)",
+    select_ph: "Select",
+
+    m0_nav: "0. Executive Summary",
+    m0_title: "How to Use This Worksheet",
+    m0_intro: "This is the pre-class worksheet for W7 of PMCS. Two required materials this week: JDKS · Reading a Job Posting (the main one, and the direct basis for sections 2 and 3), and AICF · the AI Literacy Common Language Platform, to be read as a competency framework. Last week you separated PM and PjM into two independent axes; this week you take that ruler to a real document. Find a real job posting yourself on 104 or LinkedIn — PM or PjM, either is fine — break it into K knowledge, S skills and A attitude, sort the attitude terms into the upward, downward, inward and outward quadrants, and place the posting on both axes using a sentence quoted from the job description itself. The worksheet has an individual layer and a group layer: sections 2 to 4 are filled by each person and are not submitted; in section 5 the group compares only three postings, and that comparison is the real work of the discussion; sections 6 and 7 are decided together. Roughly forty minutes individually, forty minutes as a group.",
+    m0_why: "Why break down a real posting by hand?",
+    m0_why_desc: "Because a job posting is the most honest public statement an employer makes about capability. Employers are precise when filling in education, years, languages and tools, and retreat into free text the moment attitude comes up. That gap is itself the evidence: K and S can be verified, A cannot. Only after doing it by hand do you know what your morning brief actually has to extract, which parts a rule can handle, and which parts depend on reading meaning and will therefore be unreliable. What you produce here becomes the first version of ksa_taxonomy.md in your W10 knowledge base.",
+    m0_stats: [
+      { val: "3", label: "capability dimensions" },
+      { val: "8", label: "extraction fields" },
+      { val: "7", label: "sections to complete" },
+      { val: "40+40", label: "minutes individual + group" }
+    ],
+    m0_modules: [
+      { num: "01", title: "Group & Roles", desc: "Register your group and members, and settle the jigsaw split for the 10-minute presentation.", tag: "Group" },
+      { num: "02", title: "K/S/A Extraction", desc: "Find a real posting yourself and break it into K knowledge, S skills and A attitude.", tag: "Individual" },
+      { num: "03", title: "Quadrants & Two Axes", desc: "Sort the attitude terms into four quadrants, then place the posting using a quoted sentence.", tag: "Individual" },
+      { num: "04", title: "Language Lab", desc: "Five new terms and three hard words, for class discussion and bonus work.", tag: "Individual" },
+      { num: "05", title: "Group Synthesis", desc: "Compare only three of the six postings, find the widest gap, and set one group rule.", tag: "Group" },
+      { num: "06", title: "First Extraction Rules", desc: "One rule per dimension, plus what to do when a posting cannot be classified.", tag: "Group" },
+      { num: "07", title: "Presentation Plan", desc: "Who speaks about what, for how many seconds, plus one question for the class.", tag: "Group" }
+    ],
+    m0_start: "Start →",
+
+    ksa: [
+      { id:"K", name:"K Knowledge", q:"What field knowledge does this posting require?",
+        src:"104 fields: education requirement, major requirement",
+        note:"Rule-extractable. Both are menu items or short phrases and compare cleanly once normalised.",
+        fields:[
+          { id:"k_edu", label:"Education requirement", ph:"e.g. Bachelor's degree or above" },
+          { id:"k_major", label:"Major requirement", ph:"e.g. seven majors listed; summarised as electronics / information / business" }
+        ] },
+      { id:"S", name:"S Skills", q:"What verifiable ability does the job actually take?",
+        src:"104 fields: experience, languages, tools, work skills",
+        note:"Rule-extractable. Years of experience sit in S, not K — they evidence being able to do the job, not the knowledge itself.",
+        fields:[
+          { id:"s_exp", label:"Experience", ph:"e.g. 3 years or more, industry unspecified" },
+          { id:"s_lang", label:"Languages", ph:"e.g. English, intermediate or above in all four skills" },
+          { id:"s_tool", label:"Tools", ph:"e.g. spreadsheets, presentation software, scheduling tools" },
+          { id:"s_skill", label:"Work skills", ph:"e.g. market research, specification writing" }
+        ] },
+      { id:"A", name:"A Attitude", q:"What kind of person does the wording say they want?",
+        src:"104 fields: other requirements (mostly attitude, mixed), job description (all three)",
+        note:"Read for meaning, not by rule. This is where accuracy collapses, and seeing that is the point of this week.",
+        fields:[
+          { id:"a_other", label:"Attitude requirements in Other requirements", ph:"e.g. resilient under pressure, self-starting (keywords only, never whole sentences)" },
+          { id:"a_content", label:"Attitude adjectives inside the job description", ph:"e.g. cross-functional work needs initiative; customer work needs patience" }
+        ] }
+    ],
+
+    quads: [
+      { id:"up", name:"Upward", hint:"Towards managers: reporting, taking assignments, securing resources" },
+      { id:"down", name:"Downward", hint:"Towards reports: leading, developing, appraising. Usually empty for non-managerial roles" },
+      { id:"in", name:"Inward", hint:"Towards self and peers: resilience, care, self-discipline, cross-functional work" },
+      { id:"out", name:"Outward", hint:"Towards customers, suppliers, channels: service, negotiation, communication" }
+    ],
+    axis_labels: { PM: "PM — manages a product", PjM: "PjM — manages a project", Undecidable: "Cannot tell" },
+    level_labels: { Specialist: "PM Specialist", Engineer: "PM Engineer", Junior: "Junior PM", Senior: "Senior PM", "Director+": "PM Director or above", Undecidable: "Cannot tell" },
+
+    m1_nav: "1. Group & Roles", m1_title: "Group and Jigsaw Roles",
+    m1_overview: "Fill in the administrative details first, then settle the presentation split during group discussion. Two groups present each week for 10 minutes, and every member must speak for one to two minutes — this section pins down who covers what and for how long, so nobody is being volunteered at the podium.",
+    m1_highlights: ["Jigsaw collaboration","1-2 min each","10 min per group","Everyone speaks"],
+    m1_deep: "This week splits neatly by dimension: one person on K, one on S, one on A, a fourth on the four quadrants, a fifth on the two-axis judgement and its quoted evidence, a sixth on the group rule and the extraction rules. Write the seconds down — that is the only way the total stays under control.",
+    m1_group: "Group", m1_date: "Date",
+    m1_members_label: "Members and roles (use the buttons below to set the size, up to 10)",
+    m1_member_count: "{n} members",
+    m1_col_name: "Name", m1_col_id: "Student ID", m1_col_part: "Assigned part", m1_col_sec: "Seconds",
+    m1_part_ph: "e.g. The four attitude quadrants",
+    m1_total_sec: "Planned total length",
+    m1_sec_warn: "Over 600 seconds (10 minutes) — trim it down.",
+    m1_sec_ok: "Within 10 minutes. Workable.",
+    m1_wrapup: "Checkpoint: every attending member has an assigned part, and the total stays under 600 seconds.",
+
+    m2_nav: "2. K/S/A Extraction", m2_title: "K, S, A Extraction: Break Down a Real Posting You Found",
+    m2_overview: "This week's individual core task. Go to 104 or LinkedIn and find a real posting yourself, PM or PjM, rather than using a synthetic example from the material. Then break it into the eight extraction fields across K, S and A, following the structure of the 104 posting page. Pick a posting whose fields are reasonably complete; a sloppy one gives you nothing to work with.",
+    m2_highlights: ["K knowledge","S skills","A attitude","Summarise, never copy"],
+    m2_deep: "Two mistakes dominate here. The first is filing years of experience under K; the second is dragging the whole job description into A. Years belong to S, because they evidence being able to do the job. The job description has to be read first, then mined for attitude adjectives — not pasted. If the posting simply does not state something, write \"not stated in the posting\": blank and \"not required\" are two different things, and you will need that distinction when you write the extraction rules.",
+    m2_rule_note: "Enter summaries and keywords only. Never paste whole passages of the posting. This is the course rule — no full-text copying, derived summary plus original link — put into practice, and it is the same rule your Term Project has to follow: what enters your system is a summary and a traceable link, not somebody else's text.",
+    m2_jd_title_label: "Job title (the title itself may be quoted as is)",
+    m2_jd_title_ph: "e.g. Senior Product Manager",
+    m2_jd_company_label: "Company or industry (industry alone is fine)",
+    m2_jd_company_ph: "e.g. consumer electronics / networking equipment",
+    m2_jd_url_label: "Posting link",
+    m2_jd_url_ph: "e.g. https://www.104.com.tw/job/xxxxxxx",
+    m2_svg_cap: "Extraction completeness by dimension: K and S come from structured fields and can be rule-extracted, while A comes from free text and can only be read for meaning",
+    m2_progress: "Extraction completeness",
+    m2_terms: [
+      { front: "K Knowledge", back: "The knowledge base of a field. On 104 it maps to the education and major requirements: menu items or short phrases, extractable and normalisable by rule." },
+      { front: "S Skills", back: "Ability sufficient to do the job, with evidence behind it. Maps to experience, languages, tools and work skills. Years of experience live here, not in knowledge." },
+      { front: "A Attitude", back: "The behaviour an employer wants, with no evidence attached. Scattered through other requirements and the job description, readable only by meaning, and therefore the least reliable." },
+      { front: "The S / A boundary", back: "The most useful ruler: S has evidence, A does not. Anything a third party could check goes to S; anything that rests on self-assertion goes to A." },
+      { front: "The four quadrants of A", back: "Upward, downward, inward, outward. Sorting scattered attitude terms into these four cells is what reveals which relationship the employer actually cares about." },
+      { front: "Management duty field", back: "One of the structured 104 fields, and a direct predictor of whether the downward quadrant carries anything. For non-managerial roles it is almost always empty — a very usable prior." },
+      { front: "Derived summary", back: "Keywords and short phrases rewritten after reading the original, with the source link kept. Full-text copying is banned; this is what is required instead." },
+      { front: "Undecidable", back: "The most important cell in an extraction rule. Flagging a case as undecidable and queueing it for review is more honest than guessing, and far easier to fix later." }
+    ],
+    m2_q: [
+      { q: "Under this week's operational definition, where does \"3 years of experience or more\" belong?", opts: ["K knowledge, since years accumulate field knowledge","S skills, since years evidence being able to do it","A attitude, since years indicate personal stability","Nowhere, since years are only an administrative filter"], ans: _A1, exp: "Years belong to S. They are not knowledge in themselves; they are the evidence that somebody can do the job." },
+      { q: "What is the most useful ruler for separating S from A?", opts: ["S carries verifiable evidence and A carries none","S sits in requirements and A sits in the benefits","S is filled by employers and A only by applicants","S means hard skills and A always means software"], ans: _A0, exp: "S has evidence, A does not. Employers are precise in structured fields and retreat into free text on attitude — that is the evidence A is unobservable." },
+      { q: "When deciding whether a posting leans PM or PjM, what does this week require you to rely on?", opts: ["The job title, since it names the role directly","A sentence quoted from the job description itself","The job category field, since it is a structured one","The salary band, since pay reflects role weight"], ans: _A1, exp: "Title misuse is one-directional and widespread — most postings say PM while describing PjM work — so the evidence must always be a sentence from the job description." },
+      { q: "Which statement about the 104 \"management duty\" field is correct?", opts: ["It predicts whether the downward quadrant has words","It decides whether K should include education needs","It replaces experience as the only signal of level","It sits under benefits and says nothing about ability"], ans: _A0, exp: "The management duty field predicts the downward quadrant directly. Non-managerial roles state no direct reports, so that quadrant is naturally empty." }
+    ],
+    m2_wrapup: "Checkpoint: all eight extraction fields carry a summary or keywords, and not one of them is a passage copied from the posting.",
+
+    m3_nav: "3. Quadrants & Two Axes", m3_title: "Four Quadrants and the Two-Axis Judgement",
+    m3_overview: "Take the attitude terms from section 2 and do two things with them. First, sort them into the upward, downward, inward and outward quadrants, so you can see which relationship the employer cares about. Second, go back to the job description and place the posting on both axes — is the thing being managed a product or a project, and which rung of the ladder is this — quoting the sentence that made you decide.",
+    m3_highlights: ["Up, down, in, out","Management duty field","Quote the sentence","Observability"],
+    m3_deep: "One rule is fixed here: the evidence must be a sentence from the job description, never the title. Words leaning PM are roadmap, product life cycle, product P&L, market requirement, competitor analysis, pricing, specification definition, EOL. Words leaning PjM are schedule, milestone, resource allocation, risk control, cross-functional coordination, progress tracking, delivery acceptance, work breakdown structure and Gantt chart. Level is read from three things together: years of experience, the management duty field, and the verbs in the description (execute and coordinate → define and decide → lead a team). If you cannot tell, choose Cannot tell — how often that happens is exactly what this week wants you to see.",
+    m3_quad_label: "Sort the attitude terms from section 2 into the four quadrants",
+    m3_quad_hint: "The 104 \"management duty\" field predicts whether the downward quadrant carries anything — for non-managerial roles it is almost always empty. A blank there is not something you missed; the posting never had it.",
+    m3_quad_ph: "Keywords only, separated by commas",
+    m3_axis_label: "Two-axis judgement",
+    m3_axis_obj_label: "Axis one: what is managed",
+    m3_axis_level_label: "Axis two: level",
+    m3_axis_evi_label: "Evidence: which sentence from the job description made you decide?",
+    m3_axis_evi_ph: "e.g. The description says it maintains the work breakdown structure and tracks weekly delivery from each unit — that is the language of projects, not products.",
+    m3_critique_label: "Critique: which of the A items you wrote is observable and verifiable? If none are, at which stage does the employer actually screen for them?",
+    m3_critique_ph: "e.g. Neither resilience nor initiative can be verified from a CV. The employer really screens A at interview and during probation; on paper only K and S are screened.",
+    m3_count: "Quadrants filled",
+    m3_wrapup: "Checkpoint: at least three of the four quadrants carry words, and the two-axis evidence quotes the job description rather than the title.",
+
+    m4_nav: "4. Language Lab", m4_title: "EMI Language Lab",
+    m4_overview: "This course is taught in English. Pick five new words or phrases from this week's required materials, plus three words you stumble over. This section replaces the former mindmap requirement; its output feeds class discussion and bonus work directly.",
+    m4_highlights: ["Five new terms","Three hard words","In your own words","Example sentences"],
+    m4_deep: "Do not copy the source definition into the \"in your own words\" column — copying proves only that you found it; rewriting proves you understood it. This week's vocabulary can come from the competency register: competency, taxonomy, normalisation, attribute, credential. Write the example sentences about your own Term Project so one effort does two jobs.",
+    m4_terms_label: "Five new words or phrases",
+    m4_col_term: "Term / phrase", m4_col_mean: "In your own words", m4_col_sent: "Your own sentence",
+    m4_pron_label: "Three words you stumble over",
+    m4_col_word: "Word", m4_col_hard: "What makes it hard", m4_col_tip: "Your memory trick",
+    m4_wrapup: "Checkpoint: not one of the five explanations is copied verbatim from the source.",
+
+    m5_nav: "5. Group Synthesis", m5_title: "Group Synthesis: Compare Only Three of the Six Postings",
+    m5_overview: "This section is the real work of the group discussion. Six people brought six real postings. Do not read them out one by one, and do not dump all six into an AI for a summary — put exactly three side by side. Same main material, six different postings: which of K, S and A varies most? That dimension is where the extraction rule will be hardest to write.",
+    m5_highlights: ["Only three","Widest gap","Paste-ready for the KB","A group rule"],
+    m5_deep: "Choosing three is selection, not laziness. You already learned that dumping everything into a model is exactly the \"excess\" and \"contamination\" case; this week the same logic applies to your data. Three postings you can actually read and argue about; six turns into a conclusion generated by an AI that nobody checked. Have a reason for the three you pick: the three that differ most, or three that share a title while describing obviously different work. The final group rule has to be written as a rule sentence that can be pasted straight into KB/ksa_taxonomy.md — not as a reflection.",
+    m5_focus_label: "The three postings we chose to compare (tick three)",
+    m5_focus_hint: "Listed in the member order from section 1. Members with no name entered show as a JD number.",
+    m5_focus_why: "Why these three?",
+    m5_focus_why_ph: "e.g. All three are titled PM, but one talks about product P&L, one about milestones and one only about compiling data — the contrast is where the problem shows.",
+    m5_diff_label: "Across the six postings, which of K, S and A varies most?",
+    m5_evidence_label: "Two concrete examples from the three that support the judgement above",
+    m5_evidence_ph: "e.g. A's attitude column holds four characters; C's other-requirements field lists six attitude terms. Same PM role, an order of magnitude apart in A density.",
+    m5_case_label: "Which one did we pick as the worked example?",
+    m5_case_ph: "e.g. JD3, the \"PM project management specialist\", because it is a textbook case of a PM title over PjM work.",
+    m5_rule_label: "From this comparison, our group sets one rule",
+    m5_rule_ph: "e.g. Years of experience always go to S and are normalised to whole years; a range such as 3-5 takes the lower bound 3; \"unspecified\" records as 0; a missing field records as null and never as 0.",
+    m5_rule_note: "These rules accumulate towards the Term Project. When you build the KB in W10 this becomes the first content of KB/ksa_taxonomy.md — so write it as a rule sentence, the kind you can paste straight across.",
+    m5_wrapup: "Checkpoint: only three postings were compared (nothing was dumped wholesale into an AI), and the rule you set can be pasted straight into KB/ksa_taxonomy.md.",
+
+    m6_nav: "6. First Extraction Rules", m6_title: "First Extraction Rules: One per Dimension, Plus the Undecidable Case",
+    m6_overview: "Every worksheet carries a bridge to the Term Project. This week you hand in the first version of your morning brief's extraction rules: one rule each for K, S and A, saying which field it reads and how it normalises. Then the cell that matters most — what happens when the posting cannot be classified.",
+    m6_highlights: ["Which field","How to normalise","Undecidable ratio","One action this week"],
+    m6_deep: "The morning brief has to display the share of cases it could not classify, rather than quietly dropping them or guessing. Above thirty per cent means the keyword list needs work — this is Loop Engineering in miniature: the system reports an observable indicator, you fix the rules against that indicator, then watch whether it falls. Without the report you never learn where your rules are weak; with it, fixing rules becomes a task you can schedule.",
+    m6_rule_k_label: "K extraction rule: which field, and how normalised",
+    m6_rule_k_ph: "e.g. Read education and major. Education normalises to five levels: high school, junior college, bachelor, master, doctorate. Major merges through a synonym table into electronics / information / mechanical / business / other, with the original text kept.",
+    m6_rule_s_label: "S extraction rule: which field, and how normalised",
+    m6_rule_s_ph: "e.g. Read experience, languages, tools and work skills. Years convert to whole years at the lower bound; tools and skills split on commas and line breaks, deduplicate, then map through a tool synonym table.",
+    m6_rule_a_label: "A extraction rule: which field, and how normalised",
+    m6_rule_a_ph: "e.g. Read other requirements and the job description, matching against an attitude keyword list and keeping only hits. Each hit is tagged with a quadrant, and the downward quadrant is allowed only when the management duty field is not \"no direct reports\".",
+    m6_undecided_label: "What do we do when it cannot be classified?",
+    m6_undecided_ph: "e.g. If either axis has an equal number of hits on both sides, or zero on both, flag it undecided, queue it for review and keep the original sentence. The brief shows the undecided share on its front page, and above thirty per cent it opens a task to revise the keyword list.",
+    m6_undecided_note: "This cell is the point of the section. Rules that only cover successful classification are not rules — in real data the share you cannot classify is usually far higher than you expect.",
+    m6_action_label: "One action we will take this week on the extraction rules",
+    m6_action_ph: "e.g. Run the rules by hand over all six of our postings this week and count how often they fail, to see whether it really is above thirty per cent.",
+    m6_wrapup: "Checkpoint: the extraction rules state what to do when a posting cannot be classified, not only the successful cases.",
+
+    m7_nav: "7. Presentation Plan", m7_title: "Presentation Plan and Question",
+    m7_overview: "Turn section 1's split into a runnable script, and prepare one question to put to the class. The 10-minute Q&A is carried entirely by the questions each group brings.",
+    m7_highlights: ["Opening line","Segment script","Menti question","10 minutes"],
+    m7_deep: "Write the opening line as a complete English sentence, not as keywords — the first sentence is always the one that jams. Avoid yes-or-no questions for the class; a good question forces a judgement first, for example: if every attitude requirement in a posting is unverifiable, at which stage does the employer actually screen for it?",
+    m7_open_label: "English opening line (one complete sentence)",
+    m7_open_ph: "e.g. We pulled six real postings from 104, and the same word appeared in five of them without ever being verifiable.",
+    m7_script_label: "Segment script (one sentence per speaker on the point they will make)",
+    m7_col_who: "Speaker", m7_col_point: "The point of this segment",
+    m7_question_label: "One question for the class (for Menti)",
+    m7_question_ph: "e.g. If none of the attitude requirements in a posting can be verified on paper, at which stage does the employer actually screen for them?",
+    m7_wrapup: "Checkpoint: the opening line is a complete English sentence, and the question cannot be answered with yes or no.",
+
+    mlab_nav: "8. Interactive Lab", mlab_title: "Interactive Lab",
+    mlab_desc: "Four self-check tools. This page does not teach the definitions again; it hands your own answers from sections 2 to 6 back to you for inspection — did you extract correctly, does the sorting hold, does the judgement stand, can you actually write the rule. Your activity counts towards completion.",
+    mlab_clear: "🗑 Clear all",
+    mlab_clear_confirm: "Clear every entry in the four tools on this page? This cannot be undone.",
+    lab1_title: "① Extraction Self-Checker",
+    lab1_desc: "Paste what you wrote in section 2. Three rule-based checks: whether a passage was copied wholesale, whether a cell merely repeats the job title, and whether all three dimensions carry content.",
+    lab1_jd: "Job title",
+    lab1_jd_ph: "e.g. Senior Product Manager",
+    lab1_k: "K content (education + major)",
+    lab1_s: "S content (experience + languages + tools + skills)",
+    lab1_a: "A content (other requirements + attitude terms in the description)",
+    lab1_ph: "Paste the summary and keywords you wrote",
+    lab1_check: "Check", lab1_reset: "Reset",
+    lab1_c1: "No passage copied from the posting",
+    lab1_c1_bad: "One cell reads like a copied passage: too long, or too many sentence breaks. Rewrite it as keywords.",
+    lab1_c1_ok: "All three cells stay within summary and keyword length.",
+    lab1_c2: "Not merely a repeat of the job title",
+    lab1_c2_bad: "One cell is essentially the job title again. A title is not a capability — go back to the fields and extract.",
+    lab1_c2_ok: "No cell is just the title rewritten.",
+    lab1_c3: "All three dimensions carry content",
+    lab1_c3_bad: "A dimension is empty. If the posting genuinely omits it, write \"not stated in the posting\" — blank and not required are different things.",
+    lab1_c3_ok: "K, S and A all carry content.",
+    lab1_pass: "All three pass. This extraction is ready for the comparison in section 5.",
+    lab1_fail: "Something did not pass. Fix it as described above and check again.",
+    lab2_title: "② Attitude Quadrant Sorter",
+    lab2_desc: "Ten attitude terms synthesised from wording common in real postings. Sort each into a quadrant, then look at how many landed in Downward.",
+    lab2_items: [
+      { w:"Self-starting and proactive", q:"in" },
+      { w:"Resilient under pressure", q:"in" },
+      { w:"Strong communication and coordination", q:"in" },
+      { w:"Willing to take ad-hoc assignments from the manager", q:"up" },
+      { w:"Able to work independently", q:"in" },
+      { w:"Enjoys cross-functional collaboration", q:"in" },
+      { w:"Genuine enthusiasm for customer service", q:"out" },
+      { w:"Reports progress upward on a regular basis", q:"up" },
+      { w:"Supplier negotiation experience preferred", q:"out" },
+      { w:"Careful and accountable", q:"in" }
+    ],
+    lab2_check: "Show distribution", lab2_reset: "Reset",
+    lab2_dist: "Your distribution",
+    lab2_ref: "Reference sorting",
+    lab2_ask: "How many landed in Downward? Why is that?",
+    lab2_ask_ph: "Write your explanation, then open the note below to compare.",
+    lab2_reveal: "In the reference sorting, Downward is zero. All ten terms come from wording typical of non-managerial roles, and terms about leading, developing and appraising people appear only when the management duty field is not \"no direct reports\". So an empty Downward quadrant usually means the posting carries no reports, not that you sorted badly — which is precisely why the management duty field works as a prior for that quadrant.",
+    lab3_title: "③ Two-Axis Judgement Practice",
+    lab3_desc: "Four posting fragments written for this course along the 104 field structure — none is the text of any real posting. Judge what is managed, then the level, then compare with the reference and its reasoning.",
+    lab3_cases: [
+      { k:"L1", title:"Fragment 1｜Product Manager, Industrial Sensing Modules",
+        rows: [
+          ["Job description","Owns generation planning and the roadmap for the sensing module line; gathers system-house needs into a market requirement document; analyses competitor specifications and price bands and proposes list price and margin structure; defines the specification with R&D and chairs the spec freeze; tracks sell-through after launch and proposes end-of-life timing."],
+          ["Management duty","No direct reports"],
+          ["Experience","5 years or more"]
+        ], a:"PM", l:"Senior",
+        e:"Every clause is the language of a product: roadmap, market requirement, price band, spec freeze, end of life. The verbs propose and define rather than execute; five years and no reports place it at Senior PM." },
+      { k:"L2", title:"Fragment 2｜PM Project Management Specialist, Automotive Connectors",
+        rows: [
+          ["Job description","Acts as the single window for customer cases, owning schedule planning and milestone control; chairs a weekly cross-functional meeting to coordinate resource allocation across R&D, purchasing and manufacturing; builds and maintains the work breakdown structure and Gantt chart and tracks weekly delivery from each unit; identifies risks and proposes countermeasures; handles sample submission, delivery acceptance and customer audit documents."],
+          ["Management duty","No direct reports"],
+          ["Experience","2 years or more"]
+        ], a:"PjM", l:"Junior",
+        e:"The title says PM while the description is entirely project language: schedule, milestone, resource allocation, work breakdown structure, progress tracking, delivery acceptance. A textbook PM title over PjM work, and the reason evidence can never be the title." },
+      { k:"L3", title:"Fragment 3｜Product Management Specialist, Residential Lighting",
+        rows: [
+          ["Job description","Assists in compiling competitor specification and pricing data and updating the comparison table; maintains the product specification sheet and catalogue assets; collects issues reported by channel partners and passes them to the relevant unit; assists the manager in preparing material for new product proposals."],
+          ["Management duty","No direct reports"],
+          ["Experience","Not specified"]
+        ], a:"PM", l:"Specialist",
+        e:"The object is still the product — competitors, specifications, catalogue, proposals — but every verb is assist, compile, maintain, collect, with no authority to decide or define, and no experience requirement. That is PM Specialist." },
+      { k:"L4", title:"Fragment 4｜Product Director, Networking Business Group",
+        rows: [
+          ["Job description","Directs product strategy and portfolio planning for the enterprise router line and carries the line's profit and loss; decides investment and exit timing and resource allocation across generations; leads a 15-person product management team and runs the annual appraisal cycle; represents the company in commercial negotiation with strategic customers and chip suppliers."],
+          ["Management duty","Direct reports required, 15 or more"],
+          ["Experience","10 years or more"]
+        ], a:"PM", l:"Director+",
+        e:"The object is a product line and a portfolio with P&L responsibility; the verbs are direct, decide and lead; the management duty field states 15 people. All three signals converge on PM Director or above." }
+    ],
+    lab3_axis: "What is managed", lab3_level: "Level",
+    lab3_check: "Check", lab3_reset: "Reset",
+    lab3_score: "Both axes correct on {n} / 4",
+    lab3_ref: "Reference",
+    lab3_note: "One of the four is a deliberate PM title over PjM work. Follow the title and you get that one wrong — in real data this misuse is the norm, not the exception.",
+    lab4_title: "④ Extraction Rule Generator",
+    lab4_desc: "Tick the source fields, normalisation steps and decision terms you want, and get a Markdown draft you can paste straight into KB/ksa_taxonomy.md.",
+    lab4_src_label: "Source fields",
+    lab4_srcs: [
+      { k:"edu", n:"Education requirement", d:"K" },
+      { k:"major", n:"Major requirement", d:"K" },
+      { k:"exp", n:"Experience", d:"S" },
+      { k:"lang", n:"Languages", d:"S" },
+      { k:"tool", n:"Tools", d:"S" },
+      { k:"skill", n:"Work skills", d:"S" },
+      { k:"other", n:"Other requirements", d:"A" },
+      { k:"content", n:"Job description", d:"A" }
+    ],
+    lab4_norm_label: "Normalisation",
+    lab4_norms: [
+      { k:"lower", n:"Lowercase English before matching" },
+      { k:"year", n:"Years to whole numbers, ranges take the lower bound, unspecified is 0, missing is null" },
+      { k:"syn", n:"Merge variants through a synonym table (e.g. Excel / spreadsheet / pivot)" },
+      { k:"keep", n:"Keep original keywords and the source link for traceability" },
+      { k:"split", n:"Split on commas and line breaks, then deduplicate" }
+    ],
+    lab4_term_label: "Two-axis decision terms",
+    lab4_terms_pm: ["roadmap","product life cycle","product P&L","market requirement","competitor analysis","pricing","specification definition","EOL"],
+    lab4_terms_pjm: ["schedule","milestone","resource allocation","risk control","cross-functional coordination","progress tracking","delivery acceptance","work breakdown structure"],
+    lab4_undec_label: "When it cannot be classified",
+    lab4_undecs: [
+      { k:"flag", n:"Flag as undecided and queue it for review" },
+      { k:"ratio", n:"Show the undecided share in the brief; above 30% open a task to revise the keyword list" },
+      { k:"keepsrc", n:"Keep the original sentence and link; never delete the record" },
+      { k:"noguess", n:"Never infer back from the title; leave it blank instead" }
+    ],
+    lab4_out_label: "Draft output (paste into KB/ksa_taxonomy.md)",
+    lab4_copy: "Copy Markdown", lab4_copied: "Copied",
+    lab4_empty: "Tick something on the left and the draft appears here.",
+
+    mres_nav: "9. Learning Resources", mres_title: "This Week's Resources",
+    mres_desc: "Two required items, matching this course's rule: each week's required set is one interactive material plus at most one short video under ten minutes. There is no video this week, so it is two interactive materials instead. The first is the main material and the direct basis for sections 2 and 3; the second is an adjacent architecture, to be read as a competency framework that supplies shared vocabulary for talking about capability. Optional items do not affect the worksheet, but a written summary of one counts as a Bonus Assignment.",
+    res_req: [
+      { label: "JDKS · Reading a Job Posting: Turning It into K, S and A", url: "https://lolopodcast.github.io/JD-to-KSA/", desc: "The main material this week and the direct basis for sections 2 and 3: the 104 field structure, the operational definitions and mapping of K, S and A, the four quadrants of attitude, and the decision terms for both axes." },
+      { label: "AICF · AI Literacy Common Language Platform", url: "https://lolopodcast.github.io/AICF-AI-Competency-Framework/", desc: "An adjacent architecture, to be read as a competency framework: how vocabulary gets unified once a capability is split into dimensions and levels — a direct parallel to this week's K, S and A." }
+    ],
+    res_opt: [
+      { label: "TU · Thinking Upgrader", url: "https://lolopodcast.github.io/Thinking-Upgrader/", desc: "A toolkit for upgrading how you think. When an extraction rule will not come out, the block is usually in the problem definition rather than the technique." },
+      { label: "Human Intelligence · Adaptive Cognition", url: "https://lolopodcast.github.io/Human-Intelligence_Adaptive-Cognition/", desc: "Human intelligence and adaptive cognition — a counterpart to this week's A dimension and why attitude resists observation and measurement." },
+      { label: "CSA · Career Strategy Architecture", url: "https://lolopodcast.github.io/Career-Strategy-Architecture/", desc: "Next week's main material. It turns K, S and A from reading someone else's posting into planning your own path." }
+    ],
+
+    analytics_title: "Completion & Export",
+    analytics_desc: "The individual and group layers export separately. The individual file stays with you as a learning record; the group file is uploaded to Moodle by this week's compiler.",
+    analytics_personal_title: "Individual export (sections 2, 3, 4 · not submitted)",
+    analytics_personal_desc: "Enter your name to export. This file stays with you; when you build your knowledge base in W10 you will select from it.",
+    analytics_group_title: "Group export (sections 1, 5, 6, 7 · submit to Moodle)",
+    analytics_group_desc: "Enter the group and this week's compiler to export. One CSV and one Markdown, uploaded to the Moodle assignment.",
+    analytics_group: "Group", analytics_dept: "Dept / Year", analytics_dept_ph: "e.g. IBS1",
+    analytics_id: "Student ID", analytics_id_ph: "e.g. 113212599",
+    analytics_name_en: "Name (English)", analytics_name_en_ph: "e.g. Shihmin Lo",
+    analytics_name_zh: "Name (Chinese)", analytics_name_zh_ph: "e.g. 王阿吉",
+    analytics_compiler: "This week's compiler", analytics_compiler_ph: "e.g. 王阿吉",
+    analytics_export_personal: "Export individual Markdown",
+    analytics_export_csv: "Export group CSV",
+    analytics_export_md: "Export group Markdown",
+    analytics_need_personal: "Enter your name first",
+    analytics_need_group: "Enter the group and this week's compiler first",
+    group_options: ["G1","G2","G3","G4","G5","G6","G7","G8","G9","G10","G11","G12","Others"],
+    analytics_pct_personal: "Individual completion", analytics_pct_group: "Group completion",
+    analytics_total_time: "Total time on worksheet", analytics_overall_acc: "Self-check accuracy",
+    analytics_sec: "s",
+    analytics_progress_title: "Completion by section",
+    analytics_wp_title: "Sections still incomplete",
+    analytics_wp_goto: "→ Go and fill it in",
+    sdl_title: "First, import your SDL knowledge-base snapshot",
+    sdl_desc: "This week's sequence is: read and take notes by hand without AI → run a Socratic session with the SDL learning partner → produce KB.md → import it here. Importing fills in your identity fields automatically and shows the key parts of your KB above each section. This worksheet is not asking you to think it through again; it turns what you already worked out into a format the group can compare.",
+    sdl_ph: "Paste the full KB.md produced by the SDL partner here (including the --- frontmatter --- at the top)",
+    sdl_parse: "Parse and import",
+    sdl_file: "Upload a file instead",
+    sdl_loaded: "✓ SDL KB imported",
+    sdl_clear: "Clear and re-import",
+    sdl_ok: "Imported. Your identity fields have been filled in.",
+    sdl_err_empty: "Nothing to parse — paste the full KB.md first.",
+    sdl_err_format: "Could not parse it. Check that this is the KB.md produced by the SDL partner (it should start with a --- frontmatter --- block and contain §1, §2 and similar sections).",
+    sdl_panel_title: "📖 Your SDL KB at a glance (for reference)",
+    sdl_panel_show: "Show",
+    sdl_panel_hide: "Hide",
+    sdl_s1: "§1 Learning summary",
+    sdl_s2: "§2 Knowledge synthesis",
+    sdl_s4: "§4 Student's own words",
+    sdl_s5: "§5 Open questions",
+    analytics_wp_personal_head: "Individual layer (yours to fill)",
+    analytics_wp_personal_done: "The individual layer is complete.",
+    analytics_wp_group_head: "Group layer (decided together in discussion)",
+    analytics_wp_group_note: "If you are not this week's compiler, 0% here is normal — it does not affect your individual export.",
+    analytics_wp_group_done: "The group layer is complete.",
+    analytics_wp_allpass: "All seven sections are complete. You are ready to export.",
+    analytics_wp_saved: "Your entries are saved automatically in this browser",
+    analytics_wp_clear: "🗑 Clear all",
+    analytics_wp_clear_confirm: "Clear every entry and all activity data? This cannot be undone — export first.",
+    analytics_wp_tts_intro: "The following sections are still incomplete.",
+    analytics_wp_tts_module: "{name}, {acc}% complete.",
+    analytics_wp_tts_allpass: "All seven sections are complete.",
+
+    date: "Version 2026.08.23",
+    copyright: "For Educational Use Only",
+    architect_label: "Architect:",
+    architect_url: "https://www.ibs.ncnu.edu.tw/index.php/faculty/tenured-professor/299-smlo"
+  }
+};
+
+/* ================= Field registry ================= */
+const FIELDS = {
+  1: ['g_group','g_date', ...MEMBER_IDX.flatMap(i => [`m_name_${i}`,`m_id_${i}`,`m_part_${i}`,`m_sec_${i}`])],
+  2: ['jd_title','jd_company','jd_url', ...EXTRACT_IDS],
+  3: [...QUAD_IDS.map(q => `a_${q}`), 'axis_obj','axis_level','axis_evi','a_critique'],
+  4: [...[0,1,2,3,4].flatMap(i => [`t_term_${i}`,`t_mean_${i}`,`t_sent_${i}`]), ...[0,1,2].flatMap(i => [`p_word_${i}`,`p_hard_${i}`,`p_tip_${i}`])],
+  5: ['syn_focus_why','syn_diff','syn_evidence','syn_case','syn_rule'],
+  6: ['tp_rule_k','tp_rule_s','tp_rule_a','tp_undecided','tp_action'],
+  7: ['pr_open','pr_question', ...MEMBER_IDX.map(i => `pr_point_${i}`)]
+};
+const CORE = {
+  1: ['g_group','g_date','m_name_0','m_part_0'],
+  2: ['jd_title','jd_url', ...EXTRACT_IDS],
+  3: ['a_up','a_in','a_out','axis_obj','axis_level','axis_evi','a_critique'],
+  4: ['t_term_0','t_mean_0','t_term_1','t_mean_1','t_term_2','t_mean_2','t_term_3','t_mean_3','t_term_4','t_mean_4','p_word_0','p_word_1','p_word_2'],
+  5: ['syn_focus_why','syn_diff','syn_evidence','syn_case','syn_rule'],
+  6: ['tp_rule_k','tp_rule_s','tp_rule_a','tp_undecided','tp_action'],
+  7: ['pr_open','pr_question','pr_point_0']
+};
+
+/* ================= UI atoms ================= */
+const H2 = ({ children, icon, number }) => (
+  <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-black text-[#004030] dark:text-[#D8C3A5] mb-4 flex items-center gap-3">
+    {icon && <span className="text-2xl ui-decoration">{icon}</span>}
+    {number !== undefined && <span>{number}.</span>}
+    <span>{children}</span>
+  </h2>
+);
+const Badge = ({ kind, t }) => (
+  <span className={`inline-block text-xs font-bold px-3 py-1 rounded-full mb-4 ${kind === 'P'
+    ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200'
+    : 'bg-[#D8C3A5]/30 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>
+    {kind === 'P' ? t.badge_personal : t.badge_group}
+  </span>
+);
+const Overview = ({ t, text }) => (
+  <div className="bg-[#004030]/5 dark:bg-[#D8C3A5]/5 rounded-xl p-5 border-l-4 border-[#D8C3A5]">
+    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-2">{t.overview_label}</h3>
+    <p>{text}</p>
+  </div>
+);
+const Highlights = ({ t, items }) => (
+  <div>
+    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.highlights_label}</h3>
+    <div className="flex flex-wrap gap-2">
+      {items.map((h,i) => <span key={i} className="px-3 py-1 bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5] rounded-full text-sm font-medium">{h}</span>)}
+    </div>
+  </div>
+);
+const DeepDive = ({ t, text }) => (
+  <div>
+    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.deep_dive_label}</h3>
+    <p className="p-4 bg-slate-100 dark:bg-slate-800 rounded-lg italic font-serif">{text}</p>
+  </div>
+);
+const Wrapup = ({ t, text }) => (
+  <div className="bg-slate-100 dark:bg-slate-800 rounded-xl p-5 flex gap-3 items-start">
+    <span className="text-[#004030] dark:text-[#D8C3A5] mt-0.5 shrink-0"><IconCheckCircle size={18}/></span>
+    <div>
+      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-1">{t.wrapup_label}</h3>
+      <p className="italic">{text}</p>
+    </div>
+  </div>
+);
+const inputCls = "w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 text-base focus:outline-none focus:ring-2 focus:ring-[#004030] dark:focus:ring-[#D8C3A5] transition";
+const Field = ({ id, label, hint, ph, rows, value, onChange, type }) => (
+  <div className="mb-5">
+    {label && <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{label}</label>}
+    {hint && <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 leading-relaxed">{hint}</p>}
+    {rows
+      ? <textarea rows={rows} className={inputCls} placeholder={ph} value={value||''} onChange={e => onChange(id, sanitizeText(e.target.value))} />
+      : <input type={type||'text'} className={inputCls} placeholder={ph} value={value||''} onChange={e => onChange(id, sanitizeText(e.target.value))} />}
+  </div>
+);
+const InfoInput = ({ id, label, ph, value, onChange, san }) => (
+  <div>
+    <label className="block text-xs font-bold text-slate-500 mb-1">{label}</label>
+    <input className={inputCls} placeholder={ph} value={value || ''} onChange={e => onChange(id, (san || sanitizeName)(e.target.value))} />
+  </div>
+);
+
+/* ================= SDL KB import ================= */
+const SEMESTER_DEFAULT = '1151';
+const WEEK_CODE = 'W07';
+const TOPIC_CAMEL = 'JDtoKSA';
+
+const parseSdlKb = (text) => {
+  try {
+    const t = String(text || '').replace(/\r\n/g, '\n').trim();
+    if (!t) return { ok: false, error: 'empty' };
+    const fm = t.match(/^---\n([\s\S]*?)\n---/);
+    const meta = {};
+    if (fm) {
+      fm[1].split('\n').forEach(line => {
+        if (/^\s/.test(line)) return;               // skip nested (sources / interaction)
+        const m = line.match(/^([A-Za-z_]+):\s*(.*)$/);
+        if (m) meta[m[1]] = m[2].replace(/^["']|["']$/g, '').trim();
+      });
+    }
+    const sections = {};
+    const parts = t.split(/^##\s*§/m);
+    parts.shift();
+    parts.forEach(part => {
+      const n = part.match(/^(\d)/);
+      if (!n) return;
+      sections['s' + n[1]] = part.replace(/^\d[^\n]*\n?/, '').trim();
+    });
+    const hasAny = Object.keys(meta).length > 0 || Object.keys(sections).length > 0;
+    if (!hasAny) return { ok: false, error: 'format' };
+    return { ok: true, meta, sections, raw: t };
+  } catch (e) { return { ok: false, error: 'format' }; }
+};
+
+const SdlImport = ({ t, sdl, onImport, onClear }) => {
+  const [text, setText] = useState('');
+  const [msg, setMsg] = useState(null);
+  const fileRef = useRef(null);
+  const doParse = (raw) => {
+    const r = parseSdlKb(raw);
+    if (!r.ok) { setMsg({ ok: false, text: r.error === 'empty' ? t.sdl_err_empty : t.sdl_err_format }); return; }
+    onImport(r);
+    setMsg({ ok: true, text: t.sdl_ok });
+    setText('');
+  };
+  const onFile = (e) => {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    const rd = new FileReader();
+    rd.onload = () => doParse(rd.result);
+    rd.readAsText(f);
+    e.target.value = '';
+  };
+  return (
+    <div className="rounded-xl border-2 border-sky-200 dark:border-sky-800/60 bg-sky-50/50 dark:bg-sky-900/10 p-5">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5]">{t.sdl_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-3 leading-relaxed">{t.sdl_desc}</p>
+      {sdl ? (
+        <div className="rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4">
+          <p className="text-sm font-bold text-green-700 dark:text-green-400">{t.sdl_loaded}</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 break-all">
+            {[sdl.meta.course, sdl.meta.semester, sdl.meta.week, sdl.meta.topic].filter(Boolean).join(' · ')}
+            {sdl.meta.student ? ' · ' + sdl.meta.student : ''}{sdl.meta.group ? ' · ' + sdl.meta.group : ''}
+          </p>
+          <button onClick={onClear} className="mt-3 px-3 py-1.5 text-xs border border-red-400 text-red-600 dark:text-red-400 rounded-lg">{t.sdl_clear}</button>
+        </div>
+      ) : (
+        <>
+          <textarea rows={4} className={inputCls} placeholder={t.sdl_ph} value={text} onChange={e => setText(e.target.value)} />
+          <div className="flex flex-wrap items-center gap-3 mt-3">
+            <button onClick={() => doParse(text)} className="px-4 py-2 text-sm bg-sky-700 dark:bg-sky-300 text-white dark:text-sky-950 font-bold rounded-lg">{t.sdl_parse}</button>
+            <button onClick={() => fileRef.current && fileRef.current.click()} className="px-4 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg">{t.sdl_file}</button>
+            <input ref={fileRef} type="file" accept=".md,.markdown,.txt" onChange={onFile} className="hidden" />
+          </div>
+        </>
+      )}
+      {msg && <p className={`text-xs mt-2 ${msg.ok ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>{msg.text}</p>}
+    </div>
+  );
+};
+
+const SdlPanel = ({ t, sdl }) => {
+  const [open, setOpen] = useState(false);
+  if (!sdl) return null;
+  const rows = [
+    { k: 's1', label: t.sdl_s1 }, { k: 's2', label: t.sdl_s2 },
+    { k: 's4', label: t.sdl_s4 }, { k: 's5', label: t.sdl_s5 }
+  ].filter(r => sdl.sections[r.k]);
+  if (!rows.length) return null;
+  return (
+    <div className="rounded-xl border border-sky-200 dark:border-sky-800/60 bg-sky-50/40 dark:bg-sky-900/10">
+      <button onClick={() => setOpen(o => !o)} className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left">
+        <span className="text-sm font-bold text-sky-800 dark:text-sky-300">{t.sdl_panel_title}</span>
+        <span className="text-xs text-sky-700 dark:text-sky-400 shrink-0">{open ? t.sdl_panel_hide : t.sdl_panel_show}</span>
+      </button>
+      {open && (
+        <div className="px-4 pb-4 space-y-4 max-h-96 overflow-y-auto">
+          {rows.map(r => (
+            <div key={r.k}>
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">{r.label}</p>
+              <pre className="text-xs whitespace-pre-wrap font-sans text-slate-700 dark:text-slate-300 leading-relaxed">{sdl.sections[r.k]}</pre>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const LinkCard = ({label, url, desc}) => (
+  <a href={url} target="_blank" rel="noopener noreferrer"
+    className="block bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5] hover:shadow-md transition-all group">
+    <span className="font-bold font-serif text-sm text-[#004030] dark:text-[#D8C3A5] group-hover:underline">{label}</span>
+    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mt-1">{desc}</p>
+  </a>
+);
+
+/* ================= FlipCardDeck ================= */
+const FlipCardDeck = ({ terms, t, moduleId, onCardRead }) => {
+  const [groupIdx, setGroupIdx] = useState(0);
+  const [flipped, setFlipped] = useState({});
+  const [readSet, setReadSet] = useState(new Set());
+  const [shownSet, setShownSet] = useState(new Set());
+  const [shuffledOrder] = useState(() => [...Array(terms.length).keys()].sort(() => Math.random() - 0.5));
+  const groupSize = 2;
+  const totalGroups = Math.ceil(terms.length / groupSize);
+  const currentCardIndices = shuffledOrder.slice(groupIdx*groupSize, groupIdx*groupSize + groupSize);
+  useEffect(() => {
+    const ns = new Set(shownSet); currentCardIndices.forEach(i => ns.add(i));
+    if (ns.size !== shownSet.size) setShownSet(ns);
+  }, [groupIdx]);
+  const handleFlip = (i) => {
+    setFlipped(f => ({...f, [i]: !f[i]}));
+    if (!readSet.has(i)) { const nr = new Set(readSet); nr.add(i); setReadSet(nr); onCardRead && onCardRead(moduleId, nr.size, shownSet.size, terms.length); }
+  };
+  const statusText = t.flip_status.replace('{read}', readSet.size).replace('{shown}', shownSet.size).replace('{total}', terms.length);
+  return (
+    <div className="mt-8">
+      <h3 className="text-lg font-bold uppercase tracking-wider text-slate-500 mb-2">{t.key_terms}</h3>
+      <p className="text-sm text-slate-400 mb-4">{statusText}</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {currentCardIndices.map(i => (
+          <div key={i} className="perspective cursor-pointer h-44" onClick={() => handleFlip(i)}>
+            <div className={`transform-style-3d relative w-full h-full transition-transform duration-500 ${flipped[i] ? 'rotate-y-180' : ''}`}>
+              <div className="backface-hidden absolute inset-0 bg-white dark:bg-slate-800 rounded-xl p-4 flex flex-col items-center justify-center border border-slate-200 dark:border-slate-700 shadow-sm">
+                <p className="font-serif font-bold text-center text-[#004030] dark:text-[#D8C3A5]">{terms[i].front}</p>
+                <p className="text-xs text-slate-400 mt-2">{t.flip_prompt}</p>
+              </div>
+              <div className="backface-hidden rotate-y-180 absolute inset-0 bg-[#004030] dark:bg-slate-700 rounded-xl p-4 flex items-center justify-center overflow-y-auto">
+                <p className="text-sm text-center text-[#D8C3A5] dark:text-slate-200 leading-relaxed">{terms[i].back}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="flex items-center gap-3 mt-4">
+        <button onClick={() => { setGroupIdx(0); setFlipped({}); }} className="px-4 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700">{t.flip_retry}</button>
+        <button onClick={() => groupIdx < totalGroups-1 && setGroupIdx(groupIdx+1)} disabled={groupIdx >= totalGroups-1}
+          className="px-4 py-2 text-sm bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg disabled:opacity-40">{t.flip_next}</button>
+      </div>
+    </div>
+  );
+};
+
+/* ================= ModuleQuiz ================= */
+const ModuleQuiz = ({ questions, t, moduleId, onQuizSubmit }) => {
+  const [selected, setSelected] = useState({});
+  const [submitted, setSubmitted] = useState({});
+  const [groupIdx, setGroupIdx] = useState(0);
+  const groupSize = 2;
+  const [quizIndices] = useState(() => [...Array(questions.length).keys()].sort(() => Math.random() - 0.5));
+  const totalGroups = Math.ceil(quizIndices.length / groupSize);
+  const [shuffledMaps] = useState(() => quizIndices.map(qi => [...Array(questions[qi].opts.length).keys()].sort(() => Math.random() - 0.5)));
+  const computeCorrect = () => { let c = 0; quizIndices.forEach((qIdx, qi) => { if (selected[qi] !== undefined && shuffledMaps[qi][selected[qi]] === _d(questions[qIdx].ans)) c++; }); return c; };
+  const statusText = t.quiz_status.replace('{correct}', computeCorrect()).replace('{answered}', Object.keys(selected).length).replace('{total}', quizIndices.length);
+  const currentStart = groupIdx * groupSize;
+  const currentIndices = quizIndices.slice(currentStart, currentStart + groupSize);
+  const handleGroupSubmit = () => {
+    if (!currentIndices.every((_, i) => selected[currentStart+i] !== undefined)) return;
+    setSubmitted(s => ({...s, [groupIdx]: true}));
+    if (groupIdx === totalGroups - 1 || Object.keys(submitted).length + 1 === totalGroups) {
+      const wrong = []; let correct = 0;
+      quizIndices.forEach((qIdx, qi) => {
+        if (selected[qi] === undefined) return;
+        if (shuffledMaps[qi][selected[qi]] === _d(questions[qIdx].ans)) correct++; else wrong.push(questions[qIdx].q);
+      });
+      onQuizSubmit(moduleId, correct, quizIndices.length, wrong);
+    }
+  };
+  return (
+    <div className="mt-8 bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="text-lg font-bold font-serif text-[#004030] dark:text-[#D8C3A5] mb-2">{t.quiz_title}</h3>
+      <p className="text-sm text-slate-400 mb-6">{statusText}</p>
+      {currentIndices.map((qIdx, localI) => {
+        const qi = currentStart + localI, q = questions[qIdx], sMap = shuffledMaps[qi], isSub = !!submitted[groupIdx];
+        return (
+          <div key={qIdx} className="mb-6">
+            <p className="font-bold mb-3">{qi+1}. {q.q}</p>
+            <div className="space-y-2">
+              {sMap.map((origIdx, dIdx) => {
+                const isCorrect = origIdx === _d(q.ans), isSel = selected[qi] === dIdx;
+                return (
+                  <button key={dIdx} onClick={() => !isSub && setSelected(s => ({...s, [qi]: dIdx}))}
+                    className={`w-full text-left px-4 py-3 rounded-lg border transition-all text-sm ${isSub
+                      ? isCorrect ? 'bg-green-100 border-green-500 dark:bg-green-900/30'
+                        : isSel ? 'bg-red-100 border-red-400 dark:bg-red-900/30' : 'border-slate-200 dark:border-slate-700'
+                      : isSel ? 'border-[#004030] dark:border-[#D8C3A5] bg-[#004030]/5' : 'border-slate-200 dark:border-slate-700 hover:border-slate-400'}`}>
+                    {q.opts[origIdx]}
+                  </button>
+                );
+              })}
+            </div>
+            {isSub && (
+              <p className={`mt-2 text-sm italic ${shuffledMaps[qi][selected[qi]] === _d(q.ans) ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>
+                {shuffledMaps[qi][selected[qi]] === _d(q.ans) ? `✓ ${t.correct}` : `✗ ${t.incorrect}`} — {t.explanation}：{q.exp}
+              </p>
+            )}
+          </div>
+        );
+      })}
+      <div className="flex items-center gap-3 flex-wrap">
+        {!submitted[groupIdx]
+          ? <button onClick={handleGroupSubmit} disabled={!currentIndices.every((_,i) => selected[currentStart+i] !== undefined)}
+              className="px-6 py-2 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg disabled:opacity-40">{t.submit}</button>
+          : <>
+              {groupIdx < totalGroups-1 && <button onClick={() => setGroupIdx(groupIdx+1)} className="px-6 py-2 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg">{t.quiz_next}</button>}
+              <button onClick={() => { setGroupIdx(0); setSelected({}); setSubmitted({}); }} className="px-6 py-2 border border-[#004030] dark:border-[#D8C3A5] text-[#004030] dark:text-[#D8C3A5] font-bold rounded-lg">{t.quiz_retry}</button>
+            </>}
+      </div>
+    </div>
+  );
+};
+
+/* ================= K / S / A completion SVG ================= */
+const KsaDiagram = ({ t, answers }) => {
+  const colors = { K:"#5B5BD6", S:"#0E9F6E", A:"#D97706" };
+  const done = id => { const v = answers[id]; return v !== undefined && String(v).trim() !== ''; };
+  const totalAll = EXTRACT_IDS.length;
+  const doneAll = EXTRACT_IDS.filter(done).length;
+  return (
+    <div className="w-full overflow-x-auto" onContextMenu={e => { e.preventDefault(); window.showCopyrightToast && window.showCopyrightToast(); }}>
+      <svg viewBox="0 0 620 268" className="w-full max-w-2xl mx-auto" draggable="false" role="img" aria-label={t.m2_svg_cap}>
+        <rect x="6" y="6" width="608" height="256" rx="12" fill="none" stroke="#94a3b8" strokeDasharray="6 5" strokeWidth="1.5"/>
+        <text x="20" y="26" fontSize="11" fill="#94a3b8" fontFamily="Inter, sans-serif">ONE JOB POSTING</text>
+        {t.ksa.map((d, i) => {
+          const x = 20 + i * 196, n = d.fields.filter(f => done(f.id)).length, tot = d.fields.length;
+          const full = n === tot && tot > 0;
+          return (
+            <g key={d.id}>
+              <rect x={x} y="36" width="184" height="182" rx="10" fill={colors[d.id]} opacity={n > 0 ? 0.16 : 0.06} stroke={colors[d.id]} strokeOpacity={full ? 0.95 : 0.35} strokeWidth={full ? 2 : 1}/>
+              <text x={x+14} y="60" fontSize="17" fontWeight="700" fill={colors[d.id]} fontFamily="Inter, sans-serif">{d.id}</text>
+              <text x={x+34} y="60" fontSize="10.5" fill="#64748b" fontFamily="Inter, sans-serif">{d.id === 'K' ? 'Knowledge' : d.id === 'S' ? 'Skills' : 'Attitude'}</text>
+              {d.fields.map((f, j) => {
+                const on = done(f.id), fy = 74 + j * 24;
+                return (
+                  <g key={f.id}>
+                    <rect x={x+14} y={fy} width="156" height="19" rx="6" fill={on ? colors[d.id] : "#94a3b8"} opacity={on ? 0.92 : 0.18}/>
+                    <foreignObject x={x+20} y={fy+2} width="146" height="16">
+                      <div xmlns="http://www.w3.org/1999/xhtml" style={{fontSize:'9.5px',lineHeight:'15px',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',color: on ? '#ffffff' : '#64748b',fontFamily:'Inter, sans-serif'}}>{f.label}</div>
+                    </foreignObject>
+                  </g>
+                );
+              })}
+              <text x={x+14} y="190" fontSize="10" fill="#64748b" fontFamily="Inter, sans-serif">{n} / {tot}</text>
+              <rect x={x+14} y="196" width="156" height="7" rx="3.5" fill="#94a3b8" opacity="0.22"/>
+              <rect x={x+14} y="196" width={tot ? 156 * n / tot : 0} height="7" rx="3.5" fill={colors[d.id]} opacity="0.9"/>
+            </g>
+          );
+        })}
+        <rect x="20" y="228" width="576" height="24" rx="7" fill="#94a3b8" opacity="0.14"/>
+        <text x="34" y="244" fontSize="10.5" fill="#94a3b8" fontFamily="Inter, sans-serif" fontWeight="700">{t.m2_progress}</text>
+        <rect x="150" y="235" width="380" height="9" rx="4.5" fill="#94a3b8" opacity="0.28"/>
+        <rect x="150" y="235" width={380 * doneAll / totalAll} height="9" rx="4.5" fill="#0E9F6E" opacity="0.9"/>
+        <text x="546" y="244" fontSize="10.5" fill="#94a3b8" fontFamily="Inter, sans-serif" fontWeight="700">{doneAll} / {totalAll}</text>
+      </svg>
+      <p className="text-center text-xs text-slate-500 dark:text-slate-400 mt-2 italic">{t.m2_svg_cap}</p>
+    </div>
+  );
+};
+
+/* ================= Labs（四件自我檢核工具） ================= */
+const LabSelfCheck = ({ t, state, setState, onTouch }) => {
+  const v = state || {};
+  const set = (k, val) => { setState({ ...v, [k]: val }); onTouch && onTouch(); };
+  const [checked, setChecked] = useState(false);
+  const cells = [v.k || '', v.s || '', v.a || ''];
+  const looksCopied = s => s.length > 90 || ((s.match(/[。；;.]/g) || []).length >= 3);
+  const title = (v.title || '').trim();
+  const echoesTitle = s => {
+    const c = s.trim();
+    if (!c || !title) return false;
+    return c === title || (c.length <= title.length + 4 && (c.indexOf(title) >= 0 || title.indexOf(c) >= 0));
+  };
+  const c1 = !cells.some(looksCopied);
+  const c2 = !cells.some(echoesTitle);
+  const c3 = cells.every(s => s.trim() !== '');
+  const rows = [
+    { ok: c1, label: t.lab1_c1, msg: c1 ? t.lab1_c1_ok : t.lab1_c1_bad },
+    { ok: c2, label: t.lab1_c2, msg: c2 ? t.lab1_c2_ok : t.lab1_c2_bad },
+    { ok: c3, label: t.lab1_c3, msg: c3 ? t.lab1_c3_ok : t.lab1_c3_bad }
+  ];
+  const allOk = c1 && c2 && c3;
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab1_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.lab1_desc}</p>
+      <div className="space-y-3">
+        <div>
+          <label className="block text-xs font-bold text-slate-500 mb-1">{t.lab1_jd}</label>
+          <input className={inputCls} placeholder={t.lab1_jd_ph} value={v.title || ''} onChange={e => set('title', sanitizeText(e.target.value))} />
+        </div>
+        {[['k', t.lab1_k], ['s', t.lab1_s], ['a', t.lab1_a]].map(([k, label]) => (
+          <div key={k}>
+            <label className="block text-xs font-bold text-slate-500 mb-1">{label}</label>
+            <textarea rows={2} className={inputCls} placeholder={t.lab1_ph} value={v[k] || ''} onChange={e => set(k, sanitizeText(e.target.value))} />
+          </div>
+        ))}
+      </div>
+      <div className="flex items-center gap-3 mt-4 flex-wrap">
+        {!checked
+          ? <button onClick={() => { setChecked(true); onTouch && onTouch(); }}
+              className="px-5 py-2 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg text-sm">{t.lab1_check}</button>
+          : <button onClick={() => setChecked(false)} className="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm">{t.lab1_reset}</button>}
+      </div>
+      {checked && (
+        <div className="mt-4 space-y-2">
+          {rows.map((r, i) => (
+            <div key={i} className={`p-3 rounded-lg border text-sm ${r.ok ? 'border-green-500 bg-green-50 dark:bg-green-900/20' : 'border-amber-400 bg-amber-50 dark:bg-amber-900/20'}`}>
+              <p className="font-bold">{r.ok ? '✓' : '⚠'} {r.label}</p>
+              <p className="text-xs mt-1 leading-relaxed text-slate-600 dark:text-slate-300">{r.msg}</p>
+            </div>
+          ))}
+          <p className={`text-sm font-bold ${allOk ? 'text-green-600 dark:text-green-400' : 'text-amber-600 dark:text-amber-400'}`}>{allOk ? t.lab1_pass : t.lab1_fail}</p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const LabQuadSorter = ({ t, state, setState, onTouch }) => {
+  const v = state || {};
+  const set = (k, val) => { setState({ ...v, [k]: val }); onTouch && onTouch(); };
+  const [checked, setChecked] = useState(false);
+  const done = t.lab2_items.every((it, i) => v['q' + i]);
+  const mine = QUAD_IDS.map(q => t.lab2_items.filter((it, i) => v['q' + i] === q).length);
+  const ref = QUAD_IDS.map(q => t.lab2_items.filter(it => it.q === q).length);
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab2_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.lab2_desc}</p>
+      <div className="space-y-2">
+        {t.lab2_items.map((it, i) => (
+          <div key={i} className="border-b border-slate-100 dark:border-slate-700 pb-2 last:border-0">
+            <p className="text-sm mb-1.5">{i+1}. {it.w}</p>
+            <div className="flex gap-1.5 flex-wrap">
+              {t.quads.map(q => {
+                const sel = v['q' + i] === q.id;
+                const tone = !checked ? (sel ? 'bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] border-transparent' : 'border-slate-300 dark:border-slate-600')
+                  : q.id === it.q ? 'bg-green-100 border-green-500 text-green-800 dark:bg-green-900/40 dark:text-green-200'
+                  : sel ? 'bg-amber-100 border-amber-400 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200' : 'border-slate-300 dark:border-slate-600 opacity-50';
+                return <button key={q.id} onClick={() => { if (!checked) set('q' + i, q.id); }}
+                  className={`text-xs px-2.5 py-1 rounded-full font-bold border transition ${tone}`}>{q.name}</button>;
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="flex items-center gap-3 mt-4 flex-wrap">
+        {!checked
+          ? <button onClick={() => { setChecked(true); onTouch && onTouch(); }} disabled={!done}
+              className="px-5 py-2 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg text-sm disabled:opacity-40">{t.lab2_check}</button>
+          : <button onClick={() => setChecked(false)} className="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm">{t.lab2_reset}</button>}
+      </div>
+      {checked && (
+        <div className="mt-4 space-y-3">
+          <div className="grid grid-cols-4 gap-2">
+            {t.quads.map((q, i) => (
+              <div key={q.id} className="p-2 rounded-lg bg-slate-50 dark:bg-slate-900/50 text-center">
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">{q.name}</p>
+                <p className="font-serif font-black text-xl text-[#004030] dark:text-[#D8C3A5]">{mine[i]}</p>
+                <p className="text-[10px] text-slate-400">{t.lab2_ref} {ref[i]}</p>
+              </div>
+            ))}
+          </div>
+          <div>
+            <label className="block text-xs font-bold text-slate-500 mb-1">{t.lab2_ask}</label>
+            <textarea rows={2} className={inputCls} placeholder={t.lab2_ask_ph} value={v.why || ''} onChange={e => set('why', sanitizeText(e.target.value))} />
+          </div>
+          <p className="text-sm italic text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-900/50 rounded-lg p-3 leading-relaxed">{t.lab2_reveal}</p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const LabAxisDrill = ({ t, state, setState, onTouch }) => {
+  const v = state || {};
+  const set = (k, val) => { setState({ ...v, [k]: val }); onTouch && onTouch(); };
+  const [checked, setChecked] = useState(false);
+  const done = t.lab3_cases.every(c => v[c.k + '_a'] && v[c.k + '_l']);
+  const n = t.lab3_cases.filter(c => v[c.k + '_a'] === c.a && v[c.k + '_l'] === c.l).length;
+  const selCls = "px-2 py-1.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-xs w-full";
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab3_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.lab3_desc}</p>
+      <div className="space-y-4">
+        {t.lab3_cases.map(c => {
+          const good = v[c.k + '_a'] === c.a && v[c.k + '_l'] === c.l;
+          return (
+            <div key={c.k} className={`rounded-lg border p-3 ${checked ? (good ? 'border-green-500 bg-green-50/50 dark:bg-green-900/10' : 'border-amber-400 bg-amber-50/50 dark:bg-amber-900/10') : 'border-slate-200 dark:border-slate-700'}`}>
+              <p className="font-bold text-sm text-[#004030] dark:text-[#D8C3A5] mb-2">{c.title}</p>
+              <div className="space-y-1 mb-3">
+                {c.rows.map((r, ri) => (
+                  <p key={ri} className="text-xs leading-relaxed text-slate-600 dark:text-slate-300">
+                    <span className="font-bold">{r[0]}</span>：{r[1]}
+                  </p>
+                ))}
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <select className={selCls} value={v[c.k + '_a'] || ''} disabled={checked} onChange={e => set(c.k + '_a', e.target.value)}>
+                  <option value="">{t.lab3_axis}</option>
+                  {AXIS_VALS.map(x => <option key={x} value={x}>{t.axis_labels[x]}</option>)}
+                </select>
+                <select className={selCls} value={v[c.k + '_l'] || ''} disabled={checked} onChange={e => set(c.k + '_l', e.target.value)}>
+                  <option value="">{t.lab3_level}</option>
+                  {LEVEL_VALS.map(x => <option key={x} value={x}>{t.level_labels[x]}</option>)}
+                </select>
+              </div>
+              {checked && (
+                <p className="text-xs italic text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
+                  <strong>{t.lab3_ref}：{t.axis_labels[c.a]} ／ {t.level_labels[c.l]}</strong> — {c.e}
+                </p>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      <div className="flex items-center gap-3 mt-4 flex-wrap">
+        {!checked
+          ? <button onClick={() => { setChecked(true); onTouch && onTouch(); }} disabled={!done}
+              className="px-5 py-2 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg text-sm disabled:opacity-40">{t.lab3_check}</button>
+          : <>
+              <span className="font-bold text-[#004030] dark:text-[#D8C3A5]">{t.lab3_score.replace('{n}', n)}</span>
+              <button onClick={() => setChecked(false)} className="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm">{t.lab3_reset}</button>
+            </>}
+      </div>
+      {checked && <p className="mt-3 text-sm italic text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-900/50 rounded-lg p-3 leading-relaxed">{t.lab3_note}</p>}
+    </div>
+  );
+};
+
+const LabRuleGen = ({ t, state, setState, onTouch, lang }) => {
+  const v = state || {};
+  const [copied, setCopied] = useState(false);
+  const toggle = (k) => { setState({ ...v, [k]: !v[k] }); setCopied(false); onTouch && onTouch(); };
+  const picked = arr => arr.filter(it => v[it.k]);
+  const srcs = picked(t.lab4_srcs), norms = picked(t.lab4_norms), undecs = picked(t.lab4_undecs);
+  const usePm = !!v.term_pm, usePjm = !!v.term_pjm;
+  const any = srcs.length || norms.length || undecs.length || usePm || usePjm;
+  const md = (() => {
+    if (!any) return '';
+    const L = [];
+    L.push('# ksa_taxonomy.md');
+    L.push('');
+    L.push(lang === 'zh' ? '> 由 PMCS W7 學習單的抽取規則產生器產出的草稿，請再依本組實際資料修訂。' : '> Draft generated by the extraction rule generator in the PMCS W7 worksheet. Revise against your own data.');
+    L.push('');
+    KSA_IDS.forEach(d => {
+      const fs = srcs.filter(s => s.d === d);
+      if (!fs.length) return;
+      L.push(`## ${d}`);
+      L.push((lang === 'zh' ? '- 來源欄位：' : '- Source fields: ') + fs.map(f => f.n).join(lang === 'zh' ? '、' : ', '));
+      L.push('');
+    });
+    if (norms.length) {
+      L.push(lang === 'zh' ? '## 正規化' : '## Normalisation');
+      norms.forEach(x => L.push('- ' + x.n));
+      L.push('');
+    }
+    if (usePm || usePjm) {
+      L.push(lang === 'zh' ? '## 兩軸判準詞' : '## Two-axis decision terms');
+      if (usePm) L.push('- PM: ' + t.lab4_terms_pm.join(', '));
+      if (usePjm) L.push('- PjM: ' + t.lab4_terms_pjm.join(', '));
+      L.push(lang === 'zh' ? '- 依據一律引用工作內容原句，不採信職稱。' : '- Evidence is always a sentence from the job description, never the title.');
+      L.push('');
+    }
+    if (undecs.length) {
+      L.push(lang === 'zh' ? '## 無法判定' : '## Undecidable');
+      undecs.forEach(x => L.push('- ' + x.n));
+      L.push('');
+    }
+    return L.join('\n');
+  })();
+  const doCopy = () => {
+    if (!md) return;
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(md); }
+      else {
+        const ta = document.createElement('textarea');
+        ta.value = md; document.body.appendChild(ta); ta.select();
+        document.execCommand('copy'); document.body.removeChild(ta);
+      }
+      setCopied(true); setTimeout(() => setCopied(false), 1800);
+    } catch (e) {}
+    onTouch && onTouch();
+  };
+  const Box = ({ items }) => (
+    <div className="space-y-1.5">
+      {items.map(it => (
+        <label key={it.k} className="flex items-start gap-2.5 p-2 rounded-lg border border-slate-200 dark:border-slate-700 cursor-pointer hover:border-[#004030] dark:hover:border-[#D8C3A5] transition">
+          <input type="checkbox" className="w-4 h-4 mt-0.5 accent-[#004030] dark:accent-[#D8C3A5] shrink-0" checked={!!v[it.k]} onChange={() => toggle(it.k)} />
+          <span className="text-xs leading-relaxed">{it.d ? <span className="font-bold text-[#004030] dark:text-[#D8C3A5]">{it.d} · </span> : null}{it.n}</span>
+        </label>
+      ))}
+    </div>
+  );
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab4_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.lab4_desc}</p>
+      <div className="space-y-4">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">{t.lab4_src_label}</p>
+          <Box items={t.lab4_srcs} />
+        </div>
+        <div>
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">{t.lab4_norm_label}</p>
+          <Box items={t.lab4_norms} />
+        </div>
+        <div>
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">{t.lab4_term_label}</p>
+          <Box items={[{ k:'term_pm', n:'PM: ' + t.lab4_terms_pm.join(', ') }, { k:'term_pjm', n:'PjM: ' + t.lab4_terms_pjm.join(', ') }]} />
+        </div>
+        <div>
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">{t.lab4_undec_label}</p>
+          <Box items={t.lab4_undecs} />
+        </div>
+      </div>
+      <div className="mt-5">
+        <div className="flex items-center justify-between gap-3 mb-2">
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-500">{t.lab4_out_label}</p>
+          <button onClick={doCopy} disabled={!md} className="px-3 py-1.5 text-xs bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg disabled:opacity-40 shrink-0">{copied ? t.lab4_copied : t.lab4_copy}</button>
+        </div>
+        <pre className="text-xs whitespace-pre-wrap font-mono bg-slate-50 dark:bg-slate-900/50 rounded-lg p-3 max-h-72 overflow-y-auto text-slate-700 dark:text-slate-300 leading-relaxed">{md || t.lab4_empty}</pre>
+      </div>
+    </div>
+  );
+};
+
+/* ================= App ================= */
+function App() {
+  const LS_ANS = 'PMCS_W07_answers';
+  const LS_ANA = 'PMCS_W07_analytics';
+  const LS_STU = 'PMCS_W07_student';
+  const LS_LAB = 'PMCS_W07_lab';
+  const loadLS = (k, fb) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : fb; } catch { return fb; } };
+
+  const [lang, setLang] = useState('en');
+  const [isDark, setIsDark] = useState(true);
+  const [module, setModule] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [ttsState, setTtsState] = useState('idle');
+  const [answers, setAnswers] = useState(() => loadLS(LS_ANS, {}));
+  const [focus, setFocus] = useState(() => loadLS(LS_ANS + '_focus', {}));
+  const [memberCount, setMemberCount] = useState(() => loadLS(LS_ANS + '_mc', DEFAULT_MEMBERS));
+  const [sdl, setSdl] = useState(() => loadLS(LS_ANS + '_sdl', null));
+  const [lab, setLab] = useState(() => loadLS(LS_LAB, {}));
+  const [labNonce, setLabNonce] = useState(0);
+  const [studentInfo, setStudentInfo] = useState(() => loadLS(LS_STU, { group:'', dept:'', id:'', nameEn:'', nameZh:'', compiler:'' }));
+  const [analytics, setAnalytics] = useState(() => loadLS(LS_ANA, {
+    time: Array(TOTAL).fill(0), clicks: Array(TOTAL).fill(0),
+    quizCorrect: Array(TOTAL).fill(0), quizTotal: Array(TOTAL).fill(0),
+    cardsRead: Array(TOTAL).fill(0), cardsTotal: Array(TOTAL).fill(0), wrongTopics: {}
+  }));
+  const menuRef = useRef(null);
+  const t = dict[lang];
+
+  useEffect(() => { document.documentElement.classList.toggle('dark', isDark); }, [isDark]);
+  useEffect(() => { try { localStorage.setItem(LS_ANS, JSON.stringify(answers)); } catch {} }, [answers]);
+  useEffect(() => { try { localStorage.setItem(LS_ANS + '_focus', JSON.stringify(focus)); } catch {} }, [focus]);
+  useEffect(() => { try { localStorage.setItem(LS_ANS + '_mc', JSON.stringify(memberCount)); } catch {} }, [memberCount]);
+  useEffect(() => { try { sdl ? localStorage.setItem(LS_ANS + '_sdl', JSON.stringify(sdl)) : localStorage.removeItem(LS_ANS + '_sdl'); } catch {} }, [sdl]);
+  useEffect(() => { try { localStorage.setItem(LS_LAB, JSON.stringify(lab)); } catch {} }, [lab]);
+  useEffect(() => { try { localStorage.setItem(LS_ANA, JSON.stringify(analytics)); } catch {} }, [analytics]);
+  useEffect(() => { try { localStorage.setItem(LS_STU, JSON.stringify(studentInfo)); } catch {} }, [studentInfo]);
+  useEffect(() => {
+    const id = setInterval(() => setAnalytics(a => { const ti = [...a.time]; ti[module] += 5; return {...a, time: ti}; }), 5000);
+    return () => clearInterval(id);
+  }, [module]);
+  useEffect(() => {
+    const onDoc = e => { if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false); };
+    document.addEventListener('mousedown', onDoc);
+    return () => document.removeEventListener('mousedown', onDoc);
+  }, []);
+
+  const importSdl = (r) => {
+    setSdl({ meta: r.meta, sections: r.sections });
+    setStudentInfo(st => ({
+      ...st,
+      group: r.meta.group || st.group,
+      id: (r.meta.student_id || st.id || '').replace(/[^0-9]/g, '').slice(0, 12),
+      nameEn: /^[\x00-\x7F]+$/.test(r.meta.student || '') ? (r.meta.student || st.nameEn) : st.nameEn,
+      nameZh: /^[\x00-\x7F]+$/.test(r.meta.student || '') ? st.nameZh : (r.meta.student || st.nameZh)
+    }));
+    if (r.meta.group) setA('g_group', r.meta.group);
+    if (r.meta.date) setA('g_date', r.meta.date);
+  };
+  const sdlFileName = () => {
+    if (!sdl) return '';
+    const m = sdl.meta;
+    const who = m.student || 'NA';
+    return `${m.course || 'PMCS'}_${m.semester || SEMESTER_DEFAULT}${m.week || WEEK_CODE}_${(m.topic || TOPIC_CAMEL).replace(/\s+/g,'')}_${m.group || 'NA'}-${who}_${(m.date || '').replace(/-/g,'')}.md`;
+  };
+  const bump = () => setAnalytics(a => { const c = [...a.clicks]; c[module] += 1; return {...a, clicks: c}; });
+  const setA = (id, val) => setAnswers(s => ({...s, [id]: val}));
+  const handleQuizSubmit = (mid, correct, total, wrong) => setAnalytics(a => {
+    const qc = [...a.quizCorrect], qt = [...a.quizTotal];
+    qc[mid] = correct; qt[mid] = total;
+    return {...a, quizCorrect: qc, quizTotal: qt, wrongTopics: {...a.wrongTopics, [mid]: wrong || []}};
+  });
+  const handleCardRead = (mid, r, s, tot) => setAnalytics(a => {
+    const cr = [...a.cardsRead], ct = [...a.cardsTotal]; cr[mid] = r; ct[mid] = tot;
+    return {...a, cardsRead: cr, cardsTotal: ct};
+  });
+  const setLabPart = (k) => (val) => setLab(s => ({...s, [k]: val}));
+
+  const filled = id => { const v = answers[id]; return v !== undefined && String(v).trim() !== ''; };
+  const sectionPct = n => { const c = CORE[n]; return c && c.length ? Math.round(c.filter(filled).length / c.length * 100) : 100; };
+  const pctPersonal = Math.round(PERSONAL_SECTIONS.reduce((s,n) => s + sectionPct(n), 0) / PERSONAL_SECTIONS.length);
+  const pctGroup = Math.round(GROUP_SECTIONS.reduce((s,n) => s + sectionPct(n), 0) / GROUP_SECTIONS.length);
+  const jdLabel = i => answers[`m_name_${i}`] || `JD${i+1}`;
+  const jdToken = i => `JD${i+1}`;
+
+  const modulesList = [
+    { id:0, num:'0', icon:'📋', title:t.m0_nav, kind:null },
+    { id:1, num:'1', icon:'👥', title:t.m1_nav, kind:'G' },
+    { id:2, num:'2', icon:'🧾', title:t.m2_nav, kind:'P' },
+    { id:3, num:'3', icon:'🧭', title:t.m3_nav, kind:'P' },
+    { id:4, num:'4', icon:'🗣️', title:t.m4_nav, kind:'P' },
+    { id:5, num:'5', icon:'🔍', title:t.m5_nav, kind:'G' },
+    { id:6, num:'6', icon:'📐', title:t.m6_nav, kind:'G' },
+    { id:7, num:'7', icon:'🎤', title:t.m7_nav, kind:'G' },
+    { id:IDX_LAB, num:String(IDX_LAB), icon:'⚡', title:t.mlab_nav, kind:null },
+    { id:IDX_RES, num:String(IDX_RES), icon:'🌐', title:t.mres_nav, kind:null },
+    { id:IDX_ANA, num:String(IDX_ANA), icon:'📊', title:t.analytics_title, kind:null }
+  ];
+  const go = m => { setModule(m); setMenuOpen(false); window.scrollTo({top:0,behavior:'smooth'}); };
+
+  /* ---------- TTS ---------- */
+  const handleTTS = (action) => {
+    if (!('speechSynthesis' in window)) return;
+    if (action === 'stop') { speechSynthesis.cancel(); setTtsState('idle'); return; }
+    if (action === 'pause') { speechSynthesis.pause(); setTtsState('paused'); return; }
+    if (ttsState === 'paused') { speechSynthesis.resume(); setTtsState('playing'); return; }
+    speechSynthesis.cancel();
+    const sep = lang === 'zh' ? '。 ' : '. ';
+    let texts = [];
+    if (module === 0) {
+      texts = [t.m0_title, t.m0_intro, t.m0_why, t.m0_why_desc, ...t.m0_stats.map(s => `${s.label}: ${s.val}`), ...t.m0_modules.map(m => `${m.title}. ${m.desc}`)];
+    } else if (module >= 1 && module <= NUM_LEARN) {
+      const k = `m${module}`;
+      texts = [t[`${k}_title`], t[`${k}_overview`], ...(t[`${k}_highlights`]||[]), t[`${k}_deep`], t[`${k}_wrapup`]];
+      if (module === 2) texts.push(...t.ksa.map(d => `${d.name}. ${d.q} ${d.src}`), ...t.m2_terms.flatMap(x => [x.front, x.back]));
+      if (module === 3) texts.push(...t.quads.map(q => `${q.name}. ${q.hint}`));
+    } else if (module === IDX_LAB) {
+      texts = [t.mlab_title, t.mlab_desc, t.lab1_title, t.lab1_desc, t.lab2_title, t.lab2_desc, t.lab3_title, t.lab3_desc, t.lab4_title, t.lab4_desc];
+    } else if (module === IDX_RES) {
+      texts = [t.mres_title, t.mres_desc, ...t.res_req.map(r => `${r.label}. ${r.desc}`), ...t.res_opt.map(r => `${r.label}. ${r.desc}`)];
+    } else {
+      texts = [t.analytics_title, t.analytics_desc, `${t.analytics_pct_personal}: ${pctPersonal}%`, `${t.analytics_pct_group}: ${pctGroup}%`];
+      const weak = [1,2,3,4,5,6,7].filter(n => sectionPct(n) < 100);
+      if (weak.length) { texts.push(t.analytics_wp_tts_intro); weak.forEach(n => texts.push(t.analytics_wp_tts_module.replace('{name}', t[`m${n}_nav`]).replace('{acc}', sectionPct(n)))); }
+      else texts.push(t.analytics_wp_tts_allpass);
+    }
+    const utt = new SpeechSynthesisUtterance(texts.filter(Boolean).join(sep));
+    utt.rate = 0.95;
+    const voices = speechSynthesis.getVoices();
+    if (lang === 'zh') {
+      const v = voices.find(v=>v.lang==='zh-TW'&&v.name.includes('Yating')) || voices.find(v=>v.lang==='zh-TW') || voices.find(v=>v.lang.startsWith('zh'));
+      if (v) utt.voice = v; utt.lang = 'zh-TW';
+    } else {
+      const v = voices.find(v=>v.lang==='en-GB'&&(v.name.includes('Male')||v.name.includes('Daniel'))) || voices.find(v=>v.lang==='en-GB') || voices.find(v=>v.lang.startsWith('en'));
+      if (v) utt.voice = v; utt.lang = 'en-GB';
+    }
+    utt.onend = () => setTtsState('idle'); utt.onerror = () => setTtsState('idle');
+    speechSynthesis.speak(utt); setTtsState('playing');
+  };
+
+  /* ---------- Export ---------- */
+  const dstamp = () => { const d = new Date(), p = n => String(n).padStart(2,'0'); return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}`; };
+  const stamp = () => { const d = new Date(), p = n => String(n).padStart(2,'0');
+    return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}_${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`; };
+  const download = (content, filename, mime) => {
+    const blob = new Blob([content], {type: mime}); const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+  const okPersonal = !!(studentInfo.nameEn || studentInfo.nameZh);
+  const okGroup = !!(studentInfo.group && studentInfo.compiler);
+
+  const exportPersonal = () => {
+    if (!okPersonal) return;
+    const L = [];
+    L.push(`# PMCS W7 個人學習單 — ${dict.zh.subtitle}`);
+    L.push('');
+    L.push(`- 姓名：${studentInfo.nameEn} ${studentInfo.nameZh}　學號：${studentInfo.id}　系級：${studentInfo.dept}`);
+    L.push(`- 必讀：JDKS · 讀懂一份 JD https://lolopodcast.github.io/JD-to-KSA/ ／ AICF · AI 素養共通語言學習平台 https://lolopodcast.github.io/AICF-AI-Competency-Framework/`);
+    L.push(`- 個人完成度：${pctPersonal}%`);
+    if (sdl) L.push(`- 來源 SDL KB：${sdlFileName()}`);
+    L.push('');
+    L.push('## 2. K／S／A 抽取');
+    L.push(`**職稱**：${answers.jd_title || '_(未填)_'}`);
+    L.push(`**公司或產業**：${answers.jd_company || '_(未填)_'}`);
+    L.push(`**連結**：${answers.jd_url || '_(未填)_'}`);
+    L.push('');
+    L.push('| 構面 | 欄位 | 摘要或關鍵詞 |');
+    L.push('|---|---|---|');
+    dict.zh.ksa.forEach(d => d.fields.forEach(f => L.push(`| ${d.id} | ${f.label} | ${(answers[f.id]||'').replace(/\n/g,' ')} |`)));
+    L.push('');
+    L.push('_本節僅記錄摘要與關鍵詞，原文請循上方連結回溯。_');
+    L.push('');
+    L.push('## 3. 四象限與兩軸判定');
+    L.push('| 象限 | 態度詞 |'); L.push('|---|---|');
+    dict.zh.quads.forEach(q => L.push(`| ${q.name} | ${(answers[`a_${q.id}`]||'').replace(/\n/g,' ')} |`));
+    L.push('');
+    L.push(`- 軸一 管理對象：${answers.axis_obj ? (dict.zh.axis_labels[answers.axis_obj] || answers.axis_obj) : '_(未填)_'}`);
+    L.push(`- 軸二 層級：${answers.axis_level ? (dict.zh.level_labels[answers.axis_level] || answers.axis_level) : '_(未填)_'}`);
+    L.push(`- 依據（工作內容原句）：${answers.axis_evi || '_(未填)_'}`);
+    L.push(`- 批判：${answers.a_critique || '_(未填)_'}`);
+    L.push('');
+    L.push('## 4. 語言實驗室');
+    L.push('| 詞彙 | 自己的話 | 例句 |'); L.push('|---|---|---|');
+    [0,1,2,3,4].forEach(i => { if (filled(`t_term_${i}`)) L.push(`| ${answers[`t_term_${i}`]||''} | ${answers[`t_mean_${i}`]||''} | ${answers[`t_sent_${i}`]||''} |`); });
+    L.push('');
+    L.push('| 難發音 | 難在哪 | 記憶方法 |'); L.push('|---|---|---|');
+    [0,1,2].forEach(i => { if (filled(`p_word_${i}`)) L.push(`| ${answers[`p_word_${i}`]||''} | ${answers[`p_hard_${i}`]||''} | ${answers[`p_tip_${i}`]||''} |`); });
+    L.push(''); L.push('---');
+    L.push('_本檔為個人學習歷程檔案，不繳交。W10 建立知識庫時請從中挑選要保留的部分。_');
+    const who = (sanitizeName(studentInfo.nameEn).replace(/\s+/g,'') || studentInfo.id || 'me').replace(/[^\w-]/g,'') || 'me';
+    const sem = (sdl && sdl.meta.semester) || SEMESTER_DEFAULT;
+    const grp = studentInfo.group || 'NA';
+    download(L.join('\n'), `PMCS_${sem}W07_JDtoKSA_${grp}-${who}_${dstamp()}.md`, 'text/markdown;charset=utf-8;');
+  };
+
+  const groupRows = () => {
+    const rows = [['Section','Field','Value']];
+    rows.push(['Info','Group', studentInfo.group]);
+    rows.push(['Info','Compiler', studentInfo.compiler]);
+    GROUP_SECTIONS.forEach(sec => FIELDS[sec].forEach(id => rows.push(['S'+sec, id, String(answers[id] ?? '')])));
+    rows.push(['S5','ComparedJDs', MEMBER_IDX.filter(i => focus['j'+i]).map(jdToken).join(' ')]);
+    /* --- 自我描述欄位：讓教師端彙整台無需內建設定即可正確顯示本週判準 --- */
+    rows.push(['Meta','WeekTitleZH', dict.zh.subtitle]);
+    rows.push(['Meta','WeekTitleEN', dict.en.subtitle]);
+    rows.push(['Meta','CompareKey', 'ComparedJDs']);
+    rows.push(['Meta','CompareN', '3']);
+    rows.push(['Meta','S6Fields', "[{\"id\": \"tp_rule_k\", \"zh\": \"K 的抽取規則\", \"en\": \"K extraction rule\"}, {\"id\": \"tp_rule_s\", \"zh\": \"S 的抽取規則\", \"en\": \"S extraction rule\"}, {\"id\": \"tp_rule_a\", \"zh\": \"A 的抽取規則\", \"en\": \"A extraction rule\"}, {\"id\": \"tp_undecided\", \"zh\": \"判不出來時怎麼辦\", \"en\": \"What to do when undecidable\"}, {\"id\": \"tp_action\", \"zh\": \"本週要做的一件事\", \"en\": \"One action this week\"}]"]);
+    rows.push(['Meta','Categorical', '']);
+    rows.push(['Meta','CategoricalZH', '']);
+    rows.push(['Meta','CategoricalEN', '']);
+    rows.push(['Meta','CP5ZH', dict.zh.m5_wrapup]);
+    rows.push(['Meta','CP5EN', dict.en.m5_wrapup]);
+    rows.push(['Meta','CP6ZH', dict.zh.m6_wrapup]);
+    rows.push(['Meta','CP6EN', dict.en.m6_wrapup]);
+    rows.push(['Meta','CP7ZH', dict.zh.m7_wrapup]);
+    rows.push(['Meta','CP7EN', dict.en.m7_wrapup]);
+    rows.push(['Meta','GroupCompletionPct', String(pctGroup)]);
+    rows.push(['Meta','TimeSec', String(analytics.time.reduce((a,b)=>a+b,0))]);
+    const qc = analytics.quizCorrect.reduce((a,b)=>a+b,0), qt = analytics.quizTotal.reduce((a,b)=>a+b,0);
+    rows.push(['Meta','SelfCheck', `${qc}/${qt}`]);
+    return rows;
+  };
+  const exportGroupCSV = () => {
+    if (!okGroup) return;
+    const esc = v => `"${String(v).replace(/"/g,'""')}"`;
+    const csv = '﻿' + groupRows().map(r => r.map(esc).join(',')).join('\r\n');
+    download(csv, `PMCS_${(sdl && sdl.meta.semester) || SEMESTER_DEFAULT}W07_JDtoKSA_${studentInfo.group}-ALL_${dstamp()}.csv`, 'text/csv;charset=utf-8;');
+  };
+  const exportGroupMD = () => {
+    if (!okGroup) return;
+    const L = [];
+    L.push(`# PMCS W7 小組學習單 — ${dict.zh.subtitle}`);
+    L.push('');
+    L.push(`- 組別：${studentInfo.group}　本週彙整人：${studentInfo.compiler}　日期：${answers.g_date || ''}`);
+    L.push(`- 小組完成度：${pctGroup}%`);
+    L.push('');
+    L.push('## 1. 小組與分工');
+    L.push('| 姓名 | 學號 | 負責段落 | 秒數 |'); L.push('|---|---|---|---|');
+    MEMBER_IDX.forEach(i => { if (filled(`m_name_${i}`)) L.push(`| ${answers[`m_name_${i}`]||''} | ${answers[`m_id_${i}`]||''} | ${answers[`m_part_${i}`]||''} | ${answers[`m_sec_${i}`]||''} |`); });
+    L.push('');
+    L.push('## 5. 小組綜整');
+    L.push(`- 比對的三則 JD：${MEMBER_IDX.filter(i => focus['j'+i]).map(i => `${jdToken(i)}（${jdLabel(i)}）`).join('、') || '_(未選)_'}`);
+    L.push(`- 為什麼挑這三則：${answers.syn_focus_why || '_(未填)_'}`);
+    L.push(`- 差異最大的構面：${(dict.zh.ksa.find(x => x.id === answers.syn_diff) || {}).name || answers.syn_diff || '_(未填)_'}`);
+    L.push(`- 支持證據：${answers.syn_evidence || '_(未填)_'}`);
+    L.push(`- 當範例的那一則：${answers.syn_case || '_(未填)_'}`);
+    L.push(`- **組內通則**：${answers.syn_rule || '_(未填)_'}`);
+    L.push('');
+    L.push('## 6. 抽取規則初版');
+    L.push(`- K 的抽取規則：${answers.tp_rule_k || '_(未填)_'}`);
+    L.push(`- S 的抽取規則：${answers.tp_rule_s || '_(未填)_'}`);
+    L.push(`- A 的抽取規則：${answers.tp_rule_a || '_(未填)_'}`);
+    L.push(`- **判不出來時怎麼辦**：${answers.tp_undecided || '_(未填)_'}`);
+    L.push(`- 本週一件事：${answers.tp_action || '_(未填)_'}`);
+    L.push('');
+    L.push('## 7. 簡報計畫');
+    L.push(`- 開場句：${answers.pr_open || '_(未填)_'}`);
+    MEMBER_IDX.forEach(i => { if (filled(`pr_point_${i}`)) L.push(`- ${answers[`m_name_${i}`] || 'Speaker '+(i+1)}：${answers[`pr_point_${i}`]}`); });
+    L.push(`- 給全班的問題：${answers.pr_question || '_(未填)_'}`);
+    L.push(''); L.push('---');
+    L.push('_PMCS (EMI) · Prof. Shihmin Lo, NCNU · For Educational Use Only_');
+    download(L.join('\n'), `PMCS_${(sdl && sdl.meta.semester) || SEMESTER_DEFAULT}W07_JDtoKSA_${studentInfo.group}-ALL_${dstamp()}.md`, 'text/markdown;charset=utf-8;');
+  };
+
+  const clearAll = () => {
+    if (!window.confirm(t.analytics_wp_clear_confirm)) return;
+    setAnswers({}); setFocus({}); setMemberCount(DEFAULT_MEMBERS); setSdl(null); setLab({}); setLabNonce(n => n + 1);
+    setAnalytics({ time: Array(TOTAL).fill(0), clicks: Array(TOTAL).fill(0), quizCorrect: Array(TOTAL).fill(0),
+      quizTotal: Array(TOTAL).fill(0), cardsRead: Array(TOTAL).fill(0), cardsTotal: Array(TOTAL).fill(0), wrongTopics: {} });
+    try { localStorage.removeItem(LS_ANS); localStorage.removeItem(LS_ANS + '_focus'); localStorage.removeItem(LS_ANA); localStorage.removeItem(LS_ANS + '_sdl'); localStorage.removeItem(LS_LAB); } catch {}
+  };
+  const clearLab = () => {
+    if (!window.confirm(t.mlab_clear_confirm)) return;
+    setLab({}); setLabNonce(n => n + 1);
+    try { localStorage.removeItem(LS_LAB); } catch {}
+  };
+
+  /* ---------- Renderers ---------- */
+  const SavedHint = () => <p className="text-xs text-slate-500 dark:text-slate-400 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 rounded-lg p-3 leading-relaxed">{t.saved_hint}</p>;
+
+  const renderM0 = () => (
+    <>
+      <div className="rounded-2xl bg-[#004030] dark:bg-slate-800 text-white p-6 sm:p-10 border border-[#D8C3A5]/30">
+        <p className="text-[#D8C3A5] font-serif tracking-widest text-sm mb-2">{t.brand} · {t.title}</p>
+        <h1 className="font-serif font-black text-3xl sm:text-4xl md:text-5xl leading-tight mb-4">{t.subtitle}</h1>
+        <p className="text-slate-200 leading-relaxed text-base">{t.m0_intro}</p>
+        <button onClick={() => go(1)} className="mt-6 px-6 py-3 bg-[#D8C3A5] text-[#004030] font-bold rounded-lg hover:brightness-110 transition">{t.m0_start}</button>
+      </div>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        {t.m0_stats.map((s,i) => (
+          <div key={i} className="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 text-center">
+            <p className="font-serif font-black text-3xl text-[#004030] dark:text-[#D8C3A5]">{s.val}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{s.label}</p>
+          </div>
+        ))}
+      </div>
+      <div className="bg-[#004030]/5 dark:bg-[#D8C3A5]/5 rounded-xl p-5 border-l-4 border-[#D8C3A5]">
+        <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-2">{t.m0_why}</h3>
+        <p>{t.m0_why_desc}</p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {t.m0_modules.map((m,i) => (
+          <button key={i} onClick={() => go(i+1)} className="text-left bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5] hover:shadow-md transition">
+            <div className="flex items-center justify-between">
+              <span className="font-serif font-black text-[#D8C3A5] text-lg">{m.num}</span>
+              <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${m.tag === (lang==='zh'?'個人':'Individual') ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200' : 'bg-[#D8C3A5]/30 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>{m.tag}</span>
+            </div>
+            <p className="font-bold text-[#004030] dark:text-[#D8C3A5] mt-1">{m.title}</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">{m.desc}</p>
+          </button>
+        ))}
+      </div>
+      <SdlImport t={t} sdl={sdl} onImport={importSdl} onClear={() => setSdl(null)} />
+      <SavedHint />
+    </>
+  );
+
+  const renderM1 = () => (
+    <>
+      <Overview t={t} text={t.m1_overview} /><Highlights t={t} items={t.m1_highlights} /><DeepDive t={t} text={t.m1_deep} /><SavedHint />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{t.m1_group}</label>
+          <select className={inputCls} value={answers.g_group || ''} onChange={e => setA('g_group', e.target.value)}>
+            <option value="">{t.select_ph}</option>{t.group_options.map(g => <option key={g} value={g}>{g}</option>)}
+          </select>
+        </div>
+        <Field id="g_date" label={t.m1_date} type="date" value={answers.g_date} onChange={setA} />
+      </div>
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m1_members_label}</h3>
+        <div className="space-y-3">
+          {MEMBER_IDX.slice(0, memberCount).map(i => (
+            <div key={i} className="grid grid-cols-2 md:grid-cols-4 gap-2">
+              <input className={inputCls} placeholder={`${t.m1_col_name} ${i+1}`} value={answers[`m_name_${i}`]||''} onChange={e => setA(`m_name_${i}`, sanitizeName(e.target.value))} />
+              <input className={inputCls} placeholder={t.m1_col_id} value={answers[`m_id_${i}`]||''} onChange={e => setA(`m_id_${i}`, sanitizeStudentId(e.target.value))} />
+              <input className={inputCls} placeholder={t.m1_part_ph} value={answers[`m_part_${i}`]||''} onChange={e => setA(`m_part_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} type="number" min="0" max="600" placeholder={t.m1_col_sec} value={answers[`m_sec_${i}`]||''} onChange={e => setA(`m_sec_${i}`, e.target.value.replace(/[^0-9]/g,'').slice(0,3))} />
+            </div>
+          ))}
+        </div>
+        <div className="flex items-center gap-2 mt-3">
+          <button onClick={() => { setMemberCount(c => Math.max(1, c-1)); bump(); }} disabled={memberCount <= 1}
+            className="px-3 py-1.5 text-sm border border-slate-300 dark:border-slate-600 rounded-lg disabled:opacity-40">−</button>
+          <span className="text-sm text-slate-500 dark:text-slate-400">{t.m1_member_count.replace('{n}', memberCount)}</span>
+          <button onClick={() => { setMemberCount(c => Math.min(MAX_MEMBERS, c+1)); bump(); }} disabled={memberCount >= MAX_MEMBERS}
+            className="px-3 py-1.5 text-sm border border-slate-300 dark:border-slate-600 rounded-lg disabled:opacity-40">＋</button>
+        </div>
+        {(() => {
+          const total = MEMBER_IDX.slice(0, memberCount).reduce((s,i) => s + (parseInt(answers[`m_sec_${i}`]||'0',10)||0), 0);
+          const over = total > 600;
+          return <div className={`mt-4 p-3 rounded-lg text-sm ${over ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-300' : 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'}`}>
+            <strong>{t.m1_total_sec}: {total}s</strong> — {over ? t.m1_sec_warn : t.m1_sec_ok}</div>;
+        })()}
+      </div>
+      <Wrapup t={t} text={t.m1_wrapup} />
+    </>
+  );
+
+  const renderM2 = () => (
+    <>
+      <SdlPanel t={t} sdl={sdl} />
+      <Overview t={t} text={t.m2_overview} /><Highlights t={t} items={t.m2_highlights} /><DeepDive t={t} text={t.m2_deep} />
+      <div className="rounded-xl border-2 border-amber-300 dark:border-amber-700/60 bg-amber-50/70 dark:bg-amber-900/15 p-4">
+        <p className="text-sm leading-relaxed text-amber-900 dark:text-amber-200">⚠ {t.m2_rule_note}</p>
+      </div>
+      <KsaDiagram t={t} answers={answers} />
+      <SavedHint />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Field id="jd_title" label={t.m2_jd_title_label} ph={t.m2_jd_title_ph} value={answers.jd_title} onChange={setA} />
+        <Field id="jd_company" label={t.m2_jd_company_label} ph={t.m2_jd_company_ph} value={answers.jd_company} onChange={setA} />
+      </div>
+      <Field id="jd_url" label={t.m2_jd_url_label} ph={t.m2_jd_url_ph} value={answers.jd_url} onChange={setA} />
+      <div className="space-y-5">
+        {t.ksa.map(d => (
+          <div key={d.id} className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
+            <h4 className="font-serif font-bold text-[#004030] dark:text-[#D8C3A5]">{d.name} — {d.q}</h4>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 mb-1">{d.src}</p>
+            <p className="text-xs italic text-slate-500 dark:text-slate-400 mb-4">{d.note}</p>
+            {d.fields.map(f => (
+              <Field key={f.id} id={f.id} label={f.label} ph={f.ph} rows={2} value={answers[f.id]} onChange={setA} />
+            ))}
+          </div>
+        ))}
+      </div>
+      <FlipCardDeck key={`cards-${module}-${lang}`} terms={t.m2_terms} t={t} moduleId={2} onCardRead={handleCardRead} />
+      <Wrapup t={t} text={t.m2_wrapup} />
+    </>
+  );
+
+  const renderM3 = () => {
+    const n = QUAD_IDS.filter(q => filled(`a_${q}`)).length;
+    return (
+      <>
+        <SdlPanel t={t} sdl={sdl} />
+        <Overview t={t} text={t.m3_overview} /><Highlights t={t} items={t.m3_highlights} /><DeepDive t={t} text={t.m3_deep} /><SavedHint />
+        <div>
+          <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-2">{t.m3_quad_label}</h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mb-3 leading-relaxed">{t.m3_quad_hint}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {t.quads.map(q => (
+              <div key={q.id} className={`rounded-xl p-4 border ${q.id === 'down' ? 'border-dashed border-slate-400 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/40' : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800'}`}>
+                <p className="font-bold text-[#004030] dark:text-[#D8C3A5]">{q.name}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 mb-2 leading-relaxed">{q.hint}</p>
+                <textarea rows={3} className={inputCls} placeholder={t.m3_quad_ph} value={answers[`a_${q.id}`]||''} onChange={e => setA(`a_${q.id}`, sanitizeText(e.target.value))} />
+              </div>
+            ))}
+          </div>
+          <p className={`mt-2 text-sm font-bold ${n >= 3 ? 'text-green-600 dark:text-green-400' : 'text-amber-600 dark:text-amber-400'}`}>{t.m3_count}: {n} / 4</p>
+        </div>
+        <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5">
+          <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-4">{t.m3_axis_label}</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{t.m3_axis_obj_label}</label>
+              <select className={inputCls} value={answers.axis_obj || ''} onChange={e => setA('axis_obj', e.target.value)}>
+                <option value="">{t.select_ph}</option>{AXIS_VALS.map(x => <option key={x} value={x}>{t.axis_labels[x]}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{t.m3_axis_level_label}</label>
+              <select className={inputCls} value={answers.axis_level || ''} onChange={e => setA('axis_level', e.target.value)}>
+                <option value="">{t.select_ph}</option>{LEVEL_VALS.map(x => <option key={x} value={x}>{t.level_labels[x]}</option>)}
+              </select>
+            </div>
+          </div>
+          <Field id="axis_evi" label={t.m3_axis_evi_label} ph={t.m3_axis_evi_ph} rows={3} value={answers.axis_evi} onChange={setA} />
+        </div>
+        <Field id="a_critique" label={t.m3_critique_label} ph={t.m3_critique_ph} rows={4} value={answers.a_critique} onChange={setA} />
+        <Wrapup t={t} text={t.m3_wrapup} />
+      </>
+    );
+  };
+
+  const renderM4 = () => (
+    <>
+      <SdlPanel t={t} sdl={sdl} />
+      <Overview t={t} text={t.m4_overview} /><Highlights t={t} items={t.m4_highlights} /><DeepDive t={t} text={t.m4_deep} /><SavedHint />
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m4_terms_label}</h3>
+        <div className="space-y-3">
+          {[0,1,2,3,4].map(i => (
+            <div key={i} className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <input className={inputCls} placeholder={`${t.m4_col_term} ${i+1}`} value={answers[`t_term_${i}`]||''} onChange={e => setA(`t_term_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_mean} value={answers[`t_mean_${i}`]||''} onChange={e => setA(`t_mean_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_sent} value={answers[`t_sent_${i}`]||''} onChange={e => setA(`t_sent_${i}`, sanitizeText(e.target.value))} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3 mt-6">{t.m4_pron_label}</h3>
+        <div className="space-y-3">
+          {[0,1,2].map(i => (
+            <div key={i} className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <input className={inputCls} placeholder={`${t.m4_col_word} ${i+1}`} value={answers[`p_word_${i}`]||''} onChange={e => setA(`p_word_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_hard} value={answers[`p_hard_${i}`]||''} onChange={e => setA(`p_hard_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_tip} value={answers[`p_tip_${i}`]||''} onChange={e => setA(`p_tip_${i}`, sanitizeText(e.target.value))} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <Wrapup t={t} text={t.m4_wrapup} />
+    </>
+  );
+
+  const renderM5 = () => {
+    const chosen = MEMBER_IDX.filter(i => focus['j'+i]).length;
+    return (
+      <>
+        <Overview t={t} text={t.m5_overview} /><Highlights t={t} items={t.m5_highlights} /><DeepDive t={t} text={t.m5_deep} /><SavedHint />
+        <div>
+          <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-2">{t.m5_focus_label}</h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">{t.m5_focus_hint}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {MEMBER_IDX.slice(0, memberCount).map(i => {
+              const on = !!focus['j'+i];
+              const blocked = !on && chosen >= 3;
+              return (
+                <label key={i} className={`flex items-center gap-3 p-3 rounded-lg border transition ${blocked ? 'opacity-40 cursor-not-allowed border-slate-200 dark:border-slate-700' : 'cursor-pointer border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5]'} bg-white dark:bg-slate-800`}>
+                  <input type="checkbox" className="w-4 h-4 accent-[#004030] dark:accent-[#D8C3A5]" checked={on} disabled={blocked}
+                    onChange={e => { setFocus(s => ({...s, ['j'+i]: e.target.checked})); bump(); }} />
+                  <span className="text-sm truncate"><span className="font-bold text-[#004030] dark:text-[#D8C3A5]">{jdToken(i)}</span> · {jdLabel(i)}</span>
+                </label>
+              );
+            })}
+          </div>
+          <p className={`mt-2 text-sm font-bold ${chosen === 3 ? 'text-green-600 dark:text-green-400' : 'text-amber-600 dark:text-amber-400'}`}>{chosen} / 3</p>
+        </div>
+        <Field id="syn_focus_why" label={t.m5_focus_why} ph={t.m5_focus_why_ph} rows={2} value={answers.syn_focus_why} onChange={setA} />
+        <div className="mb-5">
+          <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{t.m5_diff_label}</label>
+          <select className={inputCls} value={answers.syn_diff || ''} onChange={e => setA('syn_diff', e.target.value)}>
+            <option value="">{t.select_ph}</option>{t.ksa.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}
+          </select>
+        </div>
+        <Field id="syn_evidence" label={t.m5_evidence_label} ph={t.m5_evidence_ph} rows={3} value={answers.syn_evidence} onChange={setA} />
+        <Field id="syn_case" label={t.m5_case_label} ph={t.m5_case_ph} rows={2} value={answers.syn_case} onChange={setA} />
+        <Field id="syn_rule" label={t.m5_rule_label} hint={t.m5_rule_note} ph={t.m5_rule_ph} rows={4} value={answers.syn_rule} onChange={setA} />
+        <Wrapup t={t} text={t.m5_wrapup} />
+      </>
+    );
+  };
+
+  const renderM6 = () => (
+    <>
+      <Overview t={t} text={t.m6_overview} /><Highlights t={t} items={t.m6_highlights} /><DeepDive t={t} text={t.m6_deep} /><SavedHint />
+      <Field id="tp_rule_k" label={t.m6_rule_k_label} ph={t.m6_rule_k_ph} rows={3} value={answers.tp_rule_k} onChange={setA} />
+      <Field id="tp_rule_s" label={t.m6_rule_s_label} ph={t.m6_rule_s_ph} rows={3} value={answers.tp_rule_s} onChange={setA} />
+      <Field id="tp_rule_a" label={t.m6_rule_a_label} ph={t.m6_rule_a_ph} rows={3} value={answers.tp_rule_a} onChange={setA} />
+      <div className="rounded-xl border-2 border-[#D8C3A5] dark:border-[#D8C3A5]/50 bg-[#D8C3A5]/10 p-5">
+        <Field id="tp_undecided" label={t.m6_undecided_label} hint={t.m6_undecided_note} ph={t.m6_undecided_ph} rows={4} value={answers.tp_undecided} onChange={setA} />
+      </div>
+      <div className="mt-5"><Field id="tp_action" label={t.m6_action_label} ph={t.m6_action_ph} rows={2} value={answers.tp_action} onChange={setA} /></div>
+      <Wrapup t={t} text={t.m6_wrapup} />
+    </>
+  );
+
+  const renderM7 = () => (
+    <>
+      <Overview t={t} text={t.m7_overview} /><Highlights t={t} items={t.m7_highlights} /><DeepDive t={t} text={t.m7_deep} /><SavedHint />
+      <Field id="pr_open" label={t.m7_open_label} ph={t.m7_open_ph} rows={2} value={answers.pr_open} onChange={setA} />
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m7_script_label}</h3>
+        <div className="space-y-3">
+          {MEMBER_IDX.slice(0, memberCount).map(i => (
+            <div key={i} className="grid grid-cols-1 md:grid-cols-4 gap-2">
+              <div className="md:col-span-1 flex items-center px-3 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-sm text-slate-600 dark:text-slate-300 truncate">
+                {answers[`m_name_${i}`] || `${t.m7_col_who} ${i+1}`}
+              </div>
+              <input className={`${inputCls} md:col-span-3`} placeholder={t.m7_col_point} value={answers[`pr_point_${i}`]||''} onChange={e => setA(`pr_point_${i}`, sanitizeText(e.target.value))} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="mt-5"><Field id="pr_question" label={t.m7_question_label} ph={t.m7_question_ph} rows={3} value={answers.pr_question} onChange={setA} /></div>
+      <Wrapup t={t} text={t.m7_wrapup} />
+    </>
+  );
+
+  const renderLab = () => (
+    <>
+      <p className="text-base text-slate-600 dark:text-slate-300">{t.mlab_desc}</p>
+      <div className="flex items-center gap-3 flex-wrap">
+        <button onClick={clearLab} className="px-4 py-2 border border-red-400 text-red-600 dark:text-red-400 font-bold rounded-lg text-sm hover:bg-red-50 dark:hover:bg-red-900/20">{t.mlab_clear}</button>
+        <span className="text-xs text-slate-400">💾 {t.analytics_wp_saved}</span>
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-4">
+        <LabSelfCheck key={`lab1-${labNonce}-${lang}`} t={t} state={lab.l1} setState={setLabPart('l1')} onTouch={bump} />
+        <LabQuadSorter key={`lab2-${labNonce}-${lang}`} t={t} state={lab.l2} setState={setLabPart('l2')} onTouch={bump} />
+        <LabAxisDrill key={`lab3-${labNonce}-${lang}`} t={t} state={lab.l3} setState={setLabPart('l3')} onTouch={bump} />
+        <LabRuleGen key={`lab4-${labNonce}-${lang}`} t={t} state={lab.l4} setState={setLabPart('l4')} onTouch={bump} lang={lang} />
+      </div>
+      <div className="mt-6 bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+        <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.quiz_title}</h3>
+        <ModuleQuiz key={`quiz-lab-${lang}`} questions={t.m2_q} t={t} moduleId={IDX_LAB} onQuizSubmit={handleQuizSubmit} />
+      </div>
+    </>
+  );
+
+  const renderRes = () => (
+    <>
+      <p className="text-base text-slate-600 dark:text-slate-300">{t.mres_desc}</p>
+      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-6 mb-3">{t.required_label}</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{t.res_req.map((r,i) => <LinkCard key={i} {...r} />)}</div>
+      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-8 mb-3">{t.optional_label}</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{t.res_opt.map((r,i) => <LinkCard key={i} {...r} />)}</div>
+    </>
+  );
+
+  const renderAna = () => {
+    const totalTime = analytics.time.reduce((a,b)=>a+b,0);
+    const qc = analytics.quizCorrect.reduce((a,b)=>a+b,0), qt = analytics.quizTotal.reduce((a,b)=>a+b,0);
+    const weak = [1,2,3,4,5,6,7].filter(n => sectionPct(n) < 100);
+    const stats = [
+      { val: pctPersonal + '%', label: t.analytics_pct_personal },
+      { val: pctGroup + '%', label: t.analytics_pct_group },
+      { val: totalTime + t.analytics_sec, label: t.analytics_total_time },
+      { val: qt > 0 ? Math.round(qc/qt*100) + '%' : '—', label: t.analytics_overall_acc }
+    ];
+    const setInfo = (k, v) => setStudentInfo(s => ({ ...s, [k]: v }));
+    return (
+      <>
+        <p className="text-base text-slate-600 dark:text-slate-300">{t.analytics_desc}</p>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-5">
+          {stats.map((s,i) => (
+            <div key={i} className="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 text-center">
+              <p className="font-serif font-black text-2xl text-[#004030] dark:text-[#D8C3A5]">{s.val}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{s.label}</p>
+            </div>
+          ))}
+        </div>
+
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-8 mb-3">{t.analytics_progress_title}</h3>
+        <div className="space-y-2">
+          {[1,2,3,4,5,6,7].map(n => {
+            const pct = sectionPct(n), kind = modulesList[n].kind;
+            return (
+              <button key={n} onClick={() => go(n)} className="w-full flex items-center gap-3 text-left p-3 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5] transition">
+                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded shrink-0 ${kind === 'P' ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200' : 'bg-[#D8C3A5]/30 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>{kind}</span>
+                <span className="text-sm w-36 sm:w-52 truncate shrink-0">{t[`m${n}_nav`]}</span>
+                <span className="flex-1 h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                  <span className={`block h-full ${pct === 100 ? 'bg-green-500' : 'bg-[#004030] dark:bg-[#D8C3A5]'}`} style={{width: pct + '%'}}></span>
+                </span>
+                <span className="text-sm font-bold w-12 text-right shrink-0">{pct}%</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-8 mb-3">{t.analytics_wp_title}</h3>
+        {weak.length === 0
+          ? <p className="p-4 rounded-lg bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 text-sm">{t.analytics_wp_allpass}</p>
+          : <div className="space-y-4">
+              <div className="space-y-2">
+                <p className="text-xs font-bold text-sky-700 dark:text-sky-300">{t.analytics_wp_personal_head}</p>
+                {PERSONAL_SECTIONS.filter(n => sectionPct(n) < 100).length === 0
+                  ? <p className="text-sm text-green-600 dark:text-green-400 pl-1">{t.analytics_wp_personal_done}</p>
+                  : PERSONAL_SECTIONS.filter(n => sectionPct(n) < 100).map(n => (
+                      <div key={n} className="p-3 rounded-lg bg-sky-50 dark:bg-sky-900/20 border border-sky-200 dark:border-sky-800/50 flex items-center justify-between gap-3">
+                        <span className="text-sm">{t[`m${n}_nav`]} — {sectionPct(n)}%</span>
+                        <button onClick={() => go(n)} className="text-xs font-bold text-sky-700 dark:text-sky-300 hover:underline shrink-0">{t.analytics_wp_goto}</button>
+                      </div>))}
+              </div>
+              <div className="space-y-2">
+                <p className="text-xs font-bold text-[#004030] dark:text-[#D8C3A5]">{t.analytics_wp_group_head}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 pl-1">{t.analytics_wp_group_note}</p>
+                {GROUP_SECTIONS.filter(n => sectionPct(n) < 100).length === 0
+                  ? <p className="text-sm text-green-600 dark:text-green-400 pl-1">{t.analytics_wp_group_done}</p>
+                  : GROUP_SECTIONS.filter(n => sectionPct(n) < 100).map(n => (
+                      <div key={n} className="p-3 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 flex items-center justify-between gap-3">
+                        <span className="text-sm">{t[`m${n}_nav`]} — {sectionPct(n)}%</span>
+                        <button onClick={() => go(n)} className="text-xs font-bold text-[#004030] dark:text-[#D8C3A5] hover:underline shrink-0">{t.analytics_wp_goto}</button>
+                      </div>))}
+              </div>
+            </div>}
+
+
+        <div className="mt-8 rounded-xl border-2 border-sky-200 dark:border-sky-800/60 bg-sky-50/50 dark:bg-sky-900/10 p-5">
+          <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5]">{t.analytics_personal_title}</h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-4">{t.analytics_personal_desc}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <InfoInput id="nameEn" label={t.analytics_name_en} ph={t.analytics_name_en_ph} value={studentInfo.nameEn} onChange={setInfo} />
+            <InfoInput id="nameZh" label={t.analytics_name_zh} ph={t.analytics_name_zh_ph} value={studentInfo.nameZh} onChange={setInfo} />
+            <InfoInput id="id" label={t.analytics_id} ph={t.analytics_id_ph} value={studentInfo.id} onChange={setInfo} san={sanitizeStudentId} />
+            <InfoInput id="dept" label={t.analytics_dept} ph={t.analytics_dept_ph} value={studentInfo.dept} onChange={setInfo} />
+          </div>
+          <button onClick={exportPersonal} disabled={!okPersonal}
+            className="mt-4 px-5 py-2.5 bg-sky-700 dark:bg-sky-300 text-white dark:text-sky-950 font-bold rounded-lg disabled:opacity-40">{t.analytics_export_personal}</button>
+          {!okPersonal && <p className="text-xs text-amber-600 dark:text-amber-400 mt-2">{t.analytics_need_personal}</p>}
+        </div>
+
+        <div className="mt-5 rounded-xl border-2 border-[#D8C3A5] dark:border-[#D8C3A5]/50 bg-[#D8C3A5]/10 p-5">
+          <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5]">{t.analytics_group_title}</h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-4">{t.analytics_group_desc}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div><label className="block text-xs font-bold text-slate-500 mb-1">{t.analytics_group}</label>
+              <select className={inputCls} value={studentInfo.group} onChange={e => setStudentInfo(s => ({...s, group: e.target.value}))}>
+                <option value="">{t.select_ph}</option>{t.group_options.map(g => <option key={g} value={g}>{g}</option>)}
+              </select></div>
+            <InfoInput id="compiler" label={t.analytics_compiler} ph={t.analytics_compiler_ph} value={studentInfo.compiler} onChange={setInfo} />
+          </div>
+          <div className="flex flex-wrap gap-3 mt-4">
+            <button onClick={exportGroupCSV} disabled={!okGroup} className="px-5 py-2.5 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg disabled:opacity-40">{t.analytics_export_csv}</button>
+            <button onClick={exportGroupMD} disabled={!okGroup} className="px-5 py-2.5 border-2 border-[#004030] dark:border-[#D8C3A5] text-[#004030] dark:text-[#D8C3A5] font-bold rounded-lg disabled:opacity-40">{t.analytics_export_md}</button>
+          </div>
+          {!okGroup && <p className="text-xs text-amber-600 dark:text-amber-400 mt-2">{t.analytics_need_group}</p>}
+        </div>
+
+        <div className="mt-6 flex items-center gap-3 flex-wrap">
+          <button onClick={clearAll} className="px-5 py-2.5 border border-red-400 text-red-600 dark:text-red-400 font-bold rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20">{t.analytics_wp_clear}</button>
+          <span className="text-xs text-slate-400">💾 {t.analytics_wp_saved}</span>
+        </div>
+      </>
+    );
+  };
+
+  const body = () => {
+    if (module === 0) return renderM0();
+    if (module === 1) return renderM1();
+    if (module === 2) return renderM2();
+    if (module === 3) return renderM3();
+    if (module === 4) return renderM4();
+    if (module === 5) return renderM5();
+    if (module === 6) return renderM6();
+    if (module === 7) return renderM7();
+    if (module === IDX_LAB) return renderLab();
+    if (module === IDX_RES) return renderRes();
+    return renderAna();
+  };
+  const cur = modulesList[module];
+
+  return (
+    <div className="min-h-screen flex flex-col pt-16 overflow-x-hidden">
+      <header className="fixed top-0 left-0 right-0 h-16 bg-[#004030] dark:bg-slate-900 text-white z-50 shadow-lg border-b border-[#D8C3A5]/30">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-1 sm:gap-2 min-w-0">
+            <div className="relative" ref={menuRef}>
+              <button onClick={() => setMenuOpen(!menuOpen)} className="p-2 hover:bg-white/10 rounded-lg" aria-label={t.nav_modules}>{menuOpen ? <IconX/> : <IconMenu/>}</button>
+              {menuOpen && (
+                <div className="absolute top-full left-0 mt-1 w-72 max-w-[calc(100vw-2rem)] max-h-[calc(100vh-5rem)] overflow-y-auto bg-white dark:bg-slate-800 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 z-[100]">
+                  {modulesList.map(m => (
+                    <button key={m.id} onClick={() => go(m.id)}
+                      className={`w-full flex items-center gap-3 px-4 py-3 text-sm transition ${module === m.id ? 'bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5] font-bold' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700'}`}>
+                      <span className="ui-decoration">{m.icon}</span><span className="truncate flex-1 text-left">{m.title}</span>
+                      {m.kind && <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded shrink-0 ${m.kind === 'P' ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200' : 'bg-[#D8C3A5]/40 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>{m.kind}</span>}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+            <button onClick={() => go(0)} className="p-2 hover:bg-white/10 rounded-lg" aria-label={t.nav_home}><IconHome size={18}/></button>
+            <button onClick={() => window.scrollTo({top:0,behavior:'smooth'})} className="flex items-center gap-2 min-w-0">
+              <span className="font-serif font-black text-[#D8C3A5] text-lg tracking-widest">{t.brand}</span>
+              <span className="hidden sm:inline font-serif font-bold text-sm md:text-base truncate">{t.title}</span>
+            </button>
+          </div>
+          <div className="flex items-center gap-1 sm:gap-2">
+            <button onClick={() => handleTTS(ttsState === 'playing' ? 'pause' : 'play')} className="p-2 hover:bg-white/10 rounded-lg" aria-label={t.audio_read}>{ttsState === 'playing' ? <IconPause size={18}/> : <IconPlay size={18}/>}</button>
+            <button onClick={() => handleTTS('stop')} className="p-2 hover:bg-white/10 rounded-lg" aria-label="Stop"><IconSquare size={18}/></button>
+            <button onClick={() => setLang(lang === 'en' ? 'zh' : 'en')} className="px-2 py-2 hover:bg-white/10 rounded-lg flex items-center gap-1"><IconGlobe size={18}/><span className="text-xs font-bold">{lang === 'en' ? '中' : 'EN'}</span></button>
+            <button onClick={() => setIsDark(!isDark)} className="p-2 hover:bg-white/10 rounded-lg" aria-label="Theme">{isDark ? <IconSun size={18}/> : <IconMoon size={18}/>}</button>
+          </div>
+        </div>
+      </header>
+
+      <div className="flex-1 w-full max-w-7xl mx-auto flex">
+        <aside className="hidden md:block w-64 shrink-0 border-r border-slate-200 dark:border-slate-700 py-8 px-3">
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 px-3 mb-3">{t.nav_modules}</p>
+          {modulesList.map(m => (
+            <button key={m.id} onClick={() => go(m.id)}
+              className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm mb-1 transition ${module === m.id ? 'bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5] font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'}`}>
+              <span className="ui-decoration shrink-0">{m.icon}</span>
+              <span className="truncate text-left flex-1">{m.title}</span>
+              {m.kind && <span className={`text-[10px] font-bold px-1 rounded shrink-0 ${m.kind === 'P' ? 'text-sky-700 dark:text-sky-300' : 'text-[#004030] dark:text-[#D8C3A5]'}`}>{m.kind}</span>}
+            </button>
+          ))}
+          <div className="mt-6 px-3 space-y-3">
+            <div>
+              <p className="text-xs text-slate-400 mb-1">{t.analytics_pct_personal}</p>
+              <div className="h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden"><div className={`h-full ${pctPersonal === 100 ? 'bg-green-500' : 'bg-sky-600 dark:bg-sky-400'}`} style={{width: pctPersonal + '%'}}></div></div>
+              <p className="text-xs font-bold text-sky-700 dark:text-sky-300 mt-1">{pctPersonal}%</p>
+            </div>
+            <div>
+              <p className="text-xs text-slate-400 mb-1">{t.analytics_pct_group}</p>
+              <div className="h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden"><div className={`h-full ${pctGroup === 100 ? 'bg-green-500' : 'bg-[#004030] dark:bg-[#D8C3A5]'}`} style={{width: pctGroup + '%'}}></div></div>
+              <p className="text-xs font-bold text-[#004030] dark:text-[#D8C3A5] mt-1">{pctGroup}%</p>
+            </div>
+          </div>
+        </aside>
+
+        <main className="flex-1 min-w-0 py-8 px-4 sm:px-6">
+          <div key={`${module}-${lang}`} className="space-y-6 text-lg leading-relaxed text-slate-700 dark:text-slate-300 animate-fade-in">
+            {module !== 0 && (
+              <div>
+                <H2 icon={cur.icon} number={cur.num}>{module <= NUM_LEARN ? t[`m${module}_title`] : module === IDX_LAB ? t.mlab_title : module === IDX_RES ? t.mres_title : t.analytics_title}</H2>
+                {cur.kind && <Badge kind={cur.kind} t={t} />}
+              </div>
+            )}
+            {body()}
+            <div className="mt-12 flex justify-between items-center pt-8 border-t border-slate-300 dark:border-slate-700 no-print">
+              <button onClick={() => go(Math.max(0, module-1))} disabled={module === 0}
+                className="px-5 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg text-sm font-bold hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-0">← {t.nav_prev}</button>
+              <button onClick={() => go(Math.min(TOTAL-1, module+1))} disabled={module === TOTAL-1}
+                className="px-5 py-2.5 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] rounded-lg text-sm font-bold disabled:opacity-0">{t.nav_next} →</button>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <footer className="h-8 bg-[#004030] flex items-center justify-between px-4 shrink-0">
+        <span className="text-[#D8C3A5]/60 text-[10px] sm:text-xs truncate">{t.date} · {t.copyright}</span>
+        <span className="text-[#D8C3A5]/60 text-[10px] sm:text-xs flex items-center gap-3 shrink-0">
+          <span className="hidden sm:inline">{t.architect_label}&nbsp;<a href={t.architect_url} target="_blank" rel="noopener noreferrer" className="text-[#D8C3A5] hover:text-white underline">Prof. Shihmin Lo</a></span>
+          <button onClick={() => window.scrollTo({top:0,behavior:'smooth'})} className="text-[#D8C3A5] hover:text-white font-bold">Top ↑</button>
+        </span>
+      </footer>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
