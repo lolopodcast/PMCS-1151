@@ -1579,7 +1579,7 @@ function App() {
     rows.push(['Info','Compiler', studentInfo.compiler]);
     GROUP_SECTIONS.forEach(sec => FIELDS[sec].forEach(id => rows.push(['S'+sec, id, String(answers[id] ?? '')])));
     rows.push(['S5','ComparedCases', CASE_IDX.filter(i => focus['c'+i]).map(i => 'c'+i).join(' ')]);
-    /* --- 自我描述欄位：讓教師端彙整台無需內建設定即可正確顯示本週判準 --- */
+    /* --- 自我描述欄位：讓教師端彙整台無需內建設定即可正確顯示本週的檢查點措辭 --- */
     rows.push(['Meta','WeekTitleZH', dict.zh.subtitle]);
     rows.push(['Meta','WeekTitleEN', dict.en.subtitle]);
     rows.push(['Meta','CompareKey', 'ComparedCases']);
