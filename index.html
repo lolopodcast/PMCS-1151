@@ -18,73 +18,142 @@ html[data-theme="dark"]{
   --line:#1C3A30; --accent:#D8C3A5;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--tx);font-family:Inter,"Noto Sans TC",system-ui,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{background:var(--bg);color:var(--tx);font-family:Inter,"Noto Sans TC",system-ui,sans-serif;
+  line-height:1.65;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;min-height:100vh}
 a{color:inherit}
-.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px;width:100%}
+main{flex:1 0 auto}
 
-header{position:sticky;top:0;z-index:20;height:64px;display:flex;align-items:center;
-  background:var(--ink);color:#F3EFE7;border-bottom:1px solid rgba(216,195,165,.25)}
+/* ── header ─────────────────────────────────────── */
+header{position:sticky;top:0;z-index:40;height:64px;flex:0 0 auto;
+  background:var(--ink);color:#F3EFE7;border-bottom:1px solid rgba(216,195,165,.22)}
 html[data-theme="dark"] header{background:#02100B}
-header .wrap{display:flex;align-items:center;gap:14px;width:100%}
-.brand{font-family:Merriweather,Georgia,serif;font-weight:700;font-size:19px;letter-spacing:.02em;color:var(--gold)}
-.brand small{display:block;font-family:Inter,sans-serif;font-weight:400;font-size:11px;letter-spacing:.14em;
-  text-transform:uppercase;color:rgba(243,239,231,.62);margin-top:1px}
-.sp{flex:1}
-header button{font:inherit;font-size:13px;font-weight:500;cursor:pointer;padding:6px 13px;border-radius:999px;
-  background:transparent;color:#F3EFE7;border:1px solid rgba(216,195,165,.42);transition:.15s}
-header button:hover{background:rgba(216,195,165,.14)}
+header .bar{max-width:1120px;margin:0 auto;padding:0 12px;height:64px;display:flex;align-items:center;
+  justify-content:space-between;gap:6px}
+.hl,.hr{display:flex;align-items:center;gap:4px;min-width:0}
+.ico{background:transparent;border:0;color:#F3EFE7;cursor:pointer;padding:8px;border-radius:8px;
+  display:flex;align-items:center;transition:.15s}
+.ico:hover{background:rgba(255,255,255,.10)}
+.ico svg{display:block}
+.brandbtn{background:transparent;border:0;color:inherit;cursor:pointer;padding:4px 6px;border-radius:8px;
+  text-align:left;min-width:0;transition:.15s}
+.brandbtn:hover{background:rgba(255,255,255,.08)}
+.brandbtn .b1{font-family:Merriweather,Georgia,serif;font-weight:700;font-size:17px;letter-spacing:.02em;
+  color:var(--gold);line-height:1.15;white-space:nowrap}
+.brandbtn .b2{font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:rgba(243,239,231,.60);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.txtbtn{font:inherit;font-size:13px;font-weight:600;cursor:pointer;padding:6px 12px;border-radius:999px;
+  background:transparent;color:#F3EFE7;border:1px solid rgba(216,195,165,.40);transition:.15s;white-space:nowrap}
+.txtbtn:hover{background:rgba(216,195,165,.14)}
 
-.hero{padding:52px 0 34px;border-bottom:1px solid var(--line)}
-.hero h1{font-family:Merriweather,Georgia,serif;font-size:clamp(26px,4.2vw,40px);line-height:1.25;font-weight:700;letter-spacing:-.01em}
-.hero .sub{color:var(--tx2);font-size:16px;margin-top:12px;max-width:62ch}
-.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
-.pill{font-size:12.5px;padding:5px 12px;border-radius:999px;border:1px solid var(--line);color:var(--tx2);background:var(--card)}
+/* ── contents menu ──────────────────────────────── */
+.menuwrap{position:relative}
+.menu{position:absolute;top:46px;left:0;min-width:264px;max-width:calc(100vw - 24px);
+  background:var(--card);color:var(--tx);border:1px solid var(--line);border-radius:12px;
+  box-shadow:0 12px 34px rgba(0,0,0,.28);padding:6px;display:none;z-index:60}
+.menu.open{display:block}
+.menu .mh{font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--tx2);
+  padding:8px 12px 6px;font-weight:600}
+.menu a{display:block;padding:9px 12px;border-radius:8px;text-decoration:none;font-size:14px;line-height:1.4}
+.menu a:hover{background:rgba(0,64,48,.08)}
+html[data-theme="dark"] .menu a:hover{background:rgba(216,195,165,.10)}
+.menu a .mw{font-size:10.5px;letter-spacing:.13em;color:var(--accent);font-weight:700;display:block}
+/* 遮罩必須低於 header（header 的 z-index 建立堆疊脈絡，選單的 z-index 只在其內部有效） */
+.scrim{position:fixed;inset:0;z-index:30;display:none}
+.scrim.open{display:block}
+
+/* ── content ────────────────────────────────────── */
+.hero{padding:46px 0 30px;border-bottom:1px solid var(--line)}
+.hero h1{font-family:Merriweather,Georgia,serif;font-size:clamp(25px,4.2vw,40px);line-height:1.25;
+  font-weight:700;letter-spacing:-.01em}
+.hero .sub{color:var(--tx2);font-size:15.5px;margin-top:12px;max-width:62ch}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.pill{font-size:12.5px;padding:5px 12px;border-radius:999px;border:1px solid var(--line);
+  color:var(--tx2);background:var(--card)}
 .pill b{color:var(--accent);font-weight:600}
-
-.notice{margin:30px 0 0;padding:16px 18px;border-radius:10px;border:1px solid var(--line);
-  border-left:3px solid var(--accent);background:var(--card);font-size:14.5px;color:var(--tx2)}
+.notice{margin-top:26px;padding:15px 17px;border-radius:10px;border:1px solid var(--line);
+  border-left:3px solid var(--accent);background:var(--card);font-size:14px;color:var(--tx2)}
 .notice b{color:var(--tx);font-weight:600}
 
-section{padding:38px 0 6px}
-.block-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px}
-.block-head h2{font-family:Merriweather,Georgia,serif;font-size:20px;font-weight:700}
-.block-head .rng{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:600}
-.block-desc{color:var(--tx2);font-size:14.5px;margin-bottom:18px;max-width:70ch}
+section{padding:36px 0 4px}
+.block-head{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;margin-bottom:5px}
+.block-head h2{font-family:Merriweather,Georgia,serif;font-size:19.5px;font-weight:700}
+.block-head .rng{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.block-desc{color:var(--tx2);font-size:14px;margin-bottom:17px;max-width:70ch}
 
-.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.grid{display:grid;gap:13px;grid-template-columns:repeat(auto-fill,minmax(276px,1fr))}
 .card{display:block;text-decoration:none;background:var(--card);border:1px solid var(--line);
-  border-radius:12px;padding:18px 18px 16px;transition:.16s;position:relative;overflow:hidden}
+  border-radius:12px;padding:17px 17px 15px;transition:.16s;position:relative;overflow:hidden}
 .card::before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:var(--accent);opacity:0;transition:.16s}
 .card:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:0 6px 22px rgba(0,0,0,.10)}
 .card:hover::before{opacity:1}
-.card .wk{font-size:11.5px;letter-spacing:.16em;font-weight:600;color:var(--accent);text-transform:uppercase}
-.card .zh{font-family:Merriweather,Georgia,serif;font-size:16.5px;font-weight:700;margin-top:7px;line-height:1.42}
-.card .en{color:var(--tx2);font-size:13.5px;margin-top:5px;line-height:1.5}
-.card .go{margin-top:13px;font-size:12.5px;color:var(--accent);font-weight:600}
+.card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.card .wk{font-size:11px;letter-spacing:.15em;font-weight:700;color:var(--accent);text-transform:uppercase}
+.card .zh{font-family:Merriweather,Georgia,serif;font-size:16px;font-weight:700;margin-top:7px;line-height:1.42}
+.card .en{color:var(--tx2);font-size:13px;margin-top:5px;line-height:1.5}
+.card .go{margin-top:12px;font-size:12.5px;color:var(--accent);font-weight:600}
 
-footer{margin-top:52px;border-top:1px solid var(--line);padding:20px 0 34px;color:var(--tx2);font-size:12.5px}
-footer .wrap{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-footer a{color:var(--accent);text-decoration:none}
-footer a:hover{text-decoration:underline}
+/* ── footer ─────────────────────────────────────── */
+footer{flex:0 0 auto;height:32px;background:var(--ink);display:flex;align-items:center;
+  justify-content:space-between;padding:0 14px;gap:10px;margin-top:46px}
+footer .fl{color:rgba(216,195,165,.60);font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+footer .fr{color:rgba(216,195,165,.60);font-size:10.5px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+footer a{color:var(--gold);text-decoration:underline}
+footer a:hover{color:#fff}
+footer .topbtn{background:transparent;border:0;color:var(--gold);font:inherit;font-weight:700;cursor:pointer;padding:0}
+footer .topbtn:hover{color:#fff}
+.arch{display:none}
+@media (min-width:640px){ .arch{display:inline} footer .fl,footer .fr{font-size:12px} }
+
+/* ── bilingual ──────────────────────────────────── */
 [data-l]{display:none}
 html[lang="en"] [data-l="en"],html[lang="zh"] [data-l="zh"]{display:block}
 span[data-l],b[data-l]{display:none}
 html[lang="en"] span[data-l="en"],html[lang="zh"] span[data-l="zh"],
 html[lang="en"] b[data-l="en"],html[lang="zh"] b[data-l="zh"]{display:inline}
-@media (max-width:520px){.hero{padding:34px 0 26px}}
+@media (max-width:400px){
+  .brandbtn .b2{display:none}
+  .hero{padding:32px 0 24px}
+  .txtbtn{padding:6px 10px;font-size:12.5px}
+}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="wrap">
-    <div class="brand">PMCS<small>1151 · NCNU IBS</small></div>
-    <div class="sp"></div>
-    <button id="lang" type="button">中文</button>
-    <button id="theme" type="button" aria-label="theme">◑</button>
+  <div class="bar">
+    <div class="hl">
+      <div class="menuwrap">
+        <button class="ico" id="burger" aria-label="Contents" aria-expanded="false" aria-controls="menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <nav class="menu" id="menu" role="menu" aria-label="Contents">
+          <div class="mh" data-l="en">Contents</div><div class="mh" data-l="zh">目錄</div>
+          <a href="#b1" role="menuitem"><span class="mw">W3 – W5</span><span data-l="en">The Architecture of Working with AI</span><span data-l="zh">AI 世代的工作架構</span></a>
+          <a href="#b2" role="menuitem"><span class="mw">W6 – W8</span><span data-l="en">The Product Manager: Role, Competency, Career</span><span data-l="zh">產品經理的角色、職能與職涯</span></a>
+          <a href="#b3" role="menuitem"><span class="mw">W10 – W12</span><span data-l="en">Building Your Morning-Brief Agent</span><span data-l="zh">建置你的晨報 Agent</span></a>
+          <a href="#b4" role="menuitem"><span class="mw">W13 – W15</span><span data-l="en">Project Management: Planning, Controlling, Delivering</span><span data-l="zh">專案管理：規劃、控制、交付</span></a>
+          <a href="#howto" role="menuitem"><span class="mw">Moodle</span><span data-l="en">How to submit</span><span data-l="zh">繳交方式</span></a>
+        </nav>
+      </div>
+      <button class="brandbtn" id="brand" aria-label="Back to top">
+        <span class="b1">PMCS</span>
+        <span class="b2">1151 · Worksheets</span>
+      </button>
+    </div>
+    <div class="hr">
+      <button class="txtbtn" id="lang" type="button">中文</button>
+      <button class="ico" id="theme" type="button" aria-label="Theme">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor" stroke="none"/></svg>
+      </button>
+    </div>
   </div>
 </header>
 
+<div class="scrim" id="scrim"></div>
+
+<main>
 <div class="wrap">
 
   <div class="hero">
@@ -97,13 +166,13 @@ html[lang="en"] b[data-l="en"],html[lang="zh"] b[data-l="zh"]{display:inline}
       <span class="pill"><b>6</b> <span data-l="en">groups</span><span data-l="zh">組</span></span>
       <span class="pill"><span data-l="en">Prof. Shihmin Lo · IBS, NCNU</span><span data-l="zh">駱世民 教授 · 暨大國企系</span></span>
     </div>
-    <div class="notice">
+    <div class="notice" id="howto">
       <span data-l="en"><b>Submission.</b> Every group submits the weekly worksheet on Moodle by <b>23:59 on the Tuesday</b> before class, whether or not it is presenting that week. Sections 2 to 4 are individual work and are not submitted; sections 1, 5, 6 and 7 are the group's consolidated work. A worksheet revised after class in light of the discussion and resubmitted earns a Bonus Assignment point.</span>
       <span data-l="zh"><b>繳交方式。</b>各組每週均須繳交，不論該週是否輪到簡報，於課前<b>週二 23:59</b> 前上傳 Moodle。第 2 至 4 節為個人獨作、不繳交；第 1、5、6、7 節為小組綜整成果。課後依課堂討論修訂並重新繳交者，計加分作業（BA）一次。</span>
     </div>
   </div>
 
-  <section>
+  <section id="b1">
     <div class="block-head">
       <span class="rng">W3 – W5</span>
       <h2 data-l="en">The Architecture of Working with AI</h2>
@@ -118,7 +187,7 @@ html[lang="en"] b[data-l="en"],html[lang="zh"] b[data-l="zh"]{display:inline}
     </div>
   </section>
 
-  <section>
+  <section id="b2">
     <div class="block-head">
       <span class="rng">W6 – W8</span>
       <h2 data-l="en">The Product Manager: Role, Competency, Career</h2>
@@ -133,7 +202,7 @@ html[lang="en"] b[data-l="en"],html[lang="zh"] b[data-l="zh"]{display:inline}
     </div>
   </section>
 
-  <section>
+  <section id="b3">
     <div class="block-head">
       <span class="rng">W10 – W12</span>
       <h2 data-l="en">Building Your Morning-Brief Agent</h2>
@@ -148,7 +217,7 @@ html[lang="en"] b[data-l="en"],html[lang="zh"] b[data-l="zh"]{display:inline}
     </div>
   </section>
 
-  <section>
+  <section id="b4">
     <div class="block-head">
       <span class="rng">W13 – W15</span>
       <h2 data-l="en">Project Management: Planning, Controlling, Delivering</h2>
@@ -164,14 +233,14 @@ html[lang="en"] b[data-l="en"],html[lang="zh"] b[data-l="zh"]{display:inline}
   </section>
 
 </div>
+</main>
 
 <footer>
-  <div class="wrap">
-    <span data-l="en">PMCS (EMI) · Semester 1151 · Prof. Shihmin Lo, Department of International Business Studies, National Chi Nan University</span>
-    <span data-l="zh">PMCS（全英授課）· 1151 學期 · 國立暨南國際大學國際企業學系 駱世民 教授</span>
-    <span>·</span>
-    <a href="https://lolopodcast.github.io/AI-Workshop-Hub/"><span data-l="en">AI Teaching Resources Hub</span><span data-l="zh">AI 教學資源總入口</span></a>
-  </div>
+  <span class="fl">Version 2026.08.24 · For Educational Use Only</span>
+  <span class="fr">
+    <span class="arch">Architect:&nbsp;<a href="https://www.ibs.ncnu.edu.tw/index.php/faculty/tenured-professor/299-smlo" target="_blank" rel="noopener noreferrer">Prof. Shihmin Lo</a></span>
+    <button class="topbtn" id="totop" type="button">Top ↑</button>
+  </span>
 </footer>
 
 <script>
@@ -179,9 +248,22 @@ html[lang="en"] b[data-l="en"],html[lang="zh"] b[data-l="zh"]{display:inline}
   var root=document.documentElement;
   try{ var l=localStorage.getItem('pmcs1151_lang'); if(l==='zh'||l==='en') root.lang=l; }catch(e){}
   try{ var t=localStorage.getItem('pmcs1151_theme'); if(t==='light'||t==='dark') root.dataset.theme=t; }catch(e){}
-  function paint(){
-    document.getElementById('lang').textContent = root.lang==='zh' ? 'EN' : '中文';
+
+  var burger=document.getElementById('burger'), menu=document.getElementById('menu'), scrim=document.getElementById('scrim');
+  function setMenu(open){
+    menu.classList.toggle('open',open); scrim.classList.toggle('open',open);
+    burger.setAttribute('aria-expanded',open?'true':'false');
   }
+  burger.addEventListener('click',function(e){ e.stopPropagation(); setMenu(!menu.classList.contains('open')); });
+  scrim.addEventListener('click',function(){ setMenu(false); });
+  menu.addEventListener('click',function(e){ if(e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') setMenu(false); });
+
+  function top(){ window.scrollTo({top:0,behavior:'smooth'}); }
+  document.getElementById('brand').addEventListener('click',top);
+  document.getElementById('totop').addEventListener('click',top);
+
+  function paint(){ document.getElementById('lang').textContent = root.lang==='zh' ? 'EN' : '中文'; }
   document.getElementById('lang').addEventListener('click',function(){
     root.lang = root.lang==='zh' ? 'en' : 'zh';
     try{ localStorage.setItem('pmcs1151_lang',root.lang); }catch(e){}
