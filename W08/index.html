@@ -1,1 +1,2235 @@
-W08
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PMCS Worksheet W8 — Turning a Career Goal into One Sentence of Requirement</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.7/babel.min.js"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: { extend: { fontFamily: { sans: ['Inter','sans-serif'], serif: ['Merriweather','serif'] } } }
+  }
+</script>
+<style>
+  @keyframes fadeInUp { from{opacity:0;transform:translateY(15px)} to{opacity:1;transform:translateY(0)} }
+  .animate-fade-in { animation: fadeInUp 0.5s ease-out forwards; }
+  .perspective { perspective: 1000px; }
+  .transform-style-3d { transform-style: preserve-3d; }
+  .backface-hidden { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  .rotate-y-180 { transform: rotateY(180deg); }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+  .dark ::-webkit-scrollbar-thumb { background: #475569; }
+  header, footer, button, [role="button"], .ui-decoration { -webkit-user-select: none; user-select: none; }
+  input, textarea, select { -webkit-user-select: text; user-select: text; }
+  html { overflow-x: hidden; }
+  @media print { header, footer, aside, .no-print { display: none !important; } }
+</style>
+</head>
+<body class="bg-[#f4f4f4] dark:bg-[#121212] selection:bg-[#004030] selection:text-white dark:selection:bg-[#D8C3A5] dark:selection:text-[#004030] overflow-x-hidden">
+<div id="root"></div>
+
+<script>
+(function(){
+  var ALLOWED = ['lolopodcast.github.io','localhost','127.0.0.1','claude.ai','anthropic.com','usercontent.goog'];
+  var REDIRECT = 'https://www.ibs.ncnu.edu.tw/index.php/faculty/tenured-professor/299-smlo';
+  var h = location.hostname;
+  var isFile = location.protocol === 'file:' || h === '';
+  var ok = isFile || ALLOWED.some(function(d){ return h === d || h.endsWith('.' + d); });
+  if (!ok) {
+    document.body.innerHTML = '<div style="text-align:center;padding:60px;font-family:sans-serif"><h1>Access Denied</h1><p>This resource is not authorised on this domain.</p></div>';
+    setTimeout(function(){ location.href = REDIRECT; }, 3000);
+    return;
+  }
+  if (window.self !== window.top) {
+    try { window.top.location.href = window.self.location.href; } catch(e) {}
+  }
+})();
+(function(){
+  var MSG = 'Intellectual Property of Prof. Shihmin Lo';
+  var el = null, timer = null;
+  window.showCopyrightToast = function(){
+    if (!el) {
+      el = document.createElement('div');
+      el.style.cssText = 'position:fixed;left:50%;bottom:48px;transform:translateX(-50%);background:#004030;color:#D8C3A5;padding:10px 20px;border-radius:10px;font-family:Inter,sans-serif;font-size:13px;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.3);opacity:0;transition:opacity .25s';
+      el.textContent = MSG;
+      document.body.appendChild(el);
+    }
+    el.style.opacity = '1';
+    clearTimeout(timer);
+    timer = setTimeout(function(){ el.style.opacity = '0'; }, 2000);
+  };
+  document.addEventListener('contextmenu', function(e){
+    var tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || tag === 'select') return true;
+    if (window.getSelection().toString().trim().length > 0) return true;
+    e.preventDefault(); window.showCopyrightToast();
+  });
+  document.addEventListener('keydown', function(e){
+    var k = (e.key || '').toLowerCase();
+    if (e.key === 'F12') { e.preventDefault(); window.showCopyrightToast(); return; }
+    if (e.ctrlKey && k === 'u') { e.preventDefault(); window.showCopyrightToast(); return; }
+    if (e.ctrlKey && e.shiftKey && ['i','j','c'].indexOf(k) >= 0) { e.preventDefault(); window.showCopyrightToast(); return; }
+  });
+  document.addEventListener('dragstart', function(e){
+    if (e.target.tagName === 'IMG' || (e.target.closest && e.target.closest('svg'))) e.preventDefault();
+  });
+})();
+</script>
+
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+/* ================= Answer obfuscation ================= */
+const _SALT = 'W082026';
+const _e = (s, n) => {
+  const p = s + ':' + n; let r = '';
+  for (let i = 0; i < p.length; i++) r += String.fromCharCode(p.charCodeAt(i) ^ ((i + 7) * 3 & 0xFF));
+  return btoa(r);
+};
+const _d = (token) => {
+  const dec = atob(token); let r = '';
+  for (let i = 0; i < dec.length; i++) r += String.fromCharCode(dec.charCodeAt(i) ^ ((i + 7) * 3 & 0xFF));
+  return parseInt(r.split(':')[1], 10);
+};
+const _A0 = _e(_SALT,0), _A1 = _e(_SALT,1), _A2 = _e(_SALT,2), _A3 = _e(_SALT,3);
+
+/* ================= Module map =================
+   M0 概要 / M1 分工[G] / M2 K/S/A 落差[P] / M3 帳號與履歷[P] / M4 語言[P]
+   M5 小組綜整[G] / M6 TP 題目定案[G] / M7 簡報計畫[G] / M8 Lab / M9 資源 / M10 完成度
+================================================= */
+const NUM_LEARN = 7;
+const TOTAL = 1 + NUM_LEARN + 3;
+const IDX_LAB = NUM_LEARN + 1;
+const IDX_RES = NUM_LEARN + 2;
+const IDX_ANA = NUM_LEARN + 3;
+const MAX_MEMBERS = 10;
+const DEFAULT_MEMBERS = 6;
+const MEMBER_IDX = [...Array(MAX_MEMBERS).keys()];
+const PERSONAL_SECTIONS = [2,3,4];
+const GROUP_SECTIONS = [1,5,6,7];
+
+const KSA_IDS = ['K','S','A'];
+const ASPECT_IDS = ['K','S','A','ACCT','CV'];
+const ACCT_VALS = ['done','empty','today','no'];
+const LEVEL_IDS = ['L1','L2','L3','L4','L5','L6','L7'];
+
+const sanitizeStudentId = (v) => v.replace(/[^0-9]/g, '').slice(0, 12);
+const sanitizeName = (v) => v.replace(/[<>"'&\\]/g, '').slice(0, 50);
+const sanitizeText = (v) => v.slice(0, 2000);
+
+/* ================= Icons ================= */
+const S = (p) => ({ width: p.size||20, height: p.size||20, viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:2, strokeLinecap:"round", strokeLinejoin:"round" });
+const IconMenu=(p)=><svg {...S(p)}><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>;
+const IconX=(p)=><svg {...S(p)}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>;
+const IconHome=(p)=><svg {...S(p)}><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>;
+const IconGlobe=(p)=><svg {...S(p)}><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>;
+const IconMoon=(p)=><svg {...S(p)}><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>;
+const IconSun=(p)=><svg {...S(p)}><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.2" y1="4.2" x2="5.6" y2="5.6"/><line x1="18.4" y1="18.4" x2="19.8" y2="19.8"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.2" y1="19.8" x2="5.6" y2="18.4"/><line x1="18.4" y1="5.6" x2="19.8" y2="4.2"/></svg>;
+const IconPlay=(p)=><svg {...S(p)}><polygon points="5 3 19 12 5 21 5 3"/></svg>;
+const IconPause=(p)=><svg {...S(p)}><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>;
+const IconSquare=(p)=><svg {...S(p)}><rect x="4" y="4" width="16" height="16" rx="2"/></svg>;
+const IconCheckCircle=(p)=><svg {...S(p)}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>;
+
+/* ================= Dictionary ================= */
+const dict = {
+  zh: {
+    brand: "PMCS",
+    title: "學習單 W8", subtitle: "把職涯目標變成一句需求",
+    nav_modules: "單元目錄", nav_prev: "上一單元", nav_next: "下一單元", nav_home: "首頁",
+    key_terms: "隨手參考卡", flip_prompt: "點擊翻轉",
+    flip_status: "已讀 {read} / 已顯示 {shown} / 總計 {total}",
+    flip_next: "下一組", flip_retry: "重新開始",
+    audio_read: "語音導覽",
+    quiz_title: "課前自我檢核", quiz_status: "答對 {correct} / 已答 {answered} / 總計 {total}",
+    quiz_next: "下一組", quiz_retry: "重新測驗",
+    submit: "提交答案", correct: "正確", incorrect: "錯誤", explanation: "解析",
+    overview_label: "Overview 本節任務",
+    highlights_label: "Highlights 關鍵字",
+    deep_dive_label: "Deep Dive 填寫說明",
+    wrapup_label: "Wrap-up 檢查點",
+    badge_personal: "個人填寫・不繳交",
+    badge_group: "小組共同・隨小組版繳交",
+    saved_hint: "✍️ 填寫內容自動存在你這台電腦的瀏覽器裡；換裝置不會跟著走，請務必到「完成度與匯出」頁匯出檔案。",
+    required_label: "必讀教材", optional_label: "選讀教材（可撰寫為 BA）",
+    select_ph: "請選擇",
+
+    m0_nav: "0. 執行概要",
+    m0_title: "這份學習單怎麼用",
+    m0_intro: "這是 PMCS 課程 W8 的課前學習單，也是各組敲定期末專案題目的那一週。本週必讀兩份：CSA · 職涯策略架構（Career Strategy Architecture，為本課量身訂做的主教材），以及未來生涯的五對 P 原則。上一週你把一則真實 JD 拆成 K／S／A；這一週把那份拆解轉向你自己——同樣三個構面，你現在有什麼、還差什麼，而且必須寫出證據，不是自我評價。接著盤點兩個帳號與履歷欄位，因為求職這件事在你按下第一個「應徵」之前就已經開始。最後，第 6 節把整組的判斷收斂成五格 TP 定案素材，包括那一句「我希望每天早上知道什麼」。這一節的產出下週線上提案直接使用，所以請當成正式文件來寫。個人部分約四十分鐘，小組討論約四十分鐘。",
+    m0_why: "為什麼要在這一週把題目敲定？",
+    m0_why_desc: "因為 W9 就是線上提案，而提案的第 1、2 項素材就是第 6 節那五格。更根本的理由是：一個做得完的期末專案，不是從「我們想做 AI」開始，而是從「有一個具體的人，每天早上需要知道一件具體的事」開始。把讀者、產業、職務類別、關心構面與頻率各自釘死，那句需求才寫得出來；寫得出那句需求，後面的抓取、整理與呈現才有驗收標準。這也是產品經理的第一課：需求不是願望，需求是一句可以被檢查的話。",
+    m0_stats: [
+      { val: "3", label: "個 K/S/A 構面" },
+      { val: "7", label: "個職涯層級" },
+      { val: "5", label: "格 TP 定案素材" },
+      { val: "40+40", label: "分鐘個人＋小組" }
+    ],
+    m0_modules: [
+      { num: "01", title: "小組與分工", desc: "登錄組別、成員，敲定 10 分鐘簡報的 Jigsaw 分工。", tag: "小組" },
+      { num: "02", title: "K/S/A 落差", desc: "拿 W7 那則 JD 的要求對照自己，三個構面各寫現況與缺口，並附上證據。", tag: "個人" },
+      { num: "03", title: "帳號與履歷", desc: "104 與 LinkedIn 的帳號狀態，以及你的履歷現在哪幾欄是空的。", tag: "個人" },
+      { num: "04", title: "語言實驗室", desc: "五個新詞、三個難發音，供課堂與加分作業使用。", tag: "個人" },
+      { num: "05", title: "小組綜整", desc: "五項裡只挑三項比對六個人的落差，找出最集中的構面並訂出組內通則。", tag: "小組" },
+      { num: "06", title: "TP 題目定案", desc: "產業、職務關鍵字、層級、關心構面，以及那一句「我希望每天早上知道什麼」。", tag: "小組" },
+      { num: "07", title: "簡報計畫", desc: "誰講哪一段、各幾秒，以及要丟給全班的那一個問題。", tag: "小組" }
+    ],
+    m0_start: "開始填寫 →",
+
+    ksa: [
+      { id:"K", name:"K 知識 Knowledge", q:"這個職務要你先懂什麼？",
+        src:"對應 104 的學歷要求、科系要求",
+        have_ph:"例：修過行銷管理與生產管理，做過一份完整的產業分析報告，看得懂損益表的主要科目。",
+        gap_ph:"例：那則 JD 要求懂半導體封測製程與 NPD 的 Stage-Gate，我兩個都只在課本上看過名詞。" },
+      { id:"S", name:"S 技能 Skills", q:"這個職務要你做得出什麼？",
+        src:"對應 104 的工作經歷、語文條件、擅長工具、工作技能；年資歸 S 不歸 K",
+        have_ph:"例：能用 Excel 樞紐分析整理三百筆資料，做過一次三十分鐘的英文簡報，會用 Notion 管進度。",
+        gap_ph:"例：JD 要求兩年以上專案管理經驗與 SQL，我沒有正式年資，SQL 只寫過 SELECT。" },
+      { id:"A", name:"A 態度 Attitude", q:"這個職務要你以什麼方式跟人相處？",
+        src:"對應 104 的其他條件與工作內容，多半只能語意判讀；A 沒有證據，這正是它難的地方",
+        have_ph:"例：對外——在系上活動負責過廠商聯繫，被客訴過一次，學會先確認事實再回話。",
+        gap_ph:"例：對下——我從來沒有帶過人，那則 JD 的管理責任欄位寫「管理 5 人以下」，我完全沒有經驗。" }
+    ],
+
+    aspects: [
+      { id:"K", name:"K 知識落差" },
+      { id:"S", name:"S 技能落差" },
+      { id:"A", name:"A 態度落差" },
+      { id:"ACCT", name:"帳號狀態（104 / LinkedIn）" },
+      { id:"CV", name:"履歷的空欄位" }
+    ],
+
+    m1_nav: "1. 小組與分工", m1_title: "小組與 Jigsaw 分工",
+    m1_overview: "先把行政資訊填好，並在小組討論時當場敲定簡報分工。本課程每次由兩組簡報，每組 10 分鐘，每位組員必須開口講 1 至 2 分鐘——這一節就是把「誰講哪一段、講幾秒」寫定，避免上台才在推派。",
+    m1_highlights: ["Jigsaw 協作","每人 1-2 分鐘","全組 10 分鐘","組員都要開口"],
+    m1_deep: "本週的分法建議：K、S、A 三個構面各一人，帳號與履歷盤點一人，第 6 節的 TP 題目定案兩人——因為那五格下週提案要用，講的人最好就是寫的人。把秒數寫下來，總長度才控制得住。",
+    m1_group: "組別", m1_date: "填寫日期",
+    m1_members_label: "組員與分工（用下方加減鈕調整人數，上限 10 人）",
+    m1_member_count: "目前 {n} 位組員",
+    m1_col_name: "姓名", m1_col_id: "學號", m1_col_part: "負責段落", m1_col_sec: "秒數",
+    m1_part_ph: "例：K 知識落差",
+    m1_total_sec: "目前規劃總長度",
+    m1_sec_warn: "超過 600 秒（10 分鐘），請壓縮。",
+    m1_sec_ok: "在 10 分鐘內，可行。",
+    m1_wrapup: "檢查點：每位出席組員都有分配到段落，且總秒數不超過 600。",
+
+    m2_nav: "2. K/S/A 落差", m2_title: "K／S／A 落差分析：那則 JD 對照你自己",
+    m2_overview: "打開你 W7 抽取過的那一則 JD，把它的要求擺在左邊，把你自己擺在右邊。三個構面各寫兩格：現在有什麼、還差什麼。這一節不是要你自我打擊，也不是要你自我安慰，是要你把「差多少」寫成一個看得見的數量，這樣第 6 節挑關心構面時才不會憑感覺。",
+    m2_highlights: ["同一則 JD","現況與缺口","證據不是評價","AI 的美化"],
+    m2_deep: "有兩件事最容易寫壞。第一件是把「有」寫成形容詞：「我溝通能力不錯」不是有，「我在系學會負責過六家廠商的聯繫，其中一次談判把報價壓下來一成」才是有。第二件是把三個構面寫成同一件事——K 是你懂什麼，S 是你做得出什麼，A 是你怎麼跟人相處，它們分別對應 JD 上不同的欄位。年資請放 S 不要放 K，因為年資是「足以完成任務」的證據，不是知識本身。如果某一格你真的空白，那就寫空白，空白也是資料。",
+    m2_col_have: "現在有什麼", m2_col_gap: "還差什麼",
+    m2_jd_note: "本節的對照對象是你在 W7 第 2 節抽取的那一則 JD。如果你已經匯入 SDL KB，可以展開上方面板對照。",
+    m2_evidence_label: "你憑什麼說自己「有」？寫出證據，不是自我評價",
+    m2_evidence_hint: "證據＝別人可以查證的東西：作品、報告、成績單、證照、專案紀錄、被誰指派過什麼。形容詞不算證據。",
+    m2_evidence_ph: "例：S 的「英文簡報」有證據——2025 年 12 月的 SMMC 期末報告我負責第三段，投影片與錄影在小組雲端。K 的「懂封測」沒有證據，那一格我寫的是聽過。",
+    m2_ai_label: "你請 AI 幫你做這份落差分析時，發現它哪裡講錯、或把你講得太漂亮？",
+    m2_ai_hint: "呼應 W5 的 Source check 與 Answer check：查來源、查答案。AI 最常見的兩種失準是憑空補上你沒說過的經歷，以及把「修過課」直接說成「具備能力」。",
+    m2_ai_ph: "例：它把我修過「行銷管理」寫成「具備市場研究實務經驗」，這是把 K 直接升級成 S。另外它說那則 JD 要求 TOEIC 800，但我回去看原文只寫「英文可作為工作語言」，是它自己補的。",
+    m2_svg_cap: "外圈是那則 JD 的要求，內圈是你已經寫出來的自我盤點；三個構面裡寫得最少的那一個，通常就是你最不敢面對的那一個。",
+    m2_svg_worst: "目前寫得最少的構面：{d}",
+    m2_svg_done: "三個構面都寫滿了，可以進到第 3 節。",
+    m2_svg_legend_req: "JD 的要求",
+    m2_svg_legend_now: "你已寫出的盤點",
+    m2_terms: [
+      { front: "K 知識 Knowledge", back: "該職務要你先懂的領域基礎。對應 104 的學歷要求與科系要求，可以規則式抽取。懂不等於做得出來，這是它跟 S 的分界。" },
+      { front: "S 技能 Skills", back: "足以完成任務的能力，而且有證據。對應 104 的工作經歷、語文條件、擅長工具與工作技能。年資歸在這裡，因為年資是證據不是知識。" },
+      { front: "A 態度 Attitude", back: "你以什麼方式跟人相處。分對上、對下、對內、對外四象限。企業一談到態度就退回自由文字，這件事本身就是「A 不可觀察」的證據。" },
+      { front: "分辨 S 與 A 的尺", back: "S 有證據，A 沒有。你說得出作品、專案、成績或證照的，是 S；只能靠別人的印象與描述支撐的，是 A。" },
+      { front: "落差分析 Gap analysis", back: "把「要求」與「現況」放在同一張表上，算出差額。它的價值不在於知道自己差，而在於把差額切成可以逐項處理的條目。" },
+      { front: "證據 Evidence", back: "第三方可以查證的東西：作品連結、專案紀錄、成績單、證照、被指派的職務。自我評價與形容詞都不是證據。" },
+      { front: "職涯階梯 Career ladder", back: "PM Specialist → PM Engineer → Junior PM → Senior PM → PM Director → VP／SVP of PM → CPO。本課要求層級全收不過濾，讓讀者看見完整的路。" },
+      { front: "一句話需求", back: "「我希望每天早上知道什麼」寫成一個完整句子。它同時鎖住讀者、產業、職務類別、關心構面與頻率，是整個期末專案的驗收基準。" }
+    ],
+    m2_q: [
+      { q: "「你憑什麼說自己『有』？」這一欄要求寫的是什麼？", opts: ["可以被別人查證的證據","你對自己的整體評價","老師給你的期末成績","AI 幫你寫的推薦說法"], ans: _A0, exp: "「有」要用作品、專案紀錄、成績單、證照這類第三方可查證的東西來支撐；形容詞與自我評價都不算。" },
+      { q: "職務關鍵字為什麼必須同時涵蓋 PM 與 PjM 兩類？", opts: ["職稱混用是單向的，名為 PM 實做 PjM 很常見","兩者的薪資結構與升遷路徑完全相同，可以合併看待","104 的職務類別欄位一次只允許填寫一個關鍵字，不能並列","產品經理與專案經理在本課的課綱裡屬於同一個單元"], ans: _A0, exp: "絕大多數的混用方向是名義上叫 PM、實際做 PjM，反之很少。只搜其中一類，會漏掉大量實際相關的職缺。" },
+      { q: "本課要求 TP 收錄職缺時「層級全收不過濾」，主要理由是？", opts: ["讓讀者看見完整的職涯階梯，知道下一級要什麼","因為過濾層級在技術上做不到，只能全部收下來","因為 104 的搜尋結果本來就無法依層級做排序","為了讓資料筆數變多，看起來比較有分量一些"], ans: _A0, exp: "全收才看得見 Specialist 到 CPO 的完整階梯；讀者要判斷的不只是「我現在能投哪一個」，還有「下一級要求什麼」。" },
+      { q: "依 W7 的映射，104 職缺頁的「工作經歷（年資）」應該歸到哪一個構面？", opts: ["K 知識，因為年資代表累積的領域知識","S 技能，因為年資是足以完成任務的證據","A 態度，因為年資反映的是投入與穩定度","三者都不是，年資屬於獨立的第四個構面"], ans: _A1, exp: "年資歸 S。它不是知識本身，而是「足以完成任務」的證據——這正是 S 與 K 的分界。" }
+    ],
+    m2_wrapup: "檢查點：三個構面都寫了落差，而且「你憑什麼說自己有」那一欄寫的是證據，不是自我評價。",
+
+    m3_nav: "3. 帳號與履歷", m3_title: "帳號與履歷欄位盤點",
+    m3_overview: "求職不是從按下「應徵」開始的，是從有人能查到你開始的。這一節只做兩件很小但擋住很多人的事：把 104 與 LinkedIn 兩個帳號的狀態說清楚，以及對照 104 履歷的欄位，指出你的履歷現在哪幾欄是空的。空欄不可恥，不知道自己有空欄才是問題。",
+    m3_highlights: ["104 帳號","LinkedIn","空欄位","三個月內補完"],
+    m3_deep: "104 履歷的主要欄位包括：基本資料與個人照、希望職稱、希望職務類別、希望產業、希望工作地點、希望待遇、工作經歷、學歷、專業技能、語文能力、證照、作品集或個人網站連結、自傳。大三大四最常見的空欄是「作品集連結」與「專業技能」——不是因為沒有東西可寫，是因為做過的事沒有被放到一個別人點得進去的地方。「怎麼補」請寫到可以排進行事曆的程度：「補作品集」不算，「這個月把 SMMC 的期末報告轉成一頁 GitHub Pages，連結貼到 104 的個人網站欄」才算。",
+    m3_acct_104_label: "104 帳號狀態",
+    m3_acct_li_label: "LinkedIn 帳號狀態",
+    m3_acct_why_label: "不打算開的理由",
+    m3_acct_why_ph: "例：我打算先做完作品集再開，空的帳號被看到反而扣分。（請寫出你的判斷，不是敷衍）",
+    acct_opts: [
+      { v:"done", n:"已開好並填完" },
+      { v:"empty", n:"已開但未填" },
+      { v:"today", n:"今天就開" },
+      { v:"no", n:"不打算開（請說明理由）" }
+    ],
+    m3_gap_label: "你的履歷現在哪幾欄是空的？（對照 104 履歷的欄位）",
+    m3_gap_ph: "例：作品集或個人網站連結（全空）、專業技能（只寫了 Office）、語文能力（沒填檢定成績）、自傳（還是大一寫的版本）。",
+    m3_plan_label: "三個月內要補哪一欄？具體怎麼補？",
+    m3_plan_ph: "例：補「作品集或個人網站連結」。九月把 SMMC 期末報告整理成一頁 GitHub Pages，十月把 W7 的 JD 拆解做成第二頁，十一月把連結填進 104 與 LinkedIn 的個人網站欄。",
+    m3_evidence_label: "補完之後，別人從哪裡看得出來你真的做了？",
+    m3_evidence_hint: "跟第 2 節同一把尺：可以被點開、被查證的才算。截圖存在自己電腦裡不算。",
+    m3_evidence_ph: "例：104 履歷的「個人網站」欄會出現一個可以點的網址，點進去是三頁作品，每頁下方有日期與我的姓名。",
+    m3_wrapup: "檢查點：兩個帳號都處理完了，而且指出了履歷上至少一個現在是空的欄位與補它的具體做法。",
+
+    m4_nav: "4. 語言實驗室", m4_title: "EMI 語言實驗室",
+    m4_overview: "本課程是全英授課。從本週必讀教材中挑出五個新的詞彙或片語，以及三個你唸起來不順的字。這一節取代原本的心智圖，產出直接用於課堂討論與加分作業。",
+    m4_highlights: ["新詞五個","難發音三個","自己的話","例句"],
+    m4_deep: "「用自己的話解釋」不要抄原文定義——抄定義只證明你找得到，改寫才證明你讀懂了。本週的例句請直接寫你們第 6 節那一句需求會用到的字，例如 career ladder、seniority level、job family、requirement 這一類，這樣同一份力氣可以用兩次。",
+    m4_terms_label: "五個新詞彙或片語",
+    m4_col_term: "詞彙／片語", m4_col_mean: "用自己的話解釋", m4_col_sent: "自己造一個句子",
+    m4_pron_label: "三個唸起來不順的字",
+    m4_col_word: "字", m4_col_hard: "難在哪裡", m4_col_tip: "你的記憶方法",
+    m4_wrapup: "檢查點：五個詞的解釋沒有一句是直接抄教材原文。",
+
+    m5_nav: "5. 小組綜整", m5_title: "小組綜整：六個人的落差放在一起",
+    m5_overview: "這一節才是小組討論真正的工作。不是輪流念自己的落差，而是把六份放在一起比對——同樣一份教材、六個人拆的是不同的 JD，哪一個構面全組都缺得最兇？那通常就是你們共同的處境，而它會決定第 6 節你們最關心哪一個構面。",
+    m5_highlights: ["五項挑三項","最集中的構面","證據","組內通則"],
+    m5_deep: "彙整方式有一條硬性規定：本週彙整人不得把六份個人匯出檔全部丟給 AI 叫它總結。可以比對的有五項——K 知識落差、S 技能落差、A 態度落差、帳號狀態、履歷的空欄位——你們只准挑三項。選取而不是全丟，是 W4 就講過的 Context Engineering 的核心；把六份全丟進去，正是教材裡列為風險的過量與污染。先決定比對哪三項，再只取那三項的六人份內容。",
+    m5_focus_label: "我們決定比對的三項（勾選三項）",
+    m5_focus_why: "為什麼略過另外兩項？",
+    m5_focus_why_ph: "例：帳號狀態六個人幾乎都是「已開但未填」，差異太小；A 態度落差大家寫得都很虛，比對不出可以行動的東西。",
+    m5_common_label: "六個人落差最集中的是哪一個構面",
+    m5_evidence_label: "從六份裡舉兩個具體例子支持上面的判斷",
+    m5_evidence_ph: "例：A 的 S 缺口寫「沒有任何正式年資」，C 寫「工具只會 Excel」，兩人的 JD 都要求兩年經驗與一種資料工具，缺的是同一種東西。",
+    m5_case_label: "我們選來當代表案例的是誰的落差？為什麼選它？",
+    m5_case_ph: "例：選 B 的 S 缺口。因為 B 的 JD 是六則裡層級最低的一則，連它都要求兩年經驗，代表這是整個階梯的入場門檻，不是個人問題。",
+    m5_rule_label: "從這次比對，我們訂下一條組內通則",
+    m5_rule_ph: "例：本組每個人在十月底前，至少把一件做過的事變成一個可以點開的連結，並填進 104 履歷的個人網站欄；月底互相檢查連結能不能開。",
+    m5_rule_note: "這條通則會累積到期末專案。W10 建 KB 時，這些通則就是 business_rules.md 的第一批內容。",
+    m5_wrapup: "檢查點：只比對了三項（不是全部丟給 AI），且訂出的通則是可以檢查的，不是「大家要多充實自己」這種。",
+
+    m6_nav: "6. TP 題目定案", m6_title: "TP 題目定案：把職涯目標變成一句需求",
+    m6_overview: "這是本週最重要的一節，也是各組正式敲定期末專案題目的地方。下面五格填完，你們的題目就定了。前四格是範圍，第五格是驗收基準——它們合起來就是 W9 線上提案的第 1、2 項素材，下週直接拿這一頁上台。",
+    m6_note: "⚠ 這五格就是 W9 提案的第 1、2 項素材，下週線上提案直接用。請當成正式文件寫，不要寫「之後再說」。",
+    m6_highlights: ["產業清單","PM＋PjM","層級全收","一句話需求"],
+    m6_deep: "四個容易踩的坑。第一，產業或企業清單不要一次開到十個，先給一個可以做完的數量，但要同時寫清楚之後要加要減的機制——是誰決定、依什麼判準、什麼時候檢討。第二，職務關鍵字必須同時涵蓋 PM 與 PjM 兩類，因為職稱混用是單向的：絕大多數是名義上叫 PM、實際做 PjM，只搜一邊會漏掉一大片。第三，層級本課要求全收不過濾，你們要寫的不是「要不要全收」，而是「全收對你們的讀者有什麼用」。第四，那一句需求請寫成完整句子，主詞、時間、內容、判準都要在裡面；一句寫不出來，通常代表讀者還沒選定。",
+    m6_industry_label: "目標產業或企業清單（1 至 N 個），以及之後可增可減的機制",
+    m6_industry_ph: "例：先做半導體封測與消費性電子兩個產業，各鎖三家（日月光、力成、京元電／華碩、宏碁、廣達）。增減機制：每週三小組會議由本週彙整人提案，需兩人以上同意；判準是該產業近四週是否有新增職缺，連續兩週掛零就換掉。",
+    m6_keywords_label: "職務關鍵字（必須同時涵蓋 PM 與 PjM 兩類）",
+    m6_keywords_hint: "職稱混用是單向的：絕大多數是名義上叫 PM、實際做 PjM，反之很少。只搜一類會漏掉一大片。",
+    m6_keywords_ph: "例：PM 類——產品經理、產品管理師、產品企劃、Product Manager、PdM；PjM 類——專案經理、專案管理師、專案管理工程師、Project Manager、PMO。兩類都收，收進來之後再依工作內容原句判定實際偏哪一邊。",
+    m6_levels_label: "要收哪些層級？本課要求全收不過濾——請寫出為什麼全收對你們的讀者有用",
+    m6_levels_hint: "七個層級：PM Specialist 產品專員 → PM Engineer 產品工程師 → Junior PM → Senior PM → PM Director 產品處長 → VP／SVP of PM 產品副總 → CPO 產品長。",
+    m6_levels_ph: "例：七級全收。我們的讀者是大四正在投履歷的同學，他現在只能投前兩級，但他需要看見第三、四級要求什麼，才知道現在該補哪一格；只給他投得上的那一級，等於把階梯拆掉只留一階。",
+    m6_focus_label: "我們最關心哪一個構面",
+    m6_focus_hint: "這一格會決定你們的晨報每天挑什麼出來講。三選一，不要三個都要。",
+    m6_sentence_label: "「我希望每天早上知道什麼」——寫成一個完整句子",
+    m6_sentence_hint: "完整句子＝有主詞、有時間、有內容、有判準。可以先到第 8 節用「一句話需求產生器」組一版，再改成你們自己的話。",
+    m6_sentence_ph: "例：我希望每天早上知道，昨天半導體封測與消費性電子這六家公司新開的 PM 與 PjM 職缺裡，有哪些新的技能要求是我的履歷上還沒有的，並且用一句話告訴我它跟前一天比多了什麼。",
+    m6_wrapup: "檢查點：那一句「我希望每天早上知道什麼」是完整句子，且職務關鍵字同時涵蓋了 PM 與 PjM 兩類。",
+
+    m7_nav: "7. 簡報計畫", m7_title: "簡報計畫與提問",
+    m7_overview: "把第 1 節的分工變成可執行的腳本，並準備一個要丟給全班的問題。課堂上的 10 分鐘 Q&A 就是靠各組的問題撐起來的。",
+    m7_highlights: ["開場句","段落腳本","Menti 提問","10 分鐘"],
+    m7_deep: "本週的簡報收在第 6 節那一句需求上，所以最後一位講者請把那句話唸完整——那是下週提案的第一張投影片。開場句請用英文寫完整一句，不要只寫關鍵字，上台最卡的永遠是第一句。要丟給全班的問題請避開是非題；好的問題應該是同學必須先做一個判斷才能回答的，例如「如果你們的讀者只肯每天花三分鐘看，你們會先砍掉哪一段？」",
+    m7_open_label: "英文開場句（完整一句）",
+    m7_open_ph: "例：We compared six gap analyses from our own group, and the same skill was missing in five of them.",
+    m7_script_label: "段落腳本（每人一句話說明你要講的重點）",
+    m7_col_who: "誰", m7_col_point: "這一段的重點是什麼",
+    m7_question_label: "要丟給全班的一個問題（Menti 用）",
+    m7_question_ph: "例：If your reader will only spend three minutes on it each morning, which part of your brief would you cut first?",
+    m7_wrapup: "檢查點：開場句是完整的英文句子，且提問不是可以用「是／否」回答的問題。",
+
+    mlab_nav: "8. 互動實驗室", mlab_title: "互動實驗室",
+    mlab_desc: "四個小工具，幫你把第 2 到第 6 節的判斷做得更有把握。這一頁不需要繳交，但操作紀錄會計入完成度，輸入也會存在你這台電腦的瀏覽器裡。",
+    mlab_clear: "🗑 清除全部",
+    mlab_clear_confirm: "確定要清除這一頁四個工具的所有輸入嗎？此操作無法復原。",
+
+    lab1_title: "① K／S／A 落差雷達",
+    lab1_desc: "拉動三個構面的滑桿，分別自評現況與目標，雷達圖即時更新並指出你最大的缺口。",
+    lab1_now: "現況", lab1_goal: "目標",
+    lab1_gap: "最大缺口：{d}，差 {n} 級",
+    lab1_none: "目前三個構面沒有缺口。把目標拉高一點，或者你該去投更難的職缺了。",
+    lab1_hint: "自評用的尺：0 完全沒有｜3 課堂上碰過｜5 做過一次有產出｜7 做過多次且有人驗收｜10 別人會來問你。",
+    lab1_legend_now: "現況", lab1_legend_goal: "目標",
+
+    lab2_title: "② 履歷欄位完整度檢查",
+    lab2_desc: "勾選你的 104 履歷上「現在真的填好」的欄位，看看完整度，以及最該先補的三欄。",
+    lab2_result: "履歷完整度：{n} / {t}（{p}%）",
+    lab2_top: "最該先補的三欄：",
+    lab2_full: "十三欄都填好了。接下來請檢查內容是不是還停在去年的版本。",
+    lab2_items: [
+      { k:"basic", n:"基本資料與個人照", w:6 },
+      { k:"title", n:"希望職稱", w:7 },
+      { k:"cat", n:"希望職務類別", w:8 },
+      { k:"ind", n:"希望產業", w:6 },
+      { k:"loc", n:"希望工作地點", w:5 },
+      { k:"pay", n:"希望待遇", w:4 },
+      { k:"exp", n:"工作經歷（含實習與專案）", w:10 },
+      { k:"edu", n:"學歷", w:6 },
+      { k:"skill", n:"專業技能", w:10 },
+      { k:"lang", n:"語文能力", w:7 },
+      { k:"cert", n:"證照", w:5 },
+      { k:"port", n:"作品集或個人網站連結", w:10 },
+      { k:"bio", n:"自傳", w:8 }
+    ],
+
+    lab3_title: "③ 一句話需求產生器",
+    lab3_desc: "依序選擇讀者、產業、職務類別、關心構面與頻率，下面會組出一句「我希望每天早上知道什麼」，可以複製回第 6 節再改成你們自己的話。",
+    lab3_copy: "複製句子", lab3_copied: "已複製 ✓",
+    lab3_empty: "五個選項都選完之後，句子會出現在這裡。",
+    lab3_out_label: "組出來的句子",
+    lab3_note: "產生器只是鷹架。第 6 節請用你們自己的話重寫一次，並補上你們讀者的真實處境。",
+    lab3_l_reader: "讀者是誰", lab3_l_ind: "產業", lab3_l_role: "職務類別", lab3_l_facet: "關心構面", lab3_l_freq: "頻率",
+    lab3_readers: [
+      { k:"r1", n:"大四正在投履歷的同學" },
+      { k:"r2", n:"想從工程轉到產品的工程師" },
+      { k:"r3", n:"系上剛升大三的學弟妹" },
+      { k:"r4", n:"對 PM 有興趣但不知從何開始的人" },
+      { k:"r5", n:"我們這一組六個人自己" }
+    ],
+    lab3_inds: [
+      { k:"i1", n:"半導體與封測" },
+      { k:"i2", n:"消費性電子" },
+      { k:"i3", n:"軟體與 SaaS" },
+      { k:"i4", n:"電商與零售" },
+      { k:"i5", n:"醫療器材" },
+      { k:"i6", n:"不限產業" }
+    ],
+    lab3_roles: [
+      { k:"o1", n:"PM 產品類" },
+      { k:"o2", n:"PjM 專案類" },
+      { k:"o3", n:"PM 與 PjM 兩類" }
+    ],
+    lab3_facets: [
+      { k:"K", n:"K 知識要求" },
+      { k:"S", n:"S 技能要求" },
+      { k:"A", n:"A 態度要求" }
+    ],
+    lab3_freqs: [
+      { k:"f1", n:"每天早上" },
+      { k:"f2", n:"每週一早上" },
+      { k:"f3", n:"每天早晚各一次" }
+    ],
+
+    lab4_title: "④ 職涯階梯定位器",
+    lab4_desc: "輸入你的年資與已經有的經歷，看看你現在站在七級階梯的哪一階，以及下一級通常要求什麼。",
+    lab4_years: "相關年資（含實習與正式工作，可填 0）",
+    lab4_exp_label: "已經有的經歷（勾選）",
+    lab4_result: "你現在的位置：{n}",
+    lab4_next: "下一級 {n} 通常要求：",
+    lab4_top: "你已經在階梯頂端。接下來的問題不是升級，是換一條梯子。",
+    lab4_note: "這是粗估，不是判決。階梯的用處是讓你看見下一格要什麼，不是幫你標價。",
+    lab4_exps: [
+      { k:"e1", n:"帶過人（含社團或專案臨時編組）" },
+      { k:"e2", n:"負責過一條完整產品線或一個完整專案" },
+      { k:"e3", n:"看過或負責過損益數字" },
+      { k:"e4", n:"主導過跨部門協調" },
+      { k:"e5", n:"參與過規格定案（Spec 拍板）" },
+      { k:"e6", n:"對決策層做過正式簡報" }
+    ],
+    lab4_levels: [
+      { id:"L1", n:"PM Specialist 產品專員", req:"能把交辦的資料整理成別人看得懂的格式，會用一種以上的協作工具。" },
+      { id:"L2", n:"PM Engineer 產品工程師", req:"看得懂規格文件並能提出問題，能獨立完成一個模組或一段流程。" },
+      { id:"L3", n:"Junior PM 初階產品經理", req:"能獨立負責一個小產品或一條子線，開始對時程與範圍負責。" },
+      { id:"L4", n:"Senior PM 資深產品經理", req:"能主導規格定案，對產品損益有判斷，能協調兩個以上部門。" },
+      { id:"L5", n:"PM Director 產品處長／總監", req:"帶得動一個團隊，負責產品線組合的取捨，對年度目標負責。" },
+      { id:"L6", n:"VP／SVP of PM 產品副總／協理", req:"跨產品線的資源配置與人才培養，對公司層級的策略負責。" },
+      { id:"L7", n:"CPO 產品長", req:"定義公司要做什麼產品、不做什麼產品，並為此對董事會負責。" }
+    ],
+
+    mres_nav: "9. 學習資源", mres_title: "本週學習資源",
+    mres_desc: "必讀兩份。第一份 CSA 是本週主教材，為本課量身訂做；第二份是相鄰架構，處理的是同一個人在更長時間尺度上的取捨。選讀三份不影響學習單，但寫成書面整理可計入加分作業，其中 JDKS 是 W7 的主教材，第 2 節要回頭用；PMA 在第 6 節挑職務關鍵字時回頭對照。",
+    res_req: [
+      { label: "CSA · Career Strategy Architecture 職涯策略架構（PMCS-EMI）", url: "https://lolopodcast.github.io/Career-Strategy-Architecture/", desc: "本週主教材，為本課量身訂做。把職涯目標拆成可以逐項處理的條目，是第 2、3、6 節的直接依據。" },
+      { label: "5 Pairs of P-Principles for Future Life & Career 未來生涯的五對 P 原則", url: "https://lolopodcast.github.io/5-Pairs-of-P-Principles-for-Future-Life-Career/", desc: "相鄰架構。當你發現落差太大時，它處理的是更前面的問題：這條路是不是你要的。" }
+    ],
+    res_opt: [
+      { label: "MTS · Motivation Transformation System v2 動機轉化系統", url: "https://lolopodcast.github.io/Motivation-Transformation-System/", desc: "落差寫完之後最難的事是動手。這一份處理的是從知道到做到之間那一段。" },
+      { label: "JDKS · 讀懂一份 JD", url: "https://lolopodcast.github.io/JD-to-KSA/", desc: "W7 的主教材。第 2 節要回頭用它的 K／S／A 映射與抽取方式。" },
+      { label: "PMA · HW／SW Product Management", url: "https://lolopodcast.github.io/PM-PO-PL-PCC/", desc: "W6 已讀。第 6 節挑職務關鍵字時回頭對照 PM 與 PjM 的分界與層級階梯。" }
+    ],
+
+    analytics_title: "完成度與匯出",
+    analytics_desc: "個人層與小組層分開匯出。個人版留給你自己，作為學習歷程檔案；小組版由本週彙整人上傳 Moodle，而且下週提案要用到裡面第 6 節那五格。",
+    analytics_personal_title: "個人匯出（第 2、3、4 節・不繳交）",
+    analytics_personal_desc: "填好姓名即可匯出。這份檔案留給你自己，到 W10 建知識庫時再從中挑選要保留的部分。",
+    analytics_group_title: "小組匯出（第 1、5、6、7 節・繳交 Moodle）",
+    analytics_group_desc: "填好組別與本週彙整人即可匯出。CSV 與 Markdown 各一份，上傳至 Moodle 作業區。",
+    analytics_group: "組別", analytics_dept: "系級", analytics_dept_ph: "例：IBS1",
+    analytics_id: "學號", analytics_id_ph: "例：113212599",
+    analytics_name_en: "英文姓名", analytics_name_en_ph: "例：Shihmin Lo",
+    analytics_name_zh: "中文姓名", analytics_name_zh_ph: "例：王阿吉",
+    analytics_compiler: "本週彙整人", analytics_compiler_ph: "例：王阿吉",
+    analytics_export_personal: "匯出個人 Markdown",
+    analytics_export_csv: "匯出小組 CSV",
+    analytics_export_md: "匯出小組 Markdown",
+    analytics_need_personal: "請先填寫姓名",
+    analytics_need_group: "請先填寫組別與本週彙整人",
+    group_options: ["G1","G2","G3","G4","G5","G6","G7","G8","G9","G10","G11","G12","Others"],
+    analytics_pct_personal: "個人完成度", analytics_pct_group: "小組完成度",
+    analytics_total_time: "總填寫時間", analytics_overall_acc: "自我檢核答對率",
+    analytics_sec: "秒",
+    analytics_progress_title: "各節完成度",
+    analytics_wp_title: "尚未完成的節次",
+    analytics_wp_goto: "→ 前往填寫",
+    sdl_title: "先匯入你的 SDL 知識庫快照",
+    sdl_desc: "本週流程是：不使用 AI 手寫閱讀筆記 → 用 SDL 學習夥伴做蘇格拉底式對話 → 產出 KB.md → 在這裡匯入。匯入後會自動帶入你的身分欄位，並把 KB 的重點顯示在各節上方供你對照。這份學習單不是要你重想一遍，是把你已經想清楚的填成可比對的格式。",
+    sdl_ph: "把 SDL 產出的 KB.md 全文貼在這裡（含最上方的 --- frontmatter ---）",
+    sdl_parse: "解析並匯入",
+    sdl_file: "改用檔案上傳",
+    sdl_loaded: "✓ 已匯入 SDL KB",
+    sdl_clear: "清除並重新匯入",
+    sdl_ok: "匯入成功，身分欄位已自動帶入。",
+    sdl_err_empty: "內容是空的，請先貼上 KB.md 全文。",
+    sdl_err_format: "解析不出來。請確認貼的是 SDL 產出的 KB.md（開頭應該有 --- 的 frontmatter，內文有 §1 §2 等段落）。",
+    sdl_panel_title: "📖 你的 SDL KB 重點（對照用）",
+    sdl_panel_show: "展開",
+    sdl_panel_hide: "收合",
+    sdl_s1: "§1 本次學習摘要",
+    sdl_s2: "§2 知識綜整",
+    sdl_s4: "§4 學生親筆區塊",
+    sdl_s5: "§5 未解問題清單",
+    analytics_wp_personal_head: "個人層（你自己要填）",
+    analytics_wp_personal_done: "個人層已全部完成。",
+    analytics_wp_group_head: "小組層（小組討論時共同決定）",
+    analytics_wp_group_note: "若你不是本週彙整人，這幾節維持 0% 是正常的——個人匯出不受影響。",
+    analytics_wp_group_done: "小組層已全部完成。",
+    analytics_wp_allpass: "七節全部填寫完成，可以匯出了。",
+    analytics_wp_saved: "填寫內容已自動儲存於本機瀏覽器",
+    analytics_wp_clear: "🗑 清除全部",
+    analytics_wp_clear_confirm: "確定要清除所有填寫內容與歷程嗎？此操作無法復原，建議先匯出。",
+    analytics_wp_tts_intro: "以下是尚未完成的節次。",
+    analytics_wp_tts_module: "{name}，完成度 {acc}%。",
+    analytics_wp_tts_allpass: "七節全部填寫完成。",
+
+    date: "Version 2026.08.23",
+    copyright: "For Educational Use Only",
+    architect_label: "Architect:",
+    architect_url: "https://www.ibs.ncnu.edu.tw/index.php/faculty/tenured-professor/299-smlo"
+  },
+
+  en: {
+    brand: "PMCS",
+    title: "Worksheet W8", subtitle: "Turning a Career Goal into One Sentence of Requirement",
+    nav_modules: "Contents", nav_prev: "Previous", nav_next: "Next", nav_home: "Home",
+    key_terms: "Quick Reference Cards", flip_prompt: "Click to flip",
+    flip_status: "Read {read} / Shown {shown} / Total {total}",
+    flip_next: "Next", flip_retry: "Restart",
+    audio_read: "Audio Guide",
+    quiz_title: "Pre-Class Self-Check", quiz_status: "Correct {correct} / Answered {answered} / Total {total}",
+    quiz_next: "Next", quiz_retry: "Retry",
+    submit: "Submit", correct: "Correct", incorrect: "Incorrect", explanation: "Explanation",
+    overview_label: "Overview",
+    highlights_label: "Highlights",
+    deep_dive_label: "Deep Dive",
+    wrapup_label: "Wrap-up",
+    badge_personal: "Individual · not submitted",
+    badge_group: "Group · submitted with the group file",
+    saved_hint: "✍️ Your entries are saved in this browser on this computer only. They do not travel with you — always export from the Completion & Export page.",
+    required_label: "Required Materials", optional_label: "Optional Materials (eligible for BA)",
+    select_ph: "Select",
+
+    m0_nav: "0. Executive Summary",
+    m0_title: "How to Use This Worksheet",
+    m0_intro: "This is the pre-class worksheet for W8 of PMCS, and this is the week each group settles its Term Project topic. Two required materials: CSA · Career Strategy Architecture (the main one, built specifically for this course) and the 5 Pairs of P-Principles for Future Life & Career. Last week you broke a real job posting into K / S / A; this week you turn that same instrument on yourself — the same three facets, what you have now and what is missing, backed by evidence rather than self-assessment. Then you survey two accounts and your résumé fields, because a job search starts long before you press Apply. Finally, section 6 collapses the group's judgement into five cells of Term Project material, including the sentence \"what I want to know every morning\". That output goes straight into next week's online proposal, so write it as a real document. Roughly forty minutes individually, forty minutes as a group.",
+    m0_why: "Why settle the topic this week?",
+    m0_why_desc: "Because W9 is the online proposal, and items 1 and 2 of that proposal are exactly the five cells of section 6. The deeper reason: a Term Project you can actually finish does not start from \"we want to do something with AI\". It starts from a specific person who needs to know a specific thing every morning. Pin down the reader, the industry, the job family, the facet you care about and the frequency, and the sentence writes itself; once the sentence exists, everything downstream has an acceptance criterion. That is the product manager's first lesson: a requirement is not a wish, it is a sentence that can be checked.",
+    m0_stats: [
+      { val: "3", label: "K / S / A facets" },
+      { val: "7", label: "career ladder levels" },
+      { val: "5", label: "cells that fix the TP topic" },
+      { val: "40+40", label: "minutes individual + group" }
+    ],
+    m0_modules: [
+      { num: "01", title: "Group & Roles", desc: "Register your group and members, and settle the jigsaw split for the 10-minute presentation.", tag: "Group" },
+      { num: "02", title: "K/S/A Gap", desc: "Hold last week's job posting up against yourself: what you have and what is missing in each facet, with evidence.", tag: "Individual" },
+      { num: "03", title: "Accounts & Résumé", desc: "The state of your 104 and LinkedIn accounts, and which résumé fields are still empty.", tag: "Individual" },
+      { num: "04", title: "Language Lab", desc: "Five new terms and three hard words, for class discussion and bonus work.", tag: "Individual" },
+      { num: "05", title: "Group Synthesis", desc: "Compare only three of the five aspects across six people, find the densest gap and set a group rule.", tag: "Group" },
+      { num: "06", title: "TP Topic Settled", desc: "Industries, job keywords, seniority levels, the facet you care about, and the one-sentence requirement.", tag: "Group" },
+      { num: "07", title: "Presentation Plan", desc: "Who speaks about what, for how many seconds, plus one question for the class.", tag: "Group" }
+    ],
+    m0_start: "Start →",
+
+    ksa: [
+      { id:"K", name:"K · Knowledge", q:"What must you already understand?",
+        src:"Maps to the education and field-of-study fields on a 104 posting",
+        have_ph:"e.g. I have taken marketing management and operations management, written a full industry analysis, and can read the main lines of an income statement.",
+        gap_ph:"e.g. That posting wants packaging-and-test process knowledge and the NPD stage-gate; I have only met both as names in a textbook." },
+      { id:"S", name:"S · Skills", q:"What must you be able to produce?",
+        src:"Maps to work experience, language, tools and job skills on a 104 posting; years of service belong here, not to K",
+        have_ph:"e.g. I can turn three hundred rows into a pivot table, I have delivered one thirty-minute presentation in English, and I run schedules in Notion.",
+        gap_ph:"e.g. The posting asks for two years of project experience and SQL; I have no formal service years and my SQL stops at SELECT." },
+      { id:"A", name:"A · Attitude", q:"How must you deal with people?",
+        src:"Maps to the other-requirements and job-description fields, mostly readable only by interpretation; A carries no evidence, which is precisely what makes it hard",
+        have_ph:"e.g. Outward — I handled vendor contact for a department event, took one complaint, and learned to check the facts before replying.",
+        gap_ph:"e.g. Downward — I have never had anyone reporting to me, and the management-responsibility field on that posting reads \"up to five people\"." }
+    ],
+
+    aspects: [
+      { id:"K", name:"K knowledge gap" },
+      { id:"S", name:"S skills gap" },
+      { id:"A", name:"A attitude gap" },
+      { id:"ACCT", name:"Account status (104 / LinkedIn)" },
+      { id:"CV", name:"Empty résumé fields" }
+    ],
+
+    m1_nav: "1. Group & Roles", m1_title: "Group and Jigsaw Roles",
+    m1_overview: "Fill in the administrative details first, then settle the presentation split during group discussion. Two groups present each week for 10 minutes, and every member must speak for one to two minutes — this section pins down who covers what and for how long, so nobody is being volunteered at the podium.",
+    m1_highlights: ["Jigsaw collaboration","1-2 min each","10 min per group","Everyone speaks"],
+    m1_deep: "A suggested split this week: one person per facet for K, S and A, one on the accounts and résumé survey, and two on the section 6 topic decision — those five cells carry next week's proposal, so whoever wrote them should be the one who says them out loud. Write the seconds down; that is the only way the total stays under control.",
+    m1_group: "Group", m1_date: "Date",
+    m1_members_label: "Members and roles (use the buttons below to set the size, up to 10)",
+    m1_member_count: "{n} members",
+    m1_col_name: "Name", m1_col_id: "Student ID", m1_col_part: "Assigned part", m1_col_sec: "Seconds",
+    m1_part_ph: "e.g. The K knowledge gap",
+    m1_total_sec: "Planned total length",
+    m1_sec_warn: "Over 600 seconds (10 minutes) — trim it down.",
+    m1_sec_ok: "Within 10 minutes. Workable.",
+    m1_wrapup: "Checkpoint: every attending member has an assigned part, and the total stays under 600 seconds.",
+
+    m2_nav: "2. K/S/A Gap", m2_title: "K / S / A Gap Analysis: That Posting Against Yourself",
+    m2_overview: "Open the job posting you took apart in W7. Put its requirements on the left and put yourself on the right. Two cells per facet: what you have now, and what is missing. This section is not there to make you feel bad or to reassure you; it is there to turn \"how far off am I\" into something you can see, so that when you choose a facet in section 6 you are not guessing.",
+    m2_highlights: ["The same posting","Have and missing","Evidence, not opinion","Where AI flatters you"],
+    m2_deep: "Two ways this goes wrong. First, writing \"have\" as an adjective: \"I communicate well\" is not having it; \"I handled contact with six vendors for the student association, and in one negotiation I brought the quote down by ten per cent\" is. Second, writing all three facets as the same thing — K is what you understand, S is what you can produce, A is how you deal with people, and they map onto different fields of the posting. Put years of service under S, not K: service years are evidence of being able to do the job, not knowledge itself. If a cell is genuinely blank, write blank; a blank is data too.",
+    m2_col_have: "What I have now", m2_col_gap: "What is missing",
+    m2_jd_note: "The reference here is the posting you extracted in section 2 of W7. If you have imported your SDL KB, open the panel above to compare.",
+    m2_evidence_label: "What makes you say you \"have\" it? Write evidence, not a self-assessment",
+    m2_evidence_hint: "Evidence is what someone else can verify: work, reports, transcripts, certificates, project records, what you were assigned. Adjectives are not evidence.",
+    m2_evidence_ph: "e.g. The \"English presentation\" under S has evidence — I took the third segment of the SMMC final report in December 2025, and the slides and recording are in the group drive. The \"packaging knowledge\" under K has none; there I wrote that I have heard of it.",
+    m2_ai_label: "When you asked an AI to do this gap analysis for you, where did it get it wrong, or make you sound better than you are?",
+    m2_ai_hint: "This echoes the source check and answer check from W5. The two failures you will see most are inventing experience you never mentioned, and upgrading \"took the course\" straight into \"has the capability\".",
+    m2_ai_ph: "e.g. It turned \"took marketing management\" into \"has hands-on market research experience\", which promotes a K straight into an S. It also claimed the posting required TOEIC 800, but the original only says English is a working language — it added that itself.",
+    m2_svg_cap: "The outer triangle is what the posting demands; the inner shape is how much of your own survey you have actually written down. The thinnest facet is usually the one you least want to look at.",
+    m2_svg_worst: "Least written so far: {d}",
+    m2_svg_done: "All three facets are filled in. You are ready for section 3.",
+    m2_svg_legend_req: "What the posting demands",
+    m2_svg_legend_now: "What you have written",
+    m2_terms: [
+      { front: "K · Knowledge", back: "The domain grounding the role expects you to arrive with. It maps to the education and field-of-study fields and can be extracted by rule. Understanding is not producing — that is the line between K and S." },
+      { front: "S · Skills", back: "Being able to complete the task, with evidence. It maps to work experience, language, tools and job skills. Years of service sit here, because service years are evidence rather than knowledge." },
+      { front: "A · Attitude", back: "How you deal with people, in four quadrants: upward, downward, inward, outward. Firms fall back to free text the moment attitude comes up, which is itself the evidence that A is unobservable." },
+      { front: "The ruler between S and A", back: "S has evidence, A does not. If you can point to work, a project, a grade or a certificate, it is S. If it rests only on other people's impressions, it is A." },
+      { front: "Gap analysis", back: "Putting the requirement and the current state on one table and reading off the difference. Its value is not in learning that you fall short, but in cutting that shortfall into items you can work through." },
+      { front: "Evidence", back: "Something a third party can verify: a link to your work, a project record, a transcript, a certificate, a duty you were assigned. Self-assessment and adjectives are not evidence." },
+      { front: "Career ladder", back: "PM Specialist → PM Engineer → Junior PM → Senior PM → PM Director → VP / SVP of PM → CPO. This course collects every level without filtering, so the reader sees the whole path." },
+      { front: "One-sentence requirement", back: "\"What I want to know every morning\", written as one complete sentence. It fixes the reader, the industry, the job family, the facet and the frequency at once, and it is the acceptance criterion for the whole Term Project." }
+    ],
+    m2_q: [
+      { q: "What does the column \"What makes you say you have it?\" ask you to write?", opts: ["Evidence someone else can verify","An honest overall self-assessment","The grade your teacher gave you","A recommendation drafted by an AI"], ans: _A0, exp: "\"Having it\" has to rest on work, project records, transcripts or certificates — things a third party can check. Adjectives and self-assessment do not count." },
+      { q: "Why must the job keywords cover both PM and PjM?", opts: ["Title misuse runs one way: many roles named PM actually do PjM work","Their pay structures and promotion tracks are identical, so they merge","The job-category field on 104 accepts only one keyword at a time, never two","Product managers and project managers sit in the same unit of the syllabus"], ans: _A0, exp: "Almost all of the mixing runs in one direction — called PM, doing PjM — and rarely the other way. Searching only one side drops a large share of genuinely relevant postings." },
+      { q: "Why does this course require collecting every seniority level without filtering?", opts: ["So readers see the whole career ladder and what the next rung demands","Because filtering by level is technically impossible, so everything is kept","Because 104 search results cannot be sorted by seniority level at all","To inflate the record count so the dataset looks more substantial"], ans: _A0, exp: "Only the full set shows the ladder from Specialist to CPO. Readers need to judge not just what they can apply for now, but what the next rung asks for." },
+      { q: "Under the W7 mapping, which facet does \"work experience (years)\" on a posting belong to?", opts: ["K, because years of service accumulate domain knowledge","S, because years of service evidence being able to do the job","A, because years of service reflect commitment and stability","None of them; years of service form a separate fourth facet"], ans: _A1, exp: "Years of service go to S. They are not knowledge in themselves but evidence of being able to complete the task — which is exactly the line between S and K." }
+    ],
+    m2_wrapup: "Checkpoint: all three facets have a gap written, and the \"what makes you say you have it\" column holds evidence rather than a self-assessment.",
+
+    m3_nav: "3. Accounts & Résumé", m3_title: "Accounts and Résumé Fields",
+    m3_overview: "A job search does not begin when you press Apply; it begins when someone can find you. This section does two small things that stop a surprising number of people: state where your 104 and LinkedIn accounts actually stand, and, against the 104 résumé fields, name which of yours are still empty. An empty field is not shameful. Not knowing you have one is.",
+    m3_highlights: ["104 account","LinkedIn","Empty fields","Filled within three months"],
+    m3_deep: "The main 104 résumé fields are: basic details and photo, desired title, desired job category, desired industry, desired location, desired pay, work experience, education, professional skills, languages, certificates, a portfolio or personal site link, and the personal statement. In the third and fourth year the two fields most often empty are the portfolio link and professional skills — not because there is nothing to write, but because what you did was never put anywhere anyone can click. Write the \"how\" down to something you could put in a calendar: \"build a portfolio\" does not count; \"this month, turn the SMMC final report into a one-page GitHub Pages site and paste the link into the personal-site field on 104\" does.",
+    m3_acct_104_label: "104 account status",
+    m3_acct_li_label: "LinkedIn account status",
+    m3_acct_why_label: "Why you are not opening it",
+    m3_acct_why_ph: "e.g. I would rather finish the portfolio first; an empty account seen by a recruiter costs more than no account. (State your reasoning, not an excuse.)",
+    acct_opts: [
+      { v:"done", n:"Opened and fully filled in" },
+      { v:"empty", n:"Opened but not filled in" },
+      { v:"today", n:"Opening it today" },
+      { v:"no", n:"Not planning to (state why)" }
+    ],
+    m3_gap_label: "Which fields of your résumé are empty right now? (against the 104 résumé fields)",
+    m3_gap_ph: "e.g. Portfolio or personal site link (entirely empty), professional skills (only says Office), languages (no test score), personal statement (still the version I wrote in first year).",
+    m3_plan_label: "Which field will you fill within three months? How, concretely?",
+    m3_plan_ph: "e.g. The portfolio link. September: turn the SMMC final report into a one-page GitHub Pages site. October: add the W7 job-posting breakdown as a second page. November: paste the link into the personal-site field on both 104 and LinkedIn.",
+    m3_evidence_label: "Once it is filled, where would someone else see that you really did it?",
+    m3_evidence_hint: "Same ruler as section 2: it counts only if it can be opened and checked. A screenshot on your own laptop does not count.",
+    m3_evidence_ph: "e.g. The personal-site field on my 104 résumé will show a clickable address; behind it are three pages of work, each with a date and my name at the bottom.",
+    m3_wrapup: "Checkpoint: both accounts are dealt with, and at least one currently empty résumé field is named together with a concrete way to fill it.",
+
+    m4_nav: "4. Language Lab", m4_title: "EMI Language Lab",
+    m4_overview: "This course is taught in English. Pick five new words or phrases from this week's required materials, plus three words you stumble over. This section replaces the former mindmap requirement; its output feeds class discussion and bonus work directly.",
+    m4_highlights: ["Five new terms","Three hard words","In your own words","Example sentences"],
+    m4_deep: "Do not copy the source definition into the \"in your own words\" column — copying proves only that you found it; rewriting proves you understood it. This week, take terms you will actually need for the sentence in section 6 — career ladder, seniority level, job family, requirement and the like — so one effort does two jobs.",
+    m4_terms_label: "Five new words or phrases",
+    m4_col_term: "Term / phrase", m4_col_mean: "In your own words", m4_col_sent: "Your own sentence",
+    m4_pron_label: "Three words you stumble over",
+    m4_col_word: "Word", m4_col_hard: "What makes it hard", m4_col_tip: "Your memory trick",
+    m4_wrapup: "Checkpoint: not one of the five explanations is copied verbatim from the source.",
+
+    m5_nav: "5. Group Synthesis", m5_title: "Group Synthesis: Six Gap Analyses Side by Side",
+    m5_overview: "This section is the real work of the group discussion. Not taking turns reading out your own gaps, but putting all six side by side. Same material, six different postings — which facet came out thinnest across the whole group? That is usually your shared situation, and it will decide which facet you care about most in section 6.",
+    m5_highlights: ["Three of five","The densest facet","Evidence","A group rule"],
+    m5_deep: "One rule is mandatory: this week's compiler must NOT dump all six individual exports into an AI and ask for a summary. There are five aspects you could compare — the K, S and A gaps, account status, and empty résumé fields — and you may pick only three. Selecting rather than dumping is the core of the Context Engineering idea from W4; feeding all six in is precisely the excess and contamination the material lists as risks. Decide the three first, then take only those three from each member.",
+    m5_focus_label: "The three aspects we chose to compare (tick three)",
+    m5_focus_why: "Why did we skip the other two?",
+    m5_focus_why_ph: "e.g. Account status was \"opened but not filled in\" for almost everyone, so there was nothing to learn; the A gaps were all written vaguely and produced nothing actionable.",
+    m5_common_label: "The facet where the six gaps cluster most",
+    m5_evidence_label: "Two concrete examples from the six that support the judgement above",
+    m5_evidence_ph: "e.g. A's S gap says \"no formal service years at all\" and C's says \"Excel is the only tool I know\". Both postings asked for two years and one data tool, so the same thing is missing in both.",
+    m5_case_label: "Whose gap did we take as the representative case, and why that one?",
+    m5_case_ph: "e.g. B's S gap. B's posting is the most junior of the six, and even that one asks for two years — which makes this the entry threshold of the whole ladder rather than one person's problem.",
+    m5_rule_label: "From this comparison, our group sets one rule",
+    m5_rule_ph: "e.g. By the end of October every member turns at least one thing they have done into a link that opens, and pastes it into the personal-site field on 104; we check each other's links at the month-end meeting.",
+    m5_rule_note: "These rules accumulate towards the Term Project. When you build the KB in W10, they become the first entries of business_rules.md.",
+    m5_wrapup: "Checkpoint: only three aspects were compared (nothing was dumped wholesale into an AI), and the rule you set is checkable rather than \"everyone should improve themselves\".",
+
+    m6_nav: "6. TP Topic Settled", m6_title: "Settling the TP Topic: A Career Goal as One Requirement",
+    m6_overview: "This is the most important section of the week, and the place where each group formally settles its Term Project topic. Fill the five cells below and your topic is fixed. The first four set the scope; the fifth sets the acceptance criterion. Together they are items 1 and 2 of the W9 online proposal — next week you present straight from this page.",
+    m6_note: "⚠ These five cells are items 1 and 2 of the W9 proposal and go straight into next week's online presentation. Write them as a real document, not as \"we will decide later\".",
+    m6_highlights: ["Industry list","PM and PjM","Every level","One-sentence requirement"],
+    m6_deep: "Four traps. First, do not open the industry or company list at ten straight away — start with a number you can finish, but state the mechanism for adding and removing later: who decides, on what criterion, and when it is reviewed. Second, the job keywords must cover both PM and PjM, because title misuse runs one way: most are called PM while doing PjM, and searching one side alone drops a large share. Third, this course requires every seniority level with no filtering, so what you write is not whether to take them all but what taking them all does for your reader. Fourth, write the sentence as a complete sentence with a subject, a time, a content and a criterion; if you cannot get it into one sentence, the reader is usually still undecided.",
+    m6_industry_label: "Target industries or companies (1 to N), and the mechanism for adding and removing later",
+    m6_industry_ph: "e.g. Start with semiconductor packaging-and-test and consumer electronics, three firms each (ASE, PTI, KYEC / ASUS, Acer, Quanta). Mechanism: the weekly compiler proposes changes at the Wednesday meeting and needs two supporters; the criterion is whether the industry produced new postings in the last four weeks, and two consecutive empty weeks means it is swapped out.",
+    m6_keywords_label: "Job keywords (must cover both the PM and the PjM families)",
+    m6_keywords_hint: "Title misuse runs one way: most postings are called PM while the work is PjM, and rarely the reverse. Searching one family alone drops a large share.",
+    m6_keywords_ph: "e.g. PM family — product manager, product management specialist, product planner, Product Manager, PdM. PjM family — project manager, project management specialist, project management engineer, Project Manager, PMO. Collect both, then decide which side a posting really sits on from sentences in the job description itself.",
+    m6_levels_label: "Which seniority levels will you collect? The course requires all of them — write why taking them all is useful to your reader",
+    m6_levels_hint: "Seven levels: PM Specialist → PM Engineer → Junior PM → Senior PM → PM Director → VP / SVP of PM → CPO.",
+    m6_levels_ph: "e.g. All seven. Our reader is a final-year student sending out applications; today he can only reach the first two, but he needs to see what the third and fourth ask for to know which cell to work on now. Showing only the rung he can reach is removing the ladder and leaving one step.",
+    m6_focus_label: "The facet we care about most",
+    m6_focus_hint: "This cell decides what your morning brief pulls out each day. Pick one; do not pick all three.",
+    m6_sentence_label: "\"What I want to know every morning\" — written as one complete sentence",
+    m6_sentence_hint: "A complete sentence has a subject, a time, a content and a criterion. Build a first version with the sentence generator in section 8, then rewrite it in your own words.",
+    m6_sentence_ph: "e.g. Every morning I want to know which new skill requirements appeared yesterday in the PM and PjM postings of these six packaging and consumer-electronics firms that my own résumé does not yet carry, and to be told in one line what changed since the day before.",
+    m6_wrapup: "Checkpoint: the sentence \"what I want to know every morning\" is a complete sentence, and the job keywords cover both the PM and the PjM families.",
+
+    m7_nav: "7. Presentation Plan", m7_title: "Presentation Plan and Question",
+    m7_overview: "Turn section 1's split into a runnable script, and prepare one question to put to the class. The 10-minute Q&A is carried entirely by the questions each group brings.",
+    m7_highlights: ["Opening line","Segment script","Menti question","10 minutes"],
+    m7_deep: "This week's talk lands on the sentence from section 6, so the last speaker should read it out in full — that sentence is the first slide of next week's proposal. Write the opening line as a complete English sentence rather than keywords; the first sentence is always the one that jams. Avoid yes-or-no questions for the class. A good one forces a judgement first, for example: if your reader will only give it three minutes each morning, which part would you cut first?",
+    m7_open_label: "English opening line (one complete sentence)",
+    m7_open_ph: "e.g. We compared six gap analyses from our own group, and the same skill was missing in five of them.",
+    m7_script_label: "Segment script (one sentence per speaker on the point they will make)",
+    m7_col_who: "Speaker", m7_col_point: "The point of this segment",
+    m7_question_label: "One question for the class (for Menti)",
+    m7_question_ph: "e.g. If your reader will only spend three minutes on it each morning, which part of your brief would you cut first?",
+    m7_wrapup: "Checkpoint: the opening line is a complete English sentence, and the question cannot be answered with yes or no.",
+
+    mlab_nav: "8. Interactive Lab", mlab_title: "Interactive Lab",
+    mlab_desc: "Four small tools to sharpen the judgements you made in sections 2 to 6. Nothing here is submitted, but your activity counts towards completion and your entries are stored in this browser.",
+    mlab_clear: "🗑 Clear all",
+    mlab_clear_confirm: "Clear every entry in the four tools on this page? This cannot be undone.",
+
+    lab1_title: "① K / S / A Gap Radar",
+    lab1_desc: "Move the sliders for the three facets to rate where you are now and where you want to be. The radar updates live and names your largest gap.",
+    lab1_now: "Now", lab1_goal: "Target",
+    lab1_gap: "Largest gap: {d}, short by {n}",
+    lab1_none: "No gap in any facet right now. Either raise the target, or start applying for harder roles.",
+    lab1_hint: "The rating ruler: 0 nothing at all | 3 met it in class | 5 done once with an output | 7 done repeatedly and checked by someone | 10 people come to you with it.",
+    lab1_legend_now: "Now", lab1_legend_goal: "Target",
+
+    lab2_title: "② Résumé Field Completeness",
+    lab2_desc: "Tick the fields of your 104 résumé that are genuinely filled in today, and see your completeness plus the three fields to fix first.",
+    lab2_result: "Résumé completeness: {n} / {t} ({p}%)",
+    lab2_top: "The three to fix first:",
+    lab2_full: "All thirteen fields are filled. Now check whether the content is still last year's version.",
+    lab2_items: [
+      { k:"basic", n:"Basic details and photo", w:6 },
+      { k:"title", n:"Desired job title", w:7 },
+      { k:"cat", n:"Desired job category", w:8 },
+      { k:"ind", n:"Desired industry", w:6 },
+      { k:"loc", n:"Desired location", w:5 },
+      { k:"pay", n:"Desired pay", w:4 },
+      { k:"exp", n:"Work experience (including internships and projects)", w:10 },
+      { k:"edu", n:"Education", w:6 },
+      { k:"skill", n:"Professional skills", w:10 },
+      { k:"lang", n:"Languages", w:7 },
+      { k:"cert", n:"Certificates", w:5 },
+      { k:"port", n:"Portfolio or personal site link", w:10 },
+      { k:"bio", n:"Personal statement", w:8 }
+    ],
+
+    lab3_title: "③ One-Sentence Requirement Generator",
+    lab3_desc: "Choose the reader, industry, job family, facet and frequency in order, and a \"what I want to know every morning\" sentence appears below. Copy it back into section 6 and rewrite it in your own words.",
+    lab3_copy: "Copy sentence", lab3_copied: "Copied ✓",
+    lab3_empty: "Once all five choices are made, the sentence appears here.",
+    lab3_out_label: "The sentence",
+    lab3_note: "The generator is scaffolding. In section 6, rewrite it in your own words and add your reader's real situation.",
+    lab3_l_reader: "Reader", lab3_l_ind: "Industry", lab3_l_role: "Job family", lab3_l_facet: "Facet", lab3_l_freq: "Frequency",
+    lab3_readers: [
+      { k:"r1", n:"a final-year student sending out applications" },
+      { k:"r2", n:"an engineer moving from engineering into product" },
+      { k:"r3", n:"third-year students in our department" },
+      { k:"r4", n:"someone drawn to PM work but unsure where to start" },
+      { k:"r5", n:"the six of us in this group" }
+    ],
+    lab3_inds: [
+      { k:"i1", n:"semiconductor packaging and test" },
+      { k:"i2", n:"consumer electronics" },
+      { k:"i3", n:"software and SaaS" },
+      { k:"i4", n:"e-commerce and retail" },
+      { k:"i5", n:"medical devices" },
+      { k:"i6", n:"any industry" }
+    ],
+    lab3_roles: [
+      { k:"o1", n:"the PM product family" },
+      { k:"o2", n:"the PjM project family" },
+      { k:"o3", n:"both the PM and the PjM families" }
+    ],
+    lab3_facets: [
+      { k:"K", n:"K knowledge requirements" },
+      { k:"S", n:"S skill requirements" },
+      { k:"A", n:"A attitude requirements" }
+    ],
+    lab3_freqs: [
+      { k:"f1", n:"every morning" },
+      { k:"f2", n:"every Monday morning" },
+      { k:"f3", n:"every morning and evening" }
+    ],
+
+    lab4_title: "④ Career Ladder Locator",
+    lab4_desc: "Enter your service years and what you have already done, and see which of the seven rungs you stand on and what the next one usually asks for.",
+    lab4_years: "Relevant years (internships and jobs; 0 is fine)",
+    lab4_exp_label: "What you have already done (tick)",
+    lab4_result: "Where you stand: {n}",
+    lab4_next: "The next rung, {n}, usually asks for:",
+    lab4_top: "You are at the top of the ladder. The next question is not promotion but which ladder to stand on.",
+    lab4_note: "This is a rough placement, not a verdict. The ladder is useful because it shows what the next cell wants, not because it prices you.",
+    lab4_exps: [
+      { k:"e1", n:"Had people reporting to you (a club or an ad-hoc project team counts)" },
+      { k:"e2", n:"Owned one complete product line or one complete project" },
+      { k:"e3", n:"Saw or owned profit-and-loss numbers" },
+      { k:"e4", n:"Led a cross-department coordination" },
+      { k:"e5", n:"Took part in signing off a specification" },
+      { k:"e6", n:"Presented formally to decision makers" }
+    ],
+    lab4_levels: [
+      { id:"L1", n:"PM Specialist", req:"Turning assigned material into something others can read, and working in at least one collaboration tool." },
+      { id:"L2", n:"PM Engineer", req:"Reading a specification well enough to raise questions, and finishing one module or one stage on your own." },
+      { id:"L3", n:"Junior PM", req:"Owning a small product or a sub-line end to end, and answering for schedule and scope." },
+      { id:"L4", n:"Senior PM", req:"Driving a specification to sign-off, holding a view on product profit and loss, and coordinating two or more departments." },
+      { id:"L5", n:"PM Director", req:"Leading a team, deciding what stays in and out of the product portfolio, and answering for annual targets." },
+      { id:"L6", n:"VP / SVP of PM", req:"Allocating resources and growing people across product lines, and answering for company-level strategy." },
+      { id:"L7", n:"CPO", req:"Defining which products the company builds and which it will not, and answering to the board for it." }
+    ],
+
+    mres_nav: "9. Learning Resources", mres_title: "This Week's Resources",
+    mres_desc: "Two required items. CSA is this week's main material, built specifically for this course; the second is an adjacent architecture that handles the same person over a longer horizon. The three optional items do not affect the worksheet, but a written summary counts as a Bonus Assignment. Among them, JDKS was W7's main material and is needed again in section 2, and PMA is worth revisiting when you pick the job keywords in section 6.",
+    res_req: [
+      { label: "CSA · Career Strategy Architecture (PMCS-EMI)", url: "https://lolopodcast.github.io/Career-Strategy-Architecture/", desc: "This week's main material, built specifically for this course. It cuts a career goal into items you can work through, and is the direct basis for sections 2, 3 and 6." },
+      { label: "5 Pairs of P-Principles for Future Life & Career", url: "https://lolopodcast.github.io/5-Pairs-of-P-Principles-for-Future-Life-Career/", desc: "An adjacent architecture. When the gap looks too wide, it handles the earlier question: whether this is the path you actually want." }
+    ],
+    res_opt: [
+      { label: "MTS · Motivation Transformation System v2", url: "https://lolopodcast.github.io/Motivation-Transformation-System/", desc: "The hardest part after writing the gap down is starting. This one covers the stretch between knowing and doing." },
+      { label: "JDKS · Reading a Job Description", url: "https://lolopodcast.github.io/JD-to-KSA/", desc: "W7's main material. Section 2 sends you back to its K / S / A mapping and extraction method." },
+      { label: "PMA · HW / SW Product Management", url: "https://lolopodcast.github.io/PM-PO-PL-PCC/", desc: "Read in W6. Revisit the PM / PjM boundary and the level ladder when choosing job keywords in section 6." }
+    ],
+
+    analytics_title: "Completion & Export",
+    analytics_desc: "The individual and group layers export separately. The individual file stays with you as a learning record; the group file is uploaded to Moodle by this week's compiler, and its section 6 cells are what you present next week.",
+    analytics_personal_title: "Individual export (sections 2, 3, 4 · not submitted)",
+    analytics_personal_desc: "Enter your name to export. This file stays with you; when you build your knowledge base in W10 you will select from it.",
+    analytics_group_title: "Group export (sections 1, 5, 6, 7 · submit to Moodle)",
+    analytics_group_desc: "Enter the group and this week's compiler to export. One CSV and one Markdown, uploaded to the Moodle assignment.",
+    analytics_group: "Group", analytics_dept: "Dept / Year", analytics_dept_ph: "e.g. IBS1",
+    analytics_id: "Student ID", analytics_id_ph: "e.g. 113212599",
+    analytics_name_en: "Name (English)", analytics_name_en_ph: "e.g. Shihmin Lo",
+    analytics_name_zh: "Name (Chinese)", analytics_name_zh_ph: "e.g. 王阿吉",
+    analytics_compiler: "This week's compiler", analytics_compiler_ph: "e.g. 王阿吉",
+    analytics_export_personal: "Export individual Markdown",
+    analytics_export_csv: "Export group CSV",
+    analytics_export_md: "Export group Markdown",
+    analytics_need_personal: "Enter your name first",
+    analytics_need_group: "Enter the group and this week's compiler first",
+    group_options: ["G1","G2","G3","G4","G5","G6","G7","G8","G9","G10","G11","G12","Others"],
+    analytics_pct_personal: "Individual completion", analytics_pct_group: "Group completion",
+    analytics_total_time: "Total time on worksheet", analytics_overall_acc: "Self-check accuracy",
+    analytics_sec: "s",
+    analytics_progress_title: "Completion by section",
+    analytics_wp_title: "Sections still incomplete",
+    analytics_wp_goto: "→ Go and fill it in",
+    sdl_title: "First, import your SDL knowledge-base snapshot",
+    sdl_desc: "This week's sequence is: read and take notes by hand without AI → run a Socratic session with the SDL learning partner → produce KB.md → import it here. Importing fills in your identity fields automatically and shows the key parts of your KB above each section. This worksheet is not asking you to think it through again; it turns what you already worked out into a format the group can compare.",
+    sdl_ph: "Paste the full KB.md produced by the SDL partner here (including the --- frontmatter --- at the top)",
+    sdl_parse: "Parse and import",
+    sdl_file: "Upload a file instead",
+    sdl_loaded: "✓ SDL KB imported",
+    sdl_clear: "Clear and re-import",
+    sdl_ok: "Imported. Your identity fields have been filled in.",
+    sdl_err_empty: "Nothing to parse — paste the full KB.md first.",
+    sdl_err_format: "Could not parse it. Check that this is the KB.md produced by the SDL partner (it should start with a --- frontmatter --- block and contain §1, §2 and similar sections).",
+    sdl_panel_title: "📖 Your SDL KB at a glance (for reference)",
+    sdl_panel_show: "Show",
+    sdl_panel_hide: "Hide",
+    sdl_s1: "§1 Learning summary",
+    sdl_s2: "§2 Knowledge synthesis",
+    sdl_s4: "§4 Student's own words",
+    sdl_s5: "§5 Open questions",
+    analytics_wp_personal_head: "Individual layer (yours to fill)",
+    analytics_wp_personal_done: "The individual layer is complete.",
+    analytics_wp_group_head: "Group layer (decided together in discussion)",
+    analytics_wp_group_note: "If you are not this week's compiler, 0% here is normal — it does not affect your individual export.",
+    analytics_wp_group_done: "The group layer is complete.",
+    analytics_wp_allpass: "All seven sections are complete. You are ready to export.",
+    analytics_wp_saved: "Your entries are saved automatically in this browser",
+    analytics_wp_clear: "🗑 Clear all",
+    analytics_wp_clear_confirm: "Clear every entry and all activity data? This cannot be undone — export first.",
+    analytics_wp_tts_intro: "The following sections are still incomplete.",
+    analytics_wp_tts_module: "{name}, {acc}% complete.",
+    analytics_wp_tts_allpass: "All seven sections are complete.",
+
+    date: "Version 2026.08.23",
+    copyright: "For Educational Use Only",
+    architect_label: "Architect:",
+    architect_url: "https://www.ibs.ncnu.edu.tw/index.php/faculty/tenured-professor/299-smlo"
+  }
+};
+
+/* ================= Field registry ================= */
+const FIELDS = {
+  1: ['g_group','g_date', ...MEMBER_IDX.flatMap(i => [`m_name_${i}`,`m_id_${i}`,`m_part_${i}`,`m_sec_${i}`])],
+  2: ['k_have','k_gap','s_have','s_gap','a_have','a_gap','gap_evidence','gap_ai_check'],
+  3: ['acct_104','acct_104_why','acct_li','acct_li_why','profile_gap','profile_plan','profile_evidence'],
+  4: [...[0,1,2,3,4].flatMap(i => [`t_term_${i}`,`t_mean_${i}`,`t_sent_${i}`]), ...[0,1,2].flatMap(i => [`p_word_${i}`,`p_hard_${i}`,`p_tip_${i}`])],
+  5: ['syn_focus_why','syn_common','syn_evidence','syn_case','syn_rule'],
+  6: ['tp_industry','tp_keywords','tp_levels','tp_ksa_focus','tp_sentence'],
+  7: ['pr_open','pr_question', ...MEMBER_IDX.map(i => `pr_point_${i}`)]
+};
+const CORE = {
+  1: ['g_group','g_date','m_name_0','m_part_0'],
+  2: ['k_have','k_gap','s_have','s_gap','a_have','a_gap','gap_evidence','gap_ai_check'],
+  3: ['acct_104','acct_li','profile_gap','profile_plan','profile_evidence'],
+  4: ['t_term_0','t_mean_0','t_term_1','t_mean_1','t_term_2','t_mean_2','t_term_3','t_mean_3','t_term_4','t_mean_4','p_word_0','p_word_1','p_word_2'],
+  5: ['syn_focus_why','syn_common','syn_evidence','syn_case','syn_rule'],
+  6: ['tp_industry','tp_keywords','tp_levels','tp_ksa_focus','tp_sentence'],
+  7: ['pr_open','pr_question','pr_point_0']
+};
+
+/* ================= UI atoms ================= */
+const H2 = ({ children, icon, number }) => (
+  <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-black text-[#004030] dark:text-[#D8C3A5] mb-4 flex items-center gap-3">
+    {icon && <span className="text-2xl ui-decoration">{icon}</span>}
+    {number !== undefined && <span>{number}.</span>}
+    <span>{children}</span>
+  </h2>
+);
+const Badge = ({ kind, t }) => (
+  <span className={`inline-block text-xs font-bold px-3 py-1 rounded-full mb-4 ${kind === 'P'
+    ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200'
+    : 'bg-[#D8C3A5]/30 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>
+    {kind === 'P' ? t.badge_personal : t.badge_group}
+  </span>
+);
+const Overview = ({ t, text }) => (
+  <div className="bg-[#004030]/5 dark:bg-[#D8C3A5]/5 rounded-xl p-5 border-l-4 border-[#D8C3A5]">
+    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-2">{t.overview_label}</h3>
+    <p>{text}</p>
+  </div>
+);
+const Highlights = ({ t, items }) => (
+  <div>
+    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.highlights_label}</h3>
+    <div className="flex flex-wrap gap-2">
+      {items.map((h,i) => <span key={i} className="px-3 py-1 bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5] rounded-full text-sm font-medium">{h}</span>)}
+    </div>
+  </div>
+);
+const DeepDive = ({ t, text }) => (
+  <div>
+    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.deep_dive_label}</h3>
+    <p className="p-4 bg-slate-100 dark:bg-slate-800 rounded-lg italic font-serif">{text}</p>
+  </div>
+);
+const Wrapup = ({ t, text }) => (
+  <div className="bg-slate-100 dark:bg-slate-800 rounded-xl p-5 flex gap-3 items-start">
+    <span className="text-[#004030] dark:text-[#D8C3A5] mt-0.5 shrink-0"><IconCheckCircle size={18}/></span>
+    <div>
+      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-1">{t.wrapup_label}</h3>
+      <p className="italic">{text}</p>
+    </div>
+  </div>
+);
+const inputCls = "w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 text-base focus:outline-none focus:ring-2 focus:ring-[#004030] dark:focus:ring-[#D8C3A5] transition";
+const Field = ({ id, label, hint, ph, rows, value, onChange, type }) => (
+  <div className="mb-5">
+    {label && <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{label}</label>}
+    {hint && <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 leading-relaxed">{hint}</p>}
+    {rows
+      ? <textarea rows={rows} className={inputCls} placeholder={ph} value={value||''} onChange={e => onChange(id, sanitizeText(e.target.value))} />
+      : <input type={type||'text'} className={inputCls} placeholder={ph} value={value||''} onChange={e => onChange(id, sanitizeText(e.target.value))} />}
+  </div>
+);
+const InfoInput = ({ id, label, ph, value, onChange, san }) => (
+  <div>
+    <label className="block text-xs font-bold text-slate-500 mb-1">{label}</label>
+    <input className={inputCls} placeholder={ph} value={value || ''} onChange={e => onChange(id, (san || sanitizeName)(e.target.value))} />
+  </div>
+);
+
+/* ================= SDL KB import ================= */
+const SEMESTER_DEFAULT = '1151';
+const WEEK_CODE = 'W08';
+const TOPIC_CAMEL = 'CareerStrategy';
+
+const parseSdlKb = (text) => {
+  try {
+    const t = String(text || '').replace(/\r\n/g, '\n').trim();
+    if (!t) return { ok: false, error: 'empty' };
+    const fm = t.match(/^---\n([\s\S]*?)\n---/);
+    const meta = {};
+    if (fm) {
+      fm[1].split('\n').forEach(line => {
+        if (/^\s/.test(line)) return;               // skip nested (sources / interaction)
+        const m = line.match(/^([A-Za-z_]+):\s*(.*)$/);
+        if (m) meta[m[1]] = m[2].replace(/^["']|["']$/g, '').trim();
+      });
+    }
+    const sections = {};
+    const parts = t.split(/^##\s*§/m);
+    parts.shift();
+    parts.forEach(part => {
+      const n = part.match(/^(\d)/);
+      if (!n) return;
+      sections['s' + n[1]] = part.replace(/^\d[^\n]*\n?/, '').trim();
+    });
+    const hasAny = Object.keys(meta).length > 0 || Object.keys(sections).length > 0;
+    if (!hasAny) return { ok: false, error: 'format' };
+    return { ok: true, meta, sections, raw: t };
+  } catch (e) { return { ok: false, error: 'format' }; }
+};
+
+const SdlImport = ({ t, sdl, onImport, onClear }) => {
+  const [text, setText] = useState('');
+  const [msg, setMsg] = useState(null);
+  const fileRef = useRef(null);
+  const doParse = (raw) => {
+    const r = parseSdlKb(raw);
+    if (!r.ok) { setMsg({ ok: false, text: r.error === 'empty' ? t.sdl_err_empty : t.sdl_err_format }); return; }
+    onImport(r);
+    setMsg({ ok: true, text: t.sdl_ok });
+    setText('');
+  };
+  const onFile = (e) => {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    const rd = new FileReader();
+    rd.onload = () => doParse(rd.result);
+    rd.readAsText(f);
+    e.target.value = '';
+  };
+  return (
+    <div className="rounded-xl border-2 border-sky-200 dark:border-sky-800/60 bg-sky-50/50 dark:bg-sky-900/10 p-5">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5]">{t.sdl_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-3 leading-relaxed">{t.sdl_desc}</p>
+      {sdl ? (
+        <div className="rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4">
+          <p className="text-sm font-bold text-green-700 dark:text-green-400">{t.sdl_loaded}</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 break-all">
+            {[sdl.meta.course, sdl.meta.semester, sdl.meta.week, sdl.meta.topic].filter(Boolean).join(' · ')}
+            {sdl.meta.student ? ' · ' + sdl.meta.student : ''}{sdl.meta.group ? ' · ' + sdl.meta.group : ''}
+          </p>
+          <button onClick={onClear} className="mt-3 px-3 py-1.5 text-xs border border-red-400 text-red-600 dark:text-red-400 rounded-lg">{t.sdl_clear}</button>
+        </div>
+      ) : (
+        <>
+          <textarea rows={4} className={inputCls} placeholder={t.sdl_ph} value={text} onChange={e => setText(e.target.value)} />
+          <div className="flex flex-wrap items-center gap-3 mt-3">
+            <button onClick={() => doParse(text)} className="px-4 py-2 text-sm bg-sky-700 dark:bg-sky-300 text-white dark:text-sky-950 font-bold rounded-lg">{t.sdl_parse}</button>
+            <button onClick={() => fileRef.current && fileRef.current.click()} className="px-4 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg">{t.sdl_file}</button>
+            <input ref={fileRef} type="file" accept=".md,.markdown,.txt" onChange={onFile} className="hidden" />
+          </div>
+        </>
+      )}
+      {msg && <p className={`text-xs mt-2 ${msg.ok ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>{msg.text}</p>}
+    </div>
+  );
+};
+
+const SdlPanel = ({ t, sdl }) => {
+  const [open, setOpen] = useState(false);
+  if (!sdl) return null;
+  const rows = [
+    { k: 's1', label: t.sdl_s1 }, { k: 's2', label: t.sdl_s2 },
+    { k: 's4', label: t.sdl_s4 }, { k: 's5', label: t.sdl_s5 }
+  ].filter(r => sdl.sections[r.k]);
+  if (!rows.length) return null;
+  return (
+    <div className="rounded-xl border border-sky-200 dark:border-sky-800/60 bg-sky-50/40 dark:bg-sky-900/10">
+      <button onClick={() => setOpen(o => !o)} className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left">
+        <span className="text-sm font-bold text-sky-800 dark:text-sky-300">{t.sdl_panel_title}</span>
+        <span className="text-xs text-sky-700 dark:text-sky-400 shrink-0">{open ? t.sdl_panel_hide : t.sdl_panel_show}</span>
+      </button>
+      {open && (
+        <div className="px-4 pb-4 space-y-4 max-h-96 overflow-y-auto">
+          {rows.map(r => (
+            <div key={r.k}>
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">{r.label}</p>
+              <pre className="text-xs whitespace-pre-wrap font-sans text-slate-700 dark:text-slate-300 leading-relaxed">{sdl.sections[r.k]}</pre>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const LinkCard = ({label, url, desc}) => (
+  <a href={url} target="_blank" rel="noopener noreferrer"
+    className="block bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5] hover:shadow-md transition-all group">
+    <span className="font-bold font-serif text-sm text-[#004030] dark:text-[#D8C3A5] group-hover:underline">{label}</span>
+    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mt-1">{desc}</p>
+  </a>
+);
+
+/* ================= FlipCardDeck ================= */
+const FlipCardDeck = ({ terms, t, moduleId, onCardRead }) => {
+  const [groupIdx, setGroupIdx] = useState(0);
+  const [flipped, setFlipped] = useState({});
+  const [readSet, setReadSet] = useState(new Set());
+  const [shownSet, setShownSet] = useState(new Set());
+  const [shuffledOrder] = useState(() => [...Array(terms.length).keys()].sort(() => Math.random() - 0.5));
+  const groupSize = 2;
+  const totalGroups = Math.ceil(terms.length / groupSize);
+  const currentCardIndices = shuffledOrder.slice(groupIdx*groupSize, groupIdx*groupSize + groupSize);
+  useEffect(() => {
+    const ns = new Set(shownSet); currentCardIndices.forEach(i => ns.add(i));
+    if (ns.size !== shownSet.size) setShownSet(ns);
+  }, [groupIdx]);
+  const handleFlip = (i) => {
+    setFlipped(f => ({...f, [i]: !f[i]}));
+    if (!readSet.has(i)) { const nr = new Set(readSet); nr.add(i); setReadSet(nr); onCardRead && onCardRead(moduleId, nr.size, shownSet.size, terms.length); }
+  };
+  const statusText = t.flip_status.replace('{read}', readSet.size).replace('{shown}', shownSet.size).replace('{total}', terms.length);
+  return (
+    <div className="mt-8">
+      <h3 className="text-lg font-bold uppercase tracking-wider text-slate-500 mb-2">{t.key_terms}</h3>
+      <p className="text-sm text-slate-400 mb-4">{statusText}</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {currentCardIndices.map(i => (
+          <div key={i} className="perspective cursor-pointer h-44" onClick={() => handleFlip(i)}>
+            <div className={`transform-style-3d relative w-full h-full transition-transform duration-500 ${flipped[i] ? 'rotate-y-180' : ''}`}>
+              <div className="backface-hidden absolute inset-0 bg-white dark:bg-slate-800 rounded-xl p-4 flex flex-col items-center justify-center border border-slate-200 dark:border-slate-700 shadow-sm">
+                <p className="font-serif font-bold text-center text-[#004030] dark:text-[#D8C3A5]">{terms[i].front}</p>
+                <p className="text-xs text-slate-400 mt-2">{t.flip_prompt}</p>
+              </div>
+              <div className="backface-hidden rotate-y-180 absolute inset-0 bg-[#004030] dark:bg-slate-700 rounded-xl p-4 flex items-center justify-center overflow-y-auto">
+                <p className="text-sm text-center text-[#D8C3A5] dark:text-slate-200 leading-relaxed">{terms[i].back}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="flex items-center gap-3 mt-4">
+        <button onClick={() => { setGroupIdx(0); setFlipped({}); }} className="px-4 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700">{t.flip_retry}</button>
+        <button onClick={() => groupIdx < totalGroups-1 && setGroupIdx(groupIdx+1)} disabled={groupIdx >= totalGroups-1}
+          className="px-4 py-2 text-sm bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg disabled:opacity-40">{t.flip_next}</button>
+      </div>
+    </div>
+  );
+};
+
+/* ================= ModuleQuiz ================= */
+const ModuleQuiz = ({ questions, t, moduleId, onQuizSubmit }) => {
+  const [selected, setSelected] = useState({});
+  const [submitted, setSubmitted] = useState({});
+  const [groupIdx, setGroupIdx] = useState(0);
+  const groupSize = 2;
+  const [quizIndices] = useState(() => [...Array(questions.length).keys()].sort(() => Math.random() - 0.5));
+  const totalGroups = Math.ceil(quizIndices.length / groupSize);
+  const [shuffledMaps] = useState(() => quizIndices.map(qi => [...Array(questions[qi].opts.length).keys()].sort(() => Math.random() - 0.5)));
+  const computeCorrect = () => { let c = 0; quizIndices.forEach((qIdx, qi) => { if (selected[qi] !== undefined && shuffledMaps[qi][selected[qi]] === _d(questions[qIdx].ans)) c++; }); return c; };
+  const statusText = t.quiz_status.replace('{correct}', computeCorrect()).replace('{answered}', Object.keys(selected).length).replace('{total}', quizIndices.length);
+  const currentStart = groupIdx * groupSize;
+  const currentIndices = quizIndices.slice(currentStart, currentStart + groupSize);
+  const handleGroupSubmit = () => {
+    if (!currentIndices.every((_, i) => selected[currentStart+i] !== undefined)) return;
+    setSubmitted(s => ({...s, [groupIdx]: true}));
+    if (groupIdx === totalGroups - 1 || Object.keys(submitted).length + 1 === totalGroups) {
+      const wrong = []; let correct = 0;
+      quizIndices.forEach((qIdx, qi) => {
+        if (selected[qi] === undefined) return;
+        if (shuffledMaps[qi][selected[qi]] === _d(questions[qIdx].ans)) correct++; else wrong.push(questions[qIdx].q);
+      });
+      onQuizSubmit(moduleId, correct, quizIndices.length, wrong);
+    }
+  };
+  return (
+    <div className="mt-8 bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="text-lg font-bold font-serif text-[#004030] dark:text-[#D8C3A5] mb-2">{t.quiz_title}</h3>
+      <p className="text-sm text-slate-400 mb-6">{statusText}</p>
+      {currentIndices.map((qIdx, localI) => {
+        const qi = currentStart + localI, q = questions[qIdx], sMap = shuffledMaps[qi], isSub = !!submitted[groupIdx];
+        return (
+          <div key={qIdx} className="mb-6">
+            <p className="font-bold mb-3">{qi+1}. {q.q}</p>
+            <div className="space-y-2">
+              {sMap.map((origIdx, dIdx) => {
+                const isCorrect = origIdx === _d(q.ans), isSel = selected[qi] === dIdx;
+                return (
+                  <button key={dIdx} onClick={() => !isSub && setSelected(s => ({...s, [qi]: dIdx}))}
+                    className={`w-full text-left px-4 py-3 rounded-lg border transition-all text-sm ${isSub
+                      ? isCorrect ? 'bg-green-100 border-green-500 dark:bg-green-900/30'
+                        : isSel ? 'bg-red-100 border-red-400 dark:bg-red-900/30' : 'border-slate-200 dark:border-slate-700'
+                      : isSel ? 'border-[#004030] dark:border-[#D8C3A5] bg-[#004030]/5' : 'border-slate-200 dark:border-slate-700 hover:border-slate-400'}`}>
+                    {q.opts[origIdx]}
+                  </button>
+                );
+              })}
+            </div>
+            {isSub && (
+              <p className={`mt-2 text-sm italic ${shuffledMaps[qi][selected[qi]] === _d(q.ans) ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>
+                {shuffledMaps[qi][selected[qi]] === _d(q.ans) ? `✓ ${t.correct}` : `✗ ${t.incorrect}`} — {t.explanation}：{q.exp}
+              </p>
+            )}
+          </div>
+        );
+      })}
+      <div className="flex items-center gap-3 flex-wrap">
+        {!submitted[groupIdx]
+          ? <button onClick={handleGroupSubmit} disabled={!currentIndices.every((_,i) => selected[currentStart+i] !== undefined)}
+              className="px-6 py-2 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg disabled:opacity-40">{t.submit}</button>
+          : <>
+              {groupIdx < totalGroups-1 && <button onClick={() => setGroupIdx(groupIdx+1)} className="px-6 py-2 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg">{t.quiz_next}</button>}
+              <button onClick={() => { setGroupIdx(0); setSelected({}); setSubmitted({}); }} className="px-6 py-2 border border-[#004030] dark:border-[#D8C3A5] text-[#004030] dark:text-[#D8C3A5] font-bold rounded-lg">{t.quiz_retry}</button>
+            </>}
+      </div>
+    </div>
+  );
+};
+
+/* ================= K/S/A gap radar (section 2) ================= */
+const KSA_COLORS = { K:"#5B5BD6", S:"#0E9F6E", A:"#D97706" };
+const radarPts = (cx, cy, R, frac) => KSA_IDS.map((d, i) => {
+  const ang = (-90 + i * 120) * Math.PI / 180;
+  const r = R * frac[d];
+  return `${(cx + r * Math.cos(ang)).toFixed(1)},${(cy + r * Math.sin(ang)).toFixed(1)}`;
+}).join(' ');
+
+const GapRadar = ({ t, scores }) => {
+  const cx = 175, cy = 165, R = 108;
+  const frac = {}; KSA_IDS.forEach(d => { frac[d] = 0.16 + 0.42 * (scores[d] || 0); });
+  const outer = {}; KSA_IDS.forEach(d => { outer[d] = 1; });
+  const worst = KSA_IDS.reduce((a, b) => (scores[a] <= scores[b] ? a : b));
+  const allDone = KSA_IDS.every(d => scores[d] >= 2);
+  const labelPos = KSA_IDS.map((d, i) => {
+    const ang = (-90 + i * 120) * Math.PI / 180;
+    return { d, x: cx + (R + 30) * Math.cos(ang), y: cy + (R + 30) * Math.sin(ang) + 4 };
+  });
+  return (
+    <div className="w-full overflow-x-auto" onContextMenu={e => { e.preventDefault(); window.showCopyrightToast && window.showCopyrightToast(); }}>
+      <svg viewBox="0 0 350 330" className="w-full max-w-md mx-auto" draggable="false" role="img" aria-label={t.m2_svg_cap}>
+        {[0.33, 0.66, 1].map((k, i) => (
+          <polygon key={i} points={radarPts(cx, cy, R * k, outer)} fill="none" stroke="#94a3b8" strokeWidth="1" strokeDasharray={i === 2 ? "0" : "4 4"} opacity={i === 2 ? 0.9 : 0.45}/>
+        ))}
+        {KSA_IDS.map((d, i) => {
+          const ang = (-90 + i * 120) * Math.PI / 180;
+          return <line key={d} x1={cx} y1={cy} x2={cx + R * Math.cos(ang)} y2={cy + R * Math.sin(ang)} stroke="#94a3b8" strokeWidth="1" opacity="0.5"/>;
+        })}
+        <polygon points={radarPts(cx, cy, R, frac)} fill="#004030" fillOpacity="0.28" stroke="#004030" strokeWidth="2.5"/>
+        {KSA_IDS.map((d, i) => {
+          const ang = (-90 + i * 120) * Math.PI / 180;
+          return <circle key={d} cx={cx + R * frac[d] * Math.cos(ang)} cy={cy + R * frac[d] * Math.sin(ang)} r="5" fill={KSA_COLORS[d]}/>;
+        })}
+        {labelPos.map(p => (
+          <text key={p.d} x={p.x} y={p.y} fontSize="15" fontWeight="700" textAnchor="middle" fill={KSA_COLORS[p.d]} fontFamily="Inter, sans-serif">{p.d}</text>
+        ))}
+        <g fontFamily="Inter, sans-serif" fontSize="10.5" fill="#64748b">
+          <line x1="24" y1="308" x2="46" y2="308" stroke="#94a3b8" strokeWidth="1.5"/>
+          <text x="52" y="312">{t.m2_svg_legend_req}</text>
+          <line x1="180" y1="308" x2="202" y2="308" stroke="#004030" strokeWidth="2.5"/>
+          <text x="208" y="312">{t.m2_svg_legend_now}</text>
+        </g>
+      </svg>
+      <p className={`text-center text-sm font-bold mt-1 ${allDone ? 'text-green-600 dark:text-green-400' : 'text-amber-600 dark:text-amber-400'}`}>
+        {allDone ? t.m2_svg_done : t.m2_svg_worst.replace('{d}', worst)}
+      </p>
+      <p className="text-center text-xs text-slate-500 dark:text-slate-400 mt-2 italic">{t.m2_svg_cap}</p>
+    </div>
+  );
+};
+
+/* ================= Labs ================= */
+const LabGapRadar = ({ t, state, setState, onTouch }) => {
+  const v = state || {};
+  const get = (d, k) => { const x = v[`${d}_${k}`]; return x === undefined ? (k === 'goal' ? 7 : 3) : x; };
+  const set = (d, k, val) => { setState({ ...v, [`${d}_${k}`]: val }); onTouch && onTouch(); };
+  const cx = 165, cy = 155, R = 100;
+  const now = {}, goal = {};
+  KSA_IDS.forEach(d => { now[d] = get(d,'now') / 10; goal[d] = get(d,'goal') / 10; });
+  let worst = null, worstN = 0;
+  KSA_IDS.forEach(d => { const g = get(d,'goal') - get(d,'now'); if (g > worstN) { worstN = g; worst = d; } });
+  const nameOf = d => (t.ksa.find(x => x.id === d) || {}).name || d;
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab1_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">{t.lab1_desc}</p>
+      <p className="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">{t.lab1_hint}</p>
+      <div className="overflow-x-auto">
+        <svg viewBox="0 0 330 310" className="w-full max-w-sm mx-auto" role="img" aria-label={t.lab1_title}>
+          {[0.25, 0.5, 0.75, 1].map((k, i) => (
+            <polygon key={i} points={radarPts(cx, cy, R * k, {K:1,S:1,A:1})} fill="none" stroke="#94a3b8" strokeWidth="1" opacity={i === 3 ? 0.8 : 0.35}/>
+          ))}
+          {KSA_IDS.map((d, i) => {
+            const ang = (-90 + i * 120) * Math.PI / 180;
+            return <line key={d} x1={cx} y1={cy} x2={cx + R * Math.cos(ang)} y2={cy + R * Math.sin(ang)} stroke="#94a3b8" strokeWidth="1" opacity="0.45"/>;
+          })}
+          <polygon points={radarPts(cx, cy, R, goal)} fill="#D8C3A5" fillOpacity="0.30" stroke="#B08D57" strokeWidth="2" strokeDasharray="6 4"/>
+          <polygon points={radarPts(cx, cy, R, now)} fill="#004030" fillOpacity="0.32" stroke="#004030" strokeWidth="2.5"/>
+          {KSA_IDS.map((d, i) => {
+            const ang = (-90 + i * 120) * Math.PI / 180;
+            return <text key={d} x={cx + (R + 24) * Math.cos(ang)} y={cy + (R + 24) * Math.sin(ang) + 5} fontSize="15" fontWeight="700" textAnchor="middle" fill={KSA_COLORS[d]} fontFamily="Inter, sans-serif">{d}</text>;
+          })}
+          <g fontFamily="Inter, sans-serif" fontSize="10.5" fill="#64748b">
+            <line x1="20" y1="292" x2="42" y2="292" stroke="#004030" strokeWidth="2.5"/>
+            <text x="48" y="296">{t.lab1_legend_now}</text>
+            <line x1="160" y1="292" x2="182" y2="292" stroke="#B08D57" strokeWidth="2" strokeDasharray="6 4"/>
+            <text x="188" y="296">{t.lab1_legend_goal}</text>
+          </g>
+        </svg>
+      </div>
+      <div className="space-y-4 mt-4">
+        {t.ksa.map(f => (
+          <div key={f.id} className="border-t border-slate-100 dark:border-slate-700 pt-3">
+            <p className="text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-2">{f.name}</p>
+            {['now','goal'].map(k => (
+              <div key={k} className="flex items-center gap-3 mb-1.5">
+                <span className="text-xs w-12 shrink-0 text-slate-500">{k === 'now' ? t.lab1_now : t.lab1_goal}</span>
+                <input type="range" min="0" max="10" step="1" value={get(f.id, k)} onChange={e => set(f.id, k, parseInt(e.target.value, 10))}
+                  className="flex-1 accent-[#004030] dark:accent-[#D8C3A5]" />
+                <span className="text-xs font-bold w-6 text-right shrink-0">{get(f.id, k)}</span>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+      <div className="mt-4 p-4 rounded-lg bg-slate-50 dark:bg-slate-900/50">
+        {worst
+          ? <p className="font-bold text-amber-700 dark:text-amber-300">{t.lab1_gap.replace('{d}', nameOf(worst)).replace('{n}', worstN)}</p>
+          : <p className="font-bold text-green-600 dark:text-green-400">{t.lab1_none}</p>}
+      </div>
+    </div>
+  );
+};
+
+const LabResumeMeter = ({ t, state, setState, onTouch }) => {
+  const v = state || {};
+  const toggle = (k) => { setState({ ...v, [k]: !v[k] }); onTouch && onTouch(); };
+  const items = t.lab2_items;
+  const doneN = items.filter(it => v[it.k]).length;
+  const totalW = items.reduce((s, it) => s + it.w, 0);
+  const gotW = items.filter(it => v[it.k]).reduce((s, it) => s + it.w, 0);
+  const pct = Math.round(gotW / totalW * 100);
+  const top = items.filter(it => !v[it.k]).sort((a, b) => b.w - a.w).slice(0, 3);
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab2_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.lab2_desc}</p>
+      <div className="space-y-1.5">
+        {items.map(it => (
+          <label key={it.k} className="flex items-center justify-between gap-3 p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 cursor-pointer hover:border-[#004030] dark:hover:border-[#D8C3A5] transition">
+            <span className="flex items-center gap-3 min-w-0">
+              <input type="checkbox" className="w-4 h-4 accent-[#004030] dark:accent-[#D8C3A5] shrink-0" checked={!!v[it.k]} onChange={() => toggle(it.k)} />
+              <span className="text-sm">{it.n}</span>
+            </span>
+            <span className="text-xs text-slate-400 shrink-0">{it.w}</span>
+          </label>
+        ))}
+      </div>
+      <div className="mt-4">
+        <div className="h-3 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+          <div className={`h-full transition-all ${pct === 100 ? 'bg-green-500' : 'bg-[#004030] dark:bg-[#D8C3A5]'}`} style={{width: pct + '%'}}></div>
+        </div>
+        <p className="font-bold mt-3">{t.lab2_result.replace('{n}', doneN).replace('{t}', items.length).replace('{p}', pct)}</p>
+        {top.length > 0
+          ? <>
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mt-3 mb-1">{t.lab2_top}</p>
+              <ul className="text-sm space-y-1">{top.map(it => <li key={it.k} className="text-amber-700 dark:text-amber-300">· {it.n}</li>)}</ul>
+            </>
+          : <p className="text-sm text-green-600 dark:text-green-400 mt-2">{t.lab2_full}</p>}
+      </div>
+    </div>
+  );
+};
+
+const LabSentenceGen = ({ t, state, setState, onTouch, lang }) => {
+  const v = state || {};
+  const [copied, setCopied] = useState(false);
+  const set = (k, val) => { setState({ ...v, [k]: val }); setCopied(false); onTouch && onTouch(); };
+  const nameIn = (arr, k) => { const x = arr.find(o => o.k === k); return x ? x.n : ''; };
+  const ready = !!(v.reader && v.ind && v.role && v.facet && v.freq);
+  const sentence = (() => {
+    if (!ready) return '';
+    const reader = nameIn(t.lab3_readers, v.reader);
+    const ind = nameIn(t.lab3_inds, v.ind);
+    const role = nameIn(t.lab3_roles, v.role);
+    const facet = nameIn(t.lab3_facets, v.facet);
+    const freq = nameIn(t.lab3_freqs, v.freq);
+    if (lang === 'zh') {
+      return `我希望${freq}知道，在 ${ind} 的 ${role} 職缺裡，昨天新增或改動了哪些 ${facet}，並且用 ${reader} 看得懂的話，一句話說清楚它跟前一天差在哪裡。`;
+    }
+    return `${freq.charAt(0).toUpperCase() + freq.slice(1)} I want to know which ${facet} appeared or changed yesterday in postings from ${role} in ${ind}, explained in one line that ${reader} can follow, including what is different from the day before.`;
+  })();
+  const doCopy = () => {
+    if (!sentence) return;
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(sentence); }
+      else {
+        const ta = document.createElement('textarea');
+        ta.value = sentence; document.body.appendChild(ta); ta.select();
+        document.execCommand('copy'); document.body.removeChild(ta);
+      }
+      setCopied(true); setTimeout(() => setCopied(false), 1800);
+    } catch (e) {}
+    onTouch && onTouch();
+  };
+  const Row = ({ label, k, opts }) => (
+    <div>
+      <label className="block text-xs font-bold text-slate-500 mb-1">{label}</label>
+      <select className={inputCls} value={v[k] || ''} onChange={e => set(k, e.target.value)}>
+        <option value="">{t.select_ph}</option>
+        {opts.map(o => <option key={o.k} value={o.k}>{o.n}</option>)}
+      </select>
+    </div>
+  );
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab3_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.lab3_desc}</p>
+      <div className="space-y-3">
+        <Row label={t.lab3_l_reader} k="reader" opts={t.lab3_readers} />
+        <Row label={t.lab3_l_ind} k="ind" opts={t.lab3_inds} />
+        <Row label={t.lab3_l_role} k="role" opts={t.lab3_roles} />
+        <Row label={t.lab3_l_facet} k="facet" opts={t.lab3_facets} />
+        <Row label={t.lab3_l_freq} k="freq" opts={t.lab3_freqs} />
+      </div>
+      <div className="mt-5">
+        <div className="flex items-center justify-between gap-3 mb-2">
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-500">{t.lab3_out_label}</p>
+          <button onClick={doCopy} disabled={!sentence} className="px-3 py-1.5 text-xs bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg disabled:opacity-40 shrink-0">{copied ? t.lab3_copied : t.lab3_copy}</button>
+        </div>
+        <p className="text-sm bg-slate-50 dark:bg-slate-900/50 rounded-lg p-3 leading-relaxed text-slate-700 dark:text-slate-300 min-h-[4rem]">{sentence || t.lab3_empty}</p>
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 italic">{t.lab3_note}</p>
+      </div>
+    </div>
+  );
+};
+
+const LabLadder = ({ t, state, setState, onTouch }) => {
+  const v = state || {};
+  const years = v.years === undefined ? '' : v.years;
+  const yrs = parseFloat(years || '0') || 0;
+  const setYears = (val) => { setState({ ...v, years: val }); onTouch && onTouch(); };
+  const toggle = (k) => { setState({ ...v, [k]: !v[k] }); onTouch && onTouch(); };
+  const checked = t.lab4_exps.filter(e => v[e.k]).length;
+  const base = yrs < 1 ? 0 : yrs < 3 ? 1 : yrs < 5 ? 2 : yrs < 8 ? 3 : yrs < 12 ? 4 : yrs < 18 ? 5 : 6;
+  const idx = Math.min(6, base + Math.floor(checked / 2));
+  const cur = t.lab4_levels[idx];
+  const next = idx < 6 ? t.lab4_levels[idx + 1] : null;
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab4_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.lab4_desc}</p>
+      <div className="mb-4">
+        <label className="block text-xs font-bold text-slate-500 mb-1">{t.lab4_years}</label>
+        <input className={inputCls} type="number" min="0" max="50" step="0.5" value={years} onChange={e => setYears(e.target.value.replace(/[^0-9.]/g,'').slice(0,4))} />
+      </div>
+      <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">{t.lab4_exp_label}</p>
+      <div className="space-y-1.5">
+        {t.lab4_exps.map(e => (
+          <label key={e.k} className="flex items-start gap-2.5 p-2 rounded-lg border border-slate-200 dark:border-slate-700 cursor-pointer hover:border-[#004030] dark:hover:border-[#D8C3A5] transition">
+            <input type="checkbox" className="w-4 h-4 mt-0.5 accent-[#004030] dark:accent-[#D8C3A5] shrink-0" checked={!!v[e.k]} onChange={() => toggle(e.k)} />
+            <span className="text-xs leading-relaxed">{e.n}</span>
+          </label>
+        ))}
+      </div>
+      <div className="mt-5 space-y-1">
+        {t.lab4_levels.map((lv, i) => (
+          <div key={lv.id} className={`flex items-center gap-3 px-3 py-2 rounded-lg border text-sm transition ${i === idx
+            ? 'bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] border-transparent font-bold'
+            : i < idx ? 'border-slate-200 dark:border-slate-700 opacity-55' : 'border-slate-200 dark:border-slate-700'}`}
+            style={{ marginLeft: (i * 6) + 'px' }}>
+            <span className="text-xs font-bold w-6 shrink-0">{i + 1}</span>
+            <span className="truncate">{lv.n}</span>
+          </div>
+        ))}
+      </div>
+      <div className="mt-4 p-4 rounded-lg bg-slate-50 dark:bg-slate-900/50">
+        <p className="font-bold text-[#004030] dark:text-[#D8C3A5]">{t.lab4_result.replace('{n}', cur.n)}</p>
+        {next
+          ? <>
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mt-3 mb-1">{t.lab4_next.replace('{n}', next.n)}</p>
+              <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">{next.req}</p>
+            </>
+          : <p className="text-sm text-amber-700 dark:text-amber-300 mt-2">{t.lab4_top}</p>}
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-3 italic">{t.lab4_note}</p>
+      </div>
+    </div>
+  );
+};
+
+/* ================= App ================= */
+function App() {
+  const LS_ANS = 'PMCS_W08_answers';
+  const LS_ANA = 'PMCS_W08_analytics';
+  const LS_STU = 'PMCS_W08_student';
+  const LS_LAB = 'PMCS_W08_lab';
+  const loadLS = (k, fb) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : fb; } catch { return fb; } };
+
+  const [lang, setLang] = useState('en');
+  const [isDark, setIsDark] = useState(true);
+  const [module, setModule] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [ttsState, setTtsState] = useState('idle');
+  const [answers, setAnswers] = useState(() => loadLS(LS_ANS, {}));
+  const [focus, setFocus] = useState(() => loadLS(LS_ANS + '_focus', {}));
+  const [memberCount, setMemberCount] = useState(() => loadLS(LS_ANS + '_mc', DEFAULT_MEMBERS));
+  const [sdl, setSdl] = useState(() => loadLS(LS_ANS + '_sdl', null));
+  const [lab, setLab] = useState(() => loadLS(LS_LAB, {}));
+  const [labNonce, setLabNonce] = useState(0);
+  const [studentInfo, setStudentInfo] = useState(() => loadLS(LS_STU, { group:'', dept:'', id:'', nameEn:'', nameZh:'', compiler:'' }));
+  const [analytics, setAnalytics] = useState(() => loadLS(LS_ANA, {
+    time: Array(TOTAL).fill(0), clicks: Array(TOTAL).fill(0),
+    quizCorrect: Array(TOTAL).fill(0), quizTotal: Array(TOTAL).fill(0),
+    cardsRead: Array(TOTAL).fill(0), cardsTotal: Array(TOTAL).fill(0), wrongTopics: {}
+  }));
+  const menuRef = useRef(null);
+  const t = dict[lang];
+
+  useEffect(() => { document.documentElement.classList.toggle('dark', isDark); }, [isDark]);
+  useEffect(() => { try { localStorage.setItem(LS_ANS, JSON.stringify(answers)); } catch {} }, [answers]);
+  useEffect(() => { try { localStorage.setItem(LS_ANS + '_focus', JSON.stringify(focus)); } catch {} }, [focus]);
+  useEffect(() => { try { localStorage.setItem(LS_ANS + '_mc', JSON.stringify(memberCount)); } catch {} }, [memberCount]);
+  useEffect(() => { try { sdl ? localStorage.setItem(LS_ANS + '_sdl', JSON.stringify(sdl)) : localStorage.removeItem(LS_ANS + '_sdl'); } catch {} }, [sdl]);
+  useEffect(() => { try { localStorage.setItem(LS_LAB, JSON.stringify(lab)); } catch {} }, [lab]);
+  useEffect(() => { try { localStorage.setItem(LS_ANA, JSON.stringify(analytics)); } catch {} }, [analytics]);
+  useEffect(() => { try { localStorage.setItem(LS_STU, JSON.stringify(studentInfo)); } catch {} }, [studentInfo]);
+  useEffect(() => {
+    const id = setInterval(() => setAnalytics(a => { const ti = [...a.time]; ti[module] += 5; return {...a, time: ti}; }), 5000);
+    return () => clearInterval(id);
+  }, [module]);
+  useEffect(() => {
+    const onDoc = e => { if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false); };
+    document.addEventListener('mousedown', onDoc);
+    return () => document.removeEventListener('mousedown', onDoc);
+  }, []);
+
+  const importSdl = (r) => {
+    setSdl({ meta: r.meta, sections: r.sections });
+    setStudentInfo(st => ({
+      ...st,
+      group: r.meta.group || st.group,
+      id: (r.meta.student_id || st.id || '').replace(/[^0-9]/g, '').slice(0, 12),
+      nameEn: /^[\x00-\x7F]+$/.test(r.meta.student || '') ? (r.meta.student || st.nameEn) : st.nameEn,
+      nameZh: /^[\x00-\x7F]+$/.test(r.meta.student || '') ? st.nameZh : (r.meta.student || st.nameZh)
+    }));
+    if (r.meta.group) setA('g_group', r.meta.group);
+    if (r.meta.date) setA('g_date', r.meta.date);
+  };
+  const sdlFileName = () => {
+    if (!sdl) return '';
+    const m = sdl.meta;
+    const who = m.student || 'NA';
+    return `${m.course || 'PMCS'}_${m.semester || SEMESTER_DEFAULT}${m.week || WEEK_CODE}_${(m.topic || TOPIC_CAMEL).replace(/\s+/g,'')}_${m.group || 'NA'}-${who}_${(m.date || '').replace(/-/g,'')}.md`;
+  };
+  const bump = () => setAnalytics(a => { const c = [...a.clicks]; c[module] += 1; return {...a, clicks: c}; });
+  const setA = (id, val) => setAnswers(s => ({...s, [id]: val}));
+  const setLabPart = (k) => (val) => setLab(s => ({...s, [k]: val}));
+  const handleQuizSubmit = (mid, correct, total, wrong) => setAnalytics(a => {
+    const qc = [...a.quizCorrect], qt = [...a.quizTotal];
+    qc[mid] = correct; qt[mid] = total;
+    return {...a, quizCorrect: qc, quizTotal: qt, wrongTopics: {...a.wrongTopics, [mid]: wrong || []}};
+  });
+  const handleCardRead = (mid, r, s, tot) => setAnalytics(a => {
+    const cr = [...a.cardsRead], ct = [...a.cardsTotal]; cr[mid] = r; ct[mid] = tot;
+    return {...a, cardsRead: cr, cardsTotal: ct};
+  });
+
+  const filled = id => { const v = answers[id]; return v !== undefined && String(v).trim() !== ''; };
+  const sectionPct = n => { const c = CORE[n]; return c && c.length ? Math.round(c.filter(filled).length / c.length * 100) : 100; };
+  const pctPersonal = Math.round(PERSONAL_SECTIONS.reduce((s,n) => s + sectionPct(n), 0) / PERSONAL_SECTIONS.length);
+  const pctGroup = Math.round(GROUP_SECTIONS.reduce((s,n) => s + sectionPct(n), 0) / GROUP_SECTIONS.length);
+  const acctLabel = (v) => { const o = t.acct_opts.find(x => x.v === v); return o ? o.n : ''; };
+  const acctLabelZh = (v) => { const o = dict.zh.acct_opts.find(x => x.v === v); return o ? o.n : ''; };
+  const ksaName = (id) => { const o = t.ksa.find(x => x.id === id); return o ? o.name : ''; };
+  const ksaNameZh = (id) => { const o = dict.zh.ksa.find(x => x.id === id); return o ? o.name : ''; };
+  const aspectNameZh = (id) => { const o = dict.zh.aspects.find(x => x.id === id); return o ? o.name : id; };
+
+  const modulesList = [
+    { id:0, num:'0', icon:'📋', title:t.m0_nav, kind:null },
+    { id:1, num:'1', icon:'👥', title:t.m1_nav, kind:'G' },
+    { id:2, num:'2', icon:'📐', title:t.m2_nav, kind:'P' },
+    { id:3, num:'3', icon:'🗂️', title:t.m3_nav, kind:'P' },
+    { id:4, num:'4', icon:'🗣️', title:t.m4_nav, kind:'P' },
+    { id:5, num:'5', icon:'🔍', title:t.m5_nav, kind:'G' },
+    { id:6, num:'6', icon:'🎯', title:t.m6_nav, kind:'G' },
+    { id:7, num:'7', icon:'🎤', title:t.m7_nav, kind:'G' },
+    { id:IDX_LAB, num:String(IDX_LAB), icon:'⚡', title:t.mlab_nav, kind:null },
+    { id:IDX_RES, num:String(IDX_RES), icon:'🌐', title:t.mres_nav, kind:null },
+    { id:IDX_ANA, num:String(IDX_ANA), icon:'📊', title:t.analytics_title, kind:null }
+  ];
+  const go = m => { setModule(m); setMenuOpen(false); window.scrollTo({top:0,behavior:'smooth'}); };
+
+  /* ---------- TTS ---------- */
+  const handleTTS = (action) => {
+    if (!('speechSynthesis' in window)) return;
+    if (action === 'stop') { speechSynthesis.cancel(); setTtsState('idle'); return; }
+    if (action === 'pause') { speechSynthesis.pause(); setTtsState('paused'); return; }
+    if (ttsState === 'paused') { speechSynthesis.resume(); setTtsState('playing'); return; }
+    speechSynthesis.cancel();
+    const sep = lang === 'zh' ? '。 ' : '. ';
+    let texts = [];
+    if (module === 0) {
+      texts = [t.m0_title, t.m0_intro, t.m0_why, t.m0_why_desc, ...t.m0_stats.map(s => `${s.label}: ${s.val}`), ...t.m0_modules.map(m => `${m.title}. ${m.desc}`)];
+    } else if (module >= 1 && module <= NUM_LEARN) {
+      const k = `m${module}`;
+      texts = [t[`${k}_title`], t[`${k}_overview`], ...(t[`${k}_highlights`]||[]), t[`${k}_deep`], t[`${k}_wrapup`]];
+      if (module === 2) texts.push(...t.ksa.map(d => `${d.name}. ${d.q} ${d.src}`), ...t.m2_terms.flatMap(x => [x.front, x.back]));
+      if (module === 6) texts.push(t.m6_note);
+    } else if (module === IDX_LAB) {
+      texts = [t.mlab_title, t.mlab_desc, t.lab1_title, t.lab1_desc, t.lab2_title, t.lab2_desc, t.lab3_title, t.lab3_desc, t.lab4_title, t.lab4_desc];
+    } else if (module === IDX_RES) {
+      texts = [t.mres_title, t.mres_desc, ...t.res_req.map(r => `${r.label}. ${r.desc}`), ...t.res_opt.map(r => `${r.label}. ${r.desc}`)];
+    } else {
+      texts = [t.analytics_title, t.analytics_desc, `${t.analytics_pct_personal}: ${pctPersonal}%`, `${t.analytics_pct_group}: ${pctGroup}%`];
+      const weak = [1,2,3,4,5,6,7].filter(n => sectionPct(n) < 100);
+      if (weak.length) { texts.push(t.analytics_wp_tts_intro); weak.forEach(n => texts.push(t.analytics_wp_tts_module.replace('{name}', t[`m${n}_nav`]).replace('{acc}', sectionPct(n)))); }
+      else texts.push(t.analytics_wp_tts_allpass);
+    }
+    const utt = new SpeechSynthesisUtterance(texts.filter(Boolean).join(sep));
+    utt.rate = 0.95;
+    const voices = speechSynthesis.getVoices();
+    if (lang === 'zh') {
+      const v = voices.find(v=>v.lang==='zh-TW'&&v.name.includes('Yating')) || voices.find(v=>v.lang==='zh-TW') || voices.find(v=>v.lang.startsWith('zh'));
+      if (v) utt.voice = v; utt.lang = 'zh-TW';
+    } else {
+      const v = voices.find(v=>v.lang==='en-GB'&&(v.name.includes('Male')||v.name.includes('Daniel'))) || voices.find(v=>v.lang==='en-GB') || voices.find(v=>v.lang.startsWith('en'));
+      if (v) utt.voice = v; utt.lang = 'en-GB';
+    }
+    utt.onend = () => setTtsState('idle'); utt.onerror = () => setTtsState('idle');
+    speechSynthesis.speak(utt); setTtsState('playing');
+  };
+
+  /* ---------- Export ---------- */
+  const dstamp = () => { const d = new Date(), p = n => String(n).padStart(2,'0'); return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}`; };
+  const download = (content, filename, mime) => {
+    const blob = new Blob([content], {type: mime}); const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+  const okPersonal = !!(studentInfo.nameEn || studentInfo.nameZh);
+  const okGroup = !!(studentInfo.group && studentInfo.compiler);
+
+  const exportPersonal = () => {
+    if (!okPersonal) return;
+    const L = [];
+    L.push(`# PMCS W8 個人學習單 — ${dict.zh.subtitle}`);
+    L.push('');
+    L.push(`- 姓名：${studentInfo.nameEn} ${studentInfo.nameZh}　學號：${studentInfo.id}　系級：${studentInfo.dept}`);
+    L.push(`- 必讀：CSA · Career Strategy Architecture https://lolopodcast.github.io/Career-Strategy-Architecture/ ／ 5 Pairs of P-Principles https://lolopodcast.github.io/5-Pairs-of-P-Principles-for-Future-Life-Career/`);
+    L.push(`- 個人完成度：${pctPersonal}%`);
+    if (sdl) L.push(`- 來源 SDL KB：${sdlFileName()}`);
+    L.push('');
+    L.push('## 2. K／S／A 落差分析');
+    L.push('| 構面 | 現在有什麼 | 還差什麼 |');
+    L.push('|---|---|---|');
+    L.push(`| K 知識 | ${answers.k_have || ''} | ${answers.k_gap || ''} |`);
+    L.push(`| S 技能 | ${answers.s_have || ''} | ${answers.s_gap || ''} |`);
+    L.push(`| A 態度 | ${answers.a_have || ''} | ${answers.a_gap || ''} |`);
+    L.push('');
+    L.push(`**你憑什麼說自己「有」（證據）**：${answers.gap_evidence || '_(未填)_'}`);
+    L.push('');
+    L.push(`**AI 哪裡講錯或把你講得太漂亮**：${answers.gap_ai_check || '_(未填)_'}`);
+    L.push('');
+    L.push('## 3. 帳號與履歷欄位盤點');
+    L.push(`- 104 帳號狀態：${acctLabelZh(answers.acct_104) || '_(未填)_'}${answers.acct_104 === 'no' && answers.acct_104_why ? `（理由：${answers.acct_104_why}）` : ''}`);
+    L.push(`- LinkedIn 帳號狀態：${acctLabelZh(answers.acct_li) || '_(未填)_'}${answers.acct_li === 'no' && answers.acct_li_why ? `（理由：${answers.acct_li_why}）` : ''}`);
+    L.push(`- 現在是空的欄位：${answers.profile_gap || '_(未填)_'}`);
+    L.push(`- 三個月內要補哪一欄、怎麼補：${answers.profile_plan || '_(未填)_'}`);
+    L.push(`- 補完之後別人從哪裡看得出來：${answers.profile_evidence || '_(未填)_'}`);
+    L.push('');
+    L.push('## 4. 語言實驗室');
+    L.push('| 詞彙 | 自己的話 | 例句 |'); L.push('|---|---|---|');
+    [0,1,2,3,4].forEach(i => { if (filled(`t_term_${i}`)) L.push(`| ${answers[`t_term_${i}`]||''} | ${answers[`t_mean_${i}`]||''} | ${answers[`t_sent_${i}`]||''} |`); });
+    L.push('');
+    L.push('| 難發音 | 難在哪 | 記憶方法 |'); L.push('|---|---|---|');
+    [0,1,2].forEach(i => { if (filled(`p_word_${i}`)) L.push(`| ${answers[`p_word_${i}`]||''} | ${answers[`p_hard_${i}`]||''} | ${answers[`p_tip_${i}`]||''} |`); });
+    L.push(''); L.push('---');
+    L.push('_本檔為個人學習歷程檔案，不繳交。W10 建立知識庫時請從中挑選要保留的部分。_');
+    const who = (sanitizeName(studentInfo.nameEn).replace(/\s+/g,'') || studentInfo.id || 'me').replace(/[^\w-]/g,'') || 'me';
+    const sem = (sdl && sdl.meta.semester) || SEMESTER_DEFAULT;
+    const grp = studentInfo.group || 'NA';
+    download(L.join('\n'), `PMCS_${sem}W08_CareerStrategy_${grp}-${who}_${dstamp()}.md`, 'text/markdown;charset=utf-8;');
+  };
+
+  const groupRows = () => {
+    const rows = [['Section','Field','Value']];
+    rows.push(['Info','Group', studentInfo.group]);
+    rows.push(['Info','Compiler', studentInfo.compiler]);
+    GROUP_SECTIONS.forEach(sec => FIELDS[sec].forEach(id => rows.push(['S'+sec, id, String(answers[id] ?? '')])));
+    rows.push(['S5','ComparedAspects', ASPECT_IDS.filter(a => focus[a]).join(' ')]);
+    /* --- 自我描述欄位：讓教師端彙整台無需內建設定即可正確顯示本週判準 --- */
+    rows.push(['Meta','WeekTitleZH', dict.zh.subtitle]);
+    rows.push(['Meta','WeekTitleEN', dict.en.subtitle]);
+    rows.push(['Meta','CompareKey', 'ComparedAspects']);
+    rows.push(['Meta','CompareN', '3']);
+    rows.push(['Meta','S6Fields', "[{\"id\": \"tp_industry\", \"zh\": \"目標產業或企業清單\", \"en\": \"Target industries or companies\"}, {\"id\": \"tp_keywords\", \"zh\": \"職務關鍵字（PM＋PjM）\", \"en\": \"Job keywords (PM + PjM)\"}, {\"id\": \"tp_levels\", \"zh\": \"層級全收的理由\", \"en\": \"Why every level is collected\"}, {\"id\": \"tp_ksa_focus\", \"zh\": \"最關心的構面\", \"en\": \"Facet cared about most\"}, {\"id\": \"tp_sentence\", \"zh\": \"一句話需求\", \"en\": \"One-sentence requirement\"}]"]);
+    rows.push(['Meta','Categorical', 'tp_ksa_focus']);
+    rows.push(['Meta','CategoricalZH', '各組最關心的構面']);
+    rows.push(['Meta','CategoricalEN', 'Facet each group cares about most']);
+    rows.push(['Meta','CP5ZH', dict.zh.m5_wrapup]);
+    rows.push(['Meta','CP5EN', dict.en.m5_wrapup]);
+    rows.push(['Meta','CP6ZH', dict.zh.m6_wrapup]);
+    rows.push(['Meta','CP6EN', dict.en.m6_wrapup]);
+    rows.push(['Meta','CP7ZH', dict.zh.m7_wrapup]);
+    rows.push(['Meta','CP7EN', dict.en.m7_wrapup]);
+    rows.push(['Meta','GroupCompletionPct', String(pctGroup)]);
+    rows.push(['Meta','TimeSec', String(analytics.time.reduce((a,b)=>a+b,0))]);
+    const qc = analytics.quizCorrect.reduce((a,b)=>a+b,0), qt = analytics.quizTotal.reduce((a,b)=>a+b,0);
+    rows.push(['Meta','SelfCheck', `${qc}/${qt}`]);
+    return rows;
+  };
+  const exportGroupCSV = () => {
+    if (!okGroup) return;
+    const esc = v => `"${String(v).replace(/"/g,'""')}"`;
+    const csv = '﻿' + groupRows().map(r => r.map(esc).join(',')).join('\r\n');
+    download(csv, `PMCS_${(sdl && sdl.meta.semester) || SEMESTER_DEFAULT}W08_CareerStrategy_${studentInfo.group}-ALL_${dstamp()}.csv`, 'text/csv;charset=utf-8;');
+  };
+  const exportGroupMD = () => {
+    if (!okGroup) return;
+    const L = [];
+    L.push(`# PMCS W8 小組學習單 — ${dict.zh.subtitle}`);
+    L.push('');
+    L.push(`- 組別：${studentInfo.group}　本週彙整人：${studentInfo.compiler}　日期：${answers.g_date || ''}`);
+    L.push(`- 小組完成度：${pctGroup}%`);
+    L.push('');
+    L.push('## 1. 小組與分工');
+    L.push('| 姓名 | 學號 | 負責段落 | 秒數 |'); L.push('|---|---|---|---|');
+    MEMBER_IDX.forEach(i => { if (filled(`m_name_${i}`)) L.push(`| ${answers[`m_name_${i}`]||''} | ${answers[`m_id_${i}`]||''} | ${answers[`m_part_${i}`]||''} | ${answers[`m_sec_${i}`]||''} |`); });
+    L.push('');
+    L.push('## 5. 小組綜整');
+    L.push(`- 比對的三項：${ASPECT_IDS.filter(a => focus[a]).map(aspectNameZh).join('、') || '_(未選)_'}`);
+    L.push(`- 略過另外兩項的理由：${answers.syn_focus_why || '_(未填)_'}`);
+    L.push(`- 落差最集中的構面：${ksaNameZh(answers.syn_common) || '_(未填)_'}`);
+    L.push(`- 支持證據：${answers.syn_evidence || '_(未填)_'}`);
+    L.push(`- 代表案例：${answers.syn_case || '_(未填)_'}`);
+    L.push(`- **組內通則**：${answers.syn_rule || '_(未填)_'}`);
+    L.push('');
+    L.push('## 6. TP 題目定案（W9 提案第 1、2 項素材）');
+    L.push(`- 目標產業或企業清單與增減機制：${answers.tp_industry || '_(未填)_'}`);
+    L.push(`- 職務關鍵字（PM＋PjM）：${answers.tp_keywords || '_(未填)_'}`);
+    L.push(`- 層級全收的理由：${answers.tp_levels || '_(未填)_'}`);
+    L.push(`- 最關心的構面：${ksaNameZh(answers.tp_ksa_focus) || '_(未填)_'}`);
+    L.push(`- **一句話需求**：${answers.tp_sentence || '_(未填)_'}`);
+    L.push('');
+    L.push('## 7. 簡報計畫');
+    L.push(`- 開場句：${answers.pr_open || '_(未填)_'}`);
+    MEMBER_IDX.forEach(i => { if (filled(`pr_point_${i}`)) L.push(`- ${answers[`m_name_${i}`] || 'Speaker '+(i+1)}：${answers[`pr_point_${i}`]}`); });
+    L.push(`- 給全班的問題：${answers.pr_question || '_(未填)_'}`);
+    L.push(''); L.push('---');
+    L.push('_PMCS (EMI) · Prof. Shihmin Lo, NCNU · For Educational Use Only_');
+    download(L.join('\n'), `PMCS_${(sdl && sdl.meta.semester) || SEMESTER_DEFAULT}W08_CareerStrategy_${studentInfo.group}-ALL_${dstamp()}.md`, 'text/markdown;charset=utf-8;');
+  };
+
+  const clearAll = () => {
+    if (!window.confirm(t.analytics_wp_clear_confirm)) return;
+    setAnswers({}); setFocus({}); setMemberCount(DEFAULT_MEMBERS); setSdl(null); setLab({}); setLabNonce(n => n + 1);
+    setAnalytics({ time: Array(TOTAL).fill(0), clicks: Array(TOTAL).fill(0), quizCorrect: Array(TOTAL).fill(0),
+      quizTotal: Array(TOTAL).fill(0), cardsRead: Array(TOTAL).fill(0), cardsTotal: Array(TOTAL).fill(0), wrongTopics: {} });
+    try { localStorage.removeItem(LS_ANS); localStorage.removeItem(LS_ANS + '_focus'); localStorage.removeItem(LS_ANA); localStorage.removeItem(LS_ANS + '_sdl'); localStorage.removeItem(LS_LAB); } catch {}
+  };
+  const clearLab = () => {
+    if (!window.confirm(t.mlab_clear_confirm)) return;
+    setLab({}); setLabNonce(n => n + 1);
+    try { localStorage.removeItem(LS_LAB); } catch {}
+  };
+
+  /* ---------- Renderers ---------- */
+  const SavedHint = () => <p className="text-xs text-slate-500 dark:text-slate-400 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 rounded-lg p-3 leading-relaxed">{t.saved_hint}</p>;
+
+  const renderM0 = () => (
+    <>
+      <div className="rounded-2xl bg-[#004030] dark:bg-slate-800 text-white p-6 sm:p-10 border border-[#D8C3A5]/30">
+        <p className="text-[#D8C3A5] font-serif tracking-widest text-sm mb-2">{t.brand} · {t.title}</p>
+        <h1 className="font-serif font-black text-3xl sm:text-4xl md:text-5xl leading-tight mb-4">{t.subtitle}</h1>
+        <p className="text-slate-200 leading-relaxed text-base">{t.m0_intro}</p>
+        <button onClick={() => go(1)} className="mt-6 px-6 py-3 bg-[#D8C3A5] text-[#004030] font-bold rounded-lg hover:brightness-110 transition">{t.m0_start}</button>
+      </div>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        {t.m0_stats.map((s,i) => (
+          <div key={i} className="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 text-center">
+            <p className="font-serif font-black text-3xl text-[#004030] dark:text-[#D8C3A5]">{s.val}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{s.label}</p>
+          </div>
+        ))}
+      </div>
+      <div className="bg-[#004030]/5 dark:bg-[#D8C3A5]/5 rounded-xl p-5 border-l-4 border-[#D8C3A5]">
+        <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-2">{t.m0_why}</h3>
+        <p>{t.m0_why_desc}</p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {t.m0_modules.map((m,i) => (
+          <button key={i} onClick={() => go(i+1)} className="text-left bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5] hover:shadow-md transition">
+            <div className="flex items-center justify-between">
+              <span className="font-serif font-black text-[#D8C3A5] text-lg">{m.num}</span>
+              <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${m.tag === (lang==='zh'?'個人':'Individual') ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200' : 'bg-[#D8C3A5]/30 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>{m.tag}</span>
+            </div>
+            <p className="font-bold text-[#004030] dark:text-[#D8C3A5] mt-1">{m.title}</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">{m.desc}</p>
+          </button>
+        ))}
+      </div>
+      <SdlImport t={t} sdl={sdl} onImport={importSdl} onClear={() => setSdl(null)} />
+      <SavedHint />
+    </>
+  );
+
+  const renderM1 = () => (
+    <>
+      <Overview t={t} text={t.m1_overview} /><Highlights t={t} items={t.m1_highlights} /><DeepDive t={t} text={t.m1_deep} /><SavedHint />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{t.m1_group}</label>
+          <select className={inputCls} value={answers.g_group || ''} onChange={e => setA('g_group', e.target.value)}>
+            <option value="">{t.select_ph}</option>{t.group_options.map(g => <option key={g} value={g}>{g}</option>)}
+          </select>
+        </div>
+        <Field id="g_date" label={t.m1_date} type="date" value={answers.g_date} onChange={setA} />
+      </div>
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m1_members_label}</h3>
+        <div className="space-y-3">
+          {MEMBER_IDX.slice(0, memberCount).map(i => (
+            <div key={i} className="grid grid-cols-2 md:grid-cols-4 gap-2">
+              <input className={inputCls} placeholder={`${t.m1_col_name} ${i+1}`} value={answers[`m_name_${i}`]||''} onChange={e => setA(`m_name_${i}`, sanitizeName(e.target.value))} />
+              <input className={inputCls} placeholder={t.m1_col_id} value={answers[`m_id_${i}`]||''} onChange={e => setA(`m_id_${i}`, sanitizeStudentId(e.target.value))} />
+              <input className={inputCls} placeholder={t.m1_part_ph} value={answers[`m_part_${i}`]||''} onChange={e => setA(`m_part_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} type="number" min="0" max="600" placeholder={t.m1_col_sec} value={answers[`m_sec_${i}`]||''} onChange={e => setA(`m_sec_${i}`, e.target.value.replace(/[^0-9]/g,'').slice(0,3))} />
+            </div>
+          ))}
+        </div>
+        <div className="flex items-center gap-2 mt-3">
+          <button onClick={() => { setMemberCount(c => Math.max(1, c-1)); bump(); }} disabled={memberCount <= 1}
+            className="px-3 py-1.5 text-sm border border-slate-300 dark:border-slate-600 rounded-lg disabled:opacity-40">−</button>
+          <span className="text-sm text-slate-500 dark:text-slate-400">{t.m1_member_count.replace('{n}', memberCount)}</span>
+          <button onClick={() => { setMemberCount(c => Math.min(MAX_MEMBERS, c+1)); bump(); }} disabled={memberCount >= MAX_MEMBERS}
+            className="px-3 py-1.5 text-sm border border-slate-300 dark:border-slate-600 rounded-lg disabled:opacity-40">＋</button>
+        </div>
+        {(() => {
+          const total = MEMBER_IDX.slice(0, memberCount).reduce((s,i) => s + (parseInt(answers[`m_sec_${i}`]||'0',10)||0), 0);
+          const over = total > 600;
+          return <div className={`mt-4 p-3 rounded-lg text-sm ${over ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-300' : 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'}`}>
+            <strong>{t.m1_total_sec}: {total}s</strong> — {over ? t.m1_sec_warn : t.m1_sec_ok}</div>;
+        })()}
+      </div>
+      <Wrapup t={t} text={t.m1_wrapup} />
+    </>
+  );
+
+  const renderM2 = () => {
+    const scores = {};
+    KSA_IDS.forEach(d => {
+      const p = d.toLowerCase();
+      scores[d] = (filled(`${p}_have`) ? 1 : 0) + (filled(`${p}_gap`) ? 1 : 0);
+    });
+    return (
+      <>
+        <SdlPanel t={t} sdl={sdl} />
+        <Overview t={t} text={t.m2_overview} /><Highlights t={t} items={t.m2_highlights} /><DeepDive t={t} text={t.m2_deep} />
+        <GapRadar t={t} scores={scores} />
+        <p className="text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 rounded-lg p-3 leading-relaxed">{t.m2_jd_note}</p>
+        <SavedHint />
+        <div className="space-y-6">
+          {t.ksa.map(f => (
+            <div key={f.id} className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
+              <h4 className="font-serif font-bold text-[#004030] dark:text-[#D8C3A5]">{f.name} — {f.q}</h4>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 mb-4 leading-relaxed">{f.src}</p>
+              <Field id={`${f.id.toLowerCase()}_have`} label={t.m2_col_have} ph={f.have_ph} rows={3} value={answers[`${f.id.toLowerCase()}_have`]} onChange={setA} />
+              <Field id={`${f.id.toLowerCase()}_gap`} label={t.m2_col_gap} ph={f.gap_ph} rows={3} value={answers[`${f.id.toLowerCase()}_gap`]} onChange={setA} />
+            </div>
+          ))}
+        </div>
+        <Field id="gap_evidence" label={t.m2_evidence_label} hint={t.m2_evidence_hint} ph={t.m2_evidence_ph} rows={4} value={answers.gap_evidence} onChange={setA} />
+        <Field id="gap_ai_check" label={t.m2_ai_label} hint={t.m2_ai_hint} ph={t.m2_ai_ph} rows={4} value={answers.gap_ai_check} onChange={setA} />
+        <FlipCardDeck key={`cards-${module}-${lang}`} terms={t.m2_terms} t={t} moduleId={2} onCardRead={handleCardRead} />
+        <Wrapup t={t} text={t.m2_wrapup} />
+      </>
+    );
+  };
+
+  const renderM3 = () => {
+    const AcctBlock = ({ id, label }) => (
+      <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
+        <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-2">{label}</label>
+        <select className={inputCls} value={answers[id] || ''} onChange={e => setA(id, e.target.value)}>
+          <option value="">{t.select_ph}</option>
+          {t.acct_opts.map(o => <option key={o.v} value={o.v}>{o.n}</option>)}
+        </select>
+        {answers[id] === 'no' && (
+          <div className="mt-4"><Field id={`${id}_why`} label={t.m3_acct_why_label} ph={t.m3_acct_why_ph} rows={2} value={answers[`${id}_why`]} onChange={setA} /></div>
+        )}
+      </div>
+    );
+    return (
+      <>
+        <SdlPanel t={t} sdl={sdl} />
+        <Overview t={t} text={t.m3_overview} /><Highlights t={t} items={t.m3_highlights} /><DeepDive t={t} text={t.m3_deep} /><SavedHint />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <AcctBlock id="acct_104" label={t.m3_acct_104_label} />
+          <AcctBlock id="acct_li" label={t.m3_acct_li_label} />
+        </div>
+        <div className="mt-6">
+          <Field id="profile_gap" label={t.m3_gap_label} ph={t.m3_gap_ph} rows={4} value={answers.profile_gap} onChange={setA} />
+          <Field id="profile_plan" label={t.m3_plan_label} ph={t.m3_plan_ph} rows={4} value={answers.profile_plan} onChange={setA} />
+          <Field id="profile_evidence" label={t.m3_evidence_label} hint={t.m3_evidence_hint} ph={t.m3_evidence_ph} rows={3} value={answers.profile_evidence} onChange={setA} />
+        </div>
+        <Wrapup t={t} text={t.m3_wrapup} />
+      </>
+    );
+  };
+
+  const renderM4 = () => (
+    <>
+      <SdlPanel t={t} sdl={sdl} />
+      <Overview t={t} text={t.m4_overview} /><Highlights t={t} items={t.m4_highlights} /><DeepDive t={t} text={t.m4_deep} /><SavedHint />
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m4_terms_label}</h3>
+        <div className="space-y-3">
+          {[0,1,2,3,4].map(i => (
+            <div key={i} className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <input className={inputCls} placeholder={`${t.m4_col_term} ${i+1}`} value={answers[`t_term_${i}`]||''} onChange={e => setA(`t_term_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_mean} value={answers[`t_mean_${i}`]||''} onChange={e => setA(`t_mean_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_sent} value={answers[`t_sent_${i}`]||''} onChange={e => setA(`t_sent_${i}`, sanitizeText(e.target.value))} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3 mt-6">{t.m4_pron_label}</h3>
+        <div className="space-y-3">
+          {[0,1,2].map(i => (
+            <div key={i} className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <input className={inputCls} placeholder={`${t.m4_col_word} ${i+1}`} value={answers[`p_word_${i}`]||''} onChange={e => setA(`p_word_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_hard} value={answers[`p_hard_${i}`]||''} onChange={e => setA(`p_hard_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_tip} value={answers[`p_tip_${i}`]||''} onChange={e => setA(`p_tip_${i}`, sanitizeText(e.target.value))} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <Wrapup t={t} text={t.m4_wrapup} />
+    </>
+  );
+
+  const renderM5 = () => {
+    const chosen = ASPECT_IDS.filter(a => focus[a]).length;
+    return (
+      <>
+        <Overview t={t} text={t.m5_overview} /><Highlights t={t} items={t.m5_highlights} /><DeepDive t={t} text={t.m5_deep} /><SavedHint />
+        <div>
+          <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m5_focus_label}</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {t.aspects.map(a => {
+              const on = !!focus[a.id];
+              const blocked = !on && chosen >= 3;
+              return (
+                <label key={a.id} className={`flex items-center gap-3 p-3 rounded-lg border transition ${blocked ? 'opacity-40 cursor-not-allowed border-slate-200 dark:border-slate-700' : 'cursor-pointer border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5]'} bg-white dark:bg-slate-800`}>
+                  <input type="checkbox" className="w-4 h-4 accent-[#004030] dark:accent-[#D8C3A5]" checked={on} disabled={blocked}
+                    onChange={e => { setFocus(s => ({...s, [a.id]: e.target.checked})); bump(); }} />
+                  <span className="text-sm">{a.name}</span>
+                </label>
+              );
+            })}
+          </div>
+          <p className={`mt-2 text-sm font-bold ${chosen === 3 ? 'text-green-600 dark:text-green-400' : 'text-amber-600 dark:text-amber-400'}`}>{chosen} / 3</p>
+        </div>
+        <Field id="syn_focus_why" label={t.m5_focus_why} ph={t.m5_focus_why_ph} rows={3} value={answers.syn_focus_why} onChange={setA} />
+        <div className="mb-5">
+          <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{t.m5_common_label}</label>
+          <select className={inputCls} value={answers.syn_common || ''} onChange={e => setA('syn_common', e.target.value)}>
+            <option value="">{t.select_ph}</option>{t.ksa.map(f => <option key={f.id} value={f.id}>{f.name}</option>)}
+          </select>
+        </div>
+        <Field id="syn_evidence" label={t.m5_evidence_label} ph={t.m5_evidence_ph} rows={4} value={answers.syn_evidence} onChange={setA} />
+        <Field id="syn_case" label={t.m5_case_label} ph={t.m5_case_ph} rows={3} value={answers.syn_case} onChange={setA} />
+        <Field id="syn_rule" label={t.m5_rule_label} hint={t.m5_rule_note} ph={t.m5_rule_ph} rows={3} value={answers.syn_rule} onChange={setA} />
+        <Wrapup t={t} text={t.m5_wrapup} />
+      </>
+    );
+  };
+
+  const renderM6 = () => (
+    <>
+      <Overview t={t} text={t.m6_overview} />
+      <div className="rounded-xl border-2 border-amber-300 dark:border-amber-700/60 bg-amber-50 dark:bg-amber-900/20 p-4">
+        <p className="text-sm font-bold text-amber-800 dark:text-amber-200 leading-relaxed">{t.m6_note}</p>
+      </div>
+      <Highlights t={t} items={t.m6_highlights} /><DeepDive t={t} text={t.m6_deep} /><SavedHint />
+      <Field id="tp_industry" label={t.m6_industry_label} ph={t.m6_industry_ph} rows={4} value={answers.tp_industry} onChange={setA} />
+      <Field id="tp_keywords" label={t.m6_keywords_label} hint={t.m6_keywords_hint} ph={t.m6_keywords_ph} rows={4} value={answers.tp_keywords} onChange={setA} />
+      <Field id="tp_levels" label={t.m6_levels_label} hint={t.m6_levels_hint} ph={t.m6_levels_ph} rows={4} value={answers.tp_levels} onChange={setA} />
+      <div className="mb-5">
+        <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{t.m6_focus_label}</label>
+        <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 leading-relaxed">{t.m6_focus_hint}</p>
+        <select className={inputCls} value={answers.tp_ksa_focus || ''} onChange={e => setA('tp_ksa_focus', e.target.value)}>
+          <option value="">{t.select_ph}</option>{t.ksa.map(f => <option key={f.id} value={f.id}>{f.name}</option>)}
+        </select>
+      </div>
+      <Field id="tp_sentence" label={t.m6_sentence_label} hint={t.m6_sentence_hint} ph={t.m6_sentence_ph} rows={4} value={answers.tp_sentence} onChange={setA} />
+      <Wrapup t={t} text={t.m6_wrapup} />
+    </>
+  );
+
+  const renderM7 = () => (
+    <>
+      <Overview t={t} text={t.m7_overview} /><Highlights t={t} items={t.m7_highlights} /><DeepDive t={t} text={t.m7_deep} /><SavedHint />
+      <Field id="pr_open" label={t.m7_open_label} ph={t.m7_open_ph} rows={2} value={answers.pr_open} onChange={setA} />
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m7_script_label}</h3>
+        <div className="space-y-3">
+          {MEMBER_IDX.slice(0, memberCount).map(i => (
+            <div key={i} className="grid grid-cols-1 md:grid-cols-4 gap-2">
+              <div className="md:col-span-1 flex items-center px-3 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-sm text-slate-600 dark:text-slate-300 truncate">
+                {answers[`m_name_${i}`] || `${t.m7_col_who} ${i+1}`}
+              </div>
+              <input className={`${inputCls} md:col-span-3`} placeholder={t.m7_col_point} value={answers[`pr_point_${i}`]||''} onChange={e => setA(`pr_point_${i}`, sanitizeText(e.target.value))} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="mt-5"><Field id="pr_question" label={t.m7_question_label} ph={t.m7_question_ph} rows={3} value={answers.pr_question} onChange={setA} /></div>
+      <Wrapup t={t} text={t.m7_wrapup} />
+    </>
+  );
+
+  const renderLab = () => (
+    <>
+      <p className="text-base text-slate-600 dark:text-slate-300">{t.mlab_desc}</p>
+      <div className="flex items-center gap-3 flex-wrap">
+        <button onClick={clearLab} className="px-4 py-2 border border-red-400 text-red-600 dark:text-red-400 font-bold rounded-lg text-sm hover:bg-red-50 dark:hover:bg-red-900/20">{t.mlab_clear}</button>
+        <span className="text-xs text-slate-400">💾 {t.analytics_wp_saved}</span>
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-4">
+        <LabGapRadar key={`lab1-${labNonce}-${lang}`} t={t} state={lab.l1} setState={setLabPart('l1')} onTouch={bump} />
+        <LabResumeMeter key={`lab2-${labNonce}-${lang}`} t={t} state={lab.l2} setState={setLabPart('l2')} onTouch={bump} />
+        <LabSentenceGen key={`lab3-${labNonce}-${lang}`} t={t} state={lab.l3} setState={setLabPart('l3')} onTouch={bump} lang={lang} />
+        <LabLadder key={`lab4-${labNonce}-${lang}`} t={t} state={lab.l4} setState={setLabPart('l4')} onTouch={bump} />
+      </div>
+      <div className="mt-6 bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+        <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.quiz_title}</h3>
+        <ModuleQuiz key={`quiz-lab-${lang}`} questions={t.m2_q} t={t} moduleId={IDX_LAB} onQuizSubmit={handleQuizSubmit} />
+      </div>
+    </>
+  );
+
+  const renderRes = () => (
+    <>
+      <p className="text-base text-slate-600 dark:text-slate-300">{t.mres_desc}</p>
+      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-6 mb-3">{t.required_label}</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{t.res_req.map((r,i) => <LinkCard key={i} {...r} />)}</div>
+      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-8 mb-3">{t.optional_label}</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{t.res_opt.map((r,i) => <LinkCard key={i} {...r} />)}</div>
+    </>
+  );
+
+  const renderAna = () => {
+    const totalTime = analytics.time.reduce((a,b)=>a+b,0);
+    const qc = analytics.quizCorrect.reduce((a,b)=>a+b,0), qt = analytics.quizTotal.reduce((a,b)=>a+b,0);
+    const weak = [1,2,3,4,5,6,7].filter(n => sectionPct(n) < 100);
+    const stats = [
+      { val: pctPersonal + '%', label: t.analytics_pct_personal },
+      { val: pctGroup + '%', label: t.analytics_pct_group },
+      { val: totalTime + t.analytics_sec, label: t.analytics_total_time },
+      { val: qt > 0 ? Math.round(qc/qt*100) + '%' : '—', label: t.analytics_overall_acc }
+    ];
+    const setInfo = (k, v) => setStudentInfo(s => ({ ...s, [k]: v }));
+    return (
+      <>
+        <p className="text-base text-slate-600 dark:text-slate-300">{t.analytics_desc}</p>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-5">
+          {stats.map((s,i) => (
+            <div key={i} className="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 text-center">
+              <p className="font-serif font-black text-2xl text-[#004030] dark:text-[#D8C3A5]">{s.val}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{s.label}</p>
+            </div>
+          ))}
+        </div>
+
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-8 mb-3">{t.analytics_progress_title}</h3>
+        <div className="space-y-2">
+          {[1,2,3,4,5,6,7].map(n => {
+            const pct = sectionPct(n), kind = modulesList[n].kind;
+            return (
+              <button key={n} onClick={() => go(n)} className="w-full flex items-center gap-3 text-left p-3 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5] transition">
+                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded shrink-0 ${kind === 'P' ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200' : 'bg-[#D8C3A5]/30 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>{kind}</span>
+                <span className="text-sm w-36 sm:w-52 truncate shrink-0">{t[`m${n}_nav`]}</span>
+                <span className="flex-1 h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                  <span className={`block h-full ${pct === 100 ? 'bg-green-500' : 'bg-[#004030] dark:bg-[#D8C3A5]'}`} style={{width: pct + '%'}}></span>
+                </span>
+                <span className="text-sm font-bold w-12 text-right shrink-0">{pct}%</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-8 mb-3">{t.analytics_wp_title}</h3>
+        {weak.length === 0
+          ? <p className="p-4 rounded-lg bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 text-sm">{t.analytics_wp_allpass}</p>
+          : <div className="space-y-4">
+              <div className="space-y-2">
+                <p className="text-xs font-bold text-sky-700 dark:text-sky-300">{t.analytics_wp_personal_head}</p>
+                {PERSONAL_SECTIONS.filter(n => sectionPct(n) < 100).length === 0
+                  ? <p className="text-sm text-green-600 dark:text-green-400 pl-1">{t.analytics_wp_personal_done}</p>
+                  : PERSONAL_SECTIONS.filter(n => sectionPct(n) < 100).map(n => (
+                      <div key={n} className="p-3 rounded-lg bg-sky-50 dark:bg-sky-900/20 border border-sky-200 dark:border-sky-800/50 flex items-center justify-between gap-3">
+                        <span className="text-sm">{t[`m${n}_nav`]} — {sectionPct(n)}%</span>
+                        <button onClick={() => go(n)} className="text-xs font-bold text-sky-700 dark:text-sky-300 hover:underline shrink-0">{t.analytics_wp_goto}</button>
+                      </div>))}
+              </div>
+              <div className="space-y-2">
+                <p className="text-xs font-bold text-[#004030] dark:text-[#D8C3A5]">{t.analytics_wp_group_head}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 pl-1">{t.analytics_wp_group_note}</p>
+                {GROUP_SECTIONS.filter(n => sectionPct(n) < 100).length === 0
+                  ? <p className="text-sm text-green-600 dark:text-green-400 pl-1">{t.analytics_wp_group_done}</p>
+                  : GROUP_SECTIONS.filter(n => sectionPct(n) < 100).map(n => (
+                      <div key={n} className="p-3 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 flex items-center justify-between gap-3">
+                        <span className="text-sm">{t[`m${n}_nav`]} — {sectionPct(n)}%</span>
+                        <button onClick={() => go(n)} className="text-xs font-bold text-[#004030] dark:text-[#D8C3A5] hover:underline shrink-0">{t.analytics_wp_goto}</button>
+                      </div>))}
+              </div>
+            </div>}
+
+        <div className="mt-8 rounded-xl border-2 border-sky-200 dark:border-sky-800/60 bg-sky-50/50 dark:bg-sky-900/10 p-5">
+          <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5]">{t.analytics_personal_title}</h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-4">{t.analytics_personal_desc}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <InfoInput id="nameEn" label={t.analytics_name_en} ph={t.analytics_name_en_ph} value={studentInfo.nameEn} onChange={setInfo} />
+            <InfoInput id="nameZh" label={t.analytics_name_zh} ph={t.analytics_name_zh_ph} value={studentInfo.nameZh} onChange={setInfo} />
+            <InfoInput id="id" label={t.analytics_id} ph={t.analytics_id_ph} value={studentInfo.id} onChange={setInfo} san={sanitizeStudentId} />
+            <InfoInput id="dept" label={t.analytics_dept} ph={t.analytics_dept_ph} value={studentInfo.dept} onChange={setInfo} />
+          </div>
+          <button onClick={exportPersonal} disabled={!okPersonal}
+            className="mt-4 px-5 py-2.5 bg-sky-700 dark:bg-sky-300 text-white dark:text-sky-950 font-bold rounded-lg disabled:opacity-40">{t.analytics_export_personal}</button>
+          {!okPersonal && <p className="text-xs text-amber-600 dark:text-amber-400 mt-2">{t.analytics_need_personal}</p>}
+        </div>
+
+        <div className="mt-5 rounded-xl border-2 border-[#D8C3A5] dark:border-[#D8C3A5]/50 bg-[#D8C3A5]/10 p-5">
+          <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5]">{t.analytics_group_title}</h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-4">{t.analytics_group_desc}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div><label className="block text-xs font-bold text-slate-500 mb-1">{t.analytics_group}</label>
+              <select className={inputCls} value={studentInfo.group} onChange={e => setStudentInfo(s => ({...s, group: e.target.value}))}>
+                <option value="">{t.select_ph}</option>{t.group_options.map(g => <option key={g} value={g}>{g}</option>)}
+              </select></div>
+            <InfoInput id="compiler" label={t.analytics_compiler} ph={t.analytics_compiler_ph} value={studentInfo.compiler} onChange={setInfo} />
+          </div>
+          <div className="flex flex-wrap gap-3 mt-4">
+            <button onClick={exportGroupCSV} disabled={!okGroup} className="px-5 py-2.5 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg disabled:opacity-40">{t.analytics_export_csv}</button>
+            <button onClick={exportGroupMD} disabled={!okGroup} className="px-5 py-2.5 border-2 border-[#004030] dark:border-[#D8C3A5] text-[#004030] dark:text-[#D8C3A5] font-bold rounded-lg disabled:opacity-40">{t.analytics_export_md}</button>
+          </div>
+          {!okGroup && <p className="text-xs text-amber-600 dark:text-amber-400 mt-2">{t.analytics_need_group}</p>}
+        </div>
+
+        <div className="mt-6 flex items-center gap-3 flex-wrap">
+          <button onClick={clearAll} className="px-5 py-2.5 border border-red-400 text-red-600 dark:text-red-400 font-bold rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20">{t.analytics_wp_clear}</button>
+          <span className="text-xs text-slate-400">💾 {t.analytics_wp_saved}</span>
+        </div>
+      </>
+    );
+  };
+
+  const body = () => {
+    if (module === 0) return renderM0();
+    if (module === 1) return renderM1();
+    if (module === 2) return renderM2();
+    if (module === 3) return renderM3();
+    if (module === 4) return renderM4();
+    if (module === 5) return renderM5();
+    if (module === 6) return renderM6();
+    if (module === 7) return renderM7();
+    if (module === IDX_LAB) return renderLab();
+    if (module === IDX_RES) return renderRes();
+    return renderAna();
+  };
+  const cur = modulesList[module];
+
+  return (
+    <div className="min-h-screen flex flex-col pt-16 overflow-x-hidden">
+      <header className="fixed top-0 left-0 right-0 h-16 bg-[#004030] dark:bg-slate-900 text-white z-50 shadow-lg border-b border-[#D8C3A5]/30">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-1 sm:gap-2 min-w-0">
+            <div className="relative" ref={menuRef}>
+              <button onClick={() => setMenuOpen(!menuOpen)} className="p-2 hover:bg-white/10 rounded-lg" aria-label={t.nav_modules}>{menuOpen ? <IconX/> : <IconMenu/>}</button>
+              {menuOpen && (
+                <div className="absolute top-full left-0 mt-1 w-72 max-w-[calc(100vw-2rem)] max-h-[calc(100vh-5rem)] overflow-y-auto bg-white dark:bg-slate-800 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 z-[100]">
+                  {modulesList.map(m => (
+                    <button key={m.id} onClick={() => go(m.id)}
+                      className={`w-full flex items-center gap-3 px-4 py-3 text-sm transition ${module === m.id ? 'bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5] font-bold' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700'}`}>
+                      <span className="ui-decoration">{m.icon}</span><span className="truncate flex-1 text-left">{m.title}</span>
+                      {m.kind && <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded shrink-0 ${m.kind === 'P' ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200' : 'bg-[#D8C3A5]/40 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>{m.kind}</span>}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+            <button onClick={() => go(0)} className="p-2 hover:bg-white/10 rounded-lg" aria-label={t.nav_home}><IconHome size={18}/></button>
+            <button onClick={() => window.scrollTo({top:0,behavior:'smooth'})} className="flex items-center gap-2 min-w-0">
+              <span className="font-serif font-black text-[#D8C3A5] text-lg tracking-widest">{t.brand}</span>
+              <span className="hidden sm:inline font-serif font-bold text-sm md:text-base truncate">{t.title}</span>
+            </button>
+          </div>
+          <div className="flex items-center gap-1 sm:gap-2">
+            <button onClick={() => handleTTS(ttsState === 'playing' ? 'pause' : 'play')} className="p-2 hover:bg-white/10 rounded-lg" aria-label={t.audio_read}>{ttsState === 'playing' ? <IconPause size={18}/> : <IconPlay size={18}/>}</button>
+            <button onClick={() => handleTTS('stop')} className="p-2 hover:bg-white/10 rounded-lg" aria-label="Stop"><IconSquare size={18}/></button>
+            <button onClick={() => setLang(lang === 'en' ? 'zh' : 'en')} className="px-2 py-2 hover:bg-white/10 rounded-lg flex items-center gap-1"><IconGlobe size={18}/><span className="text-xs font-bold">{lang === 'en' ? '中' : 'EN'}</span></button>
+            <button onClick={() => setIsDark(!isDark)} className="p-2 hover:bg-white/10 rounded-lg" aria-label="Theme">{isDark ? <IconSun size={18}/> : <IconMoon size={18}/>}</button>
+          </div>
+        </div>
+      </header>
+
+      <div className="flex-1 w-full max-w-7xl mx-auto flex">
+        <aside className="hidden md:block w-64 shrink-0 border-r border-slate-200 dark:border-slate-700 py-8 px-3">
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 px-3 mb-3">{t.nav_modules}</p>
+          {modulesList.map(m => (
+            <button key={m.id} onClick={() => go(m.id)}
+              className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm mb-1 transition ${module === m.id ? 'bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5] font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'}`}>
+              <span className="ui-decoration shrink-0">{m.icon}</span>
+              <span className="truncate text-left flex-1">{m.title}</span>
+              {m.kind && <span className={`text-[10px] font-bold px-1 rounded shrink-0 ${m.kind === 'P' ? 'text-sky-700 dark:text-sky-300' : 'text-[#004030] dark:text-[#D8C3A5]'}`}>{m.kind}</span>}
+            </button>
+          ))}
+          <div className="mt-6 px-3 space-y-3">
+            <div>
+              <p className="text-xs text-slate-400 mb-1">{t.analytics_pct_personal}</p>
+              <div className="h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden"><div className={`h-full ${pctPersonal === 100 ? 'bg-green-500' : 'bg-sky-600 dark:bg-sky-400'}`} style={{width: pctPersonal + '%'}}></div></div>
+              <p className="text-xs font-bold text-sky-700 dark:text-sky-300 mt-1">{pctPersonal}%</p>
+            </div>
+            <div>
+              <p className="text-xs text-slate-400 mb-1">{t.analytics_pct_group}</p>
+              <div className="h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden"><div className={`h-full ${pctGroup === 100 ? 'bg-green-500' : 'bg-[#004030] dark:bg-[#D8C3A5]'}`} style={{width: pctGroup + '%'}}></div></div>
+              <p className="text-xs font-bold text-[#004030] dark:text-[#D8C3A5] mt-1">{pctGroup}%</p>
+            </div>
+          </div>
+        </aside>
+
+        <main className="flex-1 min-w-0 py-8 px-4 sm:px-6">
+          <div key={`${module}-${lang}`} className="space-y-6 text-lg leading-relaxed text-slate-700 dark:text-slate-300 animate-fade-in">
+            {module !== 0 && (
+              <div>
+                <H2 icon={cur.icon} number={cur.num}>{module <= NUM_LEARN ? t[`m${module}_title`] : module === IDX_LAB ? t.mlab_title : module === IDX_RES ? t.mres_title : t.analytics_title}</H2>
+                {cur.kind && <Badge kind={cur.kind} t={t} />}
+              </div>
+            )}
+            {body()}
+            <div className="mt-12 flex justify-between items-center pt-8 border-t border-slate-300 dark:border-slate-700 no-print">
+              <button onClick={() => go(Math.max(0, module-1))} disabled={module === 0}
+                className="px-5 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg text-sm font-bold hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-0">← {t.nav_prev}</button>
+              <button onClick={() => go(Math.min(TOTAL-1, module+1))} disabled={module === TOTAL-1}
+                className="px-5 py-2.5 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] rounded-lg text-sm font-bold disabled:opacity-0">{t.nav_next} →</button>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <footer className="h-8 bg-[#004030] flex items-center justify-between px-4 shrink-0">
+        <span className="text-[#D8C3A5]/60 text-[10px] sm:text-xs truncate">{t.date} · {t.copyright}</span>
+        <span className="text-[#D8C3A5]/60 text-[10px] sm:text-xs flex items-center gap-3 shrink-0">
+          <span className="hidden sm:inline">{t.architect_label}&nbsp;<a href={t.architect_url} target="_blank" rel="noopener noreferrer" className="text-[#D8C3A5] hover:text-white underline">Prof. Shihmin Lo</a></span>
+          <button onClick={() => window.scrollTo({top:0,behavior:'smooth'})} className="text-[#D8C3A5] hover:text-white font-bold">Top ↑</button>
+        </span>
+      </footer>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
