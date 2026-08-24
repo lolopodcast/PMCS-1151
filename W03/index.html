@@ -1,1 +1,1939 @@
-W03
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PMCS Worksheet W3 — Where Does Your Work Actually Live?</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.7/babel.min.js"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: { extend: { fontFamily: { sans: ['Inter','sans-serif'], serif: ['Merriweather','serif'] } } }
+  }
+</script>
+<style>
+  @keyframes fadeInUp { from{opacity:0;transform:translateY(15px)} to{opacity:1;transform:translateY(0)} }
+  .animate-fade-in { animation: fadeInUp 0.5s ease-out forwards; }
+  .perspective { perspective: 1000px; }
+  .transform-style-3d { transform-style: preserve-3d; }
+  .backface-hidden { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  .rotate-y-180 { transform: rotateY(180deg); }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+  .dark ::-webkit-scrollbar-thumb { background: #475569; }
+  header, footer, button, [role="button"], .ui-decoration { -webkit-user-select: none; user-select: none; }
+  input, textarea, select { -webkit-user-select: text; user-select: text; }
+  html { overflow-x: hidden; }
+  @media print { header, footer, aside, .no-print { display: none !important; } }
+</style>
+</head>
+<body class="bg-[#f4f4f4] dark:bg-[#121212] selection:bg-[#004030] selection:text-white dark:selection:bg-[#D8C3A5] dark:selection:text-[#004030] overflow-x-hidden">
+<div id="root"></div>
+
+<script>
+/* ---------- Domain Lock + Iframe Busting ---------- */
+(function(){
+  var ALLOWED = ['lolopodcast.github.io','localhost','127.0.0.1','claude.ai','anthropic.com','usercontent.goog'];
+  var REDIRECT = 'https://www.ibs.ncnu.edu.tw/index.php/faculty/tenured-professor/299-smlo';
+  var h = location.hostname;
+  var isFile = location.protocol === 'file:' || h === '';
+  var ok = isFile || ALLOWED.some(function(d){ return h === d || h.endsWith('.' + d); });
+  if (!ok) {
+    document.body.innerHTML = '<div style="text-align:center;padding:60px;font-family:sans-serif"><h1>Access Denied</h1><p>This resource is not authorised on this domain.</p></div>';
+    setTimeout(function(){ location.href = REDIRECT; }, 3000);
+    return;
+  }
+  if (window.self !== window.top) {
+    try { window.top.location.href = window.self.location.href; }
+    catch(e) { /* embedded preview: allow rendering rather than blanking the page */ }
+  }
+})();
+
+/* ---------- Copyright toast + smart right-click / shortcut guard ---------- */
+(function(){
+  var MSG = 'Intellectual Property of Prof. Shihmin Lo';
+  var el = null, timer = null;
+  window.showCopyrightToast = function(){
+    if (!el) {
+      el = document.createElement('div');
+      el.style.cssText = 'position:fixed;left:50%;bottom:48px;transform:translateX(-50%);background:#004030;color:#D8C3A5;padding:10px 20px;border-radius:10px;font-family:Inter,sans-serif;font-size:13px;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.3);opacity:0;transition:opacity .25s';
+      el.textContent = MSG;
+      document.body.appendChild(el);
+    }
+    el.style.opacity = '1';
+    clearTimeout(timer);
+    timer = setTimeout(function(){ el.style.opacity = '0'; }, 2000);
+  };
+  document.addEventListener('contextmenu', function(e){
+    var tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || tag === 'select') return true;
+    var sel = window.getSelection().toString().trim();
+    if (sel.length > 0) return true;
+    e.preventDefault(); window.showCopyrightToast();
+  });
+  document.addEventListener('keydown', function(e){
+    var k = (e.key || '').toLowerCase();
+    if (e.key === 'F12') { e.preventDefault(); window.showCopyrightToast(); return; }
+    if (e.ctrlKey && k === 'u') { e.preventDefault(); window.showCopyrightToast(); return; }
+    if (e.ctrlKey && e.shiftKey && ['i','j','c'].indexOf(k) >= 0) { e.preventDefault(); window.showCopyrightToast(); return; }
+  });
+  document.addEventListener('dragstart', function(e){
+    if (e.target.tagName === 'IMG' || (e.target.closest && e.target.closest('svg'))) e.preventDefault();
+  });
+})();
+</script>
+
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+/* ================= Answer obfuscation ================= */
+const _SALT = 'PMCSW3-2026';
+const _e = (s, n) => {
+  const p = s + ':' + n; let r = '';
+  for (let i = 0; i < p.length; i++) r += String.fromCharCode(p.charCodeAt(i) ^ ((i + 7) * 3 & 0xFF));
+  return btoa(r);
+};
+const _d = (token) => {
+  const dec = atob(token); let r = '';
+  for (let i = 0; i < dec.length; i++) r += String.fromCharCode(dec.charCodeAt(i) ^ ((i + 7) * 3 & 0xFF));
+  return parseInt(r.split(':')[1], 10);
+};
+const _A0 = _e(_SALT,0), _A1 = _e(_SALT,1), _A2 = _e(_SALT,2), _A3 = _e(_SALT,3);
+
+/* ================= Module map ================= */
+const NUM_LEARN = 7;
+const TOTAL = 1 + NUM_LEARN + 3;
+const MAX_MEMBERS = 10;
+const DEFAULT_MEMBERS = 6;
+const MEMBER_IDX = [...Array(MAX_MEMBERS).keys()];
+const PERSONAL_SECTIONS = [2,3,4];
+const GROUP_SECTIONS = [1,5,6,7];
+const IDX_LAB = NUM_LEARN + 1;
+const IDX_RES = NUM_LEARN + 2;
+const IDX_ANA = NUM_LEARN + 3;
+
+/* ================= Sanitisers ================= */
+const sanitizeStudentId = (v) => v.replace(/[^0-9]/g, '').slice(0, 12);
+const sanitizeName = (v) => v.replace(/[<>"'&\\]/g, '').slice(0, 50);
+const sanitizeText = (v) => v.slice(0, 2000);
+
+/* ================= Icons ================= */
+const S = (p) => ({ width: p.size||20, height: p.size||20, viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:2, strokeLinecap:"round", strokeLinejoin:"round" });
+const IconMenu=(p)=><svg {...S(p)}><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>;
+const IconX=(p)=><svg {...S(p)}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>;
+const IconHome=(p)=><svg {...S(p)}><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>;
+const IconGlobe=(p)=><svg {...S(p)}><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>;
+const IconMoon=(p)=><svg {...S(p)}><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>;
+const IconSun=(p)=><svg {...S(p)}><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.2" y1="4.2" x2="5.6" y2="5.6"/><line x1="18.4" y1="18.4" x2="19.8" y2="19.8"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.2" y1="19.8" x2="5.6" y2="18.4"/><line x1="18.4" y1="5.6" x2="19.8" y2="4.2"/></svg>;
+const IconPlay=(p)=><svg {...S(p)}><polygon points="5 3 19 12 5 21 5 3"/></svg>;
+const IconPause=(p)=><svg {...S(p)}><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>;
+const IconSquare=(p)=><svg {...S(p)}><rect x="4" y="4" width="16" height="16" rx="2"/></svg>;
+const IconActivity=(p)=><svg {...S(p)}><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>;
+const IconZapLab=(p)=><svg {...S(p)}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>;
+const IconCheckCircle=(p)=><svg {...S(p)}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>;
+
+/* ================= Layer model (shared by M2 / M3 / Lab) ================= */
+const LAYER_IDS = ['L1','L2','L3','L4','L5','L6','L7','L8','L9'];
+
+/* ================= Bilingual dictionary ================= */
+const dict = {
+  zh: {
+    brand: "PMCS",
+    title: "學習單 W3", subtitle: "你的工作到底放在哪裡？",
+    nav_modules: "單元目錄", nav_prev: "上一單元", nav_next: "下一單元", nav_home: "首頁",
+    key_terms: "隨手參考卡", flip_prompt: "點擊翻轉",
+    flip_status: "已讀 {read} / 已顯示 {shown} / 總計 {total}",
+    flip_next: "下一組", flip_retry: "重新開始",
+    audio_read: "語音導覽",
+    quiz_title: "課前自我檢核", quiz_status: "答對 {correct} / 已答 {answered} / 總計 {total}",
+    quiz_next: "下一組", quiz_retry: "重新測驗",
+    submit: "提交答案", score: "得分", correct: "正確", incorrect: "錯誤", explanation: "解析",
+    overview_label: "Overview 本節任務",
+    highlights_label: "Highlights 關鍵字",
+    deep_dive_label: "Deep Dive 填寫說明",
+    wrapup_label: "Wrap-up 檢查點",
+    saved_hint: "✍️ 填寫內容會自動存在你這台電腦的瀏覽器裡；換裝置不會跟著走，請務必用「完成度與匯出」頁匯出檔案。",
+    required_label: "必讀教材", optional_label: "選讀教材（可寫成 BA）",
+    words: "字",
+
+    // M0
+    m0_nav: "0. 執行概要",
+    m0_title: "這份學習單怎麼用",
+    m0_intro: "這是 PMCS 課程 W3 的課前學習單。本週必讀教材兩份：AIWE · AI 工作環境的層級模型（主教材，內含原始九層圖），以及 AIWF · AI 工作方法論。你要在讀完之後，用九層模型把「自己的工作環境」盤點一遍——你的檔案在哪一台機器、你的帳號在哪個平台、你的專案放在哪一種容器、以及當你換一台電腦時，有哪幾層會斷掉。這不是抽象的知識檢定，而是一次實地測繪：填完之後你應該能明確指出自己在期末專案裡要把 repo、KB 與 Memory 分別放在哪裡。全部六節預計花你四十到五十分鐘，加上小組討論與簡報準備約需兩小時，正好是本課程要求的課外投入。填寫內容會自動存在瀏覽器，最後請到「完成度與匯出」頁匯出 CSV 與 Markdown 兩種格式：CSV 交給 Moodle，Markdown 留給你自己，它可以直接成為你個人知識庫的第一份檔案。",
+    m0_why: "為什麼要從「工作放在哪」開始？",
+    m0_why_desc: "學生用 AI 最常見的挫折，不是提示詞寫得不好，而是「檔案到底在哪、AI 看不看得到、為什麼換一台電腦就全斷了」。這一層講不清楚，後面四種 Engineering、Harness 與部署全部會卡住。所以整學期的第一塊地基，是先搞清楚自己站在哪裡。",
+    m0_stats: [
+      { val: "9", label: "個層級要盤點" },
+      { val: "2", label: "份必讀教材" },
+      { val: "6", label: "節填寫任務" },
+      { val: "40-50", label: "分鐘個人作業" }
+    ],
+    m0_modules: [
+      { num: "01", title: "小組與分工", desc: "登錄組別、成員，並敲定 10 分鐘簡報的 Jigsaw 分工。" },
+      { num: "02", title: "九層盤點", desc: "逐層寫下你自己的實際狀況，這是本週的核心任務。" },
+      { num: "03", title: "斷點診斷", desc: "換一台電腦，哪幾層會斷？為什麼？怎麼補救？" },
+      { num: "04", title: "語言實驗室", desc: "五個新詞、三個難發音，供 Coggle 心智圖使用。" },
+      { num: "05", title: "接到期末專案", desc: "你的 TP 要放哪一種容器？KB 與 Memory 放哪一層？" },
+      { num: "06", title: "簡報計畫", desc: "誰講哪一段、各幾秒，以及要丟給全班的那一個問題。" }
+    ],
+    m0_start: "開始填寫 →",
+
+    // Layers
+    layers: [
+      { id:"L1", name:"1. 裝置層 Device", hint:"決定本機檔案和工具到底在哪一台機器上。", ph:"例：我的筆電（Windows 11）、我的手機（iPhone）。程式與本機資料夾只在筆電上。" },
+      { id:"L2", name:"2. 使用者層 User", hint:"誰登入這台裝置。使用者會影響本機路徑與權限。", ph:"例：C:\\Users\\jimmy\\ ；家裡的桌機是另一個使用者帳號，路徑不同。" },
+      { id:"L3", name:"3. AI 平台層 Platform", hint:"不同平台有自己的專案、歷史紀錄與權限，彼此不互通。", ph:"例：主力用 Claude，偶爾用 ChatGPT。兩邊的對話紀錄完全不共用。" },
+      { id:"L4", name:"4. 帳號／方案／Workspace", hint:"雲端的 chats 與 projects 通常跟著這一層走。", ph:"例：用學校信箱註冊的個人帳號，付費方案；沒有加入任何團隊 workspace。" },
+      { id:"L5", name:"5. 工作介面 Interface", hint:"雲端網頁版、桌面版、手機版的能力不一定相同。", ph:"例：平常用網頁版；要讓 AI 讀本機檔案時才開桌面版。" },
+      { id:"L6", name:"6. 工作模式 Mode", hint:"純對話，還是能操作檔案與工具？", ph:"例：查資料用 Chat；要產出檔案與跑指令時切到能操作檔案的模式。" },
+      { id:"L7", name:"7. 工作容器 Container", hint:"一般對話／一般專案／本機資料夾／雲端硬碟，四選一或混用。", ph:"例：目前散在一般對話裡；打算為 TP 開一個專案，並在筆電上建 D:\\PMCS-TP 資料夾。" },
+      { id:"L8", name:"8. 任務 Task / Chat / Thread", hint:"一個持久的工作單元，會記住紀錄、狀態與可能的工作資料夾。", ph:"例：目前每次都開新對話，所以上一次的結論都要重講一遍。" },
+      { id:"L9", name:"9. Context Window", hint:"模型當下能直接看見的範圍。它不是資料夾，也不是儲存空間。", ph:"例：長對話到後面 AI 開始忘記前面的設定，被壓縮了但我一直以為它記得。" }
+    ],
+
+    // M1
+    m1_nav: "1. 小組與分工", m1_title: "小組與 Jigsaw 分工",
+    m1_overview: "先把行政資訊填好，並在小組討論時當場敲定簡報分工。本課程每次由兩組簡報，每組 10 分鐘，每位組員必須開口講 1 至 2 分鐘——這一節就是把「誰講哪一段、講幾秒」寫定，避免上台才在推派。",
+    m1_highlights: ["Jigsaw 協作","每人 1-2 分鐘","全組 10 分鐘","組員都要開口"],
+    m1_deep: "分工不是把工作切開就好。Jigsaw 的重點是每個人負責的那一段，別人沒讀過，所以你講的內容對其他組員是有資訊量的。建議依九層自然切分：兩人一組負責三層，或一人負責一到兩層加上斷點診斷。把秒數寫下來，這樣總長度才控制得住。",
+    m1_group: "組別", m1_group_select: "請選擇", m1_date: "填寫日期",
+    m1_members_label: "組員與分工（用下方加減鈕調整人數，上限 10 人）",
+    m1_member_count: "目前 {n} 位組員",
+    m1_col_name: "姓名", m1_col_id: "學號", m1_col_part: "負責段落", m1_col_sec: "秒數",
+    m1_part_ph: "例：L1-L3 裝置與帳號",
+    m1_total_sec: "目前規劃總長度",
+    m1_sec_warn: "超過 600 秒（10 分鐘），請壓縮。",
+    m1_sec_ok: "在 10 分鐘內，可行。",
+    m1_wrapup: "檢查點：每位出席組員都有分配到段落，且總秒數不超過 600。",
+
+    // M2
+    m2_nav: "2. 九層盤點", m2_title: "九層盤點：我的工作環境",
+    m2_overview: "本週的核心任務。逐層寫下你自己的實際狀況——不是抄教材的定義，而是寫「我的」。每一格至少一句話，寫得越具體，第 3 節的斷點診斷就越準。",
+    m2_highlights: ["裝置","帳號","平台","工作容器","任務","Context Window"],
+    m2_deep: "填寫時有一個判準可以自我檢查：如果你寫的句子拿掉之後，換成任何一位同學都成立，那就是還沒寫到「你的」。「我用 Claude」不算，「我用學校信箱註冊的 Claude 個人付費帳號，沒有加入任何團隊 workspace，所以團隊共用的檔案我看不到」才算。九個欄位裡最容易寫空泛的是第 7 層工作容器與第 9 層 Context Window，這兩層請特別花時間。",
+    m2_svg_cap: "九層模型：由實體裝置往上到模型當下的視野",
+    m2_terms: [
+      { front: "裝置層 Device", back: "筆電／桌機／伺服器／平板／手機。決定本機檔案和工具到底在哪一台機器上。" },
+      { front: "AI 平台層 Platform", back: "不同平台有自己的專案、歷史紀錄、權限與產品名稱；平台之間的雲端紀錄通常不互通。" },
+      { front: "帳號／Workspace", back: "同一平台裡你登入哪個帳號、訂閱哪個方案、屬於哪個公司或學校 workspace。雲端 chats 與 projects 通常跟這一層走。" },
+      { front: "工作介面 Interface", back: "雲端網頁版／桌面版／手機版。介面不同，能力不一定相同；讀本機檔案通常需要桌面版與本機權限。" },
+      { front: "工作模式 Mode", back: "核心差異是「純對話」還是「能操作檔案與工具」。名稱因平台而異，能力差很多。" },
+      { front: "工作容器 Container", back: "一般對話／一般專案／本機資料夾／雲端硬碟。決定你的工作到底放在哪、能不能跨裝置延續。" },
+      { front: "任務 Task", back: "一個持久的工作單元，不只是單次模型呼叫。它會記住對話紀錄、工作狀態、權限，以及可能綁定的工作資料夾。" },
+      { front: "Context Window", back: "模型當下能直接看見的上下文範圍。它不是檔案夾、不是專案、也不是帳號儲存空間；太長時會被壓縮或摘要。" }
+    ],
+    m2_q: [
+      { q: "「同一個平台、同一個帳號」的雲端專案紀錄，最可能跟著下列哪一層走？", opts: ["裝置層","帳號／Workspace 層","工作介面層","Context Window"], ans: _A1, exp: "雲端的 chats 與 projects 通常綁在帳號／方案／workspace 這一層，所以換裝置登入同一帳號通常還在。" },
+      { q: "下列哪一個敘述正確描述 Context Window？", opts: ["它是一個雲端資料夾，可以存放檔案","它等同於你的專案空間","它是模型當下能直接看見的上下文範圍","它是帳號的儲存空間上限"], ans: _A2, exp: "Context window 只是模型當下的視野，不是儲存空間；太長時會被壓縮或摘要，但通常仍是同一個任務。" },
+      { q: "一位同學說：「我的檔案在 AI 裡面。」這句話最大的問題是什麼？", opts: ["沒有區分本機空間與雲端空間","沒有說明用哪個模型","沒有提到訂閱方案","沒有提到 prompt 寫法"], ans: _A0, exp: "本機檔案跟著某台電腦和路徑走，雲端紀錄跟著帳號／workspace 走，兩者混為一談就會出現「換電腦就找不到」的狀況。" },
+      { q: "要讓 AI 直接讀取你電腦裡的本機資料夾，通常需要下列哪一項？", opts: ["把資料夾上傳到聊天紀錄即可","桌面版介面與本機權限","更長的 context window","更貴的訂閱方案"], ans: _A1, exp: "純雲端網頁介面通常碰不到本機檔案；讀寫本機資料夾一般需要桌面版與明確授權的本機路徑。" }
+    ],
+    m2_wrapup: "檢查點：九格都填了，而且每一格都能通過「換成別人就不成立」的自我檢查。",
+
+    // M3
+    m3_nav: "3. 斷點診斷", m3_title: "斷點診斷：換一台電腦會斷哪幾層？",
+    m3_overview: "把第 2 節寫的九層拿來做壓力測試。想像明天你的筆電進廠維修，你必須用學校電腦或家裡的桌機繼續做期末專案——勾選會斷掉的層級，然後說明原因與補救方式。",
+    m3_highlights: ["跨裝置延續","本機 vs 雲端","備援","可攜性"],
+    m3_deep: "判斷準則很簡單：跟著帳號或 workspace 走的，換裝置通常還在；跟著某台電腦和某個路徑走的，換裝置就要重新指定，甚至根本不存在。真正危險的不是會斷，而是你以為不會斷。這一節填完之後，你對期末專案要放哪裡會有完全不同的直覺。",
+    m3_check_label: "勾選：換一台電腦後，這一層會斷或需要重新設定",
+    m3_why_label: "說明：為什麼這幾層會斷？",
+    m3_why_ph: "例：D:\\PMCS-TP 只在我自己的筆電上，學校電腦沒有這個路徑；桌面版要重新安裝並重新授權資料夾。",
+    m3_fix_label: "補救：你會怎麼讓它不斷？",
+    m3_fix_ph: "例：把工作資料夾改放雲端同步資料夾，或直接放 GitHub repo，任何一台電腦 clone 下來就能接續。",
+    m3_count: "你判定會斷的層數",
+    m3_wrapup: "檢查點：至少勾了一層，而且說明裡出現了具體的路徑、帳號或工具名稱，不是泛泛而談。",
+
+    // M4
+    m4_nav: "4. 語言實驗室", m4_title: "EMI 語言實驗室",
+    m4_overview: "本課程是全英授課，這一節的產出會直接進你的 Coggle 心智圖。從本週必讀教材中挑出五個新的詞彙或片語，以及三個你唸起來不順的字。",
+    m4_highlights: ["新詞五個","難發音三個","自己的話","例句"],
+    m4_deep: "「用自己的話解釋」這一欄不要抄原文定義。抄定義只證明你找得到，改寫才證明你讀懂了。例句請寫跟你的期末專案有關的句子，這樣同一份力氣可以用兩次——既練了語言，也想清楚了專案。",
+    m4_terms_label: "五個新詞彙或片語",
+    m4_col_term: "詞彙／片語", m4_col_mean: "用自己的話解釋", m4_col_sent: "自己造一個句子",
+    m4_pron_label: "三個唸起來不順的字",
+    m4_col_word: "字", m4_col_hard: "難在哪裡", m4_col_tip: "你的記憶方法",
+    m4_wrapup: "檢查點：五個詞的解釋沒有一句是直接抄教材原文。",
+
+    // M5 小組綜整
+    m5_nav: "5. 小組綜整", m5_title: "小組綜整：比對六個人的九層圖",
+    m5_overview: "這一節才是小組討論真正的工作。不是輪流念自己的九層，而是把六份放在一起比對——同樣一門課，六個人的工作環境卻長得完全不一樣。哪些差異只是個人習慣，哪些差異會在你們一起做期末專案時真的咬到你們？",
+    m5_highlights: ["選取而非全丟","差異盤點","共同風險","組內通則"],
+    m5_deep: "彙整方式有一條硬性規定：本週彙整人不得把六份個人匯出檔全部丟給 AI 叫它總結。選取才是重點，全丟不是——這件事下週講 Context Engineering 時會正式命名，但這一週你們就要先做對。正確做法是小組先決定這一次要比對哪三層，再只取那三層的六人份內容。",
+    m5_focus_label: "我們決定比對的三個層級（勾選三個）",
+    m5_focus_why: "為什麼略過其他層？",
+    m5_focus_why_ph: "例：第 1、2 層六個人幾乎一樣（都是自己的筆電），比對不出東西；我們挑了第 4、7、9 層。",
+    m5_diff_label: "最大的差異出現在哪裡？舉兩個具體例子",
+    m5_diff_ph: "例：A 用學校 workspace 帳號、其他五人用個人帳號，所以 A 看得到的雲端專案別人看不到；C 完全沒有本機工作資料夾，全部在對話裡。",
+    m5_risk_label: "這些差異裡，哪一個最可能在期末專案時咬到我們？",
+    m5_risk_ph: "例：只有兩個人的電腦裝得起桌面版，其餘四人碰不到本機檔案，分工時會卡住。",
+    m5_rule_label: "從這次比對，我們訂下一條組內通則",
+    m5_rule_ph: "例：本組所有期末專案檔案一律放共用雲端資料夾，任何人不得只存在自己電腦上。",
+    m5_rule_note: "這條通則會累積到期末專案。W10 建 KB 時，這些通則就是 business_rules.md 的第一批內容。",
+    m5_wrapup: "檢查點：只比對了三層（不是全部丟給 AI），且訂出的通則是可以檢查的，不是「大家要小心」這種。",
+
+    // M5
+    m6_nav: "6. 接到期末專案", m6_title: "接到期末專案：我的 TP 放哪裡？",
+    m6_overview: "每一份學習單都有這一節。九層模型不是拿來背的，是拿來決定「我的期末專案要怎麼放」。這一節的答案會直接影響你 W10 建 repo 時的結構。",
+    m6_highlights: ["工作容器選擇","KB 位置","Memory 位置","風險層"],
+    m6_deep: "期末專案是一個要每天自己運行、而且要撐到學期末的系統。這代表它不能只活在一次對話裡，也不能只活在你的筆電上。選容器時請同時考慮三件事：組員要不要一起改、它要不要能被排程自動跑、以及你退選或當機時別人接不接得下去。",
+    m6_container_label: "我的 TP 主要工作容器",
+    m6_container_opts: ["一般對話（AI 雲端聊天紀錄）","一般專案（AI 雲端專案空間）","本機資料夾（某台電腦）","雲端硬碟同步資料夾","Git repo（GitHub 等）"],
+    m6_container_why: "為什麼選它？（請至少提到組員協作與自動排程兩件事）",
+    m6_container_why_ph: "例：選 Git repo。組員可以各自 clone 與 push，排程也能直接在上面跑；放本機資料夾的話只有我這台電腦跑得動。",
+    m6_kb_label: "我的 KB 檔案會放在哪一層？",
+    m6_kb_ph: "例：放在 repo 的 KB/ 資料夾，屬於第 7 層工作容器，不是第 9 層 context window。",
+    m6_mem_label: "Memory（跨次狀態）會放在哪一層？",
+    m6_mem_ph: "例：放在 repo 裡的一個 state.json，由排程每天更新；不依賴任何一次對話的記憶。",
+    m6_risk_label: "我判斷最可能出問題的是哪一層？為什麼？",
+    m6_risk_ph: "例：第 6 層工作模式。組員有人只有網頁版，碰不到本機檔案，分工時要避開需要本機權限的工作。",
+    m6_wrapup: "檢查點：容器選擇的理由同時涵蓋了「組員協作」與「自動排程」兩個考量。",
+
+    // M6
+    m7_nav: "7. 簡報計畫", m7_title: "簡報計畫與提問",
+    m7_overview: "把第 1 節的分工變成可執行的腳本，並準備一個要丟給全班的問題。課堂上的 10 分鐘 Q&A 就是靠各組的問題撐起來的。",
+    m7_highlights: ["開場句","段落腳本","Menti 提問","10 分鐘"],
+    m7_deep: "開場句請用英文寫完整一句，不要只寫關鍵字——上台最卡的永遠是第一句。要丟給全班的問題請避開「是非題」，好的問題應該是同學必須先做一個判斷才能回答的，例如「如果你們組的資料只放在其中一個人的筆電上，你們打算怎麼處理他缺席那一週？」",
+    m7_open_label: "英文開場句（完整一句）",
+    m7_open_ph: "例：Our group mapped all nine layers, and we found that three of them break the moment we switch computers.",
+    m7_script_label: "段落腳本（每人一句話說明你要講的重點）",
+    m7_col_who: "誰", m7_col_point: "這一段的重點是什麼",
+    m7_question_label: "要丟給全班的一個問題（Menti 用）",
+    m7_question_ph: "例：If your group's only copy of the KB lives on one member's laptop, what is your plan for the week that member is absent?",
+    m7_wrapup: "檢查點：開場句是完整的英文句子，且提問不是可以用「是／否」回答的問題。",
+
+    // Lab
+    mlab_nav: "8. 互動實驗室", mlab_title: "互動實驗室",
+    mlab_desc: "四個小工具，幫你把第 2 到第 5 節的判斷做得更有把握。這一頁不需要填寫，但操作紀錄會計入完成度。",
+    lab1_title: "① 跨裝置存活診斷儀",
+    lab1_desc: "把每一層標記為「跟著帳號走」或「跟著這台電腦走」，看看換一台電腦之後還剩下什麼。",
+    lab1_cloud: "跟著帳號走", lab1_local: "跟著這台電腦走",
+    lab1_result: "換一台電腦後，9 層裡有 {n} 層需要重新設定。",
+    lab1_verdict_low: "可攜性良好。你的工作大致跟著帳號走。",
+    lab1_verdict_mid: "有風險。有幾層綁在這台電腦上，換裝置要花時間重建。",
+    lab1_verdict_high: "高風險。你的工作嚴重綁定單一裝置，這台電腦一壞就停擺。",
+    lab2_title: "② 工作容器選擇器",
+    lab2_desc: "回答三個問題，看看你的期末專案適合哪一種容器。",
+    lab2_q1: "組員需要各自修改同一批檔案嗎？",
+    lab2_q2: "它需要在沒有人操作時自動執行嗎？",
+    lab2_q3: "需要保留每一次修改的歷史紀錄嗎？",
+    lab2_yes: "需要", lab2_no: "不需要",
+    lab2_rec_label: "建議容器",
+    lab2_rec_git: "Git repo。三項需求中你至少中了兩項，只有版本控管的 repo 同時滿足協作、自動執行與歷史紀錄。",
+    lab2_rec_project: "AI 雲端專案空間。適合集中對話與檔案，但自動排程與版本歷史會受限。",
+    lab2_rec_folder: "本機或雲端同步資料夾。夠用，但要留意只有你這台電腦跑得動。",
+    lab3_title: "③ Context Window 壓縮模擬",
+    lab3_desc: "拉動滑桿，看看對話變長之後，最早那些設定還在不在模型的視野裡。",
+    lab3_len: "對話累積長度",
+    lab3_visible: "仍在視野內",
+    lab3_compressed: "已被壓縮為摘要",
+    lab3_note_ok: "目前一切都還看得見，早期的設定仍然精確。",
+    lab3_note_warn: "早期內容開始被摘要。細節（例如精確的欄位規格）可能已經失真。",
+    lab3_note_bad: "最早的設定幾乎只剩摘要。此時應該把規格寫進 KB 檔案，而不是指望模型記得。",
+    lab4_title: "④ 課前自我檢核",
+    lab4_desc: "四題選擇題，確認你確實讀過本週必讀教材。答錯會顯示解析。",
+
+    // Resources
+    mres_nav: "9. 學習資源", mres_title: "本週學習資源",
+    mres_desc: "必讀兩份，符合本課程規則：每週必讀 = 一份互動教材加上至多一支十分鐘內的短片。第一份是本週主教材，第二份是相鄰架構。選讀教材不影響學習單，但寫成書面整理可以計入加分作業。",
+    res_req: [
+      { label: "AIWE · AI 工作環境的層級模型", url: "https://lolopodcast.github.io/AI-Work-Environment-Layers/", desc: "本週主教材，也是第 2、3 節的直接依據。九個層級逐層拆解，內含原始層級圖。" },
+      { label: "AIWF · AI Workflow Methodology", url: "https://lolopodcast.github.io/AI-Workflow-Methodology/", desc: "三層決策架構：協作模式、產品介面、執行環境，對應層級模型的第 5、6 層。" }
+    ],
+    res_opt: [
+      { label: "Git & GitHub Essentials for Non-Coders", url: "https://lolopodcast.github.io/Git-GitHub-VibeCoding-for-Non-Coders/", desc: "W10 才列為必讀，提前看可以讓第 5 節的容器選擇更有把握。" },
+      { label: "EP13 – GenAI for Enhanced EMI Reading", url: "https://youtu.be/oyGzG3G_h8o", desc: "如何用生成式 AI 輔助英文閱讀，對本課程整學期都適用。" },
+      { label: "AI Ecosystem Comparison — Claude / ChatGPT / Gemini", url: "https://lolopodcast.github.io/AI-Ecosystem-Comparison/", desc: "W2 已看過，第 3、4 層填不出來時回頭翻。" }
+    ],
+
+    // Analytics
+    analytics_title: "完成度與匯出",
+    analytics_desc: "個人層與小組層分開匯出。個人版留給你自己，作為學習歷程檔案；小組版由本週彙整人上傳 Moodle。",
+    analytics_personal_title: "個人匯出（第 2、3、4 節・不繳交）",
+    analytics_personal_desc: "填好姓名即可匯出。這份檔案留給你自己，到 W10 建立知識庫時再從中挑選要保留的部分。",
+    analytics_group_title: "小組匯出（第 1、5、6、7 節・繳交 Moodle）",
+    analytics_group_desc: "填好組別與本週彙整人即可匯出。CSV 與 Markdown 各一份，上傳至 Moodle 作業區。",
+    analytics_compiler: "本週彙整人", analytics_compiler_ph: "例：王阿吉",
+    analytics_export_personal: "匯出個人 Markdown",
+    analytics_need_personal: "請先填寫姓名",
+    analytics_need_group: "請先填寫組別與本週彙整人",
+    analytics_pct_personal: "個人完成度", analytics_pct_group: "小組完成度",
+    badge_personal: "個人填寫・不繳交", badge_group: "小組共同・隨小組版繳交",
+    analytics_group: "組別", analytics_group_select: "請選擇", analytics_dept: "系級", analytics_dept_ph: "例：IBS1",
+    analytics_id: "學號", analytics_id_ph: "例：113212599",
+    analytics_name_en: "英文姓名", analytics_name_en_ph: "例：Shihmin Lo",
+    analytics_name_zh: "中文姓名", analytics_name_zh_ph: "例：王阿吉",
+    analytics_export_csv: "匯出 CSV（交 Moodle）",
+    analytics_export_md: "匯出 Markdown（存進你的 KB）",
+    analytics_fill_required: "請填寫完整基本資料以解鎖匯出",
+    group_options: ["G1","G2","G3","G4","G5","G6","G7","G8","G9","G10","G11","G12","Others"],
+    analytics_total_time: "總填寫時間", analytics_total_clicks: "總互動點擊",
+    analytics_overall_acc: "自我檢核答對率", analytics_completion: "整體完成度",
+    analytics_sec: "秒", analytics_times: "次",
+    analytics_progress_title: "各節完成度",
+    analytics_section: "節次", analytics_filled: "已填欄位", analytics_pct: "完成度",
+    analytics_wp_title: "尚未完成的欄位",
+    analytics_wp_goto: "→ 前往填寫",
+    sdl_title: "先匯入你的 SDL 知識庫快照",
+    sdl_desc: "本週流程是：不使用 AI 手寫閱讀筆記 → 用 SDL 學習夥伴做蘇格拉底式對話 → 產出 KB.md → 在這裡匯入。匯入後會自動帶入你的身分欄位，並把 KB 的重點顯示在各節上方供你對照。這份學習單不是要你重想一遍，是把你已經想清楚的填成可比對的格式。",
+    sdl_ph: "把 SDL 產出的 KB.md 全文貼在這裡（含最上方的 --- frontmatter ---）",
+    sdl_parse: "解析並匯入",
+    sdl_file: "改用檔案上傳",
+    sdl_loaded: "✓ 已匯入 SDL KB",
+    sdl_clear: "清除並重新匯入",
+    sdl_ok: "匯入成功，身分欄位已自動帶入。",
+    sdl_err_empty: "內容是空的，請先貼上 KB.md 全文。",
+    sdl_err_format: "解析不出來。請確認貼的是 SDL 產出的 KB.md（開頭應該有 --- 的 frontmatter，內文有 §1 §2 等段落）。",
+    sdl_panel_title: "📖 你的 SDL KB 重點（對照用）",
+    sdl_panel_show: "展開",
+    sdl_panel_hide: "收合",
+    sdl_s1: "§1 本次學習摘要",
+    sdl_s2: "§2 知識綜整",
+    sdl_s4: "§4 學生親筆區塊",
+    sdl_s5: "§5 未解問題清單",
+    analytics_wp_personal_head: "個人層（你自己要填）",
+    analytics_wp_personal_done: "個人層已全部完成。",
+    analytics_wp_group_head: "小組層（小組討論時共同決定）",
+    analytics_wp_group_note: "若你不是本週彙整人，這幾節維持 0% 是正常的——個人匯出不受影響。",
+    analytics_wp_group_done: "小組層已全部完成。",
+    analytics_wp_allpass: "六節全部填寫完成，可以匯出了。",
+    analytics_wp_saved: "填寫內容已自動儲存於本機瀏覽器",
+    analytics_wp_clear: "🗑 清除全部",
+    analytics_wp_clear_confirm: "確定要清除所有填寫內容與歷程嗎？此操作無法復原，建議先匯出。",
+    analytics_wp_tts_intro: "以下是尚未完成的節次。",
+    analytics_wp_tts_module: "{name}，完成度 {acc}%。",
+    analytics_wp_tts_allpass: "六節全部填寫完成。",
+
+    date: "Version 2026.08.21",
+    copyright: "For Educational Use Only",
+    architect_label: "Architect:",
+    architect_name: "Prof. Shihmin Lo",
+    architect_url: "https://www.ibs.ncnu.edu.tw/index.php/faculty/tenured-professor/299-smlo"
+  },
+
+  en: {
+    brand: "PMCS",
+    title: "Worksheet W3", subtitle: "Where Does Your Work Actually Live?",
+    nav_modules: "Contents", nav_prev: "Previous", nav_next: "Next", nav_home: "Home",
+    key_terms: "Quick Reference Cards", flip_prompt: "Click to flip",
+    flip_status: "Read {read} / Shown {shown} / Total {total}",
+    flip_next: "Next", flip_retry: "Restart",
+    audio_read: "Audio Guide",
+    quiz_title: "Pre-Class Self-Check", quiz_status: "Correct {correct} / Answered {answered} / Total {total}",
+    quiz_next: "Next", quiz_retry: "Retry",
+    submit: "Submit", score: "Score", correct: "Correct", incorrect: "Incorrect", explanation: "Explanation",
+    overview_label: "Overview",
+    highlights_label: "Highlights",
+    deep_dive_label: "Deep Dive",
+    wrapup_label: "Wrap-up",
+    saved_hint: "✍️ Your entries are saved in this browser on this computer only. They do not travel with you — always export from the Completion & Export page.",
+    required_label: "Required Material", optional_label: "Optional Material (eligible for BA)",
+    words: "words",
+
+    m0_nav: "0. Executive Summary",
+    m0_title: "How to Use This Worksheet",
+    m0_intro: "This is the pre-class worksheet for W3 of PMCS. Two required materials this week: AIWE · The Layered Model of an AI Work Environment (the main one, with the original nine-layer diagram inside) and AIWF · AI Workflow Methodology. After reading them, you will use the nine-layer model to survey your own working environment — which machine your files sit on, which platform holds your account, which container your project lives in, and which layers break the moment you switch computers. This is not an abstract knowledge test but a field survey: by the end you should be able to say precisely where the repository, the knowledge base, and the memory of your Term Project will each live. The six sections take forty to fifty minutes of individual work; with group discussion and presentation preparation the total lands at roughly two hours, which is exactly the out-of-class investment this course expects. Your entries save automatically in this browser. When you finish, go to Completion & Export and export both formats: the CSV goes to Moodle, and the Markdown stays with you — it can become the very first file of your own knowledge base.",
+    m0_why: "Why start with where the work lives?",
+    m0_why_desc: "The most common frustration students hit with AI is not a badly written prompt. It is not knowing where the files are, whether the AI can see them, and why everything breaks on a different computer. If this layer stays fuzzy, the four engineering dimensions, the harness, and deployment will all jam later. So the first foundation of the semester is knowing where you are standing.",
+    m0_stats: [
+      { val: "9", label: "layers to survey" },
+      { val: "2", label: "required materials" },
+      { val: "6", label: "sections to complete" },
+      { val: "40-50", label: "minutes of individual work" }
+    ],
+    m0_modules: [
+      { num: "01", title: "Group & Roles", desc: "Register your group and members, and settle the jigsaw split for the 10-minute presentation." },
+      { num: "02", title: "Nine-Layer Survey", desc: "Write your own actual situation layer by layer. This is the core task of the week." },
+      { num: "03", title: "Break-Point Diagnosis", desc: "Switch computers — which layers break, why, and how would you fix it?" },
+      { num: "04", title: "Language Lab", desc: "Five new terms and three hard-to-pronounce words for your Coggle mindmap." },
+      { num: "05", title: "Bridge to Your TP", desc: "Which container will your Term Project live in? Where do the KB and Memory sit?" },
+      { num: "06", title: "Presentation Plan", desc: "Who speaks about what, for how many seconds, plus one question for the class." }
+    ],
+    m0_start: "Start →",
+
+    layers: [
+      { id:"L1", name:"1. Device", hint:"Determines which physical machine your local files and tools actually sit on.", ph:"e.g. My laptop (Windows 11) and my phone (iPhone). Code and local folders exist only on the laptop." },
+      { id:"L2", name:"2. User", hint:"Who is logged into this device. The user account shapes local paths and permissions.", ph:"e.g. C:\\Users\\jimmy\\ ; the desktop at home is a different user account with different paths." },
+      { id:"L3", name:"3. AI Platform", hint:"Each platform has its own projects, history and permissions; records rarely cross platforms.", ph:"e.g. Mainly Claude, occasionally ChatGPT. The two histories are completely separate." },
+      { id:"L4", name:"4. Account / Plan / Workspace", hint:"Cloud chats and projects usually follow this layer.", ph:"e.g. A personal paid account registered with my university email; not a member of any team workspace." },
+      { id:"L5", name:"5. Interface", hint:"Web, desktop and mobile do not necessarily have the same capabilities.", ph:"e.g. Normally the web app; I open the desktop app only when the AI needs to read local files." },
+      { id:"L6", name:"6. Working Mode", hint:"Pure conversation, or the ability to operate on files and tools?", ph:"e.g. Chat for lookups; I switch to a file-capable mode when I need to produce files or run commands." },
+      { id:"L7", name:"7. Working Container", hint:"Ordinary chat, cloud project, local folder, or synced cloud drive — pick one or mix.", ph:"e.g. Currently scattered across ordinary chats; I plan to open a project for the TP and create D:\\PMCS-TP on my laptop." },
+      { id:"L8", name:"8. Task / Chat / Thread", hint:"A persistent unit of work, not a single model call. It remembers history, state and possibly a working folder.", ph:"e.g. I open a new chat every time, so I have to re-explain last time's conclusion from scratch." },
+      { id:"L9", name:"9. Context Window", hint:"What the model can directly see right now. It is not a folder and not storage.", ph:"e.g. In long chats the AI starts forgetting my earlier settings — it was compressed, but I assumed it still remembered." }
+    ],
+
+    m1_nav: "1. Group & Roles", m1_title: "Group and Jigsaw Roles",
+    m1_overview: "Fill in the administrative details first, then settle the presentation split during group discussion. Two groups present each week for 10 minutes, and every member must speak for one to two minutes — this section pins down who covers what and for how long, so nobody is being volunteered at the podium.",
+    m1_highlights: ["Jigsaw collaboration","1-2 min each","10 min per group","Everyone speaks"],
+    m1_deep: "Splitting the work is not the same as dividing it. The point of a jigsaw is that the part you own is a part nobody else read, so what you say carries real information for your teammates. The nine layers split naturally: two people take three layers each, or one person takes one or two layers plus the break-point diagnosis. Write the seconds down — that is the only way the total stays under control.",
+    m1_group: "Group", m1_group_select: "Select", m1_date: "Date",
+    m1_members_label: "Members and roles (use the buttons below to set the size, up to 10)",
+    m1_member_count: "{n} members",
+    m1_col_name: "Name", m1_col_id: "Student ID", m1_col_part: "Assigned part", m1_col_sec: "Seconds",
+    m1_part_ph: "e.g. L1-L3 Device and account",
+    m1_total_sec: "Planned total length",
+    m1_sec_warn: "Over 600 seconds (10 minutes) — trim it down.",
+    m1_sec_ok: "Within 10 minutes. Workable.",
+    m1_wrapup: "Checkpoint: every attending member has an assigned part, and the total stays under 600 seconds.",
+
+    m2_nav: "2. Nine-Layer Survey", m2_title: "Nine-Layer Survey: My Working Environment",
+    m2_overview: "The core task of the week. Write your own actual situation layer by layer — not the textbook definition, but yours. One sentence minimum per box; the more concrete you are, the sharper the break-point diagnosis in section 3 becomes.",
+    m2_highlights: ["Device","Account","Platform","Container","Task","Context Window"],
+    m2_deep: "Here is a test you can run on yourself while writing. If your sentence would still be true after swapping you for any classmate, you have not yet written about yourself. \"I use Claude\" does not count. \"I use a personal paid Claude account registered with my university email and I belong to no team workspace, so shared team files are invisible to me\" does. The two boxes most likely to come out vague are layer 7, the working container, and layer 9, the context window. Spend extra time on those two.",
+    m2_svg_cap: "The nine layers, from the physical machine up to what the model can see right now",
+    m2_terms: [
+      { front: "Device", back: "Laptop, desktop, server, tablet or phone. Determines which machine your local files and tools actually sit on." },
+      { front: "AI Platform", back: "Each platform carries its own projects, history, permissions and product names; cloud records rarely cross between platforms." },
+      { front: "Account / Workspace", back: "Within one platform: which account you signed in with, which plan you pay for, which company or school workspace you belong to. Cloud chats and projects usually follow this layer." },
+      { front: "Interface", back: "Web, desktop or mobile. Different interfaces, different capabilities; reading local files generally needs the desktop app plus local permission." },
+      { front: "Working Mode", back: "The core distinction is pure conversation versus the ability to operate on files and tools. Names vary by platform; capabilities vary a lot." },
+      { front: "Working Container", back: "Ordinary chat, cloud project, local folder, or synced cloud drive. Determines where your work actually sits and whether it survives a change of device." },
+      { front: "Task", back: "A persistent unit of work, not a single model call. It remembers conversation history, working state, permissions, and possibly a bound working folder." },
+      { front: "Context Window", back: "The span of context the model can directly see right now. It is not a folder, not a project, and not account storage; when it gets long it is compressed or summarised." }
+    ],
+    m2_q: [
+      { q: "Cloud project records under the same platform and the same account most likely follow which layer?", opts: ["The device layer","The account / workspace layer","The interface layer","The context window"], ans: _A1, exp: "Cloud chats and projects are normally bound to the account, plan and workspace layer, so signing into the same account on another machine usually still finds them." },
+      { q: "Which statement correctly describes the context window?", opts: ["A cloud folder that stores files","The same thing as your project space","The span of context the model can directly see right now","The storage limit of your account"], ans: _A2, exp: "The context window is only the model's current field of view, not storage. When it gets long it is compressed or summarised, though it is usually still the same task." },
+      { q: "A classmate says \"my files are inside the AI.\" What is the main problem with that sentence?", opts: ["It does not separate local space from cloud space","It does not say which model","It does not mention the subscription plan","It does not mention prompting technique"], ans: _A0, exp: "Local files follow a specific machine and path; cloud records follow the account and workspace. Conflating the two is exactly what produces \"it vanished when I changed computers.\"" },
+      { q: "To let an AI read a folder on your own computer, you generally need which of the following?", opts: ["Simply upload the folder into the chat history","A desktop interface plus local permission","A longer context window","A more expensive subscription plan"], ans: _A1, exp: "A pure cloud web interface normally cannot reach local files; reading and writing a local folder generally requires the desktop app and an explicitly authorised local path." }
+    ],
+    m2_wrapup: "Checkpoint: all nine boxes are filled, and every one of them passes the \"would not be true for anyone else\" test.",
+
+    m3_nav: "3. Break-Point Diagnosis", m3_title: "Break-Point Diagnosis: What Breaks on Another Machine?",
+    m3_overview: "Stress-test what you wrote in section 2. Imagine your laptop goes in for repair tomorrow and you must continue the Term Project on a university machine or the desktop at home. Tick the layers that break, then explain why and how you would fix it.",
+    m3_highlights: ["Cross-device continuity","Local vs cloud","Fallback","Portability"],
+    m3_deep: "The rule of thumb is simple. Whatever follows your account or workspace usually survives a change of device; whatever follows a particular machine and a particular path has to be re-specified, or simply does not exist there. The real danger is not that something breaks — it is that you assumed it would not. Once you have filled this section in, your instinct about where the Term Project belongs will be completely different.",
+    m3_check_label: "Tick: this layer breaks or must be reconfigured on another computer",
+    m3_why_label: "Explain: why do those layers break?",
+    m3_why_ph: "e.g. D:\\PMCS-TP exists only on my own laptop; the university machine has no such path, and the desktop app would need reinstalling and re-authorising the folder.",
+    m3_fix_label: "Fix: how would you stop it breaking?",
+    m3_fix_ph: "e.g. Move the working folder into a synced cloud drive, or straight into a GitHub repository, so any machine can clone it and carry on.",
+    m3_count: "Layers you judged to break",
+    m3_wrapup: "Checkpoint: at least one layer is ticked, and the explanation names a concrete path, account or tool rather than speaking in generalities.",
+
+    m4_nav: "4. Language Lab", m4_title: "EMI Language Lab",
+    m4_overview: "This course is taught in English, and the output of this section goes straight into your Coggle mindmap. Pick five new words or phrases from this week's required material, plus three words you stumble over when reading aloud.",
+    m4_highlights: ["Five new terms","Three hard words","In your own words","Example sentences"],
+    m4_deep: "Do not copy the source definition into the \"in your own words\" column. Copying proves only that you found it; rewriting proves you understood it. For the example sentences, write about your own Term Project — that way one effort does two jobs, exercising the language and clarifying the project at the same time.",
+    m4_terms_label: "Five new words or phrases",
+    m4_col_term: "Term / phrase", m4_col_mean: "In your own words", m4_col_sent: "Your own sentence",
+    m4_pron_label: "Three words you stumble over",
+    m4_col_word: "Word", m4_col_hard: "What makes it hard", m4_col_tip: "Your memory trick",
+    m4_wrapup: "Checkpoint: not one of the five explanations is copied verbatim from the source.",
+
+    m5_nav: "5. Group Synthesis", m5_title: "Group Synthesis: Comparing Six Nine-Layer Maps",
+    m5_overview: "This section is the real work of the group discussion. Not taking turns reading out your own nine layers, but putting all six side by side — one course, and yet six completely different working environments. Which of those differences are mere personal habit, and which will actually bite you when you build the Term Project together?",
+    m5_highlights: ["Select, do not dump","Difference audit","Shared risk","A group rule"],
+    m5_deep: "One rule is mandatory here: this week's compiler must NOT dump all six individual exports into an AI and ask for a summary. Selection is the point; dumping is not. That idea gets its formal name next week under Context Engineering, but you need to get it right this week. The correct move is for the group to decide which three layers to compare, then take only those three from each member.",
+    m5_focus_label: "The three layers we chose to compare (tick three)",
+    m5_focus_why: "Why did we skip the others?",
+    m5_focus_why_ph: "e.g. Layers 1 and 2 are nearly identical for all six of us, so there was nothing to learn. We picked layers 4, 7 and 9.",
+    m5_diff_label: "Where do the biggest differences appear? Give two concrete examples",
+    m5_diff_ph: "e.g. A signs in with a university workspace account while the other five use personal accounts, so cloud projects visible to A are invisible to everyone else; C has no local working folder at all.",
+    m5_risk_label: "Which of those differences is most likely to bite us during the Term Project?",
+    m5_risk_ph: "e.g. Only two of us can install the desktop app, so the other four cannot reach local files and the division of labour will jam.",
+    m5_rule_label: "From this comparison, our group sets one rule",
+    m5_rule_ph: "e.g. Every Term Project file of this group lives in the shared cloud folder; nobody may keep the only copy on their own machine.",
+    m5_rule_note: "These rules accumulate towards the Term Project. When you build the KB in W10, they become the first entries of business_rules.md.",
+    m5_wrapup: "Checkpoint: only three layers were compared (nothing was dumped wholesale into an AI), and the rule you set is checkable rather than an aspiration.",
+
+    m6_nav: "6. Bridge to Your TP", m6_title: "Bridge to Your Term Project: Where Will It Live?",
+    m6_overview: "Every worksheet in this course carries this section. The nine-layer model is not there to be memorised; it is there to decide where your Term Project goes. Your answers here will directly shape the repository structure you build in W10.",
+    m6_highlights: ["Container choice","KB location","Memory location","Riskiest layer"],
+    m6_deep: "The Term Project is a system that must run by itself every day and survive to the end of the semester. That means it cannot live inside a single conversation, and it cannot live only on your laptop. When choosing a container, weigh three things at once: whether teammates need to edit it too, whether it must run unattended on a schedule, and whether somebody else could pick it up if you withdrew or your machine died.",
+    m6_container_label: "The main working container for my TP",
+    m6_container_opts: ["Ordinary chat (AI cloud conversation history)","Cloud project space","Local folder (one specific computer)","Synced cloud drive folder","Git repository (GitHub or similar)"],
+    m6_container_why: "Why that one? (address teammate collaboration and scheduled execution)",
+    m6_container_why_ph: "e.g. A Git repository. Teammates can clone and push independently and the scheduler can run directly against it; a local folder would mean only my machine can run it.",
+    m6_kb_label: "Which layer will my KB files live in?",
+    m6_kb_ph: "e.g. In the KB/ folder of the repository — layer 7, the working container, not layer 9, the context window.",
+    m6_mem_label: "Where will Memory (state across runs) live?",
+    m6_mem_ph: "e.g. A state.json inside the repository, updated daily by the scheduler; it depends on no conversation's memory.",
+    m6_risk_label: "Which layer do you judge most likely to cause trouble, and why?",
+    m6_risk_ph: "e.g. Layer 6, working mode. One teammate has only the web app and cannot reach local files, so I must avoid assigning them work that needs local permissions.",
+    m6_wrapup: "Checkpoint: the reasoning behind the container choice covers both teammate collaboration and scheduled execution.",
+
+    m7_nav: "7. Presentation Plan", m7_title: "Presentation Plan and Question",
+    m7_overview: "Turn section 1's split into a runnable script, and prepare one question to put to the class. The 10-minute Q&A in class is carried entirely by the questions each group brings.",
+    m7_highlights: ["Opening line","Segment script","Menti question","10 minutes"],
+    m7_deep: "Write the opening line as a complete English sentence, not as keywords — the first sentence is always the one that jams. For the question to the class, avoid anything answerable with yes or no. A good question forces a judgement before an answer is possible, for example: if your group's data lives on one member's laptop, what is your plan for the week that member is away?",
+    m7_open_label: "English opening line (one complete sentence)",
+    m7_open_ph: "e.g. Our group mapped all nine layers, and we found that three of them break the moment we switch computers.",
+    m7_script_label: "Segment script (one sentence per speaker on the point they will make)",
+    m7_col_who: "Speaker", m7_col_point: "The point of this segment",
+    m7_question_label: "One question for the class (for Menti)",
+    m7_question_ph: "e.g. If your group's only copy of the KB lives on one member's laptop, what is your plan for the week that member is absent?",
+    m7_wrapup: "Checkpoint: the opening line is a complete English sentence, and the question cannot be answered with yes or no.",
+
+    mlab_nav: "8. Interactive Lab", mlab_title: "Interactive Lab",
+    mlab_desc: "Four small tools to sharpen the judgements you made in sections 2 to 5. Nothing here needs filling in, but your activity counts towards completion.",
+    lab1_title: "① Cross-Device Survival Diagnostic",
+    lab1_desc: "Mark each layer as following your account or following this particular computer, and see what survives a change of machine.",
+    lab1_cloud: "Follows the account", lab1_local: "Follows this computer",
+    lab1_result: "On another computer, {n} of the 9 layers need reconfiguring.",
+    lab1_verdict_low: "Good portability. Your work largely follows your account.",
+    lab1_verdict_mid: "Some risk. A few layers are tied to this machine and would cost you time to rebuild.",
+    lab1_verdict_high: "High risk. Your work is heavily bound to a single device; if it dies, everything stops.",
+    lab2_title: "② Working Container Selector",
+    lab2_desc: "Answer three questions to see which container suits your Term Project.",
+    lab2_q1: "Do teammates need to edit the same files independently?",
+    lab2_q2: "Must it run automatically when nobody is operating it?",
+    lab2_q3: "Do you need a history of every change?",
+    lab2_yes: "Yes", lab2_no: "No",
+    lab2_rec_label: "Recommended container",
+    lab2_rec_git: "A Git repository. You answered yes to at least two of the three, and only a version-controlled repository satisfies collaboration, unattended execution and history at the same time.",
+    lab2_rec_project: "A cloud project space. Good for keeping conversations and files together, but scheduling and version history will be limited.",
+    lab2_rec_folder: "A local or synced folder. Sufficient, but note that only your machine can run it.",
+    lab3_title: "③ Context Window Compression Simulator",
+    lab3_desc: "Drag the slider to see whether your earliest settings are still in the model's field of view as the conversation grows.",
+    lab3_len: "Accumulated conversation length",
+    lab3_visible: "Still in view",
+    lab3_compressed: "Compressed into a summary",
+    lab3_note_ok: "Everything is still visible; your early settings remain exact.",
+    lab3_note_warn: "Early content is starting to be summarised. Details such as exact field specifications may already have drifted.",
+    lab3_note_bad: "Your earliest settings survive only as a summary. This is the point at which the specification belongs in a KB file rather than in the model's memory.",
+    lab4_title: "④ Pre-Class Self-Check",
+    lab4_desc: "Four multiple-choice questions to confirm you actually read this week's required material. Wrong answers show an explanation.",
+
+    mres_nav: "9. Learning Resources", mres_title: "This Week's Resources",
+    mres_desc: "Two required items, matching the rule of this course: each week's required set is one interactive material plus at most one short video under ten minutes. The first is this week's main material; the second is an adjacent framework. Optional materials do not affect the worksheet, but a written summary of one counts as a Bonus Assignment.",
+    res_req: [
+      { label: "AIWE · The Layered Model of an AI Work Environment", url: "https://lolopodcast.github.io/AI-Work-Environment-Layers/", desc: "The main material this week, and the direct basis for sections 2 and 3. All nine layers taken apart, with the original diagram included." },
+      { label: "AIWF · AI Workflow Methodology", url: "https://lolopodcast.github.io/AI-Workflow-Methodology/", desc: "A three-layer decision framework — collaboration mode, product surface, execution environment — matching layers 5 and 6 of the layered model." }
+    ],
+    res_opt: [
+      { label: "Git & GitHub Essentials for Non-Coders", url: "https://lolopodcast.github.io/Git-GitHub-VibeCoding-for-Non-Coders/", desc: "Required later in W10. Reading it early makes the container choice in section 5 much more confident." },
+      { label: "EP13 – GenAI for Enhanced EMI Reading", url: "https://youtu.be/oyGzG3G_h8o", desc: "How to use generative AI to support English reading — useful for the whole semester." },
+      { label: "AI Ecosystem Comparison — Claude / ChatGPT / Gemini", url: "https://lolopodcast.github.io/AI-Ecosystem-Comparison/", desc: "Already covered in W2. Come back to it if layers 3 and 4 are hard to fill in." }
+    ],
+
+    analytics_title: "Completion & Export",
+    analytics_desc: "The individual and group layers export separately. The individual file stays with you as a learning record; the group file is uploaded to Moodle by the compiler of the week.",
+    analytics_personal_title: "Individual export (sections 2, 3, 4 · not submitted)",
+    analytics_personal_desc: "Enter your name to export. This file stays with you; when you build your knowledge base in W10 you will select from it.",
+    analytics_group_title: "Group export (sections 1, 5, 6, 7 · submit to Moodle)",
+    analytics_group_desc: "Enter the group and this week's compiler to export. One CSV and one Markdown, uploaded to the Moodle assignment.",
+    analytics_compiler: "This week's compiler", analytics_compiler_ph: "e.g. 王阿吉",
+    analytics_export_personal: "Export individual Markdown",
+    analytics_need_personal: "Enter your name first",
+    analytics_need_group: "Enter the group and this week's compiler first",
+    analytics_pct_personal: "Individual completion", analytics_pct_group: "Group completion",
+    badge_personal: "Individual · not submitted", badge_group: "Group · submitted with the group file",
+    analytics_group: "Group", analytics_group_select: "Select", analytics_dept: "Dept / Year", analytics_dept_ph: "e.g. IBS1",
+    analytics_id: "Student ID", analytics_id_ph: "e.g. 113212599",
+    analytics_name_en: "Name (English)", analytics_name_en_ph: "e.g. Shihmin Lo",
+    analytics_name_zh: "Name (Chinese)", analytics_name_zh_ph: "e.g. 王阿吉",
+    analytics_export_csv: "Export CSV (submit to Moodle)",
+    analytics_export_md: "Export Markdown (save into your KB)",
+    analytics_fill_required: "Complete your details to unlock export",
+    group_options: ["G1","G2","G3","G4","G5","G6","G7","G8","G9","G10","G11","G12","Others"],
+    analytics_total_time: "Total time on worksheet", analytics_total_clicks: "Total interactions",
+    analytics_overall_acc: "Self-check accuracy", analytics_completion: "Overall completion",
+    analytics_sec: "s", analytics_times: "×",
+    analytics_progress_title: "Completion by section",
+    analytics_section: "Section", analytics_filled: "Fields filled", analytics_pct: "Completion",
+    analytics_wp_title: "Fields still empty",
+    analytics_wp_goto: "→ Go and fill it in",
+    sdl_title: "First, import your SDL knowledge-base snapshot",
+    sdl_desc: "This week's sequence is: read and take notes by hand without AI → run a Socratic session with the SDL learning partner → produce KB.md → import it here. Importing fills in your identity fields automatically and shows the key parts of your KB above each section. This worksheet is not asking you to think it through again; it turns what you already worked out into a format the group can compare.",
+    sdl_ph: "Paste the full KB.md produced by the SDL partner here (including the --- frontmatter --- at the top)",
+    sdl_parse: "Parse and import",
+    sdl_file: "Upload a file instead",
+    sdl_loaded: "✓ SDL KB imported",
+    sdl_clear: "Clear and re-import",
+    sdl_ok: "Imported. Your identity fields have been filled in.",
+    sdl_err_empty: "Nothing to parse — paste the full KB.md first.",
+    sdl_err_format: "Could not parse it. Check that this is the KB.md produced by the SDL partner (it should start with a --- frontmatter --- block and contain §1, §2 and similar sections).",
+    sdl_panel_title: "📖 Your SDL KB at a glance (for reference)",
+    sdl_panel_show: "Show",
+    sdl_panel_hide: "Hide",
+    sdl_s1: "§1 Learning summary",
+    sdl_s2: "§2 Knowledge synthesis",
+    sdl_s4: "§4 Student's own words",
+    sdl_s5: "§5 Open questions",
+    analytics_wp_personal_head: "Individual layer (yours to fill)",
+    analytics_wp_personal_done: "The individual layer is complete.",
+    analytics_wp_group_head: "Group layer (decided together in discussion)",
+    analytics_wp_group_note: "If you are not this week's compiler, 0% here is normal — it does not affect your individual export.",
+    analytics_wp_group_done: "The group layer is complete.",
+    analytics_wp_allpass: "All six sections are complete. You are ready to export.",
+    analytics_wp_saved: "Your entries are saved automatically in this browser",
+    analytics_wp_clear: "🗑 Clear all",
+    analytics_wp_clear_confirm: "Clear every entry and all activity data? This cannot be undone — export first.",
+    analytics_wp_tts_intro: "The following sections are still incomplete.",
+    analytics_wp_tts_module: "{name}, {acc}% complete.",
+    analytics_wp_tts_allpass: "All six sections are complete.",
+
+    date: "Version 2026.08.21",
+    copyright: "For Educational Use Only",
+    architect_label: "Architect:",
+    architect_name: "Prof. Shihmin Lo",
+    architect_url: "https://www.ibs.ncnu.edu.tw/index.php/faculty/tenured-professor/299-smlo"
+  }
+};
+
+/* ================= Field registry (drives completion + export) ================= */
+const FIELDS = {
+  1: ['g_group','g_date', ...MEMBER_IDX.flatMap(i => [`m_name_${i}`,`m_id_${i}`,`m_part_${i}`,`m_sec_${i}`])],
+  2: LAYER_IDS.map(id => `layer_${id}`),
+  3: ['brk_why','brk_fix'],
+  4: [...[0,1,2,3,4].flatMap(i => [`t_term_${i}`,`t_mean_${i}`,`t_sent_${i}`]), ...[0,1,2].flatMap(i => [`p_word_${i}`,`p_hard_${i}`,`p_tip_${i}`])],
+  5: ['syn_focus_why','syn_diff','syn_risk','syn_rule'],
+  6: ['tp_container','tp_why','tp_kb','tp_mem','tp_risk'],
+  7: ['pr_open','pr_question', ...MEMBER_IDX.map(i => `pr_point_${i}`)]
+};
+/* Fields that must be filled for a section to count as "core complete" */
+const CORE = {
+  1: ['g_group','g_date','m_name_0','m_part_0'],
+  2: LAYER_IDS.map(id => `layer_${id}`),
+  3: ['brk_why','brk_fix'],
+  4: ['t_term_0','t_mean_0','t_term_1','t_mean_1','t_term_2','t_mean_2','t_term_3','t_mean_3','t_term_4','t_mean_4','p_word_0','p_word_1','p_word_2'],
+  5: ['syn_focus_why','syn_diff','syn_risk','syn_rule'],
+  6: ['tp_container','tp_why','tp_kb','tp_mem','tp_risk'],
+  7: ['pr_open','pr_question','pr_point_0']
+};
+
+/* ================= Shared UI atoms ================= */
+const H2 = ({ children, icon, number }) => (
+  <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-black text-[#004030] dark:text-[#D8C3A5] mb-6 flex items-center gap-3">
+    {icon && <span className="text-2xl ui-decoration">{icon}</span>}
+    {number !== undefined && <span>{number}.</span>}
+    <span>{children}</span>
+  </h2>
+);
+
+const Overview = ({ t, text }) => (
+  <div className="bg-[#004030]/5 dark:bg-[#D8C3A5]/5 rounded-xl p-5 border-l-4 border-[#D8C3A5]">
+    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-2">{t.overview_label}</h3>
+    <p>{text}</p>
+  </div>
+);
+
+const Highlights = ({ t, items }) => (
+  <div>
+    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.highlights_label}</h3>
+    <div className="flex flex-wrap gap-2">
+      {items.map((h,i) => (
+        <span key={i} className="px-3 py-1 bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5] rounded-full text-sm font-medium">{h}</span>
+      ))}
+    </div>
+  </div>
+);
+
+const DeepDive = ({ t, text }) => (
+  <div>
+    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.deep_dive_label}</h3>
+    <p className="p-4 bg-slate-100 dark:bg-slate-800 rounded-lg italic font-serif">{text}</p>
+  </div>
+);
+
+const Wrapup = ({ t, text }) => (
+  <div className="bg-slate-100 dark:bg-slate-800 rounded-xl p-5 flex gap-3 items-start">
+    <span className="text-[#004030] dark:text-[#D8C3A5] mt-0.5 shrink-0"><IconCheckCircle size={18}/></span>
+    <div>
+      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-1">{t.wrapup_label}</h3>
+      <p className="italic">{text}</p>
+    </div>
+  </div>
+);
+
+const inputCls = "w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 text-base focus:outline-none focus:ring-2 focus:ring-[#004030] dark:focus:ring-[#D8C3A5] transition";
+
+const Field = ({ id, label, hint, ph, rows, value, onChange, type }) => (
+  <div className="mb-5">
+    {label && <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{label}</label>}
+    {hint && <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 leading-relaxed">{hint}</p>}
+    {rows
+      ? <textarea rows={rows} className={inputCls} placeholder={ph} value={value||''} onChange={e => onChange(id, sanitizeText(e.target.value))} />
+      : <input type={type||'text'} className={inputCls} placeholder={ph} value={value||''} onChange={e => onChange(id, sanitizeText(e.target.value))} />}
+  </div>
+);
+
+const Badge = ({ kind, t }) => (
+  <span className={`inline-block text-xs font-bold px-3 py-1 rounded-full mb-4 ${kind === 'P'
+    ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200'
+    : 'bg-[#D8C3A5]/30 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>
+    {kind === 'P' ? t.badge_personal : t.badge_group}
+  </span>
+);
+const InfoInput = ({ id, label, ph, value, onChange, san }) => (
+  <div>
+    <label className="block text-xs font-bold text-slate-500 mb-1">{label}</label>
+    <input className={inputCls} placeholder={ph} value={value || ''} onChange={e => onChange(id, (san || sanitizeName)(e.target.value))} />
+  </div>
+);
+
+/* ================= SDL KB import ================= */
+const SEMESTER_DEFAULT = '1151';
+const WEEK_CODE = 'W03';
+const TOPIC_CAMEL = 'WorkEnvironment';
+
+const parseSdlKb = (text) => {
+  try {
+    const t = String(text || '').replace(/\r\n/g, '\n').trim();
+    if (!t) return { ok: false, error: 'empty' };
+    const fm = t.match(/^---\n([\s\S]*?)\n---/);
+    const meta = {};
+    if (fm) {
+      fm[1].split('\n').forEach(line => {
+        if (/^\s/.test(line)) return;               // skip nested (sources / interaction)
+        const m = line.match(/^([A-Za-z_]+):\s*(.*)$/);
+        if (m) meta[m[1]] = m[2].replace(/^["']|["']$/g, '').trim();
+      });
+    }
+    const sections = {};
+    const parts = t.split(/^##\s*§/m);
+    parts.shift();
+    parts.forEach(part => {
+      const n = part.match(/^(\d)/);
+      if (!n) return;
+      sections['s' + n[1]] = part.replace(/^\d[^\n]*\n?/, '').trim();
+    });
+    const hasAny = Object.keys(meta).length > 0 || Object.keys(sections).length > 0;
+    if (!hasAny) return { ok: false, error: 'format' };
+    return { ok: true, meta, sections, raw: t };
+  } catch (e) { return { ok: false, error: 'format' }; }
+};
+
+const SdlImport = ({ t, sdl, onImport, onClear }) => {
+  const [text, setText] = useState('');
+  const [msg, setMsg] = useState(null);
+  const fileRef = useRef(null);
+  const doParse = (raw) => {
+    const r = parseSdlKb(raw);
+    if (!r.ok) { setMsg({ ok: false, text: r.error === 'empty' ? t.sdl_err_empty : t.sdl_err_format }); return; }
+    onImport(r);
+    setMsg({ ok: true, text: t.sdl_ok });
+    setText('');
+  };
+  const onFile = (e) => {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    const rd = new FileReader();
+    rd.onload = () => doParse(rd.result);
+    rd.readAsText(f);
+    e.target.value = '';
+  };
+  return (
+    <div className="rounded-xl border-2 border-sky-200 dark:border-sky-800/60 bg-sky-50/50 dark:bg-sky-900/10 p-5">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5]">{t.sdl_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-3 leading-relaxed">{t.sdl_desc}</p>
+      {sdl ? (
+        <div className="rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4">
+          <p className="text-sm font-bold text-green-700 dark:text-green-400">{t.sdl_loaded}</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 break-all">
+            {[sdl.meta.course, sdl.meta.semester, sdl.meta.week, sdl.meta.topic].filter(Boolean).join(' · ')}
+            {sdl.meta.student ? ' · ' + sdl.meta.student : ''}{sdl.meta.group ? ' · ' + sdl.meta.group : ''}
+          </p>
+          <button onClick={onClear} className="mt-3 px-3 py-1.5 text-xs border border-red-400 text-red-600 dark:text-red-400 rounded-lg">{t.sdl_clear}</button>
+        </div>
+      ) : (
+        <>
+          <textarea rows={4} className={inputCls} placeholder={t.sdl_ph} value={text} onChange={e => setText(e.target.value)} />
+          <div className="flex flex-wrap items-center gap-3 mt-3">
+            <button onClick={() => doParse(text)} className="px-4 py-2 text-sm bg-sky-700 dark:bg-sky-300 text-white dark:text-sky-950 font-bold rounded-lg">{t.sdl_parse}</button>
+            <button onClick={() => fileRef.current && fileRef.current.click()} className="px-4 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg">{t.sdl_file}</button>
+            <input ref={fileRef} type="file" accept=".md,.markdown,.txt" onChange={onFile} className="hidden" />
+          </div>
+        </>
+      )}
+      {msg && <p className={`text-xs mt-2 ${msg.ok ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>{msg.text}</p>}
+    </div>
+  );
+};
+
+const SdlPanel = ({ t, sdl }) => {
+  const [open, setOpen] = useState(false);
+  if (!sdl) return null;
+  const rows = [
+    { k: 's1', label: t.sdl_s1 }, { k: 's2', label: t.sdl_s2 },
+    { k: 's4', label: t.sdl_s4 }, { k: 's5', label: t.sdl_s5 }
+  ].filter(r => sdl.sections[r.k]);
+  if (!rows.length) return null;
+  return (
+    <div className="rounded-xl border border-sky-200 dark:border-sky-800/60 bg-sky-50/40 dark:bg-sky-900/10">
+      <button onClick={() => setOpen(o => !o)} className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left">
+        <span className="text-sm font-bold text-sky-800 dark:text-sky-300">{t.sdl_panel_title}</span>
+        <span className="text-xs text-sky-700 dark:text-sky-400 shrink-0">{open ? t.sdl_panel_hide : t.sdl_panel_show}</span>
+      </button>
+      {open && (
+        <div className="px-4 pb-4 space-y-4 max-h-96 overflow-y-auto">
+          {rows.map(r => (
+            <div key={r.k}>
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">{r.label}</p>
+              <pre className="text-xs whitespace-pre-wrap font-sans text-slate-700 dark:text-slate-300 leading-relaxed">{sdl.sections[r.k]}</pre>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const LinkCard = ({label, url, desc}) => (
+  <a href={url} target="_blank" rel="noopener noreferrer"
+    className="block bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5] hover:shadow-md transition-all group">
+    <span className="font-bold font-serif text-sm text-[#004030] dark:text-[#D8C3A5] group-hover:underline">{label}</span>
+    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mt-1">{desc}</p>
+  </a>
+);
+
+/* ================= FlipCardDeck ================= */
+const FlipCardDeck = ({ terms, t, moduleId, onCardRead }) => {
+  const [groupIdx, setGroupIdx] = useState(0);
+  const [flipped, setFlipped] = useState({});
+  const [readSet, setReadSet] = useState(new Set());
+  const [shownSet, setShownSet] = useState(new Set());
+  const [shuffledOrder] = useState(() => [...Array(terms.length).keys()].sort(() => Math.random() - 0.5));
+  const groupSize = 2;
+  const totalGroups = Math.ceil(terms.length / groupSize);
+  const startIdx = groupIdx * groupSize;
+  const currentCardIndices = shuffledOrder.slice(startIdx, startIdx + groupSize);
+
+  useEffect(() => {
+    const newShown = new Set(shownSet);
+    currentCardIndices.forEach(idx => newShown.add(idx));
+    if (newShown.size !== shownSet.size) setShownSet(newShown);
+  }, [groupIdx]);
+
+  const handleFlip = (origIdx) => {
+    setFlipped(f => ({ ...f, [origIdx]: !f[origIdx] }));
+    if (!readSet.has(origIdx)) {
+      const newRead = new Set(readSet); newRead.add(origIdx); setReadSet(newRead);
+      if (onCardRead) onCardRead(moduleId, newRead.size, shownSet.size, terms.length);
+    }
+  };
+
+  const statusText = t.flip_status.replace('{read}', readSet.size).replace('{shown}', shownSet.size).replace('{total}', terms.length);
+
+  return (
+    <div className="mt-8">
+      <h3 className="text-lg font-bold uppercase tracking-wider text-slate-500 mb-2">{t.key_terms}</h3>
+      <p className="text-sm text-slate-400 mb-4">{statusText}</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {currentCardIndices.map((origIdx) => {
+          const term = terms[origIdx];
+          return (
+            <div key={origIdx} className="perspective cursor-pointer h-40" onClick={() => handleFlip(origIdx)}>
+              <div className={`transform-style-3d relative w-full h-full transition-transform duration-500 ${flipped[origIdx] ? 'rotate-y-180' : ''}`}>
+                <div className="backface-hidden absolute inset-0 bg-white dark:bg-slate-800 rounded-xl p-4 flex flex-col items-center justify-center border border-slate-200 dark:border-slate-700 shadow-sm">
+                  <p className="font-serif font-bold text-center text-[#004030] dark:text-[#D8C3A5]">{term.front}</p>
+                  <p className="text-xs text-slate-400 mt-2">{t.flip_prompt}</p>
+                </div>
+                <div className="backface-hidden rotate-y-180 absolute inset-0 bg-[#004030] dark:bg-slate-700 rounded-xl p-4 flex items-center justify-center overflow-y-auto">
+                  <p className="text-sm text-center text-[#D8C3A5] dark:text-slate-200 leading-relaxed">{term.back}</p>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <div className="flex items-center gap-3 mt-4">
+        <button onClick={() => { setGroupIdx(0); setFlipped({}); }}
+          className="px-4 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700">{t.flip_retry}</button>
+        <button onClick={() => groupIdx < totalGroups-1 && setGroupIdx(groupIdx+1)} disabled={groupIdx >= totalGroups-1}
+          className="px-4 py-2 text-sm bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg disabled:opacity-40">{t.flip_next}</button>
+      </div>
+    </div>
+  );
+};
+
+/* ================= ModuleQuiz ================= */
+const ModuleQuiz = ({ questions, t, moduleId, onQuizSubmit, moduleName }) => {
+  const [selected, setSelected] = useState({});
+  const [submitted, setSubmitted] = useState({});
+  const [groupIdx, setGroupIdx] = useState(0);
+  const groupSize = 2;
+  const [quizIndices] = useState(() => [...Array(questions.length).keys()].sort(() => Math.random() - 0.5));
+  const totalGroups = Math.ceil(quizIndices.length / groupSize);
+  const [shuffledMaps] = useState(() => quizIndices.map(qIdx => {
+    const n = questions[qIdx].opts.length;
+    return [...Array(n).keys()].sort(() => Math.random() - 0.5);
+  }));
+
+  const totalAnswered = Object.keys(selected).length;
+  const computeCorrect = () => {
+    let c = 0;
+    quizIndices.forEach((qIdx, qi) => {
+      if (selected[qi] === undefined) return;
+      if (shuffledMaps[qi][selected[qi]] === _d(questions[qIdx].ans)) c++;
+    });
+    return c;
+  };
+  const statusText = t.quiz_status.replace('{correct}', computeCorrect()).replace('{answered}', totalAnswered).replace('{total}', quizIndices.length);
+  const currentStart = groupIdx * groupSize;
+  const currentIndices = quizIndices.slice(currentStart, currentStart + groupSize);
+
+  const handleGroupSubmit = () => {
+    const allDone = currentIndices.every((_, i) => selected[currentStart + i] !== undefined);
+    if (!allDone) return;
+    setSubmitted(s => ({ ...s, [groupIdx]: true }));
+    if (groupIdx === totalGroups - 1 || Object.keys(submitted).length + 1 === totalGroups) {
+      const wrongQs = []; let correct = 0;
+      quizIndices.forEach((qIdx, qi) => {
+        if (selected[qi] === undefined) return;
+        if (shuffledMaps[qi][selected[qi]] === _d(questions[qIdx].ans)) correct++;
+        else wrongQs.push(questions[qIdx].q);
+      });
+      onQuizSubmit(moduleId, correct, quizIndices.length, wrongQs, moduleName);
+    }
+  };
+
+  return (
+    <div className="mt-8 bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="text-lg font-bold font-serif text-[#004030] dark:text-[#D8C3A5] mb-2">{t.quiz_title}</h3>
+      <p className="text-sm text-slate-400 mb-6">{statusText}</p>
+      {currentIndices.map((qIdx, localI) => {
+        const qi = currentStart + localI;
+        const q = questions[qIdx];
+        const sMap = shuffledMaps[qi];
+        const isGrpSub = !!submitted[groupIdx];
+        return (
+          <div key={qIdx} className="mb-6">
+            <p className="font-bold mb-3">{qi+1}. {q.q}</p>
+            <div className="space-y-2">
+              {sMap.map((origIdx, dIdx) => {
+                const isCorrect = origIdx === _d(q.ans);
+                const isSel = selected[qi] === dIdx;
+                return (
+                  <button key={dIdx} onClick={() => !isGrpSub && setSelected(s => ({...s, [qi]: dIdx}))}
+                    className={`w-full text-left px-4 py-3 rounded-lg border transition-all text-sm
+                      ${isGrpSub
+                        ? isCorrect ? 'bg-green-100 border-green-500 dark:bg-green-900/30'
+                          : isSel ? 'bg-red-100 border-red-400 dark:bg-red-900/30' : 'border-slate-200 dark:border-slate-700'
+                        : isSel ? 'border-[#004030] dark:border-[#D8C3A5] bg-[#004030]/5' : 'border-slate-200 dark:border-slate-700 hover:border-slate-400'}`}>
+                    {q.opts[origIdx]}
+                  </button>
+                );
+              })}
+            </div>
+            {isGrpSub && (
+              <p className={`mt-2 text-sm italic ${shuffledMaps[qi][selected[qi]] === _d(q.ans) ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>
+                {shuffledMaps[qi][selected[qi]] === _d(q.ans) ? `✓ ${t.correct}` : `✗ ${t.incorrect}`} — {t.explanation}：{q.exp}
+              </p>
+            )}
+          </div>
+        );
+      })}
+      <div className="flex items-center gap-3 flex-wrap">
+        {!submitted[groupIdx]
+          ? <button onClick={handleGroupSubmit} disabled={!currentIndices.every((_,i) => selected[currentStart+i] !== undefined)}
+              className="px-6 py-2 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg disabled:opacity-40">{t.submit}</button>
+          : <>
+              {groupIdx < totalGroups-1 && (
+                <button onClick={() => setGroupIdx(groupIdx+1)} className="px-6 py-2 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg">{t.quiz_next}</button>
+              )}
+              <button onClick={() => { setGroupIdx(0); setSelected({}); setSubmitted({}); }}
+                className="px-6 py-2 border border-[#004030] dark:border-[#D8C3A5] text-[#004030] dark:text-[#D8C3A5] font-bold rounded-lg">{t.quiz_retry}</button>
+            </>}
+      </div>
+    </div>
+  );
+};
+
+/* ================= Nine-layer SVG ================= */
+const LayerStack = ({ t, highlight }) => {
+  const labels = t.layers.map(l => l.name);
+  return (
+    <div className="w-full overflow-x-auto" onContextMenu={e => { e.preventDefault(); window.showCopyrightToast && window.showCopyrightToast(); }}>
+      <svg viewBox="0 0 460 400" className="w-full max-w-lg mx-auto" draggable="false" role="img" aria-label={t.m2_svg_cap}>
+        {labels.map((lab, i) => {
+          const y = 8 + i * 42;
+          const on = highlight && highlight.includes(LAYER_IDS[i]);
+          return (
+            <g key={i}>
+              <rect x="14" y={y} width="432" height="34" rx="7"
+                fill={on ? "#D8C3A5" : "#004030"} opacity={on ? 0.95 : (0.30 + i * 0.065)} />
+              <text x="30" y={y + 22} fontSize="13" fill={on ? "#004030" : "#ffffff"} fontFamily="Inter, sans-serif" fontWeight={on ? "700" : "500"}>{lab}</text>
+            </g>
+          );
+        })}
+      </svg>
+      <p className="text-center text-xs text-slate-500 dark:text-slate-400 mt-2 italic">{t.m2_svg_cap}</p>
+    </div>
+  );
+};
+
+/* ================= Labs (top-level declarations) ================= */
+const LabSurvival = ({ t, onTouch }) => {
+  const [local, setLocal] = useState(() => ({ L1:true, L2:true, L3:false, L4:false, L5:false, L6:false, L7:true, L8:false, L9:false }));
+  const n = LAYER_IDS.filter(id => local[id]).length;
+  const verdict = n <= 2 ? t.lab1_verdict_low : n <= 5 ? t.lab1_verdict_mid : t.lab1_verdict_high;
+  const tone = n <= 2 ? 'text-green-600 dark:text-green-400' : n <= 5 ? 'text-amber-600 dark:text-amber-400' : 'text-red-500 dark:text-red-400';
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab1_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.lab1_desc}</p>
+      <div className="space-y-2">
+        {t.layers.map((l, i) => (
+          <div key={l.id} className="flex items-center justify-between gap-3 py-1.5 border-b border-slate-100 dark:border-slate-700 last:border-0">
+            <span className="text-sm truncate">{l.name}</span>
+            <button onClick={() => { setLocal(s => ({...s, [l.id]: !s[l.id]})); onTouch && onTouch(); }}
+              className={`shrink-0 text-xs px-3 py-1.5 rounded-full font-bold transition
+                ${local[l.id] ? 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300' : 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300'}`}>
+              {local[l.id] ? t.lab1_local : t.lab1_cloud}
+            </button>
+          </div>
+        ))}
+      </div>
+      <div className="mt-4 p-4 rounded-lg bg-slate-50 dark:bg-slate-900/50">
+        <p className="font-bold">{t.lab1_result.replace('{n}', n)}</p>
+        <p className={`text-sm mt-1 ${tone}`}>{verdict}</p>
+      </div>
+    </div>
+  );
+};
+
+const LabContainer = ({ t, onTouch }) => {
+  const [a, setA] = useState({ q1:null, q2:null, q3:null });
+  const answered = a.q1 !== null && a.q2 !== null && a.q3 !== null;
+  const yes = [a.q1, a.q2, a.q3].filter(v => v === true).length;
+  const rec = !answered ? null : yes >= 2 ? t.lab2_rec_git : yes === 1 ? t.lab2_rec_project : t.lab2_rec_folder;
+  const Q = ({ k, label }) => (
+    <div className="flex items-center justify-between gap-3 py-2 border-b border-slate-100 dark:border-slate-700">
+      <span className="text-sm">{label}</span>
+      <div className="flex gap-2 shrink-0">
+        {[true,false].map(v => (
+          <button key={String(v)} onClick={() => { setA(s => ({...s, [k]: v})); onTouch && onTouch(); }}
+            className={`text-xs px-3 py-1.5 rounded-full font-bold border transition
+              ${a[k] === v ? 'bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] border-transparent' : 'border-slate-300 dark:border-slate-600'}`}>
+            {v ? t.lab2_yes : t.lab2_no}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab2_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.lab2_desc}</p>
+      <Q k="q1" label={t.lab2_q1} />
+      <Q k="q2" label={t.lab2_q2} />
+      <Q k="q3" label={t.lab2_q3} />
+      {rec && (
+        <div className="mt-4 p-4 rounded-lg bg-[#004030]/5 dark:bg-[#D8C3A5]/10 border-l-4 border-[#D8C3A5]">
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">{t.lab2_rec_label}</p>
+          <p className="text-sm">{rec}</p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const LabContext = ({ t, onTouch }) => {
+  const [len, setLen] = useState(20);
+  const visible = Math.max(5, 100 - Math.max(0, len - 40) * 1.4);
+  const note = len < 45 ? t.lab3_note_ok : len < 80 ? t.lab3_note_warn : t.lab3_note_bad;
+  const tone = len < 45 ? 'text-green-600 dark:text-green-400' : len < 80 ? 'text-amber-600 dark:text-amber-400' : 'text-red-500 dark:text-red-400';
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab3_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.lab3_desc}</p>
+      <label className="block text-sm font-bold mb-2">{t.lab3_len}: {len}%</label>
+      <input type="range" min="0" max="100" value={len} onChange={e => { setLen(+e.target.value); onTouch && onTouch(); }}
+        className="w-full accent-[#004030] dark:accent-[#D8C3A5]" />
+      <div className="mt-4 h-8 w-full rounded-lg overflow-hidden flex border border-slate-200 dark:border-slate-700">
+        <div className="bg-[#004030] dark:bg-[#D8C3A5] h-full transition-all" style={{ width: visible + '%' }}></div>
+        <div className="bg-slate-300 dark:bg-slate-600 h-full transition-all" style={{ width: (100 - visible) + '%' }}></div>
+      </div>
+      <div className="flex justify-between text-xs mt-2 text-slate-500 dark:text-slate-400">
+        <span>{t.lab3_visible} {Math.round(visible)}%</span>
+        <span>{t.lab3_compressed} {Math.round(100-visible)}%</span>
+      </div>
+      <p className={`text-sm mt-3 italic ${tone}`}>{note}</p>
+    </div>
+  );
+};
+
+/* ================= App ================= */
+function App() {
+  const LS_ANS = 'PMCS_W3_answers';
+  const LS_ANA = 'PMCS_W3_analytics';
+  const LS_STU = 'PMCS_W3_student';
+  const loadLS = (key, fb) => { try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fb; } catch { return fb; } };
+
+  const [lang, setLang] = useState('en');
+  const [isDark, setIsDark] = useState(true);
+  const [module, setModule] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [ttsState, setTtsState] = useState('idle');
+  const [answers, setAnswers] = useState(() => loadLS(LS_ANS, {}));
+  const [brk, setBrk] = useState(() => loadLS(LS_ANS + '_brk', {}));
+  const [focus, setFocus] = useState(() => loadLS(LS_ANS + '_focus', {}));
+  const [memberCount, setMemberCount] = useState(() => loadLS(LS_ANS + '_mc', DEFAULT_MEMBERS));
+  const [sdl, setSdl] = useState(() => loadLS(LS_ANS + '_sdl', null));
+  const [studentInfo, setStudentInfo] = useState(() => loadLS(LS_STU, { group:'', dept:'', id:'', nameEn:'', nameZh:'', compiler:'' }));
+  const [analytics, setAnalytics] = useState(() => loadLS(LS_ANA, {
+    time: Array(TOTAL).fill(0), clicks: Array(TOTAL).fill(0),
+    quizCorrect: Array(TOTAL).fill(0), quizTotal: Array(TOTAL).fill(0),
+    cardsRead: Array(TOTAL).fill(0), cardsTotal: Array(TOTAL).fill(0),
+    wrongTopics: {}
+  }));
+  const menuRef = useRef(null);
+  const t = dict[lang];
+
+  useEffect(() => { document.documentElement.classList.toggle('dark', isDark); }, [isDark]);
+  useEffect(() => { try { localStorage.setItem(LS_ANS, JSON.stringify(answers)); } catch {} }, [answers]);
+  useEffect(() => { try { localStorage.setItem(LS_ANS + '_brk', JSON.stringify(brk)); } catch {} }, [brk]);
+  useEffect(() => { try { localStorage.setItem(LS_ANS + '_focus', JSON.stringify(focus)); } catch {} }, [focus]);
+  useEffect(() => { try { localStorage.setItem(LS_ANS + '_mc', JSON.stringify(memberCount)); } catch {} }, [memberCount]);
+  useEffect(() => { try { sdl ? localStorage.setItem(LS_ANS + '_sdl', JSON.stringify(sdl)) : localStorage.removeItem(LS_ANS + '_sdl'); } catch {} }, [sdl]);
+  useEffect(() => { try { localStorage.setItem(LS_ANA, JSON.stringify(analytics)); } catch {} }, [analytics]);
+  useEffect(() => { try { localStorage.setItem(LS_STU, JSON.stringify(studentInfo)); } catch {} }, [studentInfo]);
+
+  useEffect(() => {
+    const id = setInterval(() => setAnalytics(a => { const ti = [...a.time]; ti[module] += 5; return {...a, time: ti}; }), 5000);
+    return () => clearInterval(id);
+  }, [module]);
+
+  useEffect(() => {
+    const onDoc = (e) => { if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false); };
+    document.addEventListener('mousedown', onDoc);
+    return () => document.removeEventListener('mousedown', onDoc);
+  }, []);
+
+  const importSdl = (r) => {
+    setSdl({ meta: r.meta, sections: r.sections });
+    setStudentInfo(st => ({
+      ...st,
+      group: r.meta.group || st.group,
+      id: (r.meta.student_id || st.id || '').replace(/[^0-9]/g, '').slice(0, 12),
+      nameEn: /^[\x00-\x7F]+$/.test(r.meta.student || '') ? (r.meta.student || st.nameEn) : st.nameEn,
+      nameZh: /^[\x00-\x7F]+$/.test(r.meta.student || '') ? st.nameZh : (r.meta.student || st.nameZh)
+    }));
+    if (r.meta.group) setA('g_group', r.meta.group);
+    if (r.meta.date) setA('g_date', r.meta.date);
+  };
+  const sdlFileName = () => {
+    if (!sdl) return '';
+    const m = sdl.meta;
+    const who = m.student || 'NA';
+    return `${m.course || 'PMCS'}_${m.semester || SEMESTER_DEFAULT}${m.week || WEEK_CODE}_${(m.topic || TOPIC_CAMEL).replace(/\s+/g,'')}_${m.group || 'NA'}-${who}_${(m.date || '').replace(/-/g,'')}.md`;
+  };
+  const bump = () => setAnalytics(a => { const c = [...a.clicks]; c[module] += 1; return {...a, clicks: c}; });
+  const setA = (id, val) => { setAnswers(s => ({ ...s, [id]: val })); };
+
+  const handleQuizSubmit = (mid, correct, total, wrongQs) => {
+    setAnalytics(a => {
+      const qc = [...a.quizCorrect], qt = [...a.quizTotal];
+      qc[mid] = correct; qt[mid] = total;
+      const wt = { ...a.wrongTopics }; wt[mid] = wrongQs || [];
+      return { ...a, quizCorrect: qc, quizTotal: qt, wrongTopics: wt };
+    });
+  };
+  const handleCardRead = (mid, readCount, shownCount, totalCount) => {
+    setAnalytics(a => {
+      const cr = [...a.cardsRead], ct = [...a.cardsTotal];
+      cr[mid] = readCount; ct[mid] = totalCount;
+      return { ...a, cardsRead: cr, cardsTotal: ct };
+    });
+  };
+
+  const filled = (id) => { const v = answers[id]; return v !== undefined && String(v).trim() !== ''; };
+  const sectionPct = (n) => {
+    const core = CORE[n]; if (!core || !core.length) return 100;
+    return Math.round(core.filter(filled).length / core.length * 100);
+  };
+  const pctPersonal = Math.round(PERSONAL_SECTIONS.reduce((s,n) => s + sectionPct(n), 0) / PERSONAL_SECTIONS.length);
+  const pctGroup = Math.round(GROUP_SECTIONS.reduce((s,n) => s + sectionPct(n), 0) / GROUP_SECTIONS.length);
+
+  const modulesList = [
+    { id:0, num:'0', icon:'📋', title:t.m0_nav, kind:null },
+    { id:1, num:'1', icon:'👥', title:t.m1_nav, kind:'G' },
+    { id:2, num:'2', icon:'🗂️', title:t.m2_nav, kind:'P' },
+    { id:3, num:'3', icon:'🔌', title:t.m3_nav, kind:'P' },
+    { id:4, num:'4', icon:'🗣️', title:t.m4_nav, kind:'P' },
+    { id:5, num:'5', icon:'🔍', title:t.m5_nav, kind:'G' },
+    { id:6, num:'6', icon:'🎯', title:t.m6_nav, kind:'G' },
+    { id:7, num:'7', icon:'🎤', title:t.m7_nav, kind:'G' },
+    { id:IDX_LAB, num:String(IDX_LAB), icon:'⚡', title:t.mlab_nav, kind:null },
+    { id:IDX_RES, num:String(IDX_RES), icon:'🌐', title:t.mres_nav, kind:null },
+    { id:IDX_ANA, num:String(IDX_ANA), icon:'📊', title:t.analytics_title, kind:null }
+  ];
+
+  const go = (m) => { setModule(m); setMenuOpen(false); window.scrollTo({top:0,behavior:'smooth'}); };
+
+  /* ---------- TTS ---------- */
+  const handleTTS = (action) => {
+    if (!('speechSynthesis' in window)) return;
+    if (action === 'stop') { speechSynthesis.cancel(); setTtsState('idle'); return; }
+    if (action === 'pause') { speechSynthesis.pause(); setTtsState('paused'); return; }
+    if (ttsState === 'paused') { speechSynthesis.resume(); setTtsState('playing'); return; }
+    speechSynthesis.cancel();
+    const sep = lang === 'zh' ? '。 ' : '. ';
+    let texts = [];
+    if (module === 0) {
+      texts = [t.m0_title, t.m0_intro, t.m0_why, t.m0_why_desc,
+        ...t.m0_stats.map(s => `${s.label}: ${s.val}`),
+        ...t.m0_modules.map(m => `${m.title}. ${m.desc}`)];
+    } else if (module >= 1 && module <= NUM_LEARN) {
+      const k = `m${module}`;
+      texts = [t[`${k}_title`], t[`${k}_overview`], ...(t[`${k}_highlights`]||[]), t[`${k}_deep`], t[`${k}_wrapup`]];
+      if (module === 2) texts.push(...t.layers.map(l => `${l.name}. ${l.hint}`), ...t.m2_terms.flatMap(x => [x.front, x.back]));
+      if (module === 3) texts.push(t.m3_check_label, t.m3_why_label, t.m3_fix_label);
+    } else if (module === IDX_LAB) {
+      texts = [t.mlab_title, t.mlab_desc, t.lab1_title, t.lab1_desc, t.lab2_title, t.lab2_desc, t.lab3_title, t.lab3_desc, t.lab4_title, t.lab4_desc];
+    } else if (module === IDX_RES) {
+      texts = [t.mres_title, t.mres_desc, ...t.res_req.map(r => `${r.label}. ${r.desc}`), ...t.res_opt.map(r => `${r.label}. ${r.desc}`)];
+    } else if (module === IDX_ANA) {
+      texts = [t.analytics_title, t.analytics_desc,
+        `${t.analytics_pct_personal}: ${pctPersonal}%`, `${t.analytics_pct_group}: ${pctGroup}%`,
+        `${t.analytics_total_time}: ${analytics.time.reduce((a,b)=>a+b,0)}${t.analytics_sec}`];
+      const weak = [1,2,3,4,5,6,7].filter(n => sectionPct(n) < 100);
+      if (weak.length) {
+        texts.push(t.analytics_wp_tts_intro);
+        weak.forEach(n => texts.push(t.analytics_wp_tts_module.replace('{name}', t[`m${n}_nav`]).replace('{acc}', sectionPct(n))));
+      } else texts.push(t.analytics_wp_tts_allpass);
+    }
+    texts = texts.filter(Boolean);
+    const utt = new SpeechSynthesisUtterance(texts.join(sep));
+    utt.rate = 0.95;
+    const voices = speechSynthesis.getVoices();
+    if (lang === 'zh') {
+      const v = voices.find(v=>v.lang==='zh-TW'&&v.name.includes('Yating')) || voices.find(v=>v.lang==='zh-TW') || voices.find(v=>v.lang.startsWith('zh'));
+      if (v) utt.voice = v; utt.lang = 'zh-TW';
+    } else {
+      const v = voices.find(v=>v.lang==='en-GB'&&(v.name.includes('Male')||v.name.includes('Daniel'))) || voices.find(v=>v.lang==='en-GB') || voices.find(v=>v.lang.startsWith('en'));
+      if (v) utt.voice = v; utt.lang = 'en-GB';
+    }
+    utt.onend = () => setTtsState('idle');
+    utt.onerror = () => setTtsState('idle');
+    speechSynthesis.speak(utt);
+    setTtsState('playing');
+  };
+
+  /* ---------- Export ---------- */
+  const dstamp = () => { const d = new Date(), p = n => String(n).padStart(2,'0'); return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}`; };
+  const stamp = () => {
+    const d = new Date(), p = (n) => String(n).padStart(2,'0');
+    return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}_${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`;
+  };
+  const download = (content, filename, mime) => {
+    const blob = new Blob([content], { type: mime });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename; document.body.appendChild(a); a.click();
+    document.body.removeChild(a); setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+  const okPersonal = !!(studentInfo.nameEn || studentInfo.nameZh);
+  const okGroup = !!(studentInfo.group && studentInfo.compiler);
+
+  const exportPersonal = () => {
+    if (!okPersonal) return;
+    const L = [];
+    L.push(`# PMCS W3 個人學習單 — ${dict.zh.subtitle}`);
+    L.push('');
+    L.push(`- 姓名：${studentInfo.nameEn} ${studentInfo.nameZh}　學號：${studentInfo.id}　系級：${studentInfo.dept}`);
+    L.push(`- 必讀：AIWE · AI 工作環境的層級模型 https://lolopodcast.github.io/AI-Work-Environment-Layers/ ／ AIWF · AI Workflow Methodology https://lolopodcast.github.io/AI-Workflow-Methodology/`);
+    L.push(`- 個人完成度：${pctPersonal}%`);
+    if (sdl) L.push(`- 來源 SDL KB：${sdlFileName()}`);
+    L.push('');
+    L.push('## 2. 九層盤點');
+    dict.zh.layers.forEach(l => { L.push(`### ${l.name}`); L.push(answers[`layer_${l.id}`] || '_(未填)_'); L.push(''); });
+    L.push('## 3. 斷點診斷');
+    L.push(`- 判定會斷的層級：${LAYER_IDS.filter(id => brk[id]).join(', ') || '（無）'}`);
+    L.push(`- 為什麼：${answers.brk_why || '_(未填)_'}`);
+    L.push(`- 怎麼補救：${answers.brk_fix || '_(未填)_'}`);
+    L.push('');
+    L.push('## 4. 語言實驗室');
+    L.push('| 詞彙 | 自己的話 | 例句 |'); L.push('|---|---|---|');
+    [0,1,2,3,4].forEach(i => { if (filled(`t_term_${i}`)) L.push(`| ${answers[`t_term_${i}`]||''} | ${answers[`t_mean_${i}`]||''} | ${answers[`t_sent_${i}`]||''} |`); });
+    L.push('');
+    L.push('| 難發音 | 難在哪 | 記憶方法 |'); L.push('|---|---|---|');
+    [0,1,2].forEach(i => { if (filled(`p_word_${i}`)) L.push(`| ${answers[`p_word_${i}`]||''} | ${answers[`p_hard_${i}`]||''} | ${answers[`p_tip_${i}`]||''} |`); });
+    L.push(''); L.push('---');
+    L.push('_本檔為個人學習歷程檔案，不繳交。W10 建立知識庫時請從中挑選要保留的部分。_');
+    const who = (sanitizeName(studentInfo.nameEn).replace(/\s+/g,'') || studentInfo.id || 'me').replace(/[^\w-]/g,'') || 'me';
+    const sem = (sdl && sdl.meta.semester) || SEMESTER_DEFAULT;
+    const grp = studentInfo.group || 'NA';
+    download(L.join('\n'), `PMCS_${sem}W03_WorkEnvironment_${grp}-${who}_${dstamp()}.md`, 'text/markdown;charset=utf-8;');
+  };
+
+  const exportGroupCSV = () => {
+    if (!okGroup) return;
+    const rows = [['Section','Field','Value']];
+    rows.push(['Info','Group', studentInfo.group]);
+    rows.push(['Info','Compiler', studentInfo.compiler]);
+    GROUP_SECTIONS.forEach(sec => FIELDS[sec].forEach(id => rows.push(['S'+sec, id, String(answers[id] ?? '')])));
+    rows.push(['S5','ComparedLayers', LAYER_IDS.filter(id => focus[id]).join(' ')]);
+    /* --- 自我描述欄位：讓教師端彙整台無需內建設定即可正確顯示本週判準 --- */
+    rows.push(['Meta','WeekTitleZH', dict.zh.subtitle]);
+    rows.push(['Meta','WeekTitleEN', dict.en.subtitle]);
+    rows.push(['Meta','CompareKey', 'ComparedLayers']);
+    rows.push(['Meta','CompareN', '3']);
+    rows.push(['Meta','S6Fields', "[{\"id\": \"tp_container\", \"zh\": \"選定的工作容器\", \"en\": \"Chosen container\"}, {\"id\": \"tp_why\", \"zh\": \"理由\", \"en\": \"Reason\"}, {\"id\": \"tp_kb\", \"zh\": \"KB 放哪一層\", \"en\": \"KB location\"}, {\"id\": \"tp_mem\", \"zh\": \"Memory 放哪一層\", \"en\": \"Memory location\"}, {\"id\": \"tp_risk\", \"zh\": \"最大風險\", \"en\": \"Biggest risk\"}]"]);
+    rows.push(['Meta','Categorical', 'tp_container']);
+    rows.push(['Meta','CategoricalZH', '各組選定的工作容器']);
+    rows.push(['Meta','CategoricalEN', 'Container chosen by each group']);
+    rows.push(['Meta','CP5ZH', dict.zh.m5_wrapup]);
+    rows.push(['Meta','CP5EN', dict.en.m5_wrapup]);
+    rows.push(['Meta','CP6ZH', dict.zh.m6_wrapup]);
+    rows.push(['Meta','CP6EN', dict.en.m6_wrapup]);
+    rows.push(['Meta','CP7ZH', dict.zh.m7_wrapup]);
+    rows.push(['Meta','CP7EN', dict.en.m7_wrapup]);
+    rows.push(['Meta','GroupCompletionPct', String(pctGroup)]);
+    rows.push(['Meta','TimeSec', String(analytics.time.reduce((a,b)=>a+b,0))]);
+    const qc = analytics.quizCorrect.reduce((a,b)=>a+b,0), qt = analytics.quizTotal.reduce((a,b)=>a+b,0);
+    rows.push(['Meta','SelfCheck', `${qc}/${qt}`]);
+    const esc = (v) => `"${String(v).replace(/"/g,'""')}"`;
+    const csv = '\uFEFF' + rows.map(r => r.map(esc).join(',')).join('\r\n');
+    download(csv, `PMCS_${(sdl && sdl.meta.semester) || SEMESTER_DEFAULT}W03_WorkEnvironment_${studentInfo.group}-ALL_${dstamp()}.csv`, 'text/csv;charset=utf-8;');
+  };
+
+  const exportGroupMD = () => {
+    if (!okGroup) return;
+    const L = [];
+    L.push(`# PMCS W3 小組學習單 — ${dict.zh.subtitle}`);
+    L.push('');
+    L.push(`- 組別：${studentInfo.group}　本週彙整人：${studentInfo.compiler}　日期：${answers.g_date || ''}`);
+    L.push(`- 小組完成度：${pctGroup}%`);
+    L.push('');
+    L.push('## 1. 小組與分工');
+    L.push('| 姓名 | 學號 | 負責段落 | 秒數 |'); L.push('|---|---|---|---|');
+    MEMBER_IDX.forEach(i => { if (filled(`m_name_${i}`)) L.push(`| ${answers[`m_name_${i}`]||''} | ${answers[`m_id_${i}`]||''} | ${answers[`m_part_${i}`]||''} | ${answers[`m_sec_${i}`]||''} |`); });
+    L.push('');
+    L.push('## 5. 小組綜整');
+    L.push(`- 比對的三個層級：${LAYER_IDS.filter(id => focus[id]).join(', ') || '_(未選)_'}`);
+    L.push(`- 略過其他層的理由：${answers.syn_focus_why || '_(未填)_'}`);
+    L.push(`- 最大的差異：${answers.syn_diff || '_(未填)_'}`);
+    L.push(`- 最可能咬到我們的差異：${answers.syn_risk || '_(未填)_'}`);
+    L.push(`- **組內通則**：${answers.syn_rule || '_(未填)_'}`);
+    L.push('');
+    L.push('## 6. 接到期末專案');
+    L.push(`- 工作容器：${answers.tp_container || '_(未填)_'}`);
+    L.push(`- 理由：${answers.tp_why || '_(未填)_'}`);
+    L.push(`- KB 位置：${answers.tp_kb || '_(未填)_'}`);
+    L.push(`- Memory 位置：${answers.tp_mem || '_(未填)_'}`);
+    L.push(`- 最可能出問題的層：${answers.tp_risk || '_(未填)_'}`);
+    L.push('');
+    L.push('## 7. 簡報計畫');
+    L.push(`- 開場句：${answers.pr_open || '_(未填)_'}`);
+    MEMBER_IDX.forEach(i => { if (filled(`pr_point_${i}`)) L.push(`- ${answers[`m_name_${i}`] || 'Speaker '+(i+1)}：${answers[`pr_point_${i}`]}`); });
+    L.push(`- 給全班的問題：${answers.pr_question || '_(未填)_'}`);
+    L.push(''); L.push('---');
+    L.push('_PMCS (EMI) · Prof. Shihmin Lo, NCNU · For Educational Use Only_');
+    download(L.join('\n'), `PMCS_${(sdl && sdl.meta.semester) || SEMESTER_DEFAULT}W03_WorkEnvironment_${studentInfo.group}-ALL_${dstamp()}.md`, 'text/markdown;charset=utf-8;');
+  };
+
+  const clearAll = () => {
+    if (!window.confirm(t.analytics_wp_clear_confirm)) return;
+    setAnswers({}); setBrk({}); setMemberCount(DEFAULT_MEMBERS); setSdl(null);
+    setAnalytics({ time: Array(TOTAL).fill(0), clicks: Array(TOTAL).fill(0), quizCorrect: Array(TOTAL).fill(0),
+      quizTotal: Array(TOTAL).fill(0), cardsRead: Array(TOTAL).fill(0), cardsTotal: Array(TOTAL).fill(0), wrongTopics: {} });
+    setFocus({});
+    try { localStorage.removeItem(LS_ANS); localStorage.removeItem(LS_ANS + '_brk'); localStorage.removeItem(LS_ANS + '_focus'); localStorage.removeItem(LS_ANA); localStorage.removeItem(LS_ANS + '_sdl'); } catch {}
+  };
+
+  /* ---------- Section renderers ---------- */
+  const SavedHint = () => (
+    <p className="text-xs text-slate-500 dark:text-slate-400 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 rounded-lg p-3 leading-relaxed">{t.saved_hint}</p>
+  );
+
+  const renderM1 = () => (
+    <>
+      <Overview t={t} text={t.m1_overview} />
+      <Highlights t={t} items={t.m1_highlights} />
+      <DeepDive t={t} text={t.m1_deep} />
+      <SavedHint />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{t.m1_group}</label>
+          <select className={inputCls} value={answers.g_group || ''} onChange={e => setA('g_group', e.target.value)}>
+            <option value="">{t.m1_group_select}</option>
+            {t.group_options.map(g => <option key={g} value={g}>{g}</option>)}
+          </select>
+        </div>
+        <Field id="g_date" label={t.m1_date} type="date" value={answers.g_date} onChange={setA} />
+      </div>
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m1_members_label}</h3>
+        <div className="space-y-3">
+          {MEMBER_IDX.slice(0, memberCount).map(i => (
+            <div key={i} className="grid grid-cols-2 md:grid-cols-4 gap-2 items-center">
+              <input className={inputCls} placeholder={`${t.m1_col_name} ${i+1}`} value={answers[`m_name_${i}`]||''} onChange={e => setA(`m_name_${i}`, sanitizeName(e.target.value))} />
+              <input className={inputCls} placeholder={t.m1_col_id} value={answers[`m_id_${i}`]||''} onChange={e => setA(`m_id_${i}`, sanitizeStudentId(e.target.value))} />
+              <input className={inputCls} placeholder={t.m1_part_ph} value={answers[`m_part_${i}`]||''} onChange={e => setA(`m_part_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} type="number" min="0" max="600" placeholder={t.m1_col_sec} value={answers[`m_sec_${i}`]||''} onChange={e => setA(`m_sec_${i}`, e.target.value.replace(/[^0-9]/g,'').slice(0,3))} />
+            </div>
+          ))}
+        </div>
+        <div className="flex items-center gap-2 mt-3">
+          <button onClick={() => { setMemberCount(c => Math.max(1, c-1)); bump(); }} disabled={memberCount <= 1}
+            className="px-3 py-1.5 text-sm border border-slate-300 dark:border-slate-600 rounded-lg disabled:opacity-40">−</button>
+          <span className="text-sm text-slate-500 dark:text-slate-400">{t.m1_member_count.replace('{n}', memberCount)}</span>
+          <button onClick={() => { setMemberCount(c => Math.min(MAX_MEMBERS, c+1)); bump(); }} disabled={memberCount >= MAX_MEMBERS}
+            className="px-3 py-1.5 text-sm border border-slate-300 dark:border-slate-600 rounded-lg disabled:opacity-40">＋</button>
+        </div>
+        {(() => {
+          const total = MEMBER_IDX.slice(0, memberCount).reduce((s,i) => s + (parseInt(answers[`m_sec_${i}`]||'0',10) || 0), 0);
+          const over = total > 600;
+          return (
+            <div className={`mt-4 p-3 rounded-lg text-sm ${over ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-300' : 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'}`}>
+              <strong>{t.m1_total_sec}: {total}s</strong> — {over ? t.m1_sec_warn : t.m1_sec_ok}
+            </div>
+          );
+        })()}
+      </div>
+      <Wrapup t={t} text={t.m1_wrapup} />
+    </>
+  );
+
+  const renderM2 = () => (
+    <>
+      <SdlPanel t={t} sdl={sdl} />
+      <Overview t={t} text={t.m2_overview} />
+      <Highlights t={t} items={t.m2_highlights} />
+      <DeepDive t={t} text={t.m2_deep} />
+      <LayerStack t={t} highlight={LAYER_IDS.filter(id => filled(`layer_${id}`))} />
+      <SavedHint />
+      <div className="mt-4">
+        {t.layers.map(l => (
+          <Field key={l.id} id={`layer_${l.id}`} label={l.name} hint={l.hint} ph={l.ph} rows={2}
+            value={answers[`layer_${l.id}`]} onChange={setA} />
+        ))}
+      </div>
+      <FlipCardDeck key={`cards-${module}-${lang}`} terms={t.m2_terms} t={t} moduleId={2} onCardRead={handleCardRead} />
+      <Wrapup t={t} text={t.m2_wrapup} />
+    </>
+  );
+
+  const renderM3 = () => {
+    const n = LAYER_IDS.filter(id => brk[id]).length;
+    return (
+      <>
+        <SdlPanel t={t} sdl={sdl} />
+        <Overview t={t} text={t.m3_overview} />
+        <Highlights t={t} items={t.m3_highlights} />
+        <DeepDive t={t} text={t.m3_deep} />
+        <SavedHint />
+        <div>
+          <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m3_check_label}</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {t.layers.map(l => (
+              <label key={l.id} className="flex items-center gap-3 p-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 cursor-pointer hover:border-[#004030] dark:hover:border-[#D8C3A5] transition">
+                <input type="checkbox" className="w-4 h-4 accent-[#004030] dark:accent-[#D8C3A5]"
+                  checked={!!brk[l.id]} onChange={e => { setBrk(s => ({...s, [l.id]: e.target.checked})); bump(); }} />
+                <span className="text-sm">{l.name}</span>
+              </label>
+            ))}
+          </div>
+          <p className="mt-3 text-sm font-bold text-[#004030] dark:text-[#D8C3A5]">{t.m3_count}: {n} / 9</p>
+        </div>
+        <Field id="brk_why" label={t.m3_why_label} ph={t.m3_why_ph} rows={4} value={answers.brk_why} onChange={setA} />
+        <Field id="brk_fix" label={t.m3_fix_label} ph={t.m3_fix_ph} rows={4} value={answers.brk_fix} onChange={setA} />
+        <Wrapup t={t} text={t.m3_wrapup} />
+      </>
+    );
+  };
+
+  const renderM4 = () => (
+    <>
+      <SdlPanel t={t} sdl={sdl} />
+      <Overview t={t} text={t.m4_overview} />
+      <Highlights t={t} items={t.m4_highlights} />
+      <DeepDive t={t} text={t.m4_deep} />
+      <SavedHint />
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m4_terms_label}</h3>
+        <div className="space-y-3">
+          {[0,1,2,3,4].map(i => (
+            <div key={i} className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <input className={inputCls} placeholder={`${t.m4_col_term} ${i+1}`} value={answers[`t_term_${i}`]||''} onChange={e => setA(`t_term_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_mean} value={answers[`t_mean_${i}`]||''} onChange={e => setA(`t_mean_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_sent} value={answers[`t_sent_${i}`]||''} onChange={e => setA(`t_sent_${i}`, sanitizeText(e.target.value))} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3 mt-6">{t.m4_pron_label}</h3>
+        <div className="space-y-3">
+          {[0,1,2].map(i => (
+            <div key={i} className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <input className={inputCls} placeholder={`${t.m4_col_word} ${i+1}`} value={answers[`p_word_${i}`]||''} onChange={e => setA(`p_word_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_hard} value={answers[`p_hard_${i}`]||''} onChange={e => setA(`p_hard_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_tip} value={answers[`p_tip_${i}`]||''} onChange={e => setA(`p_tip_${i}`, sanitizeText(e.target.value))} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <Wrapup t={t} text={t.m4_wrapup} />
+    </>
+  );
+
+  const renderM5 = () => {
+    const chosen = LAYER_IDS.filter(id => focus[id]).length;
+    return (
+      <>
+        <Overview t={t} text={t.m5_overview} />
+        <Highlights t={t} items={t.m5_highlights} />
+        <DeepDive t={t} text={t.m5_deep} />
+        <SavedHint />
+        <div>
+          <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m5_focus_label}</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {t.layers.map(l => {
+              const on = !!focus[l.id];
+              const blocked = !on && chosen >= 3;
+              return (
+                <label key={l.id} className={`flex items-center gap-3 p-3 rounded-lg border bg-white dark:bg-slate-800 transition ${blocked ? 'opacity-40 cursor-not-allowed border-slate-200 dark:border-slate-700' : 'cursor-pointer border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5]'}`}>
+                  <input type="checkbox" className="w-4 h-4 accent-[#004030] dark:accent-[#D8C3A5]" checked={on} disabled={blocked}
+                    onChange={e => { setFocus(st => ({...st, [l.id]: e.target.checked})); bump(); }} />
+                  <span className="text-sm">{l.name}</span>
+                </label>
+              );
+            })}
+          </div>
+          <p className={`mt-2 text-sm font-bold ${chosen === 3 ? 'text-green-600 dark:text-green-400' : 'text-amber-600 dark:text-amber-400'}`}>{chosen} / 3</p>
+        </div>
+        <Field id="syn_focus_why" label={t.m5_focus_why} ph={t.m5_focus_why_ph} rows={2} value={answers.syn_focus_why} onChange={setA} />
+        <Field id="syn_diff" label={t.m5_diff_label} ph={t.m5_diff_ph} rows={4} value={answers.syn_diff} onChange={setA} />
+        <Field id="syn_risk" label={t.m5_risk_label} ph={t.m5_risk_ph} rows={3} value={answers.syn_risk} onChange={setA} />
+        <Field id="syn_rule" label={t.m5_rule_label} hint={t.m5_rule_note} ph={t.m5_rule_ph} rows={3} value={answers.syn_rule} onChange={setA} />
+        <Wrapup t={t} text={t.m5_wrapup} />
+      </>
+    );
+  };
+
+  const renderM6 = () => (
+    <>
+      <Overview t={t} text={t.m6_overview} />
+      <Highlights t={t} items={t.m6_highlights} />
+      <DeepDive t={t} text={t.m6_deep} />
+      <SavedHint />
+      <div>
+        <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{t.m6_container_label}</label>
+        <select className={inputCls} value={answers.tp_container || ''} onChange={e => setA('tp_container', e.target.value)}>
+          <option value="">{t.m1_group_select}</option>
+          {t.m6_container_opts.map(o => <option key={o} value={o}>{o}</option>)}
+        </select>
+      </div>
+      <div className="mt-5">
+        <Field id="tp_why" label={t.m6_container_why} ph={t.m6_container_why_ph} rows={3} value={answers.tp_why} onChange={setA} />
+        <Field id="tp_kb" label={t.m6_kb_label} ph={t.m6_kb_ph} rows={2} value={answers.tp_kb} onChange={setA} />
+        <Field id="tp_mem" label={t.m6_mem_label} ph={t.m6_mem_ph} rows={2} value={answers.tp_mem} onChange={setA} />
+        <Field id="tp_risk" label={t.m6_risk_label} ph={t.m6_risk_ph} rows={3} value={answers.tp_risk} onChange={setA} />
+      </div>
+      <Wrapup t={t} text={t.m6_wrapup} />
+    </>
+  );
+
+  const renderM7 = () => (
+    <>
+      <Overview t={t} text={t.m7_overview} />
+      <Highlights t={t} items={t.m7_highlights} />
+      <DeepDive t={t} text={t.m7_deep} />
+      <SavedHint />
+      <Field id="pr_open" label={t.m7_open_label} ph={t.m7_open_ph} rows={2} value={answers.pr_open} onChange={setA} />
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m7_script_label}</h3>
+        <div className="space-y-3">
+          {MEMBER_IDX.slice(0, memberCount).map(i => (
+            <div key={i} className="grid grid-cols-1 md:grid-cols-4 gap-2">
+              <div className="md:col-span-1 flex items-center px-3 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-sm text-slate-600 dark:text-slate-300 truncate">
+                {answers[`m_name_${i}`] || `${t.m7_col_who} ${i+1}`}
+              </div>
+              <input className={`${inputCls} md:col-span-3`} placeholder={t.m7_col_point} value={answers[`pr_point_${i}`]||''} onChange={e => setA(`pr_point_${i}`, sanitizeText(e.target.value))} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="mt-5">
+        <Field id="pr_question" label={t.m7_question_label} ph={t.m7_question_ph} rows={3} value={answers.pr_question} onChange={setA} />
+      </div>
+      <Wrapup t={t} text={t.m7_wrapup} />
+    </>
+  );
+
+  const renderLab = () => (
+    <>
+      <p className="text-base text-slate-600 dark:text-slate-300">{t.mlab_desc}</p>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-4">
+        <LabSurvival t={t} onTouch={bump} />
+        <LabContainer t={t} onTouch={bump} />
+        <LabContext t={t} onTouch={bump} />
+        <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+          <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab4_title}</h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400">{t.lab4_desc}</p>
+          <ModuleQuiz key={`quiz-lab-${lang}`} questions={t.m2_q} t={t} moduleId={IDX_LAB} onQuizSubmit={handleQuizSubmit} moduleName={t.lab4_title} />
+        </div>
+      </div>
+    </>
+  );
+
+  const renderRes = () => (
+    <>
+      <p className="text-base text-slate-600 dark:text-slate-300">{t.mres_desc}</p>
+      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-6 mb-3">{t.required_label}</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{t.res_req.map((r,i) => <LinkCard key={i} {...r} />)}</div>
+      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-8 mb-3">{t.optional_label}</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{t.res_opt.map((r,i) => <LinkCard key={i} {...r} />)}</div>
+    </>
+  );
+
+  const renderAna = () => {
+    const setInfo = (k, v) => setStudentInfo(st => ({ ...st, [k]: v }));
+    const totalTime = analytics.time.reduce((a,b)=>a+b,0);
+    const totalClicks = analytics.clicks.reduce((a,b)=>a+b,0);
+    const qc = analytics.quizCorrect.reduce((a,b)=>a+b,0), qt = analytics.quizTotal.reduce((a,b)=>a+b,0);
+    const acc = qt > 0 ? Math.round(qc/qt*100) : 0;
+    const weak = [1,2,3,4,5,6,7].filter(n => sectionPct(n) < 100);
+    const stats = [
+      { val: pctPersonal + '%', label: t.analytics_pct_personal },
+      { val: pctGroup + '%', label: t.analytics_pct_group },
+      { val: totalTime + t.analytics_sec, label: t.analytics_total_time },
+      { val: qt > 0 ? acc + '%' : '—', label: t.analytics_overall_acc }
+    ];
+    return (
+      <>
+        <p className="text-base text-slate-600 dark:text-slate-300">{t.analytics_desc}</p>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-5">
+          {stats.map((s,i) => (
+            <div key={i} className="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 text-center">
+              <p className="font-serif font-black text-2xl text-[#004030] dark:text-[#D8C3A5]">{s.val}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{s.label}</p>
+            </div>
+          ))}
+        </div>
+
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-8 mb-3">{t.analytics_progress_title}</h3>
+        <div className="space-y-2">
+          {[1,2,3,4,5,6,7].map(n => {
+            const pct = sectionPct(n), kind = modulesList[n].kind;
+            return (
+              <button key={n} onClick={() => go(n)} className="w-full flex items-center gap-3 text-left p-3 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5] transition">
+                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded shrink-0 ${kind === 'P' ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200' : 'bg-[#D8C3A5]/30 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>{kind}</span>
+                <span className="text-sm w-36 sm:w-52 truncate shrink-0">{t[`m${n}_nav`]}</span>
+                <span className="flex-1 h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                  <span className={`block h-full ${pct === 100 ? 'bg-green-500' : 'bg-[#004030] dark:bg-[#D8C3A5]'}`} style={{width: pct + '%'}}></span>
+                </span>
+                <span className="text-sm font-bold w-12 text-right shrink-0">{pct}%</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-8 mb-3">{t.analytics_wp_title}</h3>
+        {weak.length === 0
+          ? <p className="p-4 rounded-lg bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 text-sm">{t.analytics_wp_allpass}</p>
+          : <div className="space-y-4">
+              <div className="space-y-2">
+                <p className="text-xs font-bold text-sky-700 dark:text-sky-300">{t.analytics_wp_personal_head}</p>
+                {PERSONAL_SECTIONS.filter(n => sectionPct(n) < 100).length === 0
+                  ? <p className="text-sm text-green-600 dark:text-green-400 pl-1">{t.analytics_wp_personal_done}</p>
+                  : PERSONAL_SECTIONS.filter(n => sectionPct(n) < 100).map(n => (
+                      <div key={n} className="p-3 rounded-lg bg-sky-50 dark:bg-sky-900/20 border border-sky-200 dark:border-sky-800/50 flex items-center justify-between gap-3">
+                        <span className="text-sm">{t[`m${n}_nav`]} — {sectionPct(n)}%</span>
+                        <button onClick={() => go(n)} className="text-xs font-bold text-sky-700 dark:text-sky-300 hover:underline shrink-0">{t.analytics_wp_goto}</button>
+                      </div>))}
+              </div>
+              <div className="space-y-2">
+                <p className="text-xs font-bold text-[#004030] dark:text-[#D8C3A5]">{t.analytics_wp_group_head}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 pl-1">{t.analytics_wp_group_note}</p>
+                {GROUP_SECTIONS.filter(n => sectionPct(n) < 100).length === 0
+                  ? <p className="text-sm text-green-600 dark:text-green-400 pl-1">{t.analytics_wp_group_done}</p>
+                  : GROUP_SECTIONS.filter(n => sectionPct(n) < 100).map(n => (
+                      <div key={n} className="p-3 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 flex items-center justify-between gap-3">
+                        <span className="text-sm">{t[`m${n}_nav`]} — {sectionPct(n)}%</span>
+                        <button onClick={() => go(n)} className="text-xs font-bold text-[#004030] dark:text-[#D8C3A5] hover:underline shrink-0">{t.analytics_wp_goto}</button>
+                      </div>))}
+              </div>
+            </div>}
+
+
+        <div className="mt-8 rounded-xl border-2 border-sky-200 dark:border-sky-800/60 bg-sky-50/50 dark:bg-sky-900/10 p-5">
+          <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5]">{t.analytics_personal_title}</h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-4">{t.analytics_personal_desc}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <InfoInput id="nameEn" label={t.analytics_name_en} ph={t.analytics_name_en_ph} value={studentInfo.nameEn} onChange={setInfo} />
+            <InfoInput id="nameZh" label={t.analytics_name_zh} ph={t.analytics_name_zh_ph} value={studentInfo.nameZh} onChange={setInfo} />
+            <InfoInput id="id" label={t.analytics_id} ph={t.analytics_id_ph} value={studentInfo.id} onChange={setInfo} san={sanitizeStudentId} />
+            <InfoInput id="dept" label={t.analytics_dept} ph={t.analytics_dept_ph} value={studentInfo.dept} onChange={setInfo} />
+          </div>
+          <button onClick={exportPersonal} disabled={!okPersonal}
+            className="mt-4 px-5 py-2.5 bg-sky-700 dark:bg-sky-300 text-white dark:text-sky-950 font-bold rounded-lg disabled:opacity-40">{t.analytics_export_personal}</button>
+          {!okPersonal && <p className="text-xs text-amber-600 dark:text-amber-400 mt-2">{t.analytics_need_personal}</p>}
+        </div>
+
+        <div className="mt-5 rounded-xl border-2 border-[#D8C3A5] dark:border-[#D8C3A5]/50 bg-[#D8C3A5]/10 p-5">
+          <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5]">{t.analytics_group_title}</h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-4">{t.analytics_group_desc}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div><label className="block text-xs font-bold text-slate-500 mb-1">{t.analytics_group}</label>
+              <select className={inputCls} value={studentInfo.group} onChange={e => setStudentInfo(st => ({...st, group: e.target.value}))}>
+                <option value="">{t.analytics_group_select}</option>
+                {t.group_options.map(g => <option key={g} value={g}>{g}</option>)}
+              </select></div>
+            <InfoInput id="compiler" label={t.analytics_compiler} ph={t.analytics_compiler_ph} value={studentInfo.compiler} onChange={setInfo} />
+          </div>
+          <div className="flex flex-wrap gap-3 mt-4">
+            <button onClick={exportGroupCSV} disabled={!okGroup} className="px-5 py-2.5 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg disabled:opacity-40">{t.analytics_export_csv}</button>
+            <button onClick={exportGroupMD} disabled={!okGroup} className="px-5 py-2.5 border-2 border-[#004030] dark:border-[#D8C3A5] text-[#004030] dark:text-[#D8C3A5] font-bold rounded-lg disabled:opacity-40">{t.analytics_export_md}</button>
+          </div>
+          {!okGroup && <p className="text-xs text-amber-600 dark:text-amber-400 mt-2">{t.analytics_need_group}</p>}
+        </div>
+
+        <div className="mt-6 flex items-center gap-3 flex-wrap">
+          <button onClick={clearAll} className="px-5 py-2.5 border border-red-400 text-red-600 dark:text-red-400 font-bold rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20">{t.analytics_wp_clear}</button>
+        </div>
+        <p className="text-xs text-slate-400 mt-3">💾 {t.analytics_wp_saved}</p>
+      </>
+    );
+  };
+
+  const renderM0 = () => (
+    <>
+      <div className="rounded-2xl bg-[#004030] dark:bg-slate-800 text-white p-6 sm:p-10 border border-[#D8C3A5]/30">
+        <p className="text-[#D8C3A5] font-serif tracking-widest text-sm mb-2">{t.brand} · {t.title}</p>
+        <h1 className="font-serif font-black text-3xl sm:text-4xl md:text-5xl leading-tight mb-4">{t.subtitle}</h1>
+        <p className="text-slate-200 leading-relaxed text-base">{t.m0_intro}</p>
+        <button onClick={() => go(1)} className="mt-6 px-6 py-3 bg-[#D8C3A5] text-[#004030] font-bold rounded-lg hover:brightness-110 transition">{t.m0_start}</button>
+      </div>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        {t.m0_stats.map((s,i) => (
+          <div key={i} className="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 text-center">
+            <p className="font-serif font-black text-3xl text-[#004030] dark:text-[#D8C3A5]">{s.val}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{s.label}</p>
+          </div>
+        ))}
+      </div>
+      <div className="bg-[#004030]/5 dark:bg-[#D8C3A5]/5 rounded-xl p-5 border-l-4 border-[#D8C3A5]">
+        <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-2">{t.m0_why}</h3>
+        <p>{t.m0_why_desc}</p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {t.m0_modules.map((m,i) => (
+          <button key={i} onClick={() => go(i+1)} className="text-left bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5] hover:shadow-md transition">
+            <span className="font-serif font-black text-[#D8C3A5] text-lg">{m.num}</span>
+            <p className="font-bold text-[#004030] dark:text-[#D8C3A5] mt-1">{m.title}</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">{m.desc}</p>
+          </button>
+        ))}
+      </div>
+      <SdlImport t={t} sdl={sdl} onImport={importSdl} onClear={() => setSdl(null)} />
+      <SavedHint />
+    </>
+  );
+
+  const body = () => {
+    if (module === 0) return renderM0();
+    if (module === 1) return renderM1();
+    if (module === 2) return renderM2();
+    if (module === 3) return renderM3();
+    if (module === 4) return renderM4();
+    if (module === 5) return renderM5();
+    if (module === 6) return renderM6();
+    if (module === 7) return renderM7();
+    if (module === IDX_LAB) return renderLab();
+    if (module === IDX_RES) return renderRes();
+    return renderAna();
+  };
+
+  const cur = modulesList[module];
+
+  return (
+    <div className="min-h-screen flex flex-col pt-16 overflow-x-hidden">
+      <header className="fixed top-0 left-0 right-0 h-16 bg-[#004030] dark:bg-slate-900 text-white z-50 shadow-lg border-b border-[#D8C3A5]/30">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-1 sm:gap-2 min-w-0">
+            <div className="relative" ref={menuRef}>
+              <button onClick={() => setMenuOpen(!menuOpen)} className="p-2 hover:bg-white/10 rounded-lg" aria-label={t.nav_modules}>
+                {menuOpen ? <IconX/> : <IconMenu/>}
+              </button>
+              {menuOpen && (
+                <div className="absolute top-full left-0 mt-1 w-64 max-w-[calc(100vw-2rem)] max-h-[calc(100vh-5rem)] overflow-y-auto bg-white dark:bg-slate-800 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 z-[100]">
+                  {modulesList.map(m => (
+                    <button key={m.id} onClick={() => go(m.id)}
+                      className={`w-full flex items-center gap-3 px-4 py-3 text-sm transition ${module === m.id ? 'bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5] font-bold' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700'}`}>
+                      <span className="ui-decoration">{m.icon}</span><span className="truncate">{m.title}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+            <button onClick={() => go(0)} className="p-2 hover:bg-white/10 rounded-lg" aria-label={t.nav_home}><IconHome size={18}/></button>
+            <button onClick={() => window.scrollTo({top:0,behavior:'smooth'})} className="flex items-center gap-2 min-w-0">
+              <span className="font-serif font-black text-[#D8C3A5] text-lg tracking-widest">{t.brand}</span>
+              <span className="hidden sm:inline font-serif font-bold text-sm md:text-base truncate">{t.title}</span>
+            </button>
+          </div>
+          <div className="flex items-center gap-1 sm:gap-2">
+            <button onClick={() => handleTTS(ttsState === 'playing' ? 'pause' : 'play')} className="p-2 hover:bg-white/10 rounded-lg" aria-label={t.audio_read}>
+              {ttsState === 'playing' ? <IconPause size={18}/> : <IconPlay size={18}/>}
+            </button>
+            <button onClick={() => handleTTS('stop')} className="p-2 hover:bg-white/10 rounded-lg" aria-label="Stop"><IconSquare size={18}/></button>
+            <button onClick={() => setLang(lang === 'en' ? 'zh' : 'en')} className="px-2 py-2 hover:bg-white/10 rounded-lg flex items-center gap-1">
+              <IconGlobe size={18}/><span className="text-xs font-bold">{lang === 'en' ? '中' : 'EN'}</span>
+            </button>
+            <button onClick={() => setIsDark(!isDark)} className="p-2 hover:bg-white/10 rounded-lg" aria-label="Theme">
+              {isDark ? <IconSun size={18}/> : <IconMoon size={18}/>}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div className="flex-1 w-full max-w-7xl mx-auto flex">
+        <aside className="hidden md:block w-64 shrink-0 border-r border-slate-200 dark:border-slate-700 py-8 px-3">
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 px-3 mb-3">{t.nav_modules}</p>
+          {modulesList.map(m => (
+            <button key={m.id} onClick={() => go(m.id)}
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm mb-1 transition ${module === m.id ? 'bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5] font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'}`}>
+              <span className="ui-decoration shrink-0">{m.icon}</span>
+              <span className="truncate text-left flex-1">{m.title}</span>
+              {m.kind && <span className={`text-[10px] font-bold px-1 rounded shrink-0 ${m.kind === 'P' ? 'text-sky-700 dark:text-sky-300' : 'text-[#004030] dark:text-[#D8C3A5]'}`}>{m.kind}</span>}
+            </button>
+          ))}
+          <div className="mt-6 px-3 space-y-3">
+            <div>
+              <p className="text-xs text-slate-400 mb-1">{t.analytics_pct_personal}</p>
+              <div className="h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden"><div className={`h-full ${pctPersonal === 100 ? 'bg-green-500' : 'bg-sky-600 dark:bg-sky-400'}`} style={{width: pctPersonal + '%'}}></div></div>
+              <p className="text-xs font-bold text-sky-700 dark:text-sky-300 mt-1">{pctPersonal}%</p>
+            </div>
+            <div>
+              <p className="text-xs text-slate-400 mb-1">{t.analytics_pct_group}</p>
+              <div className="h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden"><div className={`h-full ${pctGroup === 100 ? 'bg-green-500' : 'bg-[#004030] dark:bg-[#D8C3A5]'}`} style={{width: pctGroup + '%'}}></div></div>
+              <p className="text-xs font-bold text-[#004030] dark:text-[#D8C3A5] mt-1">{pctGroup}%</p>
+            </div>
+          </div>
+        </aside>
+
+        <main className="flex-1 min-w-0 py-8 px-4 sm:px-6">
+          <div key={`${module}-${lang}`} className="space-y-6 text-lg leading-relaxed text-slate-700 dark:text-slate-300 animate-fade-in">
+            {module !== 0 && (
+              <div>
+                <H2 icon={cur.icon} number={cur.num}>{module <= NUM_LEARN ? t[`m${module}_title`] : module === IDX_LAB ? t.mlab_title : module === IDX_RES ? t.mres_title : t.analytics_title}</H2>
+                {cur.kind && <Badge kind={cur.kind} t={t} />}
+              </div>
+            )}
+            {body()}
+            <div className="mt-12 flex justify-between items-center pt-8 border-t border-slate-300 dark:border-slate-700 no-print">
+              <button onClick={() => go(Math.max(0, module-1))} disabled={module === 0}
+                className="px-5 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg text-sm font-bold hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-0">← {t.nav_prev}</button>
+              <button onClick={() => go(Math.min(TOTAL-1, module+1))} disabled={module === TOTAL-1}
+                className="px-5 py-2.5 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] rounded-lg text-sm font-bold disabled:opacity-0">{t.nav_next} →</button>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <footer className="h-8 bg-[#004030] flex items-center justify-between px-4 shrink-0">
+        <span className="text-[#D8C3A5]/60 text-[10px] sm:text-xs truncate">{t.date} · {t.copyright}</span>
+        <span className="text-[#D8C3A5]/60 text-[10px] sm:text-xs flex items-center gap-3 shrink-0">
+          <span className="hidden sm:inline">{t.architect_label}&nbsp;<a href={t.architect_url} target="_blank" rel="noopener noreferrer" className="text-[#D8C3A5] hover:text-white underline">Prof. Shihmin Lo</a></span>
+          <button onClick={() => window.scrollTo({top:0,behavior:'smooth'})} className="text-[#D8C3A5] hover:text-white font-bold">Top ↑</button>
+        </span>
+      </footer>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
