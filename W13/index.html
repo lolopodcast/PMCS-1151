@@ -1,1 +1,2433 @@
-W13
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PMCS Worksheet W13 — The Triple Constraint, the WBS and the Critical Path</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.7/babel.min.js"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: { extend: { fontFamily: { sans: ['Inter','sans-serif'], serif: ['Merriweather','serif'] } } }
+  }
+</script>
+<style>
+  @keyframes fadeInUp { from{opacity:0;transform:translateY(15px)} to{opacity:1;transform:translateY(0)} }
+  .animate-fade-in { animation: fadeInUp 0.5s ease-out forwards; }
+  .perspective { perspective: 1000px; }
+  .transform-style-3d { transform-style: preserve-3d; }
+  .backface-hidden { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  .rotate-y-180 { transform: rotateY(180deg); }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+  .dark ::-webkit-scrollbar-thumb { background: #475569; }
+  header, footer, button, [role="button"], .ui-decoration { -webkit-user-select: none; user-select: none; }
+  input, textarea, select { -webkit-user-select: text; user-select: text; }
+  html { overflow-x: hidden; }
+  @media print { header, footer, aside, .no-print { display: none !important; } }
+</style>
+</head>
+<body class="bg-[#f4f4f4] dark:bg-[#121212] selection:bg-[#004030] selection:text-white dark:selection:bg-[#D8C3A5] dark:selection:text-[#004030] overflow-x-hidden">
+<div id="root"></div>
+
+<script>
+(function(){
+  var ALLOWED = ['lolopodcast.github.io','localhost','127.0.0.1','claude.ai','anthropic.com','usercontent.goog'];
+  var REDIRECT = 'https://www.ibs.ncnu.edu.tw/index.php/faculty/tenured-professor/299-smlo';
+  var h = location.hostname;
+  var isFile = location.protocol === 'file:' || h === '';
+  var ok = isFile || ALLOWED.some(function(d){ return h === d || h.endsWith('.' + d); });
+  if (!ok) {
+    document.body.innerHTML = '<div style="text-align:center;padding:60px;font-family:sans-serif"><h1>Access Denied</h1><p>This resource is not authorised on this domain.</p></div>';
+    setTimeout(function(){ location.href = REDIRECT; }, 3000);
+    return;
+  }
+  if (window.self !== window.top) {
+    try { window.top.location.href = window.self.location.href; } catch(e) {}
+  }
+})();
+(function(){
+  var MSG = 'Intellectual Property of Prof. Shihmin Lo';
+  var el = null, timer = null;
+  window.showCopyrightToast = function(){
+    if (!el) {
+      el = document.createElement('div');
+      el.style.cssText = 'position:fixed;left:50%;bottom:48px;transform:translateX(-50%);background:#004030;color:#D8C3A5;padding:10px 20px;border-radius:10px;font-family:Inter,sans-serif;font-size:13px;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.3);opacity:0;transition:opacity .25s';
+      el.textContent = MSG;
+      document.body.appendChild(el);
+    }
+    el.style.opacity = '1';
+    clearTimeout(timer);
+    timer = setTimeout(function(){ el.style.opacity = '0'; }, 2000);
+  };
+  document.addEventListener('contextmenu', function(e){
+    var tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || tag === 'select') return true;
+    if (window.getSelection().toString().trim().length > 0) return true;
+    e.preventDefault(); window.showCopyrightToast();
+  });
+  document.addEventListener('keydown', function(e){
+    var k = (e.key || '').toLowerCase();
+    if (e.key === 'F12') { e.preventDefault(); window.showCopyrightToast(); return; }
+    if (e.ctrlKey && k === 'u') { e.preventDefault(); window.showCopyrightToast(); return; }
+    if (e.ctrlKey && e.shiftKey && ['i','j','c'].indexOf(k) >= 0) { e.preventDefault(); window.showCopyrightToast(); return; }
+  });
+  document.addEventListener('dragstart', function(e){
+    if (e.target.tagName === 'IMG' || (e.target.closest && e.target.closest('svg'))) e.preventDefault();
+  });
+})();
+</script>
+
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+/* ================= Answer obfuscation ================= */
+const _SALT = 'W132026';
+const _e = (s, n) => {
+  const p = s + ':' + n; let r = '';
+  for (let i = 0; i < p.length; i++) r += String.fromCharCode(p.charCodeAt(i) ^ ((i + 7) * 3 & 0xFF));
+  return btoa(r);
+};
+const _d = (token) => {
+  const dec = atob(token); let r = '';
+  for (let i = 0; i < dec.length; i++) r += String.fromCharCode(dec.charCodeAt(i) ^ ((i + 7) * 3 & 0xFF));
+  return parseInt(r.split(':')[1], 10);
+};
+const _A0 = _e(_SALT,0), _A1 = _e(_SALT,1), _A2 = _e(_SALT,2), _A3 = _e(_SALT,3);
+
+/* ================= Module map =================
+   M0 概要 / M1 分工[G] / M2 三重限制自我定位[P] / M3 工作包拆解[P] / M4 語言[P]
+   M5 小組綜整[G] / M6 依演化表[G] / M7 簡報計畫[G] / M8 Lab / M9 資源 / M10 完成度
+================================================= */
+const NUM_LEARN = 7;
+const TOTAL = 1 + NUM_LEARN + 3;
+const IDX_LAB = NUM_LEARN + 1;
+const IDX_RES = NUM_LEARN + 2;
+const IDX_ANA = NUM_LEARN + 3;
+const MAX_MEMBERS = 10;
+const DEFAULT_MEMBERS = 6;
+const MEMBER_IDX = [...Array(MAX_MEMBERS).keys()];
+const PERSONAL_SECTIONS = [2,3,4];
+const GROUP_SECTIONS = [1,5,6,7];
+
+const ACT_IDS = ['fetch','extract','deploy','content','pitch','kb'];
+const S2_IDS = ['tc_locked','tc_evidence','tc_give1','tc_give2','tc_quality'];
+const S3_IDS = ['wp_scope','wp_list','wp_check','wp_gap','wp_hours'];
+const TRI_NEED = [
+  ['tc_locked','tc_evidence'],
+  ['tc_give1'],
+  ['tc_give2'],
+  ['tc_quality']
+];
+const SIDE_ORDER = ['scope','sched','cost'];
+
+const sanitizeStudentId = (v) => v.replace(/[^0-9]/g, '').slice(0, 12);
+const sanitizeName = (v) => v.replace(/[<>"'&\\]/g, '').slice(0, 50);
+const sanitizeText = (v) => v.slice(0, 2000);
+
+/* ================= Icons ================= */
+const S = (p) => ({ width: p.size||20, height: p.size||20, viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:2, strokeLinecap:"round", strokeLinejoin:"round" });
+const IconMenu=(p)=><svg {...S(p)}><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>;
+const IconX=(p)=><svg {...S(p)}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>;
+const IconHome=(p)=><svg {...S(p)}><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>;
+const IconGlobe=(p)=><svg {...S(p)}><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>;
+const IconMoon=(p)=><svg {...S(p)}><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>;
+const IconSun=(p)=><svg {...S(p)}><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.2" y1="4.2" x2="5.6" y2="5.6"/><line x1="18.4" y1="18.4" x2="19.8" y2="19.8"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.2" y1="19.8" x2="5.6" y2="18.4"/><line x1="18.4" y1="5.6" x2="19.8" y2="4.2"/></svg>;
+const IconPlay=(p)=><svg {...S(p)}><polygon points="5 3 19 12 5 21 5 3"/></svg>;
+const IconPause=(p)=><svg {...S(p)}><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>;
+const IconSquare=(p)=><svg {...S(p)}><rect x="4" y="4" width="16" height="16" rx="2"/></svg>;
+const IconCheckCircle=(p)=><svg {...S(p)}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>;
+
+/* ================= Dictionary ================= */
+const dict = {
+  zh: {
+    brand: "PMCS",
+    title: "學習單 W13", subtitle: "三重限制、WBS 與關鍵路徑",
+    nav_modules: "單元目錄", nav_prev: "上一單元", nav_next: "下一單元", nav_home: "首頁",
+    key_terms: "隨手參考卡", flip_prompt: "點擊翻轉",
+    flip_status: "已讀 {read} / 已顯示 {shown} / 總計 {total}",
+    flip_next: "下一組", flip_retry: "重新開始",
+    audio_read: "語音導覽",
+    quiz_title: "課前自我檢核", quiz_status: "答對 {correct} / 已答 {answered} / 總計 {total}",
+    quiz_next: "下一組", quiz_retry: "重新測驗",
+    submit: "提交答案", correct: "正確", incorrect: "錯誤", explanation: "解析",
+    overview_label: "Overview 本節任務",
+    highlights_label: "Highlights 關鍵字",
+    deep_dive_label: "Deep Dive 填寫說明",
+    wrapup_label: "Wrap-up 檢查點",
+    badge_personal: "個人填寫・不繳交",
+    badge_group: "小組共同・隨小組版繳交",
+    saved_hint: "✍️ 填寫內容自動存在你這台電腦的瀏覽器裡；換裝置不會跟著走，請務必到「完成度與匯出」頁匯出檔案。",
+    required_label: "必讀教材", optional_label: "選讀教材（可撰寫為 BA）",
+    select_ph: "請選擇",
+
+    m0_nav: "0. 執行概要",
+    m0_title: "這份學習單怎麼用",
+    m0_intro: "這是 PMCS 課程 W13 的課前學習單，也是專案管理三週的第一週。W10 到 W12 是實作層，你已經把可運行版放上公開網址；W13 到 W15 換一個問題——不再問「做不做得出來」，而是問「什麼時候做完、由誰做、做到什麼程度算完成」。本週的主教材是 T5 · PLAN 專案規劃，八個模組全部要讀。主題是規劃：範疇、時程、成本三者互相牽制的鐵三角，把大目標拆到第三層工作包的工作分解結構，以及用關鍵路徑法算出哪一條路徑的延誤會直接推遲交付日。請注意 D day 最晚落在 W15，也就是說從這一週算起，你的組只剩兩到三週。第 2 到第 4 節每人各填自己的、不繳交；第 5 到第 7 節由小組共同決定，隨小組版繳交。",
+    m0_why: "為什麼規劃要從「哪一邊被鎖死」開始，而不是從行事曆開始？",
+    m0_why_desc: "因為行事曆會騙人。把十件事平鋪在兩週裡，每一件看起來都排得下，但那張表沒有回答一個問題：如果其中一件晚了三天，交付日會不會跟著往後？規劃真正的起點是承認資源有限——先找出哪一邊已經被外力鎖死，再看剩下的兩個旋鈕還能轉多少。三重限制沒有第四條路：時程鎖死而範疇擴張，讓步的一定是成本；成本也加不了，讓步的就是三角形的面積，也就是品質，而且它通常是悄悄地被犧牲。本週要你做的，就是把這個推導寫下來，讓它可以被別人檢查。",
+    m0_stats: [
+      { val: "3", label: "三重限制：範疇、時程、成本" },
+      { val: "1.1.1", label: "工作分解要拆到第三層工作包" },
+      { val: "0", label: "關鍵路徑上活動的總浮時" },
+      { val: "W15", label: "D day 最晚落在這一週" }
+    ],
+    m0_modules: [
+      { num: "01", title: "小組與分工", desc: "登錄組別、成員，敲定 10 分鐘簡報的 Jigsaw 分工。", tag: "小組" },
+      { num: "02", title: "三重限制自我定位", desc: "判斷你這一組被鎖死的是哪一邊，寫出證據與另外兩邊付出的代價。", tag: "個人" },
+      { num: "03", title: "工作包拆解", desc: "把自己負責的那一塊拆到第三層，逐一跑工作包三檢查。", tag: "個人" },
+      { num: "04", title: "語言實驗室", desc: "五個新詞、三個難發音，供課堂與加分作業使用。", tag: "個人" },
+      { num: "05", title: "小組綜整", desc: "六個人的工作包清單只挑三個並排比對，訂出書寫通則。", tag: "小組" },
+      { num: "06", title: "依演化表建置", desc: "第一層工作分解、關鍵路徑、總工期、最脆弱的一段與浮時調度。", tag: "小組" },
+      { num: "07", title: "簡報計畫", desc: "誰講哪一段、各幾秒，以及要丟給全班的那一個問題。", tag: "小組" }
+    ],
+    m0_start: "開始填寫 →",
+
+    tri_sides: [
+      { name: "範疇", sub: "要做多少事" },
+      { name: "時程", sub: "有多少時間" },
+      { name: "成本", sub: "有多少資源" }
+    ],
+    tri_area: { name: "品質", sub: "三角形的面積，三邊一起壓就悄悄縮小" },
+    tri_risk: "風險在三角形之外，W14 才處理",
+    tri_note: "三重限制不是三個要一起達成的目標，而是三個彼此扣住的旋鈕——你只能轉其中兩個。",
+    tri_locked_tag: "已鎖死",
+
+    activities: [
+      { id:"fetch", name:"資料抓取" },
+      { id:"extract", name:"分析與抽取" },
+      { id:"deploy", name:"部署與排程" },
+      { id:"content", name:"內容與呈現" },
+      { id:"pitch", name:"簡報與驗收" },
+      { id:"kb", name:"知識庫與文件" }
+    ],
+    lock_opts: [
+      { v:"scope", name:"範疇被鎖死（功能清單已經對外承諾，砍不掉）" },
+      { v:"sched", name:"時程被鎖死（D day 不能動）" },
+      { v:"cost", name:"成本被鎖死（人力與可投入時數加不上去）" }
+    ],
+    weak_opts: [
+      { v:"fetch", name:"資料抓取" },
+      { v:"extract", name:"分析與抽取" },
+      { v:"deploy", name:"部署與排程" },
+      { v:"content", name:"內容與呈現" },
+      { v:"pitch", name:"簡報與驗收" }
+    ],
+
+    m1_nav: "1. 小組與分工", m1_title: "小組與 Jigsaw 分工",
+    m1_overview: "先把行政資訊填好，並在小組討論時當場敲定簡報分工。本課程每次由兩組簡報，每組 10 分鐘，每位組員必須開口講 1 至 2 分鐘——這一節就是把「誰講哪一段、講幾秒」寫定，避免上台才在推派。",
+    m1_highlights: ["Jigsaw 協作","每人 1-2 分鐘","全組 10 分鐘","組員都要開口"],
+    m1_deep: "本週是規劃週，簡報結構建議直接對著規劃走：一人講你們被鎖死的是哪一邊與證據、一人講第一層工作分解、一人講關鍵路徑與總工期、一人講關鍵路徑上最脆弱的那一段、一人講浮時最多的一段要把人力調去哪裡、一人講到 D day 之前的排程。把秒數寫下來，總長度才控制得住。",
+    m1_group: "組別", m1_date: "填寫日期",
+    m1_members_label: "組員與分工（用下方加減鈕調整人數，上限 10 人）",
+    m1_member_count: "目前 {n} 位組員",
+    m1_col_name: "姓名", m1_col_id: "學號", m1_col_part: "負責段落", m1_col_sec: "秒數",
+    m1_part_ph: "例：關鍵路徑與總工期",
+    m1_total_sec: "目前規劃總長度",
+    m1_sec_warn: "超過 600 秒（10 分鐘），請壓縮。",
+    m1_sec_ok: "在 10 分鐘內，可行。",
+    m1_wrapup: "檢查點：每位出席組員都有分配到段落，且總秒數不超過 600。",
+
+    m2_nav: "2. 三重限制自我定位", m2_title: "三重限制自我定位：你們被鎖死的是哪一邊",
+    m2_overview: "本週個人核心任務的前半，讀完 T5 M2 之後填。範疇是要做多少事、時程是有多少時間、成本是有多少資源，三者互相牽制。請判斷你這一組的期末專案目前被外力鎖死的是哪一邊，寫出可以被別人檢查的證據，再寫出另外兩邊到今天為止已經付出的代價。",
+    m2_highlights: ["鐵三角","被鎖死的一邊","已付出的代價","品質是面積","餘裕"],
+    m2_deep: "兩個常見錯誤。第一個是三邊都說「有點緊」——那不是定位，是描述心情；被鎖死的意思是它由外力決定、你們自己動不了，例如 D day 由課程行事曆決定、功能清單由已經對外承諾的規劃書決定。三者之中通常只有一邊是真的鎖死。第二個錯誤是把代價寫成形容詞：「大家都很累」不是代價，「原本排的兩個產業砍成一個」「上週三個人各多花了四小時重做抽取規則」才是代價，因為它有數字、有具體被放掉的東西。最後一格請誠實面對品質：品質不是第四個角，而是三角形的面積；當你既砍時間又砍資源卻不肯砍範疇時，被犧牲的一定是它。",
+    m2_locked_label: "你這一組目前被鎖死的是哪一邊",
+    m2_locked_hint: "只能選一個。被鎖死的定義是：它由外力決定，你們自己動不了。",
+    m2_locked_warn: "⚠ 還沒選。三邊都覺得緊不算定位，請挑出真正由外力鎖死的那一邊。",
+    m2_evidence_label: "被鎖死的證據（要能被別人檢查）",
+    m2_evidence_hint: "寫出誰決定的、什麼時候決定的、寫在哪一份文件裡。「大家都覺得時間不夠」不是證據。",
+    m2_evidence_ph: "例：D day 由課程行事曆定在 W15 上課日，寫在規劃書第 1 頁的里程碑表上，全班一致，我們無法自行延後。",
+    m2_give1_label: "另外兩邊之一已經付出的代價（第一項）",
+    m2_give1_hint: "要有數字或具體被放掉的東西，不要寫形容詞。",
+    m2_give1_ph: "例：範疇這一邊已經讓步——原本規劃的三個產業砍成一個，第二、三個產業的關鍵詞表整份移到「本次不做」清單。",
+    m2_give2_label: "另外兩邊之一已經付出的代價（第二項）",
+    m2_give2_hint: "另一邊也要寫。如果你認為另一邊完全沒讓步，請說明它為什麼還撐得住。",
+    m2_give2_ph: "例：成本這一邊也讓步了——上週三個人各多投入四小時重寫抽取規則，本週再各加三小時做部署，等於全組多出二十一個人時。",
+    m2_quality_label: "品質這個「面積」目前縮在哪裡",
+    m2_quality_hint: "T5 M2「三重限制與第四、第五構面」：品質是第四構面，但它不是第四個角，而是三角形的面積；風險是第五構面，落在三角形之外。三邊同時被壓縮，面積必然變小，而且通常是悄悄地。",
+    m2_quality_ph: "例：每則摘要從一百二十字降到八十字、來源連結從逐則附上改成整份附一次、格式檢查暫時關掉——這三項都是我們沒有明講但已經在犧牲的品質。",
+    m2_svg_layer: "PLAN · 三重限制鐵三角",
+    m2_svg_cap: "填得越完整，三角形就越亮；被鎖死的那一邊會以紅色標出，中間的面積代表品質",
+    m2_terms: [
+      { front: "三重限制（鐵三角）", back: "範疇、時程、成本三者互相牽制。壓縮任何一邊，另外兩邊必須讓步；你只能轉其中兩個旋鈕。" },
+      { front: "品質是面積", back: "品質不是第四個角，而是三角形圍出的面積。三邊同時壓縮，面積必然縮小，而且通常是悄悄地被犧牲。" },
+      { front: "風險在三角之外", back: "可能對專案目標產生正面或負面影響的不確定事件，是作用在三重限制上的外力。W14 用一整週處理。" },
+      { front: "餘裕", back: "規劃時在三個角預留的空間。餘裕就是你為風險預先付出的成本。" },
+      { front: "工作包", back: "工作分解結構最底層的單位：可指派給一個人、可估出工時、有明確的完成判準。" },
+      { front: "工作包三檢查", back: "可指派給一個人？可估出工時？有明確的完成判準？三者皆是才算拆到底，任一為否就再往下切一層。" },
+      { front: "關鍵路徑法（CPM）", back: "四步：識別關鍵活動、確定最短完成時間、優化專案時程、評估時程風險。往前推得 ES 與 EF，往後推得 LS 與 LF。" },
+      { front: "總浮時（TF）", back: "等於 LS 減 ES，也等於 LF 減 EF。浮時為零的活動串起來就是關鍵路徑，延誤一天專案就延誤一天。" }
+    ],
+    m2_q: [
+      { q: "D day 鎖死而組內又要加一個新功能時，還剩下哪些自由度？", opts: ["只剩成本與品質，成本加不了就犧牲品質","只剩時程與風險，兩者可以互相抵銷歸零","範疇與時程兩項都還可以同時被放寬","只剩品質一項，成本完全無法再調整"], ans: _A0, exp: "時程鎖死、範疇擴張，自由度只剩成本；成本也加不了，讓步的就是三角形的面積——品質。" },
+      { q: "T5 的工作包三檢查是哪三項？", opts: ["有編號、有負責人、有截止日期","可指派給一個人、可估出工時、有明確完成判準","可測試、可回溯、可自動化執行","有預算、有工具、有備援的人力"], ans: _A1, exp: "三者皆是才算拆到底；任何一項為否，就再往下切一層。" },
+      { q: "往前推（forward pass）計算最早開始 ES 的規則是什麼？", opts: ["取所有後續活動 LS 的最小值當作 ES","取所有前置活動 ES 的平均值當作 ES","取所有前置活動 EF 的最大值當作 ES","一律等於專案總工期減去該活動工期"], ans: _A2, exp: "ES 取所有前置活動 EF 的最大值，EF 等於 ES 加工期；取後續活動 LS 的最小值那是往後推算 LF。" },
+      { q: "只能增援一個人時，應該把他放在哪一項活動上？", opts: ["工期最長的那一項活動上面","最晚才會開始的那一項活動上面","組會上被抱怨得最多的那一項工作","總浮時最小的那一項，也就是關鍵路徑上"], ans: _A3, exp: "浮時為零的活動延誤一天，專案就延誤一天，沒有緩衝可以吸收。" }
+    ],
+    m2_wrapup: "檢查點：被鎖死的那一邊有寫出可被檢查的證據，且另外兩邊的代價寫的是數字或具體被放掉的東西，不是形容詞。",
+
+    m3_nav: "3. 工作包拆解", m3_title: "個人負責範圍的工作包拆解",
+    m3_overview: "本週個人核心任務的後半，讀完 T5 M4 之後填。把你在組內負責的那一塊拆到第三層工作包，每一個都跑一次工作包三檢查——可指派給一個人？可估出工時？有明確的完成判準？沒通過的要寫出還缺什麼。",
+    m3_highlights: ["第三層","編號 1.1.1","三檢查","缺什麼","工時估計"],
+    m3_deep: "編號不是裝飾。1、1.1、1.1.1 是後面所有表格的主鍵——第 6 節的關鍵路徑用它排序，W14 的風險登記表用它定位。沒有編號的分解結構，過兩週就會退化成一張純文字清單。三檢查裡最常掉的是第三項：「做好知識庫」不是判準，「KB 目錄下三個檔案各寫滿並通過格式檢查」才是；差別在於前者要由人來認定，後者任何人拿去看都會得到同一個答案。另外請注意反向的錯誤——如果一個工作包只需要半小時，把它獨立成一列的管理成本會高於它本身，那是過度分解。最後一格的工時總和請誠實估，第 8 節的 D day 倒數盤點會拿它跟你們實際可用的工時預算對照。",
+    m3_scope_label: "我在組內負責的那一塊（第二層名稱與編號）",
+    m3_scope_hint: "依 T5 M4「工作分解結構 WBS」，第一層是專案本身或主要可交付成果，第二層是子系統或工作階段。請寫出你負責的第二層，例如 1.2 資料抓取與清洗。",
+    m3_scope_ph: "例：1.2 資料抓取與清洗——包含來源清單、抓取腳本、失敗重試與原始檔留存。",
+    m3_list_label: "第三層工作包清單（至少四個，每個附編號與工時估計）",
+    m3_list_hint: "一行一個。格式建議：編號 空格 名稱 空格 括號裡填工時。例：1.2.1 撰寫來源清單與抓取規則（4 小時）。",
+    m3_list_ph: "例：\n1.2.1 撰寫來源清單與抓取規則（4 小時）\n1.2.2 寫出抓取腳本並跑通三個來源（6 小時）\n1.2.3 加上失敗重試與原始檔留存（3 小時）\n1.2.4 寫一份來源異動的檢查清單（2 小時）",
+    m3_check_label: "工作包三檢查的逐項結果",
+    m3_check_hint: "每一個工作包都要跑三檢查：可指派給一個人？可估出工時？有明確的完成判準？寫出哪些三項全過、哪些沒過。可以先用第 8 節的三檢查清單跑一次再回來填。",
+    m3_check_ph: "例：1.2.1、1.2.3 三項全過。1.2.2 第一項沒過，因為三個來源實際上要兩個人分頭做。1.2.4 第三項沒過，判準只寫了「整理好」。",
+    m3_gap_label: "沒通過的那幾個還缺什麼",
+    m3_gap_hint: "缺什麼要寫得出下一步。「還要再想想」不算，「拆成 1.2.2a 與 1.2.2b 兩個工作包各指派一人」才算。",
+    m3_gap_ph: "例：1.2.2 拆成 1.2.2a（A、B 兩個來源）與 1.2.2b（C 來源）各指派一人。1.2.4 的完成判準改寫成「清單至少八項，每項附一個可觀察的判斷條件」。",
+    m3_hours_label: "我這一塊的工時估計總和（小時）",
+    m3_hours_hint: "把上面所有工作包的工時加起來。這個數字會被第 8 節的 D day 倒數盤點拿來對照可用工時預算。",
+    m3_hours_ph: "例：15",
+    m3_hours_warn: "⚠ 還沒填工時總和。沒有這個數字，D day 倒數盤點就算不出你會不會超支。",
+    m3_hours_ok: "✓ 工時總和已填，可以到第 8 節做 D day 倒數盤點了。",
+    m3_wrapup: "檢查點：第三層工作包至少四個且都有編號，沒通過三檢查的每一個都寫出了具體還缺什麼。",
+
+    m4_nav: "4. 語言實驗室", m4_title: "EMI 語言實驗室",
+    m4_overview: "本課程是全英授課。從本週必讀教材中挑出五個新的詞彙或片語，以及三個你唸起來不順的字。這一節的產出直接用於課堂討論與加分作業。",
+    m4_highlights: ["新詞五個","難發音三個","自己的話","例句"],
+    m4_deep: "「用自己的話解釋」不要抄原文定義——抄定義只證明你找得到，改寫才證明你讀懂了。例句請寫跟你的期末專案有關的句子，例如描述你們的關鍵路徑、某個工作包的完成判準，或是你打算砍掉哪一項功能，這樣同一份力氣可以用兩次。",
+    m4_corpus_label: "本週建議語料（專案規劃）",
+    m4_corpus: ["critical path","float / slack","work package","deliverable","milestone","baseline","trade-off","de-scope"],
+    m4_corpus_note: "不必八個都用，挑你真的會在簡報裡講到的五個。注意 float 與 slack 在本課程都譯作「浮時」，de-scope 是動詞，指把已經在範疇裡的項目正式移出去。",
+    m4_terms_label: "五個新詞彙或片語",
+    m4_col_term: "詞彙／片語", m4_col_mean: "用自己的話解釋", m4_col_sent: "自己造一個句子",
+    m4_pron_label: "三個唸起來不順的字",
+    m4_col_word: "字", m4_col_hard: "難在哪裡", m4_col_tip: "你的記憶方法",
+    m4_wrapup: "檢查點：五個詞的解釋沒有一句是直接抄教材原文。",
+
+    m5_nav: "5. 小組綜整", m5_title: "小組綜整：只挑三個工作包做並排比對",
+    m5_overview: "這一節才是小組討論真正的工作。六個人各自帶來自己那一塊的工作包清單，全部攤開會有三、四十個。你們只挑三個做並排比對，比三件事：工期估計的差距、相依關係的認定差異、完成判準寫得夠不夠硬。最後訂出一條全組通用的工作包書寫通則。",
+    m5_highlights: ["六人清單挑三個","工期差距","相依關係","完成判準","組內通則"],
+    m5_deep: "彙整方式有一條硬性規定：本週彙整人不得把六份個人匯出檔全部丟給 AI 叫它總結。Context Engineering 的核心是選取，不是全丟。比對集合有六個領域——資料抓取、分析與抽取、部署與排程、內容與呈現、簡報與驗收、知識庫與文件——你們只能挑三個，再只取那三個領域的六人份工作包。挑哪三個本身就是判斷：挑六個人寫得都差不多的三個，比對不出東西；挑跨兩個人以上、而且大家對「誰要等誰」講不清楚的那三個，才會逼出通則。",
+    m5_focus_label: "我們決定比對的三個領域（勾選三項）",
+    m5_focus_why: "為什麼略過另外三個？",
+    m5_focus_why_ph: "例：內容與呈現、簡報與驗收兩個領域目前只有一個人碰，比不出差異；知識庫與文件大家寫得都一樣。真正吵起來的是資料抓取與部署排程的相依關係，所以我們挑那兩個加上分析與抽取。",
+    m5_gap_label: "工期估計的差距：同一類工作，六個人估出來差多少",
+    m5_gap_ph: "例：同樣是「寫一個來源的抓取腳本」，A 估 2 小時，D 估 8 小時。追問之後發現 A 沒有把反爬蟲與重試算進去，D 算了。四倍的差距不是能力差距，是範圍認定的差距。",
+    m5_dep_label: "相依關係的認定差異：誰認為要等誰，分歧在哪裡",
+    m5_dep_ph: "例：B 認為抽取規則要等抓取腳本跑通才能寫，C 認為可以拿三筆手動貼上的樣本先開工。這兩種認定會讓關鍵路徑差三天，我們採用 C 的版本並補一句「樣本至少三筆且涵蓋兩個來源」。",
+    m5_criteria_label: "完成判準寫得夠不夠硬：最鬆的那一個是哪一個，鬆在哪裡",
+    m5_criteria_ph: "例：最鬆的是「知識庫整理好」。它要由人來認定，兩個人看同一份檔案會給出不同答案。改寫成「KB 目錄下三個檔案各寫滿並通過格式檢查」之後，任何人拿去看都會得到同一個答案。",
+    m5_rule_label: "從這次比對，我們訂下一條工作包書寫通則",
+    m5_rule_ph: "例：本組每一個第三層工作包一律寫成「編號＋動詞開頭的名稱＋（工時）＋前置工作包編號＋一句可觀察的完成判準」，五項缺任何一項就不准放進第 6 節的關鍵路徑。",
+    m5_rule_note: "這條通則會累積到期末專案。它應該可以被別人拿去檢查你們的工作分解結構，而不是一句期許。",
+    m5_wrapup: "檢查點：只比對了三項（不是全部丟給 AI），且訂出的通則是可以檢查的。",
+
+    m6_nav: "6. 依演化表建置", m6_title: "依演化表建置：到 D day 的 WBS 與關鍵路徑",
+    m6_overview: "把第 5 節的共識變成全組共用的一張規劃。這一節寫下來的東西就是你們到 D day 之間的實際時程依據，也是課堂診斷的掛號單。關鍵路徑那三格請用第 8 節的估算小工具先跑過再填。",
+    m6_highlights: ["第一層分解","關鍵路徑","總工期","最脆弱的一段","浮時調度"],
+    m6_deep: "第一層寫三到五項就好，寫十項代表你們把第二層混進來了。關鍵路徑要寫成活動代號串，例如 A→C→D→G，而不是一段描述；總工期要寫出天數，因為它會被拿來跟剩下的週數對照。tp_cp_weak 是本週的分類欄位，彙整台會直接把全班的答案畫成分布圖，所以請照實選——選出來之後，下一格的浮時調度就是你們的解法：浮時最多的那一段可以先緩，把人力調到浮時為零的那一段上。最後提醒一件事：浮時是共享的，同一條分支上的三項活動如果各有三天浮時，那通常是同一個三天，用掉了就沒了。",
+    m6_wbs_label: "第一層工作分解（三到五項）",
+    m6_wbs_hint: "第一層是專案本身或主要可交付成果。一行一項，寫三到五項；寫超過五項通常代表第二層混進來了。",
+    m6_wbs_ph: "例：\n1.1 資料來源與抓取\n1.2 分析與抽取規則\n1.3 部署與排程\n1.4 內容呈現與驗收",
+    m6_path_label: "關鍵路徑（活動代號串）",
+    m6_path_hint: "寫成代號串，例如 A→C→D→G。代號請對應第 8 節估算小工具裡的活動。",
+    m6_path_ph: "例：A→B→D→E→F",
+    m6_days_label: "關鍵路徑總工期（天）",
+    m6_days_hint: "只填數字。這個數字要跟上一格的代號串對得起來，也要跟你們距離 D day 的實際天數對照。",
+    m6_days_ph: "例：15",
+    m6_cp_ok: "✓ 關鍵路徑寫成了代號串，總工期也有數字，可以拿去對照 D day 了。",
+    m6_cp_warn: "⚠ 關鍵路徑要寫成活動代號串（例如 A→B→D），總工期要填數字。缺任何一項，這條路徑就無法被檢查。",
+    m6_weak_label: "關鍵路徑上最脆弱的一段",
+    m6_weak_hint: "誠實選。這一格會被彙整台畫成全班分布圖，是課堂診斷分配時間的依據。",
+    m6_weak_note: "選完之後，請在下一格寫出你們打算怎麼補——脆弱段落沒有配上調度，等於只是承認了風險。",
+    m6_weak_why_label: "為什麼是這一段（理由）",
+    m6_weak_why_hint: "寫出它為什麼比其他段落脆弱：依賴外部？只有一個人會？還沒實測過？",
+    m6_float_label: "浮時最多的一段，以及打算把人力調去哪裡",
+    m6_float_hint: "先寫哪一段浮時最多、有幾天，再寫你們要把人力調到哪一項活動上。答案通常是浮時最小的那一項。",
+    m6_float_ph: "例：內容與呈現（C）有 2 天浮時，是全部活動裡最多的。我們把原本排在 C 的一個人調去支援 B 分析與抽取，因為 B 的總浮時是 0，B 延一天整個專案就延一天。",
+    m6_wrapup: "檢查點：關鍵路徑寫得出具體的活動串與天數，且指出的脆弱段落有說明理由。",
+
+    m7_nav: "7. 簡報計畫", m7_title: "簡報計畫與提問",
+    m7_overview: "把第 1 節的分工變成可執行的腳本，並準備一個要丟給全班的問題。課堂上的 10 分鐘 Q&A 就是靠各組的問題撐起來的。",
+    m7_highlights: ["開場句","段落腳本","Menti 提問","10 分鐘"],
+    m7_deep: "本週建議把三角形與關鍵路徑各放一張投影片——規劃週的簡報，最有說服力的一句話是「我們的 D day 不能動，所以我們砍掉了這一項」。開場句請用英文寫完整一句，不要只寫關鍵字。要丟給全班的問題請避開是非題；好的問題應該逼同學先做一個判斷，例如「如果只剩一個人可以增援，你們會把他放在浮時為零的那一項，還是放在你們最不熟的那一項？」",
+    m7_open_label: "英文開場句（完整一句）",
+    m7_open_ph: "例：Our D-day cannot move, so this week we cut the second industry rather than pretend the schedule would hold.",
+    m7_script_label: "段落腳本（每人一句話說明你要講的重點）",
+    m7_col_who: "誰", m7_col_point: "這一段的重點是什麼",
+    m7_question_label: "要丟給全班的一個問題（Menti 用）",
+    m7_question_ph: "例：If you could add exactly one person this week, would you put them on the zero-float activity or on the one nobody in the group understands yet?",
+    m7_wrapup: "檢查點：開場句是完整的英文句子，且提問不是可以用「是／否」回答的問題。",
+
+    mlab_nav: "8. 互動實驗室", mlab_title: "互動實驗室",
+    mlab_desc: "四個小工具，幫你把第 2、3、6 節的數字算清楚再填。這一頁不需要填寫，但操作紀錄會計入完成度，作答內容也會存在你這台電腦的瀏覽器裡。",
+    mlab_clear: "🗑 清除全部",
+    mlab_clear_confirm: "確定要清除互動實驗室的所有作答嗎？此操作無法復原。",
+
+    lab1_title: "① 三重限制快照",
+    lab1_desc: "選出你們被鎖住的是哪一邊，再判斷另外兩邊還能不能動。工具會把推導的結果算給你看——三角形沒有第四條路。",
+    lab1_pick: "我們被鎖住的是哪一邊",
+    lab1_room_label: "另外兩邊還能不能動",
+    lab1_room_opts: [
+      { v:"yes", name:"還可以加／還可以砍" },
+      { v:"some", name:"有限度，加得了一點" },
+      { v:"no", name:"完全不能動" }
+    ],
+    lab1_note_ph: "這一邊已經付出的代價（有數字更好）",
+    lab1_v_none: "先選出被鎖住的那一邊，工具才算得出剩下的自由度。",
+    lab1_v_dial: "✓ {side}還有空間。時程既然鎖不動，這就是你們現在唯一該轉的旋鈕——把它寫進第 2 節的代價那一格。",
+    lab1_v_tight: "⚠ 兩邊都只剩有限空間。可以撐，但沒有餘裕；餘裕是你為風險預先付出的成本，現在等於沒有付。",
+    lab1_v_quality: "⛔ 三邊都動不了，那麼被犧牲的就是三角形的面積——品質。它會悄悄地被犧牲：字數變少、查核變鬆、格式退化。請回到第 2 節最後一格，把它明講出來。",
+    lab1_locked_note: "被鎖住的一邊：{side}",
+    lab1_reset: "重設",
+
+    lab2_title: "② 工作包三檢查清單",
+    lab2_desc: "把你的第三層工作包貼進來，逐條打勾。三項全過才算拆到底；沒過的那一列會要求你寫出還缺什麼。",
+    lab2_c1: "可指派給一個人",
+    lab2_c2: "可估出工時",
+    lab2_c3: "有明確完成判準",
+    lab2_gap_ph: "這一項還缺什麼？要寫得出下一步",
+    lab2_gap_warn: "⚠ 這一列沒有三項全過，請寫出還缺什麼。",
+    lab2_name_ph: "工作包名稱（含編號）",
+    lab2_pass: "三項全過 {n} / {t}",
+    lab2_done: "✓ 全部工作包都通過三檢查，可以拿去排時程了。",
+    lab2_todo: "還有 {n} 個工作包沒拆到底，其中 {m} 個連「缺什麼」都還沒寫。",
+    lab2_add: "＋ 新增一列", lab2_del: "− 減少一列",
+    lab2_reset: "重設",
+    lab2_seed: [
+      "1.2.1 撰寫來源清單與抓取規則",
+      "1.2.2 寫出抓取腳本並跑通三個來源",
+      "1.2.3 加上失敗重試與原始檔留存",
+      "1.2.4 準備簡報第二段講稿與示範動線"
+    ],
+
+    lab3_title: "③ 關鍵路徑估算小工具",
+    lab3_desc: "輸入四到六個活動、各自的工期與前置活動代號，工具會做一次完整的往前推與往後推，算出每一項的 ES／EF／LS／LF 與總浮時，並標出關鍵路徑。",
+    lab3_code: "代號", lab3_name: "活動名稱", lab3_dur: "工期（天）", lab3_pred: "前置活動代號",
+    lab3_pred_hint: "前置活動用逗號分隔，例如 A,C；沒有前置就留白。",
+    lab3_add: "＋ 新增活動", lab3_del: "− 減少活動",
+    lab3_reset: "重設",
+    lab3_res_head: "計算結果",
+    lab3_th: ["代號","活動","工期","ES","EF","LS","LF","總浮時"],
+    lab3_total: "專案總工期",
+    lab3_path: "關鍵路徑",
+    lab3_maxfloat: "浮時最多的一段",
+    lab3_days: "天",
+    lab3_cycle: "⚠ 前置關係形成了循環（例如 A 等 B、B 又等 A），無法計算。請檢查前置欄位。",
+    lab3_few: "請至少填兩個有工期的活動。",
+    lab3_crit: "關鍵",
+    lab3_note: "浮時為零的活動串起來就是關鍵路徑：延誤一天，專案就延誤一天。把這裡算出來的代號串與總工期直接填進第 6 節。注意浮時是共享的——同一條分支上的活動如果各有兩天浮時，那通常是同一個兩天。",
+
+    lab4_title: "④ D day 倒數盤點",
+    lab4_desc: "距離 D day 剩幾週 × 每人每週可投入時數 × 人數 ＝ 可用工時預算。把它跟第 3 節的工時估計總和放在一起，就知道你們是不是已經超支。",
+    lab4_weeks: "距離 D day 剩幾週",
+    lab4_hours: "每人每週可投入時數",
+    lab4_members: "人數",
+    lab4_need: "工時需求總和（小時）",
+    lab4_need_hint: "預設帶入你在第 3 節填的個人工時總和。要看全組的話，請把六個人的總和加起來填進來。",
+    lab4_budget: "可用工時預算",
+    lab4_gap: "缺口",
+    lab4_surplus: "餘裕",
+    lab4_unit: "小時",
+    lab4_perweek: "若要補上缺口，每人每週還要多投入",
+    lab4_over: "⛔ 超支。工時需求大於可用預算，這代表 D day 到不了——三個做法：砍範疇、加人力、或現在就承認品質會降。",
+    lab4_ok: "✓ 在預算之內，而且還留有餘裕。餘裕就是你為風險預先付出的成本。",
+    lab4_tight: "⚠ 剛好打平，沒有任何餘裕。只要有一項活動延誤，D day 就會被推掉。",
+    lab4_reset: "重設",
+    lab4_note: "這個工具算的是最樂觀的情況：它假設每個人每週真的投入了你填的時數，而且沒有任何返工。實務上請把可用預算再打八折來看。",
+
+    lab5_title: "⑤ 課前自我檢核",
+    lab5_desc: "四題選擇題，確認你確實讀過本週必讀教材。答錯會顯示解析。",
+
+    mres_nav: "9. 學習資源", mres_title: "本週學習資源",
+    mres_desc: "必讀兩份。第一份是本週主教材 T5 · PLAN 專案規劃，八個模組全部要讀；第二份是駱教授的專案管理實務講義上半場，對應規劃段。選讀不影響學習單，但寫成書面整理可計入加分作業。",
+    res_req: [
+      { label: "T5 · PLAN 專案規劃：從三重限制到關鍵路徑", url: "https://lolopodcast.github.io/Project-Planning-WBS-CPM/", desc: "本週主教材，八個模組全部要讀。本學習單第 2 節對應 M2「三重限制與第四、第五構面」，第 3 節對應 M4「工作分解結構 WBS」的工作包三檢查，第 6 節對應 M5「時程：從活動排序到關鍵路徑」。" },
+      { label: "具高執行績效的專案管理實務（1／2）· 規劃", url: "https://lolopodcast.github.io/AI-Workshop-Hub/docs/High-Performance-Project-Management_Part1-of-2_EDP_SML_20250318.pdf", desc: "駱教授 EDP 六小時講義的上半場。專案與營運的差別、生命週期五階段、範疇五步與時間管理六步都在這一份，術語以它為準。" }
+    ],
+    res_opt: [
+      { label: "EP29 · 六分鐘專案管理導論", url: "https://youtu.be/dgB_gsEL9ik", desc: "六分鐘把整套專案管理的骨架講完，適合在讀主教材之前先看一次建立地圖。" },
+      { label: "EP12", url: "https://youtu.be/l2PBOQaSPk8", desc: "W13 到 W14 的共同選讀。看完可寫成書面整理計入加分作業。" }
+    ],
+
+    analytics_title: "完成度與匯出",
+    analytics_desc: "個人層與小組層分開匯出。個人版留給你自己，作為學習歷程檔案；小組版由本週彙整人上傳 Moodle。",
+    analytics_personal_title: "個人匯出（第 2、3、4 節・不繳交）",
+    analytics_personal_desc: "填好姓名即可匯出。這份檔案留給你自己，可以直接放進 repo 的 docs／資料夾當作本週歷程紀錄。",
+    analytics_group_title: "小組匯出（第 1、5、6、7 節・繳交 Moodle）",
+    analytics_group_desc: "填好組別與本週彙整人即可匯出。CSV 與 Markdown 各一份，上傳至 Moodle 作業區。",
+    analytics_group: "組別", analytics_dept: "系級", analytics_dept_ph: "例：IBS1",
+    analytics_id: "學號", analytics_id_ph: "例：113212599",
+    analytics_name_en: "英文姓名", analytics_name_en_ph: "例：Shihmin Lo",
+    analytics_name_zh: "中文姓名", analytics_name_zh_ph: "例：王阿吉",
+    analytics_compiler: "本週彙整人", analytics_compiler_ph: "例：王阿吉",
+    analytics_export_personal: "匯出個人 Markdown",
+    analytics_export_csv: "匯出小組 CSV",
+    analytics_export_md: "匯出小組 Markdown",
+    analytics_need_personal: "請先填寫姓名",
+    analytics_need_group: "請先填寫組別與本週彙整人",
+    group_options: ["G1","G2","G3","G4","G5","G6","G7","G8","G9","G10","G11","G12","Others"],
+    analytics_pct_personal: "個人完成度", analytics_pct_group: "小組完成度",
+    analytics_total_time: "總填寫時間", analytics_overall_acc: "自我檢核答對率",
+    analytics_sec: "秒",
+    analytics_progress_title: "各節完成度",
+    analytics_wp_title: "尚未完成的節次",
+    analytics_wp_goto: "→ 前往填寫",
+    sdl_title: "先匯入你的 SDL 知識庫快照",
+    sdl_desc: "本週流程是：不使用 AI 手寫閱讀筆記 → 用 SDL 學習夥伴做蘇格拉底式對話 → 產出 KB.md → 在這裡匯入。匯入後會自動帶入你的身分欄位，並把 KB 的重點顯示在各節上方供你對照。這份學習單不是要你重想一遍，是把你已經想清楚的填成可比對的格式。",
+    sdl_ph: "把 SDL 產出的 KB.md 全文貼在這裡（含最上方的 --- frontmatter ---）",
+    sdl_parse: "解析並匯入",
+    sdl_file: "改用檔案上傳",
+    sdl_loaded: "✓ 已匯入 SDL KB",
+    sdl_clear: "清除並重新匯入",
+    sdl_ok: "匯入成功，身分欄位已自動帶入。",
+    sdl_err_empty: "內容是空的，請先貼上 KB.md 全文。",
+    sdl_err_format: "解析不出來。請確認貼的是 SDL 產出的 KB.md（開頭應該有 --- 的 frontmatter，內文有 §1 §2 等段落）。",
+    sdl_panel_title: "📖 你的 SDL KB 重點（對照用）",
+    sdl_panel_show: "展開",
+    sdl_panel_hide: "收合",
+    sdl_s1: "§1 本次學習摘要",
+    sdl_s2: "§2 知識綜整",
+    sdl_s4: "§4 學生親筆區塊",
+    sdl_s5: "§5 未解問題清單",
+    analytics_wp_personal_head: "個人層（你自己要填）",
+    analytics_wp_personal_done: "個人層已全部完成。",
+    analytics_wp_group_head: "小組層（小組討論時共同決定）",
+    analytics_wp_group_note: "若你不是本週彙整人，這幾節維持 0% 是正常的——個人匯出不受影響。",
+    analytics_wp_group_done: "小組層已全部完成。",
+    analytics_wp_allpass: "七節全部填寫完成，可以匯出了。",
+    analytics_wp_saved: "填寫內容已自動儲存於本機瀏覽器",
+    analytics_wp_clear: "🗑 清除全部",
+    analytics_wp_clear_confirm: "確定要清除所有填寫內容與歷程嗎？此操作無法復原，建議先匯出。",
+    analytics_wp_tts_intro: "以下是尚未完成的節次。",
+    analytics_wp_tts_module: "{name}，完成度 {acc}%。",
+    analytics_wp_tts_allpass: "七節全部填寫完成。",
+
+    date: "Version 2026.08.24",
+    copyright: "For Educational Use Only",
+    architect_label: "Architect:",
+    architect_url: "https://www.ibs.ncnu.edu.tw/index.php/faculty/tenured-professor/299-smlo"
+  },
+
+  en: {
+    brand: "PMCS",
+    title: "Worksheet W13", subtitle: "The triple constraint, the WBS and the critical path",
+    nav_modules: "Contents", nav_prev: "Previous", nav_next: "Next", nav_home: "Home",
+    key_terms: "Quick Reference Cards", flip_prompt: "Click to flip",
+    flip_status: "Read {read} / Shown {shown} / Total {total}",
+    flip_next: "Next", flip_retry: "Restart",
+    audio_read: "Audio Guide",
+    quiz_title: "Pre-Class Self-Check", quiz_status: "Correct {correct} / Answered {answered} / Total {total}",
+    quiz_next: "Next", quiz_retry: "Retry",
+    submit: "Submit", correct: "Correct", incorrect: "Incorrect", explanation: "Explanation",
+    overview_label: "Overview",
+    highlights_label: "Highlights",
+    deep_dive_label: "Deep Dive",
+    wrapup_label: "Wrap-up",
+    badge_personal: "Individual · not submitted",
+    badge_group: "Group · submitted with the group file",
+    saved_hint: "✍️ Your entries are saved in this browser on this computer only. They do not travel with you — always export from the Completion & Export page.",
+    required_label: "Required Materials", optional_label: "Optional Materials (eligible for BA)",
+    select_ph: "Select",
+
+    m0_nav: "0. Executive Summary",
+    m0_title: "How to Use This Worksheet",
+    m0_intro: "This is the pre-class worksheet for W13 of PMCS, the first of three weeks on project management. Weeks 10 to 12 were the implementation layer and your runnable version is now on a public address. Weeks 13 to 15 change the question: no longer can we build it, but when will it be finished, who does what, and what counts as done. This week's main material is T5 · PLAN, project planning, and all eight of its modules are required. The theme is planning: the iron triangle in which scope, schedule and cost pull on each other; the work breakdown structure that cuts a large goal down to third-layer work packages; and the critical path method, which tells you which chain of delay pushes the delivery date directly. Note that D day falls no later than W15, so counting from this week your group has two to three weeks left. Sections 2 to 4 are filled by each person and are not submitted; sections 5 to 7 are decided together and submitted with the group file.",
+    m0_why: "Why does planning start from which side is locked rather than from a calendar?",
+    m0_why_desc: "Because a calendar lies to you. Spread ten items across two weeks and every one of them looks like it fits, but that chart never answers the question that matters: if one of them slips three days, does the delivery date move? Planning really begins by admitting that resources are finite — find the side an outside force has already pinned, then see how far the remaining two dials can still turn. The triple constraint offers no fourth route: with the schedule locked and scope expanding, cost must give way; when cost cannot rise either, what gives way is the area of the triangle, which is quality, and quality is usually spent quietly. This week asks you to write that deduction down so somebody else can check it.",
+    m0_stats: [
+      { val: "3", label: "the triple constraint: scope, schedule, cost" },
+      { val: "1.1.1", label: "decompose to third-layer work packages" },
+      { val: "0", label: "total float on the critical path" },
+      { val: "W15", label: "D day falls no later than this week" }
+    ],
+    m0_modules: [
+      { num: "01", title: "Group & Roles", desc: "Register your group and members, and settle the jigsaw split for the 10-minute presentation.", tag: "Group" },
+      { num: "02", title: "Triple Constraint", desc: "Decide which side of your project is locked, with the evidence and the price the other two paid.", tag: "Individual" },
+      { num: "03", title: "Work Packages", desc: "Decompose your own slice to the third layer and run the three work-package checks on each.", tag: "Individual" },
+      { num: "04", title: "Language Lab", desc: "Five new terms and three hard words, for class discussion and bonus work.", tag: "Individual" },
+      { num: "05", title: "Group Synthesis", desc: "Take only three work packages from six lists, compare them side by side and set one rule.", tag: "Group" },
+      { num: "06", title: "Build by the Table", desc: "First-layer breakdown, critical path, total duration, weakest link and where the float goes.", tag: "Group" },
+      { num: "07", title: "Presentation Plan", desc: "Who speaks about what, for how many seconds, plus one question for the class.", tag: "Group" }
+    ],
+    m0_start: "Start →",
+
+    tri_sides: [
+      { name: "Scope", sub: "how much work there is" },
+      { name: "Schedule", sub: "how much time there is" },
+      { name: "Cost", sub: "how much resource there is" }
+    ],
+    tri_area: { name: "Quality", sub: "the area of the triangle; squeeze all three sides and it shrinks quietly" },
+    tri_risk: "Risk sits outside the triangle — W14 handles it",
+    tri_note: "The triple constraint is not three targets to hit together; it is three dials wired to each other, and you may only turn two.",
+    tri_locked_tag: "Locked",
+
+    activities: [
+      { id:"fetch", name:"Data fetching" },
+      { id:"extract", name:"Analysis and extraction" },
+      { id:"deploy", name:"Deployment and scheduling" },
+      { id:"content", name:"Content and presentation" },
+      { id:"pitch", name:"Pitch and acceptance" },
+      { id:"kb", name:"Knowledge base and documents" }
+    ],
+    lock_opts: [
+      { v:"scope", name:"Scope is locked (the feature list is promised and cannot be cut)" },
+      { v:"sched", name:"Schedule is locked (the D day cannot move)" },
+      { v:"cost", name:"Cost is locked (no more people and no more hours available)" }
+    ],
+    weak_opts: [
+      { v:"fetch", name:"Data fetching" },
+      { v:"extract", name:"Analysis and extraction" },
+      { v:"deploy", name:"Deployment and scheduling" },
+      { v:"content", name:"Content and presentation" },
+      { v:"pitch", name:"Pitch and acceptance" }
+    ],
+
+    m1_nav: "1. Group & Roles", m1_title: "Group and Jigsaw Roles",
+    m1_overview: "Fill in the administrative details first, then settle the presentation split during group discussion. Two groups present each week for 10 minutes, and every member must speak for one to two minutes — this section pins down who covers what and for how long, so nobody is being volunteered at the podium.",
+    m1_highlights: ["Jigsaw collaboration","1-2 min each","10 min per group","Everyone speaks"],
+    m1_deep: "This is planning week, so let the structure follow the plan: one member covers which side is locked and the evidence for it, one covers the first-layer breakdown, one covers the critical path and the total duration, one covers the weakest link on that path, one covers where the float goes and who moves, and one covers the schedule up to D day. Write the seconds down — that is the only way the total stays under control.",
+    m1_group: "Group", m1_date: "Date",
+    m1_members_label: "Members and roles (use the buttons below to set the size, up to 10)",
+    m1_member_count: "{n} members",
+    m1_col_name: "Name", m1_col_id: "Student ID", m1_col_part: "Assigned part", m1_col_sec: "Seconds",
+    m1_part_ph: "e.g. The critical path and the total duration",
+    m1_total_sec: "Planned total length",
+    m1_sec_warn: "Over 600 seconds (10 minutes) — trim it down.",
+    m1_sec_ok: "Within 10 minutes. Workable.",
+    m1_wrapup: "Checkpoint: every attending member has an assigned part, and the total stays under 600 seconds.",
+
+    m2_nav: "2. Triple Constraint", m2_title: "Locating Yourself in the Triple Constraint",
+    m2_overview: "The first half of this week's individual core task, to be filled in after reading T5 module 2. Scope is how much work there is, schedule is how much time, cost is how much resource, and the three pull on each other. Decide which side of your term project an outside force has already pinned, write down evidence somebody else could check, and then write what the other two sides have paid so far.",
+    m2_highlights: ["Iron triangle","The locked side","Price already paid","Quality is area","Slack"],
+    m2_deep: "Two common mistakes. The first is saying all three feel a bit tight — that is a mood, not a position. Locked means the side is decided by an outside force and you cannot move it yourselves: the D day is set by the course calendar, the feature list is set by a plan already promised in writing. Usually only one of the three is genuinely locked. The second mistake is writing the price as an adjective. Everyone is exhausted is not a price; we cut the planned two industries down to one and three of us each spent four extra hours rewriting the extraction rules are prices, because they carry numbers and name something concrete that was given up. In the last cell, be honest about quality: quality is not a fourth corner but the area of the triangle, and when you cut both time and resource while refusing to cut scope, quality is what gets spent.",
+    m2_locked_label: "Which side of your project is locked right now?",
+    m2_locked_hint: "Pick exactly one. Locked means an outside force decided it and you cannot move it yourselves.",
+    m2_locked_warn: "⚠ Nothing selected yet. All three feeling tight is not a position — name the side an outside force has actually pinned.",
+    m2_evidence_label: "Evidence that it is locked (something somebody else can check)",
+    m2_evidence_hint: "Say who decided it, when, and which document it is written in. We all feel short of time is not evidence.",
+    m2_evidence_ph: "e.g. The D day is set by the course calendar at the W15 class, printed in the milestone table on page 1 of our plan; it is the same for the whole class and we cannot move it.",
+    m2_give1_label: "What one of the other two sides has already paid (first item)",
+    m2_give1_hint: "Use a number or name something concrete that was given up. Not adjectives.",
+    m2_give1_ph: "e.g. Scope has already given way: the three industries we planned are down to one, and the keyword tables for the second and third moved wholesale onto the not this time list.",
+    m2_give2_label: "What the other of the two sides has already paid (second item)",
+    m2_give2_hint: "Write the other side too. If you believe it has not given way at all, explain why it is still holding.",
+    m2_give2_ph: "e.g. Cost gave way as well: three of us each put in four extra hours rewriting the extraction rules last week and three more each on deployment this week — twenty-one extra person-hours across the group.",
+    m2_quality_label: "Where is the area — quality — shrinking right now?",
+    m2_quality_hint: "T5 module 2: quality is not a fourth corner but the area of the triangle. Compress all three sides and the area shrinks, usually without anyone saying so.",
+    m2_quality_ph: "e.g. Each item dropped from 120 words to 80, source links moved from one per item to one per issue, and the format check is switched off for now — three quality cuts we never announced.",
+    m2_svg_layer: "PLAN · the iron triangle",
+    m2_svg_cap: "The more you complete, the brighter the triangle; the locked side is marked in red and the enclosed area stands for quality",
+    m2_terms: [
+      { front: "Triple constraint", back: "Scope, schedule and cost pull on each other. Squeeze one side and the other two must give way; you may only turn two dials." },
+      { front: "Quality as area", back: "Quality is not a fourth corner but the area the triangle encloses. Compress all three sides and the area shrinks, usually quietly." },
+      { front: "Risk outside the triangle", back: "An uncertain event that may affect project objectives positively or negatively — a force acting on the constraint. W14 gives it a full week." },
+      { front: "Slack", back: "Space left at the three corners during planning. Slack is what you pay for risk in advance." },
+      { front: "Work package", back: "The bottom unit of the breakdown: assignable to one person, estimable in hours, with a clear completion criterion." },
+      { front: "The three checks", back: "Assignable to one person? Hours estimable? Completion criterion clear? All three yes, or cut one layer deeper." },
+      { front: "Critical path method (CPM)", back: "Four steps: identify critical activities, determine the shortest completion time, optimise the schedule, assess schedule risk. Forward pass gives ES and EF, backward pass LS and LF." },
+      { front: "Total float (TF)", back: "Equals LS minus ES, and also LF minus EF. Activities with zero float form the critical path: a day late there is a day late for the project." }
+    ],
+    m2_q: [
+      { q: "With the D day locked and the group wanting one more feature, what freedom is left?", opts: ["Only cost and quality; if cost cannot rise, quality gives way","Only schedule and risk, and the two cancel each other out","Both scope and schedule can still be eased at the same time","Only quality remains, since cost can never be adjusted at all"], ans: _A0, exp: "Schedule locked and scope up leaves cost; when cost cannot rise either, what gives way is the area of the triangle — quality." },
+      { q: "What are the three work-package checks in T5?", opts: ["It has a number, an owner and a due date","Assignable to one person, hours estimable, completion criterion clear","It is testable, traceable and can be automated","It has a budget, a tool and a backup person"], ans: _A1, exp: "All three must be yes before you stop; any no means cut one layer deeper." },
+      { q: "In the forward pass, how is the early start ES calculated?", opts: ["Take the smallest late start among all successor activities","Take the average early start of all predecessor activities","Take the largest early finish among all predecessor activities","It always equals the project duration minus the activity duration"], ans: _A2, exp: "ES is the largest EF among predecessors and EF is ES plus duration; taking the smallest LS among successors is the backward pass for LF." },
+      { q: "If only one extra person is available, where should they go?", opts: ["Onto the activity that carries the longest duration of all","Onto the activity that is scheduled to start latest of all","Onto the piece of work complained about most in meetings","Onto the smallest total float — that is, onto the critical path"], ans: _A3, exp: "An activity with zero float slips the whole project by a day for every day it slips, with no buffer to absorb it." }
+    ],
+    m2_wrapup: "Checkpoint: the locked side carries evidence somebody else could check, and the price on the other two sides is written as numbers or concrete things given up rather than adjectives.",
+
+    m3_nav: "3. Work Packages", m3_title: "Decomposing Your Own Slice into Work Packages",
+    m3_overview: "The second half of this week's individual core task, to be filled in after reading T5 module 4. Decompose the slice you own inside the group down to third-layer work packages, and run the three checks on every one of them — assignable to one person? hours estimable? completion criterion clear? For any that fail, write what is still missing.",
+    m3_highlights: ["Third layer","Numbering 1.1.1","Three checks","What is missing","Hour estimate"],
+    m3_deep: "The numbering is not decoration. 1, 1.1, 1.1.1 is the primary key every later table shares — section 6 sorts the critical path by it and the W14 risk register locates by it. A breakdown with no numbering decays into a plain text list within a fortnight. The check that fails most often is the third: finish the knowledge base is not a criterion, three files under KB each filled out and passing the format check is. The difference is that the first needs a human to judge and the second gives every reader the same answer. Watch the opposite failure too: if a package takes half an hour, tracking it as its own row costs more than the work, and that is over-decomposition. Estimate the total hours in the last cell honestly — the D day countdown in section 8 will hold it against the hours you actually have.",
+    m3_scope_label: "The slice I own inside the group (second-layer name and number)",
+    m3_scope_hint: "The first layer is the project or its major deliverables and the second is a subsystem or work stage. Write the second layer you own, for example 1.2 data fetching and cleaning.",
+    m3_scope_ph: "e.g. 1.2 Data fetching and cleaning — the source list, the fetch script, retry on failure and keeping the raw files.",
+    m3_list_label: "Third-layer work packages (at least four, each with a number and an hour estimate)",
+    m3_list_hint: "One per line. Suggested format: number, space, name, then the hours in brackets. e.g. 1.2.1 Write the source list and fetch rules (4 h).",
+    m3_list_ph: "e.g.\n1.2.1 Write the source list and fetch rules (4 h)\n1.2.2 Write the fetch script and get three sources working (6 h)\n1.2.3 Add retry on failure and keep the raw files (3 h)\n1.2.4 Write a checklist for source changes (2 h)",
+    m3_check_label: "Results of the three checks, package by package",
+    m3_check_hint: "Run all three on every package: assignable to one person? hours estimable? completion criterion clear? Say which pass all three and which do not. You can run the checklist in section 8 first and come back.",
+    m3_check_ph: "e.g. 1.2.1 and 1.2.3 pass all three. 1.2.2 fails the first, because three sources really need two people working separately. 1.2.4 fails the third, because the criterion only says tidy it up.",
+    m3_gap_label: "What is still missing on the ones that failed",
+    m3_gap_hint: "Missing has to name a next step. Needs more thought does not count; split 1.2.2 into 1.2.2a and 1.2.2b and assign one person each does.",
+    m3_gap_ph: "e.g. Split 1.2.2 into 1.2.2a (sources A and B) and 1.2.2b (source C), one person each. Rewrite the criterion for 1.2.4 as at least eight items, each carrying one observable condition.",
+    m3_hours_label: "Total hour estimate for my slice (hours)",
+    m3_hours_hint: "Add up the hours of every package above. Section 8's D day countdown uses this number against the hours you actually have.",
+    m3_hours_ph: "e.g. 15",
+    m3_hours_warn: "⚠ No total yet. Without this number the D day countdown cannot tell you whether you are over budget.",
+    m3_hours_ok: "✓ Total hours recorded — you can run the D day countdown in section 8 now.",
+    m3_wrapup: "Checkpoint: at least four numbered third-layer work packages, and every one that failed a check says concretely what is still missing.",
+
+    m4_nav: "4. Language Lab", m4_title: "EMI Language Lab",
+    m4_overview: "This course is taught in English. Pick five new words or phrases from this week's required materials, plus three words you stumble over. What you produce here feeds class discussion and bonus work directly.",
+    m4_highlights: ["Five new terms","Three hard words","In your own words","Example sentences"],
+    m4_deep: "Do not copy the source definition into the in your own words column — copying proves only that you found it; rewriting proves you understood it. Write the example sentences about your own term project: your critical path, the completion criterion of one work package, or the feature you plan to cut. That way one effort does two jobs.",
+    m4_corpus_label: "Suggested corpus this week (project planning)",
+    m4_corpus: ["critical path","float / slack","work package","deliverable","milestone","baseline","trade-off","de-scope"],
+    m4_corpus_note: "You do not need all eight — take the five you will genuinely say in the presentation. Note that this course treats float and slack as the same idea, and that de-scope is a verb: formally moving something already inside the scope back out of it.",
+    m4_terms_label: "Five new words or phrases",
+    m4_col_term: "Term / phrase", m4_col_mean: "In your own words", m4_col_sent: "Your own sentence",
+    m4_pron_label: "Three words you stumble over",
+    m4_col_word: "Word", m4_col_hard: "What makes it hard", m4_col_tip: "Your memory trick",
+    m4_wrapup: "Checkpoint: not one of the five explanations is copied verbatim from the source.",
+
+    m5_nav: "5. Group Synthesis", m5_title: "Group Synthesis: Compare Only Three Work Packages",
+    m5_overview: "This section is the real work of the group discussion. Six people each bring the work packages for their own slice, and laid out together there will be thirty or forty of them. You pick only three to compare side by side, on three things: how far the duration estimates diverge, how differently people read the dependencies, and how hard the completion criteria actually are. Then you set one group-wide rule for writing a work package.",
+    m5_highlights: ["Three from six lists","Duration gaps","Dependencies","Completion criteria","A group rule"],
+    m5_deep: "One rule is mandatory here: this week's compiler must NOT dump all six individual exports into an AI and ask for a summary. The core of Context Engineering is selection, not dumping. The comparison set has six domains — data fetching, analysis and extraction, deployment and scheduling, content and presentation, pitch and acceptance, knowledge base and documents — and you may pick only three, then take only those three domains from each member. Choosing which three is itself the judgement: the three everyone wrote almost identically teach you nothing, while the three that cross two or more people and where nobody is sure who waits for whom are the ones that force a rule out of you.",
+    m5_focus_label: "The three domains we chose to compare (tick three)",
+    m5_focus_why: "Why did we skip the other three?",
+    m5_focus_why_ph: "e.g. Content and presentation and pitch and acceptance are each touched by one person only, so there was nothing to compare, and everybody wrote the knowledge base the same way. The real argument was about the dependency between fetching and deployment, so we took those two plus extraction.",
+    m5_gap_label: "Duration estimates: for the same kind of work, how far apart are the six?",
+    m5_gap_ph: "e.g. For write the fetch script for one source, A estimated 2 hours and D estimated 8. Asking why showed that A had left out anti-scraping and retries while D had counted them. A factor of four is not a gap in ability, it is a gap in what the task was taken to include.",
+    m5_dep_label: "Dependencies: who thinks they must wait for whom, and where do you disagree?",
+    m5_dep_ph: "e.g. B thinks the extraction rules must wait for a working fetch script; C thinks three hand-pasted samples are enough to start. The two readings put the critical path three days apart. We took C's version and added at least three samples covering two sources.",
+    m5_criteria_label: "Completion criteria: which is the loosest, and how is it loose?",
+    m5_criteria_ph: "e.g. The loosest is knowledge base tidied up. It needs a human to judge, and two people reading the same folder disagree. Rewritten as three files under KB each filled out and passing the format check, every reader now gets the same answer.",
+    m5_rule_label: "From this comparison, our group sets one rule for writing a work package",
+    m5_rule_ph: "e.g. Every third-layer work package in this group is written as number + a name starting with a verb + (hours) + the numbers of its predecessors + one observable completion criterion. Missing any of the five keeps it out of the critical path in section 6.",
+    m5_rule_note: "These rules accumulate towards the Term Project. Somebody else should be able to check your breakdown against this rule, so it must not read as an aspiration.",
+    m5_wrapup: "Checkpoint: only three items were compared (nothing was dumped wholesale into an AI), and the rule you set is checkable.",
+
+    m6_nav: "6. Build by the Table", m6_title: "Build by the Table: the WBS and the Critical Path to D Day",
+    m6_overview: "Turn the consensus from section 5 into one plan the whole group shares. What you write here is the schedule you actually work to between now and D day, and it doubles as your registration slip for diagnosis in class. Run the three critical-path cells through the estimator in section 8 before filling them in.",
+    m6_highlights: ["First layer","Critical path","Total duration","Weakest link","Moving the float"],
+    m6_deep: "Three to five items is enough for the first layer; ten means the second layer has crept in. Write the critical path as a chain of activity codes, for example A→C→D→G, not as a paragraph, and give the total duration in days, because it will be held against the weeks you have left. tp_cp_weak is this week's categorical field and the aggregator plots the whole class as a distribution, so answer honestly — and once you have named the weakest link, the next cell is your remedy: the segment with the most float can wait while people move onto the one with zero float. One last warning: float is shared. If three activities on one branch each show three days, that is usually the same three days, and spending it once spends it for all.",
+    m6_wbs_label: "First-layer work breakdown (three to five items)",
+    m6_wbs_hint: "The first layer is the project itself or its major deliverables. One per line, three to five of them; more than five usually means the second layer has crept in.",
+    m6_wbs_ph: "e.g.\n1.1 Sources and fetching\n1.2 Analysis and extraction rules\n1.3 Deployment and scheduling\n1.4 Presentation and acceptance",
+    m6_path_label: "Critical path (chain of activity codes)",
+    m6_path_hint: "Write it as a chain of codes, for example A→C→D→G. Use the same codes as the estimator in section 8.",
+    m6_path_ph: "e.g. A→B→D→E→F",
+    m6_days_label: "Total duration of the critical path (days)",
+    m6_days_hint: "Numbers only. It has to agree with the chain above, and it has to be held against the real number of days left before D day.",
+    m6_days_ph: "e.g. 15",
+    m6_cp_ok: "✓ The critical path is written as a chain of codes and the duration is a number — you can hold it against D day now.",
+    m6_cp_warn: "⚠ The critical path has to be a chain of activity codes (for example A→B→D) and the duration has to be a number. Without both, the path cannot be checked.",
+    m6_weak_label: "The weakest link on the critical path",
+    m6_weak_hint: "Answer honestly. The aggregator plots this as a class-wide distribution and uses it to allocate diagnosis time in class.",
+    m6_weak_note: "Once you have chosen it, use the next cell to say how you will shore it up — a weak link with no reallocation behind it is just an admission of risk.",
+    m6_weak_why_label: "Why this one (your reasoning)",
+    m6_weak_why_hint: "Say why it is weaker than the rest: does it depend on something outside, does only one person know it, has it never been tested?",
+    m6_float_label: "The segment with the most float, and where you will move people",
+    m6_float_hint: "Say which segment has the most float and how many days, then say which activity you are moving people onto. The answer is usually the one with the least float.",
+    m6_float_ph: "e.g. Content and presentation (C) has 2 days of float, the most of any activity. We are moving one of the people on C over to B, analysis and extraction, because B has zero total float and every day B slips the project slips.",
+    m6_wrapup: "Checkpoint: the critical path gives a concrete chain of activities and a number of days, and the weakest link named comes with a reason.",
+
+    m7_nav: "7. Presentation Plan", m7_title: "Presentation Plan and Question",
+    m7_overview: "Turn section 1's split into a runnable script, and prepare one question to put to the class. The 10-minute Q&A is carried entirely by the questions each group brings.",
+    m7_highlights: ["Opening line","Segment script","Menti question","10 minutes"],
+    m7_deep: "This week, give the triangle and the critical path a slide each — in planning week the most persuasive sentence available to you is our D day cannot move, so we cut this. Write the opening line as a complete English sentence rather than keywords. Avoid yes-or-no questions for the class; a good one forces a judgement first, for example: if you could add exactly one person, would you put them on the zero-float activity or on the one nobody in the group understands yet?",
+    m7_open_label: "English opening line (one complete sentence)",
+    m7_open_ph: "e.g. Our D-day cannot move, so this week we cut the second industry rather than pretend the schedule would hold.",
+    m7_script_label: "Segment script (one sentence per speaker on the point they will make)",
+    m7_col_who: "Speaker", m7_col_point: "The point of this segment",
+    m7_question_label: "One question for the class (for Menti)",
+    m7_question_ph: "e.g. If you could add exactly one person this week, would you put them on the zero-float activity or on the one nobody in the group understands yet?",
+    m7_wrapup: "Checkpoint: the opening line is a complete English sentence, and the question cannot be answered with yes or no.",
+
+    mlab_nav: "8. Interactive Lab", mlab_title: "Interactive Lab",
+    mlab_desc: "Four small tools to work the numbers out for sections 2, 3 and 6 before you fill them in. Nothing here needs filling in, but your activity counts towards completion and your answers are kept in this browser.",
+    mlab_clear: "🗑 Clear all",
+    mlab_clear_confirm: "Clear every answer in the Interactive Lab? This cannot be undone.",
+
+    lab1_title: "① Triple-Constraint Snapshot",
+    lab1_desc: "Pick the side that is locked, then judge how far the other two can still move. The tool works the deduction out for you — the triangle has no fourth route.",
+    lab1_pick: "Which side are we locked on?",
+    lab1_room_label: "How much room do the other two still have?",
+    lab1_room_opts: [
+      { v:"yes", name:"Room left — we can add or cut" },
+      { v:"some", name:"Limited — a little can be added" },
+      { v:"no", name:"None at all" }
+    ],
+    lab1_note_ph: "What this side has already paid (numbers help)",
+    lab1_v_none: "Pick the locked side first and the tool can work out what freedom is left.",
+    lab1_v_dial: "✓ {side} still has room. Since the locked side will not move, that is the only dial worth turning right now — write it into the price cell in section 2.",
+    lab1_v_tight: "⚠ Both remaining sides are down to limited room. It holds, but there is no slack, and slack is what you pay for risk in advance. Right now you have paid nothing.",
+    lab1_v_quality: "⛔ All three sides are immovable, so what gets spent is the area of the triangle — quality. It goes quietly: fewer words, looser checks, a degraded format. Go back to the last cell of section 2 and say it out loud.",
+    lab1_locked_note: "Locked side: {side}",
+    lab1_reset: "Reset",
+
+    lab2_title: "② Work-Package Three Checks",
+    lab2_desc: "Paste your third-layer work packages in and tick them off. All three must be yes before a package counts as decomposed; a row that fails asks you what is still missing.",
+    lab2_c1: "Assignable to one person",
+    lab2_c2: "Hours estimable",
+    lab2_c3: "Completion criterion clear",
+    lab2_gap_ph: "What is still missing here? Name a next step",
+    lab2_gap_warn: "⚠ This row does not pass all three — write what is still missing.",
+    lab2_name_ph: "Work package name (with its number)",
+    lab2_pass: "All three passed {n} / {t}",
+    lab2_done: "✓ Every package passes all three checks — you can schedule them now.",
+    lab2_todo: "{n} packages are not decomposed far enough, and {m} of those have not even said what is missing.",
+    lab2_add: "＋ Add a row", lab2_del: "− Remove a row",
+    lab2_reset: "Reset",
+    lab2_seed: [
+      "1.2.1 Write the source list and fetch rules",
+      "1.2.2 Write the fetch script and get three sources working",
+      "1.2.3 Add retry on failure and keep the raw files",
+      "1.2.4 Draft segment two of the pitch and the demo route"
+    ],
+
+    lab3_title: "③ Critical-Path Estimator",
+    lab3_desc: "Enter four to six activities with their durations and predecessor codes. The tool runs a full forward and backward pass, gives ES / EF / LS / LF and total float for each, and marks the critical path.",
+    lab3_code: "Code", lab3_name: "Activity", lab3_dur: "Duration (days)", lab3_pred: "Predecessor codes",
+    lab3_pred_hint: "Separate predecessors with commas, e.g. A,C. Leave blank if there are none.",
+    lab3_add: "＋ Add activity", lab3_del: "− Remove activity",
+    lab3_reset: "Reset",
+    lab3_res_head: "Results",
+    lab3_th: ["Code","Activity","Dur","ES","EF","LS","LF","TF"],
+    lab3_total: "Project duration",
+    lab3_path: "Critical path",
+    lab3_maxfloat: "Most float",
+    lab3_days: "days",
+    lab3_cycle: "⚠ The predecessors form a cycle (A waits for B while B waits for A), so nothing can be computed. Check the predecessor column.",
+    lab3_few: "Enter at least two activities with a duration.",
+    lab3_crit: "critical",
+    lab3_note: "The activities with zero float, strung together, are the critical path: a day late there is a day late for the project. Put the chain and the duration straight into section 6. Remember that float is shared — if two activities on one branch each show two days, that is usually the same two days.",
+
+    lab4_title: "④ D-Day Countdown",
+    lab4_desc: "Weeks left to D day × hours each person can give per week × number of people = the hours you actually have. Hold that against the total from section 3 and you know whether you are already over budget.",
+    lab4_weeks: "Weeks left to D day",
+    lab4_hours: "Hours per person per week",
+    lab4_members: "People",
+    lab4_need: "Hours required (total)",
+    lab4_need_hint: "Prefilled from the personal total you entered in section 3. For a group view, add up all six members' totals and enter that instead.",
+    lab4_budget: "Hours available",
+    lab4_gap: "Shortfall",
+    lab4_surplus: "Slack",
+    lab4_unit: "h",
+    lab4_perweek: "To close the shortfall, each person must add per week",
+    lab4_over: "⛔ Over budget. The hours required exceed the hours available, which means D day will not be met. Three ways out: cut scope, add people, or admit now that quality will drop.",
+    lab4_ok: "✓ Inside the budget with slack left over. Slack is what you pay for risk in advance.",
+    lab4_tight: "⚠ Exactly break-even, with no slack at all. One activity slipping is enough to push D day.",
+    lab4_reset: "Reset",
+    lab4_note: "This tool computes the most optimistic case: it assumes everybody really gives the hours you entered and that nothing is ever reworked. In practice, read the available budget at about eighty per cent of what it says.",
+
+    lab5_title: "⑤ Pre-Class Self-Check",
+    lab5_desc: "Four multiple-choice questions to confirm you actually read this week's required materials. Wrong answers show an explanation.",
+
+    mres_nav: "9. Learning Resources", mres_title: "This Week's Resources",
+    mres_desc: "Two required items. The first is this week's main material, T5 · PLAN, with all eight modules required; the second is the first half of Prof. Lo's project management deck, covering the planning phase. Optional items do not affect the worksheet, but a written summary of one counts as a Bonus Assignment.",
+    res_req: [
+      { label: "T5 · PLAN — Project Planning: From the Triple Constraint to the Critical Path", url: "https://lolopodcast.github.io/Project-Planning-WBS-CPM/", desc: "This week's main material, all eight modules. Section 2 of this worksheet answers to its module 2, The Triple Constraint and the Fourth and Fifth Dimensions; section 3 to module 4, The Work Breakdown Structure, and its three work-package checks; and section 6 to module 5, Schedule: From Activity Sequencing to the Critical Path." },
+      { label: "High-Performance Project Management (1 of 2) · Planning", url: "https://lolopodcast.github.io/AI-Workshop-Hub/docs/High-Performance-Project-Management_Part1-of-2_EDP_SML_20250318.pdf", desc: "The first half of Prof. Lo's six-hour EDP deck. Project versus operations, the five life-cycle phases, the five scope steps and the six time-management steps all live here, and the terminology follows it." }
+    ],
+    res_opt: [
+      { label: "EP29 · Project Management in Six Minutes", url: "https://youtu.be/dgB_gsEL9ik", desc: "The whole skeleton of project management in six minutes. Watch it before the main material to build the map." },
+      { label: "EP12", url: "https://youtu.be/l2PBOQaSPk8", desc: "Shared optional listening for W13 and W14. A written summary counts as a Bonus Assignment." }
+    ],
+
+    analytics_title: "Completion & Export",
+    analytics_desc: "The individual and group layers export separately. The individual file stays with you as a learning record; the group file is uploaded to Moodle by this week's compiler.",
+    analytics_personal_title: "Individual export (sections 2, 3, 4 · not submitted)",
+    analytics_personal_desc: "Enter your name to export. This file stays with you and can go straight into the docs folder of your repo as this week's record.",
+    analytics_group_title: "Group export (sections 1, 5, 6, 7 · submit to Moodle)",
+    analytics_group_desc: "Enter the group and this week's compiler to export. One CSV and one Markdown, uploaded to the Moodle assignment.",
+    analytics_group: "Group", analytics_dept: "Dept / Year", analytics_dept_ph: "e.g. IBS1",
+    analytics_id: "Student ID", analytics_id_ph: "e.g. 113212599",
+    analytics_name_en: "Name (English)", analytics_name_en_ph: "e.g. Shihmin Lo",
+    analytics_name_zh: "Name (Chinese)", analytics_name_zh_ph: "e.g. 王阿吉",
+    analytics_compiler: "This week's compiler", analytics_compiler_ph: "e.g. 王阿吉",
+    analytics_export_personal: "Export individual Markdown",
+    analytics_export_csv: "Export group CSV",
+    analytics_export_md: "Export group Markdown",
+    analytics_need_personal: "Enter your name first",
+    analytics_need_group: "Enter the group and this week's compiler first",
+    group_options: ["G1","G2","G3","G4","G5","G6","G7","G8","G9","G10","G11","G12","Others"],
+    analytics_pct_personal: "Individual completion", analytics_pct_group: "Group completion",
+    analytics_total_time: "Total time on worksheet", analytics_overall_acc: "Self-check accuracy",
+    analytics_sec: "s",
+    analytics_progress_title: "Completion by section",
+    analytics_wp_title: "Sections still incomplete",
+    analytics_wp_goto: "→ Go and fill it in",
+    sdl_title: "First, import your SDL knowledge-base snapshot",
+    sdl_desc: "This week's sequence is: read and take notes by hand without AI → run a Socratic session with the SDL learning partner → produce KB.md → import it here. Importing fills in your identity fields automatically and shows the key parts of your KB above each section. This worksheet is not asking you to think it through again; it turns what you already worked out into a format the group can compare.",
+    sdl_ph: "Paste the full KB.md produced by the SDL partner here (including the --- frontmatter --- at the top)",
+    sdl_parse: "Parse and import",
+    sdl_file: "Upload a file instead",
+    sdl_loaded: "✓ SDL KB imported",
+    sdl_clear: "Clear and re-import",
+    sdl_ok: "Imported. Your identity fields have been filled in.",
+    sdl_err_empty: "Nothing to parse — paste the full KB.md first.",
+    sdl_err_format: "Could not parse it. Check that this is the KB.md produced by the SDL partner (it should start with a --- frontmatter --- block and contain §1, §2 and similar sections).",
+    sdl_panel_title: "📖 Your SDL KB at a glance (for reference)",
+    sdl_panel_show: "Show",
+    sdl_panel_hide: "Hide",
+    sdl_s1: "§1 Learning summary",
+    sdl_s2: "§2 Knowledge synthesis",
+    sdl_s4: "§4 Student's own words",
+    sdl_s5: "§5 Open questions",
+    analytics_wp_personal_head: "Individual layer (yours to fill)",
+    analytics_wp_personal_done: "The individual layer is complete.",
+    analytics_wp_group_head: "Group layer (decided together in discussion)",
+    analytics_wp_group_note: "If you are not this week's compiler, 0% here is normal — it does not affect your individual export.",
+    analytics_wp_group_done: "The group layer is complete.",
+    analytics_wp_allpass: "All seven sections are complete. You are ready to export.",
+    analytics_wp_saved: "Your entries are saved automatically in this browser",
+    analytics_wp_clear: "🗑 Clear all",
+    analytics_wp_clear_confirm: "Clear every entry and all activity data? This cannot be undone — export first.",
+    analytics_wp_tts_intro: "The following sections are still incomplete.",
+    analytics_wp_tts_module: "{name}, {acc}% complete.",
+    analytics_wp_tts_allpass: "All seven sections are complete.",
+
+    date: "Version 2026.08.24",
+    copyright: "For Educational Use Only",
+    architect_label: "Architect:",
+    architect_url: "https://www.ibs.ncnu.edu.tw/index.php/faculty/tenured-professor/299-smlo"
+  }
+};
+
+/* ================= Field registry ================= */
+const FIELDS = {
+  1: ['g_group','g_date', ...MEMBER_IDX.flatMap(i => [`m_name_${i}`,`m_id_${i}`,`m_part_${i}`,`m_sec_${i}`])],
+  2: [...S2_IDS],
+  3: [...S3_IDS],
+  4: [...[0,1,2,3,4].flatMap(i => [`t_term_${i}`,`t_mean_${i}`,`t_sent_${i}`]), ...[0,1,2].flatMap(i => [`p_word_${i}`,`p_hard_${i}`,`p_tip_${i}`])],
+  5: ['syn_focus_why','syn_gap','syn_dep','syn_criteria','syn_rule'],
+  6: ['tp_wbs_top','tp_cp_path','tp_cp_days','tp_cp_weak','tp_cp_weak_why','tp_float'],
+  7: ['pr_open','pr_question', ...MEMBER_IDX.map(i => `pr_point_${i}`)]
+};
+const CORE = {
+  1: ['g_group','g_date','m_name_0','m_part_0'],
+  2: [...S2_IDS],
+  3: [...S3_IDS],
+  4: ['t_term_0','t_mean_0','t_term_1','t_mean_1','t_term_2','t_mean_2','t_term_3','t_mean_3','t_term_4','t_mean_4','p_word_0','p_word_1','p_word_2'],
+  5: ['syn_focus_why','syn_gap','syn_dep','syn_criteria','syn_rule'],
+  6: ['tp_wbs_top','tp_cp_path','tp_cp_days','tp_cp_weak','tp_float'],
+  7: ['pr_open','pr_question','pr_point_0']
+};
+
+/* ================= UI atoms ================= */
+const H2 = ({ children, icon, number }) => (
+  <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-black text-[#004030] dark:text-[#D8C3A5] mb-4 flex items-center gap-3">
+    {icon && <span className="text-2xl ui-decoration">{icon}</span>}
+    {number !== undefined && <span>{number}.</span>}
+    <span>{children}</span>
+  </h2>
+);
+const Badge = ({ kind, t }) => (
+  <span className={`inline-block text-xs font-bold px-3 py-1 rounded-full mb-4 ${kind === 'P'
+    ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200'
+    : 'bg-[#D8C3A5]/30 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>
+    {kind === 'P' ? t.badge_personal : t.badge_group}
+  </span>
+);
+const Overview = ({ t, text }) => (
+  <div className="bg-[#004030]/5 dark:bg-[#D8C3A5]/5 rounded-xl p-5 border-l-4 border-[#D8C3A5]">
+    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-2">{t.overview_label}</h3>
+    <p>{text}</p>
+  </div>
+);
+const Highlights = ({ t, items }) => (
+  <div>
+    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.highlights_label}</h3>
+    <div className="flex flex-wrap gap-2">
+      {items.map((h,i) => <span key={i} className="px-3 py-1 bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5] rounded-full text-sm font-medium">{h}</span>)}
+    </div>
+  </div>
+);
+const DeepDive = ({ t, text }) => (
+  <div>
+    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.deep_dive_label}</h3>
+    <p className="p-4 bg-slate-100 dark:bg-slate-800 rounded-lg italic font-serif">{text}</p>
+  </div>
+);
+const Wrapup = ({ t, text }) => (
+  <div className="bg-slate-100 dark:bg-slate-800 rounded-xl p-5 flex gap-3 items-start">
+    <span className="text-[#004030] dark:text-[#D8C3A5] mt-0.5 shrink-0"><IconCheckCircle size={18}/></span>
+    <div>
+      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-1">{t.wrapup_label}</h3>
+      <p className="italic">{text}</p>
+    </div>
+  </div>
+);
+const inputCls = "w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 text-base focus:outline-none focus:ring-2 focus:ring-[#004030] dark:focus:ring-[#D8C3A5] transition";
+const monoCls = inputCls + " font-mono text-sm";
+const Field = ({ id, label, hint, ph, rows, value, onChange, type, mono }) => (
+  <div className="mb-5">
+    {label && <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{label}</label>}
+    {hint && <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 leading-relaxed">{hint}</p>}
+    {rows
+      ? <textarea rows={rows} className={mono ? monoCls : inputCls} placeholder={ph} value={value||''} onChange={e => onChange(id, sanitizeText(e.target.value))} />
+      : <input type={type||'text'} className={mono ? monoCls : inputCls} placeholder={ph} value={value||''} onChange={e => onChange(id, sanitizeText(e.target.value))} />}
+  </div>
+);
+const InfoInput = ({ id, label, ph, value, onChange, san }) => (
+  <div>
+    <label className="block text-xs font-bold text-slate-500 mb-1">{label}</label>
+    <input className={inputCls} placeholder={ph} value={value || ''} onChange={e => onChange(id, (san || sanitizeName)(e.target.value))} />
+  </div>
+);
+
+/* ================= SDL KB import ================= */
+const SEMESTER_DEFAULT = '1151';
+const WEEK_CODE = 'W13';
+const TOPIC_CAMEL = 'PlanningAndCriticalPath';
+
+const parseSdlKb = (text) => {
+  try {
+    const t = String(text || '').replace(/\r\n/g, '\n').trim();
+    if (!t) return { ok: false, error: 'empty' };
+    const fm = t.match(/^---\n([\s\S]*?)\n---/);
+    const meta = {};
+    if (fm) {
+      fm[1].split('\n').forEach(line => {
+        if (/^\s/.test(line)) return;               // skip nested (sources / interaction)
+        const m = line.match(/^([A-Za-z_]+):\s*(.*)$/);
+        if (m) meta[m[1]] = m[2].replace(/^["']|["']$/g, '').trim();
+      });
+    }
+    const sections = {};
+    const parts = t.split(/^##\s*§/m);
+    parts.shift();
+    parts.forEach(part => {
+      const n = part.match(/^(\d)/);
+      if (!n) return;
+      sections['s' + n[1]] = part.replace(/^\d[^\n]*\n?/, '').trim();
+    });
+    const hasAny = Object.keys(meta).length > 0 || Object.keys(sections).length > 0;
+    if (!hasAny) return { ok: false, error: 'format' };
+    return { ok: true, meta, sections, raw: t };
+  } catch (e) { return { ok: false, error: 'format' }; }
+};
+
+const SdlImport = ({ t, sdl, onImport, onClear }) => {
+  const [text, setText] = useState('');
+  const [msg, setMsg] = useState(null);
+  const fileRef = useRef(null);
+  const doParse = (raw) => {
+    const r = parseSdlKb(raw);
+    if (!r.ok) { setMsg({ ok: false, text: r.error === 'empty' ? t.sdl_err_empty : t.sdl_err_format }); return; }
+    onImport(r);
+    setMsg({ ok: true, text: t.sdl_ok });
+    setText('');
+  };
+  const onFile = (e) => {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    const rd = new FileReader();
+    rd.onload = () => doParse(rd.result);
+    rd.readAsText(f);
+    e.target.value = '';
+  };
+  return (
+    <div className="rounded-xl border-2 border-sky-200 dark:border-sky-800/60 bg-sky-50/50 dark:bg-sky-900/10 p-5">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5]">{t.sdl_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-3 leading-relaxed">{t.sdl_desc}</p>
+      {sdl ? (
+        <div className="rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4">
+          <p className="text-sm font-bold text-green-700 dark:text-green-400">{t.sdl_loaded}</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 break-all">
+            {[sdl.meta.course, sdl.meta.semester, sdl.meta.week, sdl.meta.topic].filter(Boolean).join(' · ')}
+            {sdl.meta.student ? ' · ' + sdl.meta.student : ''}{sdl.meta.group ? ' · ' + sdl.meta.group : ''}
+          </p>
+          <button onClick={onClear} className="mt-3 px-3 py-1.5 text-xs border border-red-400 text-red-600 dark:text-red-400 rounded-lg">{t.sdl_clear}</button>
+        </div>
+      ) : (
+        <>
+          <textarea rows={4} className={inputCls} placeholder={t.sdl_ph} value={text} onChange={e => setText(e.target.value)} />
+          <div className="flex flex-wrap items-center gap-3 mt-3">
+            <button onClick={() => doParse(text)} className="px-4 py-2 text-sm bg-sky-700 dark:bg-sky-300 text-white dark:text-sky-950 font-bold rounded-lg">{t.sdl_parse}</button>
+            <button onClick={() => fileRef.current && fileRef.current.click()} className="px-4 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg">{t.sdl_file}</button>
+            <input ref={fileRef} type="file" accept=".md,.markdown,.txt" onChange={onFile} className="hidden" />
+          </div>
+        </>
+      )}
+      {msg && <p className={`text-xs mt-2 ${msg.ok ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>{msg.text}</p>}
+    </div>
+  );
+};
+
+const SdlPanel = ({ t, sdl }) => {
+  const [open, setOpen] = useState(false);
+  if (!sdl) return null;
+  const rows = [
+    { k: 's1', label: t.sdl_s1 }, { k: 's2', label: t.sdl_s2 },
+    { k: 's4', label: t.sdl_s4 }, { k: 's5', label: t.sdl_s5 }
+  ].filter(r => sdl.sections[r.k]);
+  if (!rows.length) return null;
+  return (
+    <div className="rounded-xl border border-sky-200 dark:border-sky-800/60 bg-sky-50/40 dark:bg-sky-900/10">
+      <button onClick={() => setOpen(o => !o)} className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left">
+        <span className="text-sm font-bold text-sky-800 dark:text-sky-300">{t.sdl_panel_title}</span>
+        <span className="text-xs text-sky-700 dark:text-sky-400 shrink-0">{open ? t.sdl_panel_hide : t.sdl_panel_show}</span>
+      </button>
+      {open && (
+        <div className="px-4 pb-4 space-y-4 max-h-96 overflow-y-auto">
+          {rows.map(r => (
+            <div key={r.k}>
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">{r.label}</p>
+              <pre className="text-xs whitespace-pre-wrap font-sans text-slate-700 dark:text-slate-300 leading-relaxed">{sdl.sections[r.k]}</pre>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const LinkCard = ({label, url, desc}) => (
+  <a href={url} target="_blank" rel="noopener noreferrer"
+    className="block bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5] hover:shadow-md transition-all group">
+    <span className="font-bold font-serif text-sm text-[#004030] dark:text-[#D8C3A5] group-hover:underline">{label}</span>
+    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mt-1">{desc}</p>
+  </a>
+);
+
+/* ================= FlipCardDeck ================= */
+const FlipCardDeck = ({ terms, t, moduleId, onCardRead }) => {
+  const [groupIdx, setGroupIdx] = useState(0);
+  const [flipped, setFlipped] = useState({});
+  const [readSet, setReadSet] = useState(new Set());
+  const [shownSet, setShownSet] = useState(new Set());
+  const [shuffledOrder] = useState(() => [...Array(terms.length).keys()].sort(() => Math.random() - 0.5));
+  const groupSize = 2;
+  const totalGroups = Math.ceil(terms.length / groupSize);
+  const currentCardIndices = shuffledOrder.slice(groupIdx*groupSize, groupIdx*groupSize + groupSize);
+  useEffect(() => {
+    const ns = new Set(shownSet); currentCardIndices.forEach(i => ns.add(i));
+    if (ns.size !== shownSet.size) setShownSet(ns);
+  }, [groupIdx]);
+  const handleFlip = (i) => {
+    setFlipped(f => ({...f, [i]: !f[i]}));
+    if (!readSet.has(i)) { const nr = new Set(readSet); nr.add(i); setReadSet(nr); onCardRead && onCardRead(moduleId, nr.size, shownSet.size, terms.length); }
+  };
+  const statusText = t.flip_status.replace('{read}', readSet.size).replace('{shown}', shownSet.size).replace('{total}', terms.length);
+  return (
+    <div className="mt-8">
+      <h3 className="text-lg font-bold uppercase tracking-wider text-slate-500 mb-2">{t.key_terms}</h3>
+      <p className="text-sm text-slate-400 mb-4">{statusText}</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {currentCardIndices.map(i => (
+          <div key={i} className="perspective cursor-pointer h-44" onClick={() => handleFlip(i)}>
+            <div className={`transform-style-3d relative w-full h-full transition-transform duration-500 ${flipped[i] ? 'rotate-y-180' : ''}`}>
+              <div className="backface-hidden absolute inset-0 bg-white dark:bg-slate-800 rounded-xl p-4 flex flex-col items-center justify-center border border-slate-200 dark:border-slate-700 shadow-sm">
+                <p className="font-serif font-bold text-center text-[#004030] dark:text-[#D8C3A5]">{terms[i].front}</p>
+                <p className="text-xs text-slate-400 mt-2">{t.flip_prompt}</p>
+              </div>
+              <div className="backface-hidden rotate-y-180 absolute inset-0 bg-[#004030] dark:bg-slate-700 rounded-xl p-4 flex items-center justify-center overflow-y-auto">
+                <p className="text-sm text-center text-[#D8C3A5] dark:text-slate-200 leading-relaxed">{terms[i].back}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="flex items-center gap-3 mt-4">
+        <button onClick={() => { setGroupIdx(0); setFlipped({}); }} className="px-4 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700">{t.flip_retry}</button>
+        <button onClick={() => groupIdx < totalGroups-1 && setGroupIdx(groupIdx+1)} disabled={groupIdx >= totalGroups-1}
+          className="px-4 py-2 text-sm bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg disabled:opacity-40">{t.flip_next}</button>
+      </div>
+    </div>
+  );
+};
+
+/* ================= ModuleQuiz ================= */
+const ModuleQuiz = ({ questions, t, moduleId, onQuizSubmit }) => {
+  const [selected, setSelected] = useState({});
+  const [submitted, setSubmitted] = useState({});
+  const [groupIdx, setGroupIdx] = useState(0);
+  const groupSize = 2;
+  const [quizIndices] = useState(() => [...Array(questions.length).keys()].sort(() => Math.random() - 0.5));
+  const totalGroups = Math.ceil(quizIndices.length / groupSize);
+  const [shuffledMaps] = useState(() => quizIndices.map(qi => [...Array(questions[qi].opts.length).keys()].sort(() => Math.random() - 0.5)));
+  const computeCorrect = () => { let c = 0; quizIndices.forEach((qIdx, qi) => { if (selected[qi] !== undefined && shuffledMaps[qi][selected[qi]] === _d(questions[qIdx].ans)) c++; }); return c; };
+  const statusText = t.quiz_status.replace('{correct}', computeCorrect()).replace('{answered}', Object.keys(selected).length).replace('{total}', quizIndices.length);
+  const currentStart = groupIdx * groupSize;
+  const currentIndices = quizIndices.slice(currentStart, currentStart + groupSize);
+  const handleGroupSubmit = () => {
+    if (!currentIndices.every((_, i) => selected[currentStart+i] !== undefined)) return;
+    setSubmitted(s => ({...s, [groupIdx]: true}));
+    if (groupIdx === totalGroups - 1 || Object.keys(submitted).length + 1 === totalGroups) {
+      const wrong = []; let correct = 0;
+      quizIndices.forEach((qIdx, qi) => {
+        if (selected[qi] === undefined) return;
+        if (shuffledMaps[qi][selected[qi]] === _d(questions[qIdx].ans)) correct++; else wrong.push(questions[qIdx].q);
+      });
+      onQuizSubmit(moduleId, correct, quizIndices.length, wrong);
+    }
+  };
+  return (
+    <div className="mt-8 bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="text-lg font-bold font-serif text-[#004030] dark:text-[#D8C3A5] mb-2">{t.quiz_title}</h3>
+      <p className="text-sm text-slate-400 mb-6">{statusText}</p>
+      {currentIndices.map((qIdx, localI) => {
+        const qi = currentStart + localI, q = questions[qIdx], sMap = shuffledMaps[qi], isSub = !!submitted[groupIdx];
+        return (
+          <div key={qIdx} className="mb-6">
+            <p className="font-bold mb-3">{qi+1}. {q.q}</p>
+            <div className="space-y-2">
+              {sMap.map((origIdx, dIdx) => {
+                const isCorrect = origIdx === _d(q.ans), isSel = selected[qi] === dIdx;
+                return (
+                  <button key={dIdx} onClick={() => !isSub && setSelected(s => ({...s, [qi]: dIdx}))}
+                    className={`w-full text-left px-4 py-3 rounded-lg border transition-all text-sm ${isSub
+                      ? isCorrect ? 'bg-green-100 border-green-500 dark:bg-green-900/30'
+                        : isSel ? 'bg-red-100 border-red-400 dark:bg-red-900/30' : 'border-slate-200 dark:border-slate-700'
+                      : isSel ? 'border-[#004030] dark:border-[#D8C3A5] bg-[#004030]/5' : 'border-slate-200 dark:border-slate-700 hover:border-slate-400'}`}>
+                    {q.opts[origIdx]}
+                  </button>
+                );
+              })}
+            </div>
+            {isSub && (
+              <p className={`mt-2 text-sm italic ${shuffledMaps[qi][selected[qi]] === _d(q.ans) ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>
+                {shuffledMaps[qi][selected[qi]] === _d(q.ans) ? `✓ ${t.correct}` : `✗ ${t.incorrect}`} — {t.explanation}：{q.exp}
+              </p>
+            )}
+          </div>
+        );
+      })}
+      <div className="flex items-center gap-3 flex-wrap">
+        {!submitted[groupIdx]
+          ? <button onClick={handleGroupSubmit} disabled={!currentIndices.every((_,i) => selected[currentStart+i] !== undefined)}
+              className="px-6 py-2 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg disabled:opacity-40">{t.submit}</button>
+          : <>
+              {groupIdx < totalGroups-1 && <button onClick={() => setGroupIdx(groupIdx+1)} className="px-6 py-2 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg">{t.quiz_next}</button>}
+              <button onClick={() => { setGroupIdx(0); setSelected({}); setSubmitted({}); }} className="px-6 py-2 border border-[#004030] dark:border-[#D8C3A5] text-[#004030] dark:text-[#D8C3A5] font-bold rounded-lg">{t.quiz_retry}</button>
+            </>}
+      </div>
+    </div>
+  );
+};
+
+/* ================= Iron triangle SVG ================= */
+const TriangleDiagram = ({ t, filledIds, locked }) => {
+  const COL = ["#5B5BD6","#0E9F6E","#D97706"];
+  const LOCKCOL = "#DC2626";
+  const lockIdx = SIDE_ORDER.indexOf(locked);
+  const lockedOk = filledIds.includes('tc_locked') && filledIds.includes('tc_evidence');
+  const gives = [filledIds.includes('tc_give1'), filledIds.includes('tc_give2')];
+  /* 被鎖死的那一邊由證據點亮；另外兩邊依序由 tc_give1 / tc_give2 點亮 */
+  const lit = [false, false, false];
+  let g = 0;
+  SIDE_ORDER.forEach((s, i) => {
+    if (i === lockIdx) lit[i] = lockedOk;
+    else { lit[i] = !!gives[g]; g++; }
+  });
+  const areaLit = filledIds.includes('tc_quality');
+  const doneN = lit.filter(Boolean).length + (areaLit ? 1 : 0);
+  const TOP = [320, 62], BL = [150, 234], BR = [490, 234];
+  const sides = [
+    { a: TOP, b: BL },   /* 範疇 */
+    { a: TOP, b: BR },   /* 時程 */
+    { a: BL,  b: BR }    /* 成本 */
+  ];
+  const boxes = [
+    { x: 14,  y: 96,  w: 122, h: 62 },
+    { x: 500, y: 96,  w: 108, h: 62 },
+    { x: 246, y: 240, w: 190, h: 44 }
+  ];
+  return (
+    <div className="w-full overflow-x-auto" onContextMenu={e => { e.preventDefault(); window.showCopyrightToast && window.showCopyrightToast(); }}>
+      <svg viewBox="0 0 620 320" className="w-full max-w-2xl mx-auto" draggable="false" role="img" aria-label={t.m2_svg_cap}>
+        <rect x="6" y="6" width="608" height="308" rx="12" fill="none" stroke="#94a3b8" strokeDasharray="6 5" strokeWidth="1.5"/>
+        <text x="20" y="26" fontSize="11.5" fill="#94a3b8" fontFamily="Inter, sans-serif">{t.m2_svg_layer}</text>
+        <text x="600" y="26" fontSize="11.5" fill="#94a3b8" fontFamily="Inter, sans-serif" textAnchor="end">{doneN} / 4</text>
+        <polygon points={`${TOP[0]},${TOP[1]} ${BL[0]},${BL[1]} ${BR[0]},${BR[1]}`}
+          fill="#0E9F6E" opacity={areaLit ? 0.30 : 0.08}/>
+        {sides.map((s, i) => (
+          <line key={i} x1={s.a[0]} y1={s.a[1]} x2={s.b[0]} y2={s.b[1]}
+            stroke={i === lockIdx ? LOCKCOL : COL[i]} strokeWidth="9" strokeLinecap="round"
+            opacity={lit[i] ? 0.95 : 0.22} strokeDasharray={i === lockIdx ? "1 0" : "1 0"}/>
+        ))}
+        {[TOP, BL, BR].map((p, i) => <circle key={i} cx={p[0]} cy={p[1]} r="5" fill="#94a3b8"/>)}
+        {t.tri_sides.map((s, i) => (
+          <foreignObject key={i} x={boxes[i].x} y={boxes[i].y} width={boxes[i].w} height={boxes[i].h}>
+            <div xmlns="http://www.w3.org/1999/xhtml" style={{fontSize:'10.5px',lineHeight:'1.35',fontFamily:'Inter, sans-serif',color: lit[i] ? (i === lockIdx ? '#B91C1C' : '#0f172a') : '#94a3b8'}}>
+              <strong>{s.name}{i === lockIdx ? ' 🔒' : ''}</strong><br/>{s.sub}
+              {i === lockIdx && <><br/><span style={{color:'#B91C1C',fontWeight:700}}>{t.tri_locked_tag}</span></>}
+            </div>
+          </foreignObject>
+        ))}
+        <foreignObject x="264" y="136" width="112" height="66">
+          <div xmlns="http://www.w3.org/1999/xhtml" style={{fontSize:'10px',lineHeight:'1.3',textAlign:'center',fontFamily:'Inter, sans-serif',color: areaLit ? '#065F46' : '#94a3b8'}}>
+            <strong>{t.tri_area.name}</strong><br/>{t.tri_area.sub}
+          </div>
+        </foreignObject>
+        <foreignObject x="20" y="286" width="580" height="26">
+          <div xmlns="http://www.w3.org/1999/xhtml" style={{fontSize:'10.5px',lineHeight:'1.3',color:'#64748b',fontFamily:'Inter, sans-serif'}}>{t.tri_risk}</div>
+        </foreignObject>
+      </svg>
+      <p className="text-center text-xs text-slate-500 dark:text-slate-400 mt-2 italic">{t.m2_svg_cap}</p>
+      <p className="text-center text-xs text-slate-500 dark:text-slate-400 mt-1">{t.tri_note}</p>
+    </div>
+  );
+};
+
+/* ================= Labs ================= */
+const num = (v, fb) => { const n = parseFloat(v); return isFinite(n) ? n : fb; };
+
+/* 種子範例：只在「該格從未被學生編輯過」時作為顯示值使用，
+   絕不寫進 state，因此語言切換會跟著換，而學生的輸入與 localStorage 還原的內容永遠不會被覆蓋。 */
+const CP_SEED = [
+  { code:'A', dur:'3', pred:'' },
+  { code:'B', dur:'4', pred:'A' },
+  { code:'C', dur:'2', pred:'A' },
+  { code:'D', dur:'3', pred:'B,C' },
+  { code:'E', dur:'3', pred:'D' },
+  { code:'F', dur:'2', pred:'E' }
+];
+const CP_SEED_NAME = {
+  zh: ['資料抓取原型','知識庫與抽取規則','內容與呈現版型','部署與排程','三日心跳觀測','簡報與驗收準備'],
+  en: ['Fetch prototype','KB and extraction rules','Content and layout','Deploy and schedule','Three-day heartbeat watch','Pitch and acceptance prep']
+};
+
+/* 關鍵路徑：真正的往前推與往後推（Kahn 拓樸排序 + forward/backward pass） */
+const cpCompute = (acts) => {
+  const list = acts.filter(a => a.code && isFinite(a.dur) && a.dur > 0);
+  if (list.length < 2) return { ok:false, few:true, cyclic:false, rows:[], total:0, path:[] };
+  const byCode = {}; list.forEach(a => { byCode[a.code] = a; });
+  const preds = {}; list.forEach(a => { preds[a.code] = a.preds.filter((p,i,arr) => p !== a.code && byCode[p] && arr.indexOf(p) === i); });
+  const succ = {}; list.forEach(a => { succ[a.code] = []; });
+  list.forEach(a => preds[a.code].forEach(p => succ[p].push(a.code)));
+  const indeg = {}; list.forEach(a => { indeg[a.code] = preds[a.code].length; });
+  const q = list.filter(a => indeg[a.code] === 0).map(a => a.code);
+  const order = [];
+  while (q.length) {
+    const c = q.shift(); order.push(c);
+    succ[c].forEach(s => { indeg[s] -= 1; if (indeg[s] === 0) q.push(s); });
+  }
+  if (order.length !== list.length) return { ok:false, few:false, cyclic:true, rows:[], total:0, path:[] };
+  const ES = {}, EF = {};
+  order.forEach(c => {
+    const ps = preds[c];
+    ES[c] = ps.length ? Math.max(...ps.map(p => EF[p])) : 0;
+    EF[c] = ES[c] + byCode[c].dur;
+  });
+  const total = Math.max(...order.map(c => EF[c]));
+  const LF = {}, LS = {};
+  order.slice().reverse().forEach(c => {
+    const ss = succ[c];
+    LF[c] = ss.length ? Math.min(...ss.map(s => LS[s])) : total;
+    LS[c] = LF[c] - byCode[c].dur;
+  });
+  const rows = order.map(c => ({
+    code: c, name: byCode[c].name, dur: byCode[c].dur,
+    es: ES[c], ef: EF[c], ls: LS[c], lf: LF[c], tf: Math.round((LS[c] - ES[c]) * 1000) / 1000
+  }));
+  const path = rows.filter(r => r.tf === 0).map(r => r.code);
+  const sorted = rows.slice().sort((a,b) => a.code < b.code ? -1 : a.code > b.code ? 1 : 0);
+  let maxFloat = null;
+  rows.forEach(r => { if (!maxFloat || r.tf > maxFloat.tf) maxFloat = r; });
+  return { ok:true, few:false, cyclic:false, rows: sorted, total, path, maxFloat };
+};
+
+const LabTriple = ({ t, state, setState, onTouch }) => {
+  const v = state || {};
+  const set = (k, val) => { setState({ ...v, [k]: val }); onTouch && onTouch(); };
+  const lock = v.lock || '';
+  const others = SIDE_ORDER.filter(s => s !== lock);
+  const sideName = (id) => { const i = SIDE_ORDER.indexOf(id); return i >= 0 ? t.tri_sides[i].name : id; };
+  const roomOf = (id) => v['room_' + id] || '';
+  let verdict = { kind: 'none', text: t.lab1_v_none };
+  if (lock) {
+    const rooms = others.map(roomOf);
+    const free = others.filter(id => roomOf(id) === 'yes');
+    if (rooms.every(r => r === 'no')) verdict = { kind: 'bad', text: t.lab1_v_quality };
+    else if (free.length) verdict = { kind: 'good', text: t.lab1_v_dial.replace('{side}', free.map(sideName).join(' / ')) };
+    else if (rooms.every(r => r !== '')) verdict = { kind: 'warn', text: t.lab1_v_tight };
+    else verdict = { kind: 'none', text: t.lab1_v_none };
+  }
+  const vc = verdict.kind === 'good' ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'
+    : verdict.kind === 'warn' ? 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300'
+    : verdict.kind === 'bad' ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-300'
+    : 'bg-slate-100 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400';
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab1_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.lab1_desc}</p>
+      <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">{t.lab1_pick}</p>
+      <div className="grid grid-cols-3 gap-2">
+        {SIDE_ORDER.map((id, i) => (
+          <button key={id} onClick={() => set('lock', lock === id ? '' : id)}
+            className={`px-3 py-2.5 rounded-lg border text-sm font-bold transition ${lock === id
+              ? 'border-red-500 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-300'
+              : 'border-slate-200 dark:border-slate-700 hover:border-slate-400'}`}>
+            {t.tri_sides[i].name}{lock === id ? ' 🔒' : ''}
+          </button>
+        ))}
+      </div>
+      {lock && (
+        <>
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mt-5 mb-2">{t.lab1_room_label}</p>
+          <div className="space-y-3">
+            {others.map(id => (
+              <div key={id} className="rounded-lg border border-slate-200 dark:border-slate-700 p-3">
+                <p className="text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-2">{sideName(id)}</p>
+                <select className={inputCls} value={roomOf(id)} onChange={e => set('room_' + id, e.target.value)}>
+                  <option value="">{t.select_ph}</option>
+                  {t.lab1_room_opts.map(o => <option key={o.v} value={o.v}>{o.name}</option>)}
+                </select>
+                <input className={inputCls + ' mt-2'} placeholder={t.lab1_note_ph}
+                  value={v['note_' + id] || ''} onChange={e => set('note_' + id, sanitizeText(e.target.value))} />
+              </div>
+            ))}
+          </div>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-3">{t.lab1_locked_note.replace('{side}', sideName(lock))}</p>
+        </>
+      )}
+      <p className={`mt-4 p-3 rounded-lg text-sm leading-relaxed ${vc}`}>{verdict.text}</p>
+      <div className="flex items-center gap-3 mt-3 flex-wrap">
+        <button onClick={() => { setState({}); onTouch && onTouch(); }} className="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm">{t.lab1_reset}</button>
+      </div>
+    </div>
+  );
+};
+
+const LabWpChecks = ({ t, state, setState, onTouch }) => {
+  const v = state || {};
+  const seeds = t.lab2_seed;
+  const n = v.n === undefined ? seeds.length : Math.max(1, Math.min(8, v.n));
+  const rows = v.rows || {};
+  const nameOf = (i) => {
+    const r = rows[i] || {};
+    return r.name !== undefined ? r.name : (seeds[i] !== undefined ? seeds[i] : '');
+  };
+  const setRow = (i, k, val) => {
+    const next = { ...rows, [i]: { ...(rows[i] || {}), [k]: val } };
+    setState({ ...v, n, rows: next }); onTouch && onTouch();
+  };
+  const setN = (d) => { setState({ ...v, n: Math.max(1, Math.min(8, n + d)), rows }); onTouch && onTouch(); };
+  const idx = [...Array(n).keys()];
+  const passed = idx.filter(i => { const r = rows[i] || {}; return r.c1 && r.c2 && r.c3; });
+  const failed = idx.filter(i => !passed.includes(i));
+  const noGap = failed.filter(i => !String((rows[i] || {}).gap || '').trim());
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab2_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.lab2_desc}</p>
+      <div className="space-y-3">
+        {idx.map(i => {
+          const r = rows[i] || {};
+          const ok = r.c1 && r.c2 && r.c3;
+          return (
+            <div key={i} className={`rounded-lg border p-3 ${ok ? 'border-green-400 dark:border-green-700 bg-green-50/50 dark:bg-green-900/10' : 'border-slate-200 dark:border-slate-700'}`}>
+              <input className={inputCls} placeholder={t.lab2_name_ph} value={nameOf(i)}
+                onChange={e => setRow(i, 'name', sanitizeText(e.target.value))} />
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-2">
+                {[['c1', t.lab2_c1], ['c2', t.lab2_c2], ['c3', t.lab2_c3]].map(([k, lab]) => (
+                  <label key={k} className="flex items-center gap-2 text-xs cursor-pointer">
+                    <input type="checkbox" className="w-4 h-4 shrink-0 accent-[#004030] dark:accent-[#D8C3A5]"
+                      checked={!!r[k]} onChange={e => setRow(i, k, e.target.checked)} />
+                    <span>{lab}</span>
+                  </label>
+                ))}
+              </div>
+              {!ok && (
+                <>
+                  <input className={inputCls + ' mt-2'} placeholder={t.lab2_gap_ph} value={r.gap || ''}
+                    onChange={e => setRow(i, 'gap', sanitizeText(e.target.value))} />
+                  {!String(r.gap || '').trim() && <p className="text-xs text-red-500 dark:text-red-400 mt-1">{t.lab2_gap_warn}</p>}
+                </>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      <div className="flex items-center gap-2 mt-3 flex-wrap">
+        <button onClick={() => setN(-1)} disabled={n <= 1} className="px-3 py-1.5 text-sm border border-slate-300 dark:border-slate-600 rounded-lg disabled:opacity-40">{t.lab2_del}</button>
+        <button onClick={() => setN(1)} disabled={n >= 8} className="px-3 py-1.5 text-sm border border-slate-300 dark:border-slate-600 rounded-lg disabled:opacity-40">{t.lab2_add}</button>
+        <button onClick={() => { setState({}); onTouch && onTouch(); }} className="px-3 py-1.5 text-sm border border-slate-300 dark:border-slate-600 rounded-lg">{t.lab2_reset}</button>
+      </div>
+      <div className="mt-4 p-4 rounded-lg bg-slate-50 dark:bg-slate-900/50">
+        <p className="font-bold text-[#004030] dark:text-[#D8C3A5]">{t.lab2_pass.replace('{n}', passed.length).replace('{t}', n)}</p>
+        <div className="mt-2 h-3 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+          <div className={`h-full transition-all ${failed.length === 0 ? 'bg-green-500' : 'bg-[#004030] dark:bg-[#D8C3A5]'}`} style={{width: Math.round(passed.length / n * 100) + '%'}}></div>
+        </div>
+        <p className={`text-sm mt-3 ${failed.length === 0 ? 'text-green-600 dark:text-green-400' : 'text-amber-700 dark:text-amber-300'}`}>
+          {failed.length === 0 ? t.lab2_done : t.lab2_todo.replace('{n}', failed.length).replace('{m}', noGap.length)}
+        </p>
+      </div>
+    </div>
+  );
+};
+
+const LabCriticalPath = ({ t, lang, state, setState, onTouch }) => {
+  const v = state || {};
+  const seedNames = CP_SEED_NAME[lang] || CP_SEED_NAME.en;
+  const n = v.n === undefined ? 5 : Math.max(2, Math.min(6, v.n));
+  const rows = v.rows || {};
+  const cell = (i, k) => {
+    const r = rows[i] || {};
+    if (r[k] !== undefined) return r[k];
+    if (k === 'name') return seedNames[i] !== undefined ? seedNames[i] : '';
+    return CP_SEED[i] !== undefined ? CP_SEED[i][k] : '';
+  };
+  const setRow = (i, k, val) => {
+    const next = { ...rows, [i]: { ...(rows[i] || {}), [k]: val } };
+    setState({ ...v, n, rows: next }); onTouch && onTouch();
+  };
+  const setN = (d) => { setState({ ...v, n: Math.max(2, Math.min(6, n + d)), rows }); onTouch && onTouch(); };
+  const idx = [...Array(n).keys()];
+  const acts = idx.map(i => ({
+    code: String(cell(i, 'code') || '').trim().toUpperCase(),
+    name: String(cell(i, 'name') || ''),
+    dur: num(cell(i, 'dur'), NaN),
+    preds: String(cell(i, 'pred') || '').toUpperCase().split(/[^A-Z0-9]+/).filter(Boolean)
+  }));
+  const res = cpCompute(acts);
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab3_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.lab3_desc}</p>
+      <div className="space-y-2">
+        {idx.map(i => (
+          <div key={i} className="grid grid-cols-12 gap-2">
+            <input className={inputCls + ' col-span-2 text-center font-mono uppercase'} maxLength={2} placeholder={t.lab3_code}
+              value={cell(i, 'code')} onChange={e => setRow(i, 'code', e.target.value.replace(/[^A-Za-z0-9]/g, '').slice(0,2).toUpperCase())} />
+            <input className={inputCls + ' col-span-5'} placeholder={t.lab3_name}
+              value={cell(i, 'name')} onChange={e => setRow(i, 'name', sanitizeText(e.target.value))} />
+            <input className={inputCls + ' col-span-2 text-center'} type="number" min="0" step="0.5" placeholder={t.lab3_dur}
+              value={cell(i, 'dur')} onChange={e => setRow(i, 'dur', e.target.value)} />
+            <input className={inputCls + ' col-span-3 font-mono uppercase'} placeholder={t.lab3_pred}
+              value={cell(i, 'pred')} onChange={e => setRow(i, 'pred', e.target.value.replace(/[^A-Za-z0-9, ]/g, '').toUpperCase())} />
+          </div>
+        ))}
+      </div>
+      <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">{t.lab3_pred_hint}</p>
+      <div className="flex items-center gap-2 mt-3 flex-wrap">
+        <button onClick={() => setN(-1)} disabled={n <= 2} className="px-3 py-1.5 text-sm border border-slate-300 dark:border-slate-600 rounded-lg disabled:opacity-40">{t.lab3_del}</button>
+        <button onClick={() => setN(1)} disabled={n >= 6} className="px-3 py-1.5 text-sm border border-slate-300 dark:border-slate-600 rounded-lg disabled:opacity-40">{t.lab3_add}</button>
+        <button onClick={() => { setState({}); onTouch && onTouch(); }} className="px-3 py-1.5 text-sm border border-slate-300 dark:border-slate-600 rounded-lg">{t.lab3_reset}</button>
+      </div>
+      <div className="mt-4 p-4 rounded-lg bg-slate-50 dark:bg-slate-900/50">
+        <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">{t.lab3_res_head}</p>
+        {res.cyclic && <p className="text-sm text-red-500 dark:text-red-400">{t.lab3_cycle}</p>}
+        {res.few && <p className="text-sm text-amber-600 dark:text-amber-400">{t.lab3_few}</p>}
+        {res.ok && (
+          <>
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs">
+                <thead>
+                  <tr className="text-slate-500">{t.lab3_th.map((h,i) => <th key={i} className={`py-1 ${i === 1 ? 'text-left' : 'text-center'}`}>{h}</th>)}</tr>
+                </thead>
+                <tbody>
+                  {res.rows.map(r => (
+                    <tr key={r.code} className={r.tf === 0 ? 'font-bold text-[#004030] dark:text-[#D8C3A5]' : 'text-slate-600 dark:text-slate-300'}>
+                      <td className="text-center py-1 font-mono">{r.code}</td>
+                      <td className="text-left py-1 truncate max-w-[8rem]">{r.name}</td>
+                      <td className="text-center py-1">{r.dur}</td>
+                      <td className="text-center py-1">{r.es}</td>
+                      <td className="text-center py-1">{r.ef}</td>
+                      <td className="text-center py-1">{r.ls}</td>
+                      <td className="text-center py-1">{r.lf}</td>
+                      <td className={`text-center py-1 ${r.tf === 0 ? 'text-red-600 dark:text-red-400' : ''}`}>{r.tf}{r.tf === 0 ? ' ●' : ''}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="mt-3 space-y-1 text-sm">
+              <p>{t.lab3_total}: <strong className="font-mono">{res.total} {t.lab3_days}</strong></p>
+              <p>{t.lab3_path}: <strong className="font-mono text-[#004030] dark:text-[#D8C3A5]">{res.path.join('→')}</strong></p>
+              {res.maxFloat && <p>{t.lab3_maxfloat}: <strong className="font-mono">{res.maxFloat.code}</strong> ({res.maxFloat.tf} {t.lab3_days})</p>}
+            </div>
+          </>
+        )}
+      </div>
+      <p className="text-xs text-slate-500 dark:text-slate-400 mt-3 leading-relaxed">{t.lab3_note}</p>
+    </div>
+  );
+};
+
+const LabDday = ({ t, state, setState, onTouch, wpHours }) => {
+  const v = state || {};
+  const set = (k, val) => { setState({ ...v, [k]: val }); onTouch && onTouch(); };
+  const seedNeed = (() => { const x = num(wpHours, NaN); return isFinite(x) && x > 0 ? String(x) : '40'; })();
+  const weeksV = v.weeks === undefined ? '3' : v.weeks;
+  const hoursV = v.hours === undefined ? '6' : v.hours;
+  const membersV = v.members === undefined ? '6' : v.members;
+  const needV = v.need === undefined ? seedNeed : v.need;
+  const weeks = Math.max(0, num(weeksV, 0));
+  const hours = Math.max(0, num(hoursV, 0));
+  const members = Math.max(0, Math.round(num(membersV, 0)));
+  const need = Math.max(0, num(needV, 0));
+  const budget = weeks * hours * members;
+  const diff = budget - need;
+  const over = diff < 0;
+  const tight = !over && budget > 0 && diff / budget < 0.05;
+  const perWeek = (weeks > 0 && members > 0) ? Math.abs(diff) / (weeks * members) : 0;
+  const fmt = (x) => (Math.round(x * 100) / 100).toString();
+  const pct = budget > 0 ? Math.min(100, Math.round(need / budget * 100)) : 100;
+  return (
+    <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+      <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab4_title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{t.lab4_desc}</p>
+      <div className="grid grid-cols-2 gap-3">
+        <div><label className="block text-xs font-bold text-slate-500 mb-1">{t.lab4_weeks}</label>
+          <input type="number" min="0" step="0.5" className={inputCls} value={weeksV} onChange={e => set('weeks', e.target.value)} /></div>
+        <div><label className="block text-xs font-bold text-slate-500 mb-1">{t.lab4_hours}</label>
+          <input type="number" min="0" step="0.5" className={inputCls} value={hoursV} onChange={e => set('hours', e.target.value)} /></div>
+        <div><label className="block text-xs font-bold text-slate-500 mb-1">{t.lab4_members}</label>
+          <input type="number" min="1" className={inputCls} value={membersV} onChange={e => set('members', e.target.value)} /></div>
+        <div><label className="block text-xs font-bold text-slate-500 mb-1">{t.lab4_need}</label>
+          <input type="number" min="0" className={inputCls} value={needV} onChange={e => set('need', e.target.value)} /></div>
+      </div>
+      <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">{t.lab4_need_hint}</p>
+      <div className="mt-4 p-4 rounded-lg bg-slate-50 dark:bg-slate-900/50 space-y-1.5 text-sm">
+        <p>{t.lab4_budget}: <strong className="font-mono">{fmt(budget)}</strong> {t.lab4_unit}</p>
+        <p>{t.lab4_need}: <strong className="font-mono">{fmt(need)}</strong> {t.lab4_unit}</p>
+        <p>{over ? t.lab4_gap : t.lab4_surplus}: <strong className={`font-mono ${over ? 'text-red-500' : 'text-[#004030] dark:text-[#D8C3A5]'}`}>{fmt(Math.abs(diff))}</strong> {t.lab4_unit}</p>
+        {over && <p>{t.lab4_perweek}: <strong className="font-mono text-red-500">{fmt(perWeek)}</strong> {t.lab4_unit}</p>}
+      </div>
+      <div className="mt-3 h-3 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+        <div className={`h-full transition-all ${over ? 'bg-red-500' : tight ? 'bg-amber-500' : 'bg-[#004030] dark:bg-[#D8C3A5]'}`} style={{width: pct + '%'}}></div>
+      </div>
+      <p className={`mt-3 p-3 rounded-lg text-sm leading-relaxed ${over
+        ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-300'
+        : tight ? 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300'
+        : 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'}`}>{over ? t.lab4_over : tight ? t.lab4_tight : t.lab4_ok}</p>
+      <div className="flex items-center gap-3 mt-3 flex-wrap">
+        <button onClick={() => { setState({}); onTouch && onTouch(); }} className="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm">{t.lab4_reset}</button>
+      </div>
+      <p className="text-xs text-slate-500 dark:text-slate-400 mt-3 leading-relaxed">{t.lab4_note}</p>
+    </div>
+  );
+};
+
+/* ================= App ================= */
+function App() {
+  const LS_ANS = 'PMCS_W13_answers';
+  const LS_ANA = 'PMCS_W13_analytics';
+  const LS_STU = 'PMCS_W13_student';
+  const LS_LAB = 'PMCS_W13_lab';
+  const loadLS = (k, fb) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : fb; } catch { return fb; } };
+
+  const [lang, setLang] = useState('en');
+  const [isDark, setIsDark] = useState(true);
+  const [module, setModule] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [ttsState, setTtsState] = useState('idle');
+  const [answers, setAnswers] = useState(() => loadLS(LS_ANS, {}));
+  const [focus, setFocus] = useState(() => loadLS(LS_ANS + '_focus', {}));
+  const [memberCount, setMemberCount] = useState(() => loadLS(LS_ANS + '_mc', DEFAULT_MEMBERS));
+  const [sdl, setSdl] = useState(() => loadLS(LS_ANS + '_sdl', null));
+  const [lab, setLab] = useState(() => loadLS(LS_LAB, {}));
+  const [labNonce, setLabNonce] = useState(0);
+  const [studentInfo, setStudentInfo] = useState(() => loadLS(LS_STU, { group:'', dept:'', id:'', nameEn:'', nameZh:'', compiler:'' }));
+  const [analytics, setAnalytics] = useState(() => loadLS(LS_ANA, {
+    time: Array(TOTAL).fill(0), clicks: Array(TOTAL).fill(0),
+    quizCorrect: Array(TOTAL).fill(0), quizTotal: Array(TOTAL).fill(0),
+    cardsRead: Array(TOTAL).fill(0), cardsTotal: Array(TOTAL).fill(0), wrongTopics: {}
+  }));
+  const menuRef = useRef(null);
+  const ttsRun = useRef(0);
+  const t = dict[lang];
+
+  useEffect(() => { document.documentElement.classList.toggle('dark', isDark); }, [isDark]);
+  useEffect(() => { try { localStorage.setItem(LS_ANS, JSON.stringify(answers)); } catch {} }, [answers]);
+  useEffect(() => { try { localStorage.setItem(LS_ANS + '_focus', JSON.stringify(focus)); } catch {} }, [focus]);
+  useEffect(() => { try { localStorage.setItem(LS_ANS + '_mc', JSON.stringify(memberCount)); } catch {} }, [memberCount]);
+  useEffect(() => { try { sdl ? localStorage.setItem(LS_ANS + '_sdl', JSON.stringify(sdl)) : localStorage.removeItem(LS_ANS + '_sdl'); } catch {} }, [sdl]);
+  useEffect(() => { try { localStorage.setItem(LS_LAB, JSON.stringify(lab)); } catch {} }, [lab]);
+  useEffect(() => { try { localStorage.setItem(LS_ANA, JSON.stringify(analytics)); } catch {} }, [analytics]);
+  useEffect(() => { try { localStorage.setItem(LS_STU, JSON.stringify(studentInfo)); } catch {} }, [studentInfo]);
+  useEffect(() => {
+    const id = setInterval(() => setAnalytics(a => { const ti = [...a.time]; ti[module] += 5; return {...a, time: ti}; }), 5000);
+    return () => clearInterval(id);
+  }, [module]);
+  useEffect(() => {
+    const onDoc = e => { if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false); };
+    document.addEventListener('mousedown', onDoc);
+    return () => document.removeEventListener('mousedown', onDoc);
+  }, []);
+  useEffect(() => { try { ttsRun.current += 1; speechSynthesis.cancel(); } catch (e) {} setTtsState('idle'); }, [module, lang]);
+
+  const importSdl = (r) => {
+    setSdl({ meta: r.meta, sections: r.sections });
+    setStudentInfo(st => ({
+      ...st,
+      group: r.meta.group || st.group,
+      id: (r.meta.student_id || st.id || '').replace(/[^0-9]/g, '').slice(0, 12),
+      nameEn: /^[\x00-\x7F]+$/.test(r.meta.student || '') ? (r.meta.student || st.nameEn) : st.nameEn,
+      nameZh: /^[\x00-\x7F]+$/.test(r.meta.student || '') ? st.nameZh : (r.meta.student || st.nameZh)
+    }));
+    if (r.meta.group) setA('g_group', r.meta.group);
+    if (r.meta.date) setA('g_date', r.meta.date);
+  };
+  const sdlFileName = () => {
+    if (!sdl) return '';
+    const m = sdl.meta;
+    const who = m.student || 'NA';
+    return `${m.course || 'PMCS'}_${m.semester || SEMESTER_DEFAULT}${m.week || WEEK_CODE}_${(m.topic || TOPIC_CAMEL).replace(/\s+/g,'')}_${m.group || 'NA'}-${who}_${(m.date || '').replace(/-/g,'')}.md`;
+  };
+  const bump = () => setAnalytics(a => { const c = [...a.clicks]; c[module] += 1; return {...a, clicks: c}; });
+  const setA = (id, val) => setAnswers(s => ({...s, [id]: val}));
+  const setLabPart = (k) => (val) => setLab(s => ({...s, [k]: val}));
+  const handleQuizSubmit = (mid, correct, total, wrong) => setAnalytics(a => {
+    const qc = [...a.quizCorrect], qt = [...a.quizTotal];
+    qc[mid] = correct; qt[mid] = total;
+    return {...a, quizCorrect: qc, quizTotal: qt, wrongTopics: {...a.wrongTopics, [mid]: wrong || []}};
+  });
+  const handleCardRead = (mid, r, s, tot) => setAnalytics(a => {
+    const cr = [...a.cardsRead], ct = [...a.cardsTotal]; cr[mid] = r; ct[mid] = tot;
+    return {...a, cardsRead: cr, cardsTotal: ct};
+  });
+
+  const filled = id => { const v = answers[id]; return v !== undefined && String(v).trim() !== ''; };
+  const sectionPct = n => { const c = CORE[n]; return c && c.length ? Math.round(c.filter(filled).length / c.length * 100) : 100; };
+  const pctPersonal = Math.round(PERSONAL_SECTIONS.reduce((s,n) => s + sectionPct(n), 0) / PERSONAL_SECTIONS.length);
+  const pctGroup = Math.round(GROUP_SECTIONS.reduce((s,n) => s + sectionPct(n), 0) / GROUP_SECTIONS.length);
+  const optName = (list, v) => { const o = (list || []).find(x => x.v === v); return o ? o.name : (v || ''); };
+  const actName = (id, d) => { const s = (d || t).activities.find(x => x.id === id); return s ? s.name : id; };
+
+  const modulesList = [
+    { id:0, num:'0', icon:'📋', title:t.m0_nav, kind:null },
+    { id:1, num:'1', icon:'👥', title:t.m1_nav, kind:'G' },
+    { id:2, num:'2', icon:'🔺', title:t.m2_nav, kind:'P' },
+    { id:3, num:'3', icon:'🧱', title:t.m3_nav, kind:'P' },
+    { id:4, num:'4', icon:'🗣️', title:t.m4_nav, kind:'P' },
+    { id:5, num:'5', icon:'🔍', title:t.m5_nav, kind:'G' },
+    { id:6, num:'6', icon:'🗺️', title:t.m6_nav, kind:'G' },
+    { id:7, num:'7', icon:'🎤', title:t.m7_nav, kind:'G' },
+    { id:IDX_LAB, num:String(IDX_LAB), icon:'⚡', title:t.mlab_nav, kind:null },
+    { id:IDX_RES, num:String(IDX_RES), icon:'🌐', title:t.mres_nav, kind:null },
+    { id:IDX_ANA, num:String(IDX_ANA), icon:'📊', title:t.analytics_title, kind:null }
+  ];
+  const go = m => { setModule(m); setMenuOpen(false); window.scrollTo({top:0,behavior:'smooth'}); };
+
+  /* ---------- TTS ---------- */
+  const handleTTS = (action) => {
+    if (!('speechSynthesis' in window)) return;
+    if (action === 'stop') { ttsRun.current += 1; speechSynthesis.cancel(); setTtsState('idle'); return; }
+    if (action === 'pause') { speechSynthesis.pause(); setTtsState('paused'); return; }
+    if (ttsState === 'paused') { speechSynthesis.resume(); setTtsState('playing'); return; }
+    speechSynthesis.cancel();
+    const sep = lang === 'zh' ? '。 ' : '. ';
+    let texts = [];
+    if (module === 0) {
+      texts = [t.m0_title, t.m0_intro, t.m0_why, t.m0_why_desc, ...t.m0_stats.map(s => `${s.label}: ${s.val}`), ...t.m0_modules.map(m => `${m.title}. ${m.desc}`)];
+    } else if (module >= 1 && module <= NUM_LEARN) {
+      const k = `m${module}`;
+      texts = [t[`${k}_title`], t[`${k}_overview`], ...(t[`${k}_highlights`]||[]), t[`${k}_deep`], t[`${k}_wrapup`]];
+      if (module === 2) texts.push(...t.tri_sides.map(f => `${f.name}. ${f.sub}`), `${t.tri_area.name}. ${t.tri_area.sub}`, t.tri_note, ...t.m2_terms.flatMap(x => [x.front, x.back]));
+    } else if (module === IDX_LAB) {
+      texts = [t.mlab_title, t.mlab_desc, t.lab1_title, t.lab1_desc, t.lab2_title, t.lab2_desc, t.lab3_title, t.lab3_desc, t.lab4_title, t.lab4_desc, t.lab5_title, t.lab5_desc];
+    } else if (module === IDX_RES) {
+      texts = [t.mres_title, t.mres_desc, ...t.res_req.map(r => `${r.label}. ${r.desc}`), ...t.res_opt.map(r => `${r.label}. ${r.desc}`)];
+    } else {
+      texts = [t.analytics_title, t.analytics_desc, `${t.analytics_pct_personal}: ${pctPersonal}%`, `${t.analytics_pct_group}: ${pctGroup}%`];
+      const weak = [1,2,3,4,5,6,7].filter(n => sectionPct(n) < 100);
+      if (weak.length) { texts.push(t.analytics_wp_tts_intro); weak.forEach(n => texts.push(t.analytics_wp_tts_module.replace('{name}', t[`m${n}_nav`]).replace('{acc}', sectionPct(n)))); }
+      else texts.push(t.analytics_wp_tts_allpass);
+    }
+    texts = texts.filter(Boolean);
+    const voices = speechSynthesis.getVoices();
+    let voice = null, code = 'en-GB';
+    if (lang === 'zh') {
+      voice = voices.find(v=>v.lang==='zh-TW'&&v.name.includes('Yating')) || voices.find(v=>v.lang==='zh-TW') || voices.find(v=>v.lang.startsWith('zh')) || null;
+      code = 'zh-TW';
+    } else {
+      voice = voices.find(v=>v.lang==='en-GB'&&(v.name.includes('Male')||v.name.includes('Daniel'))) || voices.find(v=>v.lang==='en-GB') || voices.find(v=>v.lang.startsWith('en')) || null;
+      code = 'en-GB';
+    }
+
+    /* Chrome 對單一長 utterance 會靜默失敗（網路語音尤其明顯），因此切成短句依序播放 */
+    const CHUNK = lang === 'zh' ? 140 : 190;
+    const full = texts.join(sep);
+    const sentences = (() => {
+      const out = []; let cur = '';
+      for (let i = 0; i < full.length; i++) {
+        cur += full[i];
+        const c = full[i];
+        if ('。！？；!?;'.indexOf(c) >= 0 || (c === '.' && /\s|$/.test(full[i + 1] || ''))) { out.push(cur); cur = ''; }
+      }
+      if (cur.trim()) out.push(cur);
+      return out;
+    })();
+    const packed = []; let acc = '';
+    sentences.forEach(sent0 => {
+      let sent = sent0;
+      while (sent.length > CHUNK) {
+        let cut = sent.lastIndexOf(' ', CHUNK);
+        if (cut < CHUNK * 0.5) cut = CHUNK;
+        if (acc) { packed.push(acc); acc = ''; }
+        packed.push(sent.slice(0, cut));
+        sent = sent.slice(cut);
+      }
+      if ((acc + sent).length > CHUNK) { if (acc) packed.push(acc); acc = sent; }
+      else acc += sent;
+    });
+    if (acc.trim()) packed.push(acc);
+
+    ttsRun.current += 1;
+    const myRun = ttsRun.current;
+    let qi = 0;
+    const speakNext = () => {
+      if (myRun !== ttsRun.current) return;
+      if (qi >= packed.length) { setTtsState('idle'); return; }
+      const u = new SpeechSynthesisUtterance(packed[qi++]);
+      u.rate = 0.95;
+      if (voice) u.voice = voice;
+      u.lang = code;
+      u.onend = speakNext;
+      u.onerror = () => { if (myRun === ttsRun.current) speakNext(); };
+      speechSynthesis.speak(u);
+    };
+    setTtsState('playing');
+    setTimeout(speakNext, 60);
+  };
+
+  /* ---------- Export ---------- */
+  const dstamp = () => { const d = new Date(), p = n => String(n).padStart(2,'0'); return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}`; };
+  const download = (content, filename, mime) => {
+    const blob = new Blob([content], {type: mime}); const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+  const okPersonal = !!(studentInfo.nameEn || studentInfo.nameZh);
+  const okGroup = !!(studentInfo.group && studentInfo.compiler);
+
+  const exportPersonal = () => {
+    if (!okPersonal) return;
+    const L = [];
+    L.push(`# PMCS W13 個人學習單 — ${dict.zh.subtitle}`);
+    L.push('');
+    L.push(`- 姓名：${studentInfo.nameEn} ${studentInfo.nameZh}　學號：${studentInfo.id}　系級：${studentInfo.dept}`);
+    L.push(`- 必讀：T5 · PLAN 專案規劃 https://lolopodcast.github.io/Project-Planning-WBS-CPM/ ／ 具高執行績效的專案管理實務（1／2）· 規劃 https://lolopodcast.github.io/AI-Workshop-Hub/docs/High-Performance-Project-Management_Part1-of-2_EDP_SML_20250318.pdf`);
+    L.push(`- 個人完成度：${pctPersonal}%`);
+    if (sdl) L.push(`- 來源 SDL KB：${sdlFileName()}`);
+    L.push('');
+    L.push('## 2. 三重限制自我定位');
+    L.push(`- **被鎖死的一邊**：${optName(dict.zh.lock_opts, answers.tc_locked) || '_(未填)_'}`);
+    L.push(`- 被鎖死的證據：${answers.tc_evidence || '_(未填)_'}`);
+    L.push(`- 另一邊已付出的代價（一）：${answers.tc_give1 || '_(未填)_'}`);
+    L.push(`- 另一邊已付出的代價（二）：${answers.tc_give2 || '_(未填)_'}`);
+    L.push(`- 品質（三角形面積）縮在哪裡：${answers.tc_quality || '_(未填)_'}`);
+    L.push('');
+    L.push('## 3. 個人負責範圍的工作包拆解');
+    L.push(`- 我負責的第二層：${answers.wp_scope || '_(未填)_'}`);
+    L.push('**第三層工作包清單**：');
+    L.push('```');
+    L.push(answers.wp_list || '(未填)');
+    L.push('```');
+    L.push('');
+    L.push(`- 工作包三檢查逐項結果：${answers.wp_check || '_(未填)_'}`);
+    L.push(`- 沒通過的還缺什麼：${answers.wp_gap || '_(未填)_'}`);
+    L.push(`- 工時估計總和（小時）：${answers.wp_hours || '_(未填)_'}`);
+    L.push('');
+    L.push('## 4. 語言實驗室');
+    L.push('| 詞彙 | 自己的話 | 例句 |'); L.push('|---|---|---|');
+    [0,1,2,3,4].forEach(i => { if (filled(`t_term_${i}`)) L.push(`| ${answers[`t_term_${i}`]||''} | ${answers[`t_mean_${i}`]||''} | ${answers[`t_sent_${i}`]||''} |`); });
+    L.push('');
+    L.push('| 難發音 | 難在哪 | 記憶方法 |'); L.push('|---|---|---|');
+    [0,1,2].forEach(i => { if (filled(`p_word_${i}`)) L.push(`| ${answers[`p_word_${i}`]||''} | ${answers[`p_hard_${i}`]||''} | ${answers[`p_tip_${i}`]||''} |`); });
+    L.push(''); L.push('---');
+    L.push('_本檔為個人學習歷程檔案，不繳交。可直接放進 repo 的 docs／資料夾當作本週歷程紀錄。_');
+    const who = (sanitizeName(studentInfo.nameEn).replace(/\s+/g,'') || studentInfo.id || 'me').replace(/[^\w-]/g,'') || 'me';
+    const sem = (sdl && sdl.meta.semester) || SEMESTER_DEFAULT;
+    const grp = studentInfo.group || 'NA';
+    download(L.join('\n'), `PMCS_${sem}${WEEK_CODE}_${TOPIC_CAMEL}_${grp}-${who}_${dstamp()}.md`, 'text/markdown;charset=utf-8;');
+  };
+
+  const groupRows = () => {
+    const rows = [['Section','Field','Value']];
+    rows.push(['Info','Group', studentInfo.group]);
+    rows.push(['Info','Compiler', studentInfo.compiler]);
+    GROUP_SECTIONS.forEach(sec => FIELDS[sec].forEach(id => rows.push(['S'+sec, id, String(answers[id] ?? '')])));
+    rows.push(['S5','ComparedActivities', ACT_IDS.filter(k => focus[k]).join(' ')]);
+    /* --- 自我描述欄位：讓教師端彙整台無需內建設定即可正確顯示本週判準 --- */
+    rows.push(['Meta','WeekTitleZH', dict.zh.subtitle]);
+    rows.push(['Meta','WeekTitleEN', dict.en.subtitle]);
+    rows.push(['Meta','CompareKey', 'ComparedActivities']);
+    rows.push(['Meta','CompareN', '3']);
+    rows.push(['Meta','S6Fields', "[{\"id\": \"tp_wbs_top\", \"zh\": \"第一層工作分解（三到五項）\", \"en\": \"First-layer work breakdown, three to five items\"}, {\"id\": \"tp_cp_path\", \"zh\": \"關鍵路徑（活動代號串）\", \"en\": \"Critical path as a chain of activity codes\"}, {\"id\": \"tp_cp_days\", \"zh\": \"關鍵路徑總工期（天）\", \"en\": \"Total duration of the critical path in days\"}, {\"id\": \"tp_cp_weak\", \"zh\": \"關鍵路徑上最脆弱的一段\", \"en\": \"The weakest link on the critical path\"}, {\"id\": \"tp_float\", \"zh\": \"浮時最多的一段，以及打算把人力調去哪裡\", \"en\": \"The segment with the most float and where people will be moved\"}]"]);
+    rows.push(['Meta','Categorical', 'tp_cp_weak']);
+    rows.push(['Meta','CategoricalZH', '各組關鍵路徑上最脆弱的一段']);
+    rows.push(['Meta','CategoricalEN', 'Weakest link on the critical path by group']);
+    rows.push(['Meta','CP5ZH', dict.zh.m5_wrapup]);
+    rows.push(['Meta','CP5EN', dict.en.m5_wrapup]);
+    rows.push(['Meta','CP6ZH', dict.zh.m6_wrapup]);
+    rows.push(['Meta','CP6EN', dict.en.m6_wrapup]);
+    rows.push(['Meta','CP7ZH', dict.zh.m7_wrapup]);
+    rows.push(['Meta','CP7EN', dict.en.m7_wrapup]);
+    rows.push(['Meta','GroupCompletionPct', String(pctGroup)]);
+    rows.push(['Meta','TimeSec', String(analytics.time.reduce((a,b)=>a+b,0))]);
+    const qc = analytics.quizCorrect.reduce((a,b)=>a+b,0), qt = analytics.quizTotal.reduce((a,b)=>a+b,0);
+    rows.push(['Meta','SelfCheck', `${qc}/${qt}`]);
+    return rows;
+  };
+  const exportGroupCSV = () => {
+    if (!okGroup) return;
+    const esc = v => `"${String(v).replace(/"/g,'""')}"`;
+    const csv = '﻿' + groupRows().map(r => r.map(esc).join(',')).join('\r\n');
+    download(csv, `PMCS_${(sdl && sdl.meta.semester) || SEMESTER_DEFAULT}${WEEK_CODE}_${TOPIC_CAMEL}_${studentInfo.group}-ALL_${dstamp()}.csv`, 'text/csv;charset=utf-8;');
+  };
+  const exportGroupMD = () => {
+    if (!okGroup) return;
+    const L = [];
+    L.push(`# PMCS W13 小組學習單 — ${dict.zh.subtitle}`);
+    L.push('');
+    L.push(`- 組別：${studentInfo.group}　本週彙整人：${studentInfo.compiler}　日期：${answers.g_date || ''}`);
+    L.push(`- 小組完成度：${pctGroup}%`);
+    L.push('');
+    L.push('## 1. 小組與分工');
+    L.push('| 姓名 | 學號 | 負責段落 | 秒數 |'); L.push('|---|---|---|---|');
+    MEMBER_IDX.forEach(i => { if (filled(`m_name_${i}`)) L.push(`| ${answers[`m_name_${i}`]||''} | ${answers[`m_id_${i}`]||''} | ${answers[`m_part_${i}`]||''} | ${answers[`m_sec_${i}`]||''} |`); });
+    L.push('');
+    L.push('## 5. 小組綜整');
+    L.push(`- 比對的三個領域：${ACT_IDS.filter(k => focus[k]).map(k => actName(k, dict.zh)).join('、') || '_(未選)_'}`);
+    L.push(`- 略過另外三個的理由：${answers.syn_focus_why || '_(未填)_'}`);
+    L.push(`- 工期估計的差距：${answers.syn_gap || '_(未填)_'}`);
+    L.push(`- 相依關係的認定差異：${answers.syn_dep || '_(未填)_'}`);
+    L.push(`- 完成判準最鬆的一個：${answers.syn_criteria || '_(未填)_'}`);
+    L.push(`- **工作包書寫通則**：${answers.syn_rule || '_(未填)_'}`);
+    L.push('');
+    L.push('## 6. 依演化表建置（到 D day 的 WBS 與關鍵路徑）');
+    L.push('**第一層工作分解**：');
+    L.push('```');
+    L.push(answers.tp_wbs_top || '(未填)');
+    L.push('```');
+    L.push('');
+    L.push(`- 關鍵路徑（活動代號串）：${answers.tp_cp_path || '_(未填)_'}`);
+    L.push(`- 關鍵路徑總工期（天）：${answers.tp_cp_days || '_(未填)_'}`);
+    L.push(`- **關鍵路徑上最脆弱的一段**：${optName(dict.zh.weak_opts, answers.tp_cp_weak) || '_(未填)_'}`);
+    L.push(`- 為什麼是這一段：${answers.tp_cp_weak_why || '_(未填)_'}`);
+    L.push(`- 浮時最多的一段與人力調度：${answers.tp_float || '_(未填)_'}`);
+    L.push('');
+    L.push('## 7. 簡報計畫');
+    L.push(`- 開場句：${answers.pr_open || '_(未填)_'}`);
+    MEMBER_IDX.forEach(i => { if (filled(`pr_point_${i}`)) L.push(`- ${answers[`m_name_${i}`] || 'Speaker '+(i+1)}：${answers[`pr_point_${i}`]}`); });
+    L.push(`- 給全班的問題：${answers.pr_question || '_(未填)_'}`);
+    L.push(''); L.push('---');
+    L.push('_PMCS (EMI) · Prof. Shihmin Lo, NCNU · For Educational Use Only_');
+    download(L.join('\n'), `PMCS_${(sdl && sdl.meta.semester) || SEMESTER_DEFAULT}${WEEK_CODE}_${TOPIC_CAMEL}_${studentInfo.group}-ALL_${dstamp()}.md`, 'text/markdown;charset=utf-8;');
+  };
+
+  const clearAll = () => {
+    if (!window.confirm(t.analytics_wp_clear_confirm)) return;
+    setAnswers({}); setFocus({}); setMemberCount(DEFAULT_MEMBERS); setSdl(null); setLab({}); setLabNonce(n => n + 1);
+    setAnalytics({ time: Array(TOTAL).fill(0), clicks: Array(TOTAL).fill(0), quizCorrect: Array(TOTAL).fill(0),
+      quizTotal: Array(TOTAL).fill(0), cardsRead: Array(TOTAL).fill(0), cardsTotal: Array(TOTAL).fill(0), wrongTopics: {} });
+    try { localStorage.removeItem(LS_ANS); localStorage.removeItem(LS_ANS + '_focus'); localStorage.removeItem(LS_ANA); localStorage.removeItem(LS_ANS + '_sdl'); localStorage.removeItem(LS_LAB); } catch {}
+  };
+  const clearLab = () => {
+    if (!window.confirm(t.mlab_clear_confirm)) return;
+    setLab({}); setLabNonce(n => n + 1);
+    try { localStorage.removeItem(LS_LAB); } catch {}
+  };
+
+  /* ---------- Renderers ---------- */
+  const SavedHint = () => <p className="text-xs text-slate-500 dark:text-slate-400 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 rounded-lg p-3 leading-relaxed">{t.saved_hint}</p>;
+
+  const renderM0 = () => (
+    <>
+      <div className="rounded-2xl bg-[#004030] dark:bg-slate-800 text-white p-6 sm:p-10 border border-[#D8C3A5]/30">
+        <p className="text-[#D8C3A5] font-serif tracking-widest text-sm mb-2">{t.brand} · {t.title}</p>
+        <h1 className="font-serif font-black text-3xl sm:text-4xl md:text-5xl leading-tight mb-4">{t.subtitle}</h1>
+        <p className="text-slate-200 leading-relaxed text-base">{t.m0_intro}</p>
+        <button onClick={() => go(1)} className="mt-6 px-6 py-3 bg-[#D8C3A5] text-[#004030] font-bold rounded-lg hover:brightness-110 transition">{t.m0_start}</button>
+      </div>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        {t.m0_stats.map((s,i) => (
+          <div key={i} className="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 text-center">
+            <p className="font-serif font-black text-3xl text-[#004030] dark:text-[#D8C3A5]">{s.val}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{s.label}</p>
+          </div>
+        ))}
+      </div>
+      <div className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700">
+        <div className="flex flex-wrap items-center gap-1.5">
+          {t.tri_sides.map((f, i) => (
+            <React.Fragment key={i}>
+              {i > 0 && <span className="text-slate-400 text-xs">↔</span>}
+              <span className="text-xs px-3 py-1 rounded-full font-bold border border-[#004030] dark:border-[#D8C3A5] text-[#004030] dark:text-[#D8C3A5]">{f.name}</span>
+            </React.Fragment>
+          ))}
+          <span className="text-slate-400 text-xs">→</span>
+          <span className="text-xs px-3 py-1 rounded-full font-bold bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5]">{t.tri_area.name}</span>
+          <span className="text-xs px-3 py-1 rounded-full font-bold bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-300">{t.tri_risk}</span>
+        </div>
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-3 leading-relaxed">{t.tri_note}</p>
+      </div>
+      <div className="bg-[#004030]/5 dark:bg-[#D8C3A5]/5 rounded-xl p-5 border-l-4 border-[#D8C3A5]">
+        <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-2">{t.m0_why}</h3>
+        <p>{t.m0_why_desc}</p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {t.m0_modules.map((m,i) => (
+          <button key={i} onClick={() => go(i+1)} className="text-left bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5] hover:shadow-md transition">
+            <div className="flex items-center justify-between">
+              <span className="font-serif font-black text-[#D8C3A5] text-lg">{m.num}</span>
+              <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${m.tag === (lang==='zh'?'個人':'Individual') ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200' : 'bg-[#D8C3A5]/30 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>{m.tag}</span>
+            </div>
+            <p className="font-bold text-[#004030] dark:text-[#D8C3A5] mt-1">{m.title}</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">{m.desc}</p>
+          </button>
+        ))}
+      </div>
+      <SdlImport t={t} sdl={sdl} onImport={importSdl} onClear={() => setSdl(null)} />
+      <SavedHint />
+    </>
+  );
+
+  const renderM1 = () => (
+    <>
+      <Overview t={t} text={t.m1_overview} /><Highlights t={t} items={t.m1_highlights} /><DeepDive t={t} text={t.m1_deep} /><SavedHint />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{t.m1_group}</label>
+          <select className={inputCls} value={answers.g_group || ''} onChange={e => setA('g_group', e.target.value)}>
+            <option value="">{t.select_ph}</option>{t.group_options.map(g => <option key={g} value={g}>{g}</option>)}
+          </select>
+        </div>
+        <Field id="g_date" label={t.m1_date} type="date" value={answers.g_date} onChange={setA} />
+      </div>
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m1_members_label}</h3>
+        <div className="space-y-3">
+          {MEMBER_IDX.slice(0, memberCount).map(i => (
+            <div key={i} className="grid grid-cols-2 md:grid-cols-4 gap-2">
+              <input className={inputCls} placeholder={`${t.m1_col_name} ${i+1}`} value={answers[`m_name_${i}`]||''} onChange={e => setA(`m_name_${i}`, sanitizeName(e.target.value))} />
+              <input className={inputCls} placeholder={t.m1_col_id} value={answers[`m_id_${i}`]||''} onChange={e => setA(`m_id_${i}`, sanitizeStudentId(e.target.value))} />
+              <input className={inputCls} placeholder={t.m1_part_ph} value={answers[`m_part_${i}`]||''} onChange={e => setA(`m_part_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} type="number" min="0" max="600" placeholder={t.m1_col_sec} value={answers[`m_sec_${i}`]||''} onChange={e => setA(`m_sec_${i}`, e.target.value.replace(/[^0-9]/g,'').slice(0,3))} />
+            </div>
+          ))}
+        </div>
+        <div className="flex items-center gap-2 mt-3">
+          <button onClick={() => { setMemberCount(c => Math.max(1, c-1)); bump(); }} disabled={memberCount <= 1}
+            className="px-3 py-1.5 text-sm border border-slate-300 dark:border-slate-600 rounded-lg disabled:opacity-40">−</button>
+          <span className="text-sm text-slate-500 dark:text-slate-400">{t.m1_member_count.replace('{n}', memberCount)}</span>
+          <button onClick={() => { setMemberCount(c => Math.min(MAX_MEMBERS, c+1)); bump(); }} disabled={memberCount >= MAX_MEMBERS}
+            className="px-3 py-1.5 text-sm border border-slate-300 dark:border-slate-600 rounded-lg disabled:opacity-40">＋</button>
+        </div>
+        {(() => {
+          const total = MEMBER_IDX.slice(0, memberCount).reduce((s,i) => s + (parseInt(answers[`m_sec_${i}`]||'0',10)||0), 0);
+          const over = total > 600;
+          return <div className={`mt-4 p-3 rounded-lg text-sm ${over ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-300' : 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'}`}>
+            <strong>{t.m1_total_sec}: {total}s</strong> — {over ? t.m1_sec_warn : t.m1_sec_ok}</div>;
+        })()}
+      </div>
+      <Wrapup t={t} text={t.m1_wrapup} />
+    </>
+  );
+
+  const renderM2 = () => {
+    const lv = answers.tc_locked || '';
+    return (
+      <>
+        <SdlPanel t={t} sdl={sdl} />
+        <Overview t={t} text={t.m2_overview} /><Highlights t={t} items={t.m2_highlights} /><DeepDive t={t} text={t.m2_deep} />
+        <TriangleDiagram t={t} filledIds={S2_IDS.filter(filled)} locked={lv} />
+        <SavedHint />
+        <div className="mb-5">
+          <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{t.m2_locked_label}</label>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 leading-relaxed">{t.m2_locked_hint}</p>
+          <select className={inputCls} value={lv} onChange={e => setA('tc_locked', e.target.value)}>
+            <option value="">{t.select_ph}</option>{t.lock_opts.map(o => <option key={o.v} value={o.v}>{o.name}</option>)}
+          </select>
+          {!lv && <p className="mt-3 p-3 rounded-lg text-sm leading-relaxed bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300">{t.m2_locked_warn}</p>}
+        </div>
+        <Field id="tc_evidence" label={t.m2_evidence_label} hint={t.m2_evidence_hint} ph={t.m2_evidence_ph} rows={4} value={answers.tc_evidence} onChange={setA} />
+        <Field id="tc_give1" label={t.m2_give1_label} hint={t.m2_give1_hint} ph={t.m2_give1_ph} rows={4} value={answers.tc_give1} onChange={setA} />
+        <Field id="tc_give2" label={t.m2_give2_label} hint={t.m2_give2_hint} ph={t.m2_give2_ph} rows={4} value={answers.tc_give2} onChange={setA} />
+        <Field id="tc_quality" label={t.m2_quality_label} hint={t.m2_quality_hint} ph={t.m2_quality_ph} rows={4} value={answers.tc_quality} onChange={setA} />
+        <FlipCardDeck key={`cards-${module}-${lang}`} terms={t.m2_terms} t={t} moduleId={2} onCardRead={handleCardRead} />
+        <Wrapup t={t} text={t.m2_wrapup} />
+      </>
+    );
+  };
+
+  const renderM3 = () => {
+    const hv = String(answers.wp_hours || '').trim();
+    const hOk = hv !== '' && isFinite(parseFloat(hv)) && parseFloat(hv) > 0;
+    return (
+      <>
+        <SdlPanel t={t} sdl={sdl} />
+        <Overview t={t} text={t.m3_overview} /><Highlights t={t} items={t.m3_highlights} /><DeepDive t={t} text={t.m3_deep} /><SavedHint />
+        <Field id="wp_scope" label={t.m3_scope_label} hint={t.m3_scope_hint} ph={t.m3_scope_ph} rows={3} value={answers.wp_scope} onChange={setA} />
+        <Field id="wp_list" label={t.m3_list_label} hint={t.m3_list_hint} ph={t.m3_list_ph} rows={7} mono value={answers.wp_list} onChange={setA} />
+        <Field id="wp_check" label={t.m3_check_label} hint={t.m3_check_hint} ph={t.m3_check_ph} rows={5} value={answers.wp_check} onChange={setA} />
+        <Field id="wp_gap" label={t.m3_gap_label} hint={t.m3_gap_hint} ph={t.m3_gap_ph} rows={4} value={answers.wp_gap} onChange={setA} />
+        <div>
+          <Field id="wp_hours" label={t.m3_hours_label} hint={t.m3_hours_hint} ph={t.m3_hours_ph} value={answers.wp_hours} onChange={setA} />
+          <p className={`-mt-3 mb-5 p-3 rounded-lg text-sm leading-relaxed ${hOk
+            ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'
+            : 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300'}`}>{hOk ? t.m3_hours_ok : t.m3_hours_warn}</p>
+        </div>
+        <Wrapup t={t} text={t.m3_wrapup} />
+      </>
+    );
+  };
+
+  const renderM4 = () => (
+    <>
+      <SdlPanel t={t} sdl={sdl} />
+      <Overview t={t} text={t.m4_overview} /><Highlights t={t} items={t.m4_highlights} /><DeepDive t={t} text={t.m4_deep} /><SavedHint />
+      <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4">
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m4_corpus_label}</h3>
+        <div className="flex flex-wrap gap-2">
+          {t.m4_corpus.map((w,i) => <span key={i} className="px-3 py-1 rounded-full text-sm font-mono bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5]">{w}</span>)}
+        </div>
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-3 leading-relaxed">{t.m4_corpus_note}</p>
+      </div>
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m4_terms_label}</h3>
+        <div className="space-y-3">
+          {[0,1,2,3,4].map(i => (
+            <div key={i} className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <input className={inputCls} placeholder={`${t.m4_col_term} ${i+1}`} value={answers[`t_term_${i}`]||''} onChange={e => setA(`t_term_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_mean} value={answers[`t_mean_${i}`]||''} onChange={e => setA(`t_mean_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_sent} value={answers[`t_sent_${i}`]||''} onChange={e => setA(`t_sent_${i}`, sanitizeText(e.target.value))} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3 mt-6">{t.m4_pron_label}</h3>
+        <div className="space-y-3">
+          {[0,1,2].map(i => (
+            <div key={i} className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <input className={inputCls} placeholder={`${t.m4_col_word} ${i+1}`} value={answers[`p_word_${i}`]||''} onChange={e => setA(`p_word_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_hard} value={answers[`p_hard_${i}`]||''} onChange={e => setA(`p_hard_${i}`, sanitizeText(e.target.value))} />
+              <input className={inputCls} placeholder={t.m4_col_tip} value={answers[`p_tip_${i}`]||''} onChange={e => setA(`p_tip_${i}`, sanitizeText(e.target.value))} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <Wrapup t={t} text={t.m4_wrapup} />
+    </>
+  );
+
+  const renderM5 = () => {
+    const chosen = ACT_IDS.filter(k => focus[k]).length;
+    return (
+      <>
+        <Overview t={t} text={t.m5_overview} /><Highlights t={t} items={t.m5_highlights} /><DeepDive t={t} text={t.m5_deep} /><SavedHint />
+        <div>
+          <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m5_focus_label}</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {t.activities.map(s => {
+              const on = !!focus[s.id];
+              const blocked = !on && chosen >= 3;
+              return (
+                <label key={s.id} className={`flex items-center gap-3 p-3 rounded-lg border transition ${blocked ? 'opacity-40 cursor-not-allowed border-slate-200 dark:border-slate-700' : 'cursor-pointer border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5]'} bg-white dark:bg-slate-800`}>
+                  <input type="checkbox" className="w-4 h-4 accent-[#004030] dark:accent-[#D8C3A5]" checked={on} disabled={blocked}
+                    onChange={e => { setFocus(st => ({...st, [s.id]: e.target.checked})); bump(); }} />
+                  <span className="text-sm">{s.name}</span>
+                </label>
+              );
+            })}
+          </div>
+          <p className={`mt-2 text-sm font-bold ${chosen === 3 ? 'text-green-600 dark:text-green-400' : 'text-amber-600 dark:text-amber-400'}`}>{chosen} / 3</p>
+        </div>
+        <Field id="syn_focus_why" label={t.m5_focus_why} ph={t.m5_focus_why_ph} rows={3} value={answers.syn_focus_why} onChange={setA} />
+        <Field id="syn_gap" label={t.m5_gap_label} ph={t.m5_gap_ph} rows={4} value={answers.syn_gap} onChange={setA} />
+        <Field id="syn_dep" label={t.m5_dep_label} ph={t.m5_dep_ph} rows={4} value={answers.syn_dep} onChange={setA} />
+        <Field id="syn_criteria" label={t.m5_criteria_label} ph={t.m5_criteria_ph} rows={4} value={answers.syn_criteria} onChange={setA} />
+        <Field id="syn_rule" label={t.m5_rule_label} hint={t.m5_rule_note} ph={t.m5_rule_ph} rows={3} value={answers.syn_rule} onChange={setA} />
+        <Wrapup t={t} text={t.m5_wrapup} />
+      </>
+    );
+  };
+
+  const renderM6 = () => {
+    const pathStr = String(answers.tp_cp_path || '').trim();
+    const daysStr = String(answers.tp_cp_days || '').trim();
+    const pathOk = /(→|->|=>|>)/.test(pathStr) && pathStr.replace(/[^A-Za-z0-9]/g, '').length >= 2;
+    const daysOk = daysStr !== '' && isFinite(parseFloat(daysStr)) && parseFloat(daysStr) > 0;
+    const cpOk = pathOk && daysOk;
+    const wv = answers.tp_cp_weak || '';
+    return (
+      <>
+        <Overview t={t} text={t.m6_overview} /><Highlights t={t} items={t.m6_highlights} /><DeepDive t={t} text={t.m6_deep} /><SavedHint />
+        <Field id="tp_wbs_top" label={t.m6_wbs_label} hint={t.m6_wbs_hint} ph={t.m6_wbs_ph} rows={6} mono value={answers.tp_wbs_top} onChange={setA} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Field id="tp_cp_path" label={t.m6_path_label} hint={t.m6_path_hint} ph={t.m6_path_ph} mono value={answers.tp_cp_path} onChange={setA} />
+          <Field id="tp_cp_days" label={t.m6_days_label} hint={t.m6_days_hint} ph={t.m6_days_ph} mono value={answers.tp_cp_days} onChange={setA} />
+        </div>
+        {(pathStr !== '' || daysStr !== '') && (
+          <p className={`-mt-1 mb-5 p-3 rounded-lg text-sm leading-relaxed ${cpOk
+            ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'
+            : 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300'}`}>{cpOk ? t.m6_cp_ok : t.m6_cp_warn}</p>
+        )}
+        <div className="mb-5">
+          <label className="block text-sm font-bold text-[#004030] dark:text-[#D8C3A5] mb-1">{t.m6_weak_label}</label>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 leading-relaxed">{t.m6_weak_hint}</p>
+          <select className={inputCls} value={wv} onChange={e => setA('tp_cp_weak', e.target.value)}>
+            <option value="">{t.select_ph}</option>{t.weak_opts.map(o => <option key={o.v} value={o.v}>{o.name}</option>)}
+          </select>
+          <p className="mt-2 text-xs font-bold text-[#004030] dark:text-[#D8C3A5]">{t.m6_weak_note}</p>
+        </div>
+        <Field id="tp_cp_weak_why" label={t.m6_weak_why_label} hint={t.m6_weak_why_hint} rows={3} value={answers.tp_cp_weak_why} onChange={setA} />
+        <Field id="tp_float" label={t.m6_float_label} hint={t.m6_float_hint} ph={t.m6_float_ph} rows={4} value={answers.tp_float} onChange={setA} />
+        <Wrapup t={t} text={t.m6_wrapup} />
+      </>
+    );
+  };
+
+  const renderM7 = () => (
+    <>
+      <Overview t={t} text={t.m7_overview} /><Highlights t={t} items={t.m7_highlights} /><DeepDive t={t} text={t.m7_deep} /><SavedHint />
+      <Field id="pr_open" label={t.m7_open_label} ph={t.m7_open_ph} rows={2} value={answers.pr_open} onChange={setA} />
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">{t.m7_script_label}</h3>
+        <div className="space-y-3">
+          {MEMBER_IDX.slice(0, memberCount).map(i => (
+            <div key={i} className="grid grid-cols-1 md:grid-cols-4 gap-2">
+              <div className="md:col-span-1 flex items-center px-3 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-sm text-slate-600 dark:text-slate-300 truncate">
+                {answers[`m_name_${i}`] || `${t.m7_col_who} ${i+1}`}
+              </div>
+              <input className={`${inputCls} md:col-span-3`} placeholder={t.m7_col_point} value={answers[`pr_point_${i}`]||''} onChange={e => setA(`pr_point_${i}`, sanitizeText(e.target.value))} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="mt-5"><Field id="pr_question" label={t.m7_question_label} ph={t.m7_question_ph} rows={3} value={answers.pr_question} onChange={setA} /></div>
+      <Wrapup t={t} text={t.m7_wrapup} />
+    </>
+  );
+
+  const renderLab = () => (
+    <>
+      <p className="text-base text-slate-600 dark:text-slate-300">{t.mlab_desc}</p>
+      <div className="flex items-center gap-3 flex-wrap">
+        <button onClick={clearLab} className="px-4 py-2 border border-red-400 text-red-600 dark:text-red-400 font-bold rounded-lg text-sm hover:bg-red-50 dark:hover:bg-red-900/20">{t.mlab_clear}</button>
+        <span className="text-xs text-slate-400">💾 {t.analytics_wp_saved}</span>
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-4">
+        <LabTriple key={`lab1-${labNonce}`} t={t} state={lab.l1} setState={setLabPart('l1')} onTouch={bump} />
+        <LabWpChecks key={`lab2-${labNonce}`} t={t} state={lab.l2} setState={setLabPart('l2')} onTouch={bump} />
+        <LabCriticalPath key={`lab3-${labNonce}`} t={t} lang={lang} state={lab.l3} setState={setLabPart('l3')} onTouch={bump} />
+        <LabDday key={`lab4-${labNonce}`} t={t} state={lab.l4} setState={setLabPart('l4')} onTouch={bump} wpHours={answers.wp_hours} />
+      </div>
+      <div className="mt-6 bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
+        <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5] mb-1">{t.lab5_title}</h3>
+        <p className="text-sm text-slate-500 dark:text-slate-400">{t.lab5_desc}</p>
+        <ModuleQuiz key={`quiz-lab-${lang}`} questions={t.m2_q} t={t} moduleId={IDX_LAB} onQuizSubmit={handleQuizSubmit} />
+      </div>
+    </>
+  );
+
+  const renderRes = () => (
+    <>
+      <p className="text-base text-slate-600 dark:text-slate-300">{t.mres_desc}</p>
+      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-6 mb-3">{t.required_label}</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{t.res_req.map((r,i) => <LinkCard key={i} {...r} />)}</div>
+      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-8 mb-3">{t.optional_label}</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">{t.res_opt.map((r,i) => <LinkCard key={i} {...r} />)}</div>
+    </>
+  );
+
+  const renderAna = () => {
+    const totalTime = analytics.time.reduce((a,b)=>a+b,0);
+    const qc = analytics.quizCorrect.reduce((a,b)=>a+b,0), qt = analytics.quizTotal.reduce((a,b)=>a+b,0);
+    const weak = [1,2,3,4,5,6,7].filter(n => sectionPct(n) < 100);
+    const stats = [
+      { val: pctPersonal + '%', label: t.analytics_pct_personal },
+      { val: pctGroup + '%', label: t.analytics_pct_group },
+      { val: totalTime + t.analytics_sec, label: t.analytics_total_time },
+      { val: qt > 0 ? Math.round(qc/qt*100) + '%' : '—', label: t.analytics_overall_acc }
+    ];
+    const setInfo = (k, v) => setStudentInfo(s => ({ ...s, [k]: v }));
+    return (
+      <>
+        <p className="text-base text-slate-600 dark:text-slate-300">{t.analytics_desc}</p>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-5">
+          {stats.map((s,i) => (
+            <div key={i} className="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700 text-center">
+              <p className="font-serif font-black text-2xl text-[#004030] dark:text-[#D8C3A5]">{s.val}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{s.label}</p>
+            </div>
+          ))}
+        </div>
+
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-8 mb-3">{t.analytics_progress_title}</h3>
+        <div className="space-y-2">
+          {[1,2,3,4,5,6,7].map(n => {
+            const pct = sectionPct(n), kind = modulesList[n].kind;
+            return (
+              <button key={n} onClick={() => go(n)} className="w-full flex items-center gap-3 text-left p-3 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-[#004030] dark:hover:border-[#D8C3A5] transition">
+                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded shrink-0 ${kind === 'P' ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200' : 'bg-[#D8C3A5]/30 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>{kind}</span>
+                <span className="text-sm w-36 sm:w-52 truncate shrink-0">{t[`m${n}_nav`]}</span>
+                <span className="flex-1 h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                  <span className={`block h-full ${pct === 100 ? 'bg-green-500' : 'bg-[#004030] dark:bg-[#D8C3A5]'}`} style={{width: pct + '%'}}></span>
+                </span>
+                <span className="text-sm font-bold w-12 text-right shrink-0">{pct}%</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mt-8 mb-3">{t.analytics_wp_title}</h3>
+        {weak.length === 0
+          ? <p className="p-4 rounded-lg bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 text-sm">{t.analytics_wp_allpass}</p>
+          : <div className="space-y-4">
+              <div className="space-y-2">
+                <p className="text-xs font-bold text-sky-700 dark:text-sky-300">{t.analytics_wp_personal_head}</p>
+                {PERSONAL_SECTIONS.filter(n => sectionPct(n) < 100).length === 0
+                  ? <p className="text-sm text-green-600 dark:text-green-400 pl-1">{t.analytics_wp_personal_done}</p>
+                  : PERSONAL_SECTIONS.filter(n => sectionPct(n) < 100).map(n => (
+                      <div key={n} className="p-3 rounded-lg bg-sky-50 dark:bg-sky-900/20 border border-sky-200 dark:border-sky-800/50 flex items-center justify-between gap-3">
+                        <span className="text-sm">{t[`m${n}_nav`]} — {sectionPct(n)}%</span>
+                        <button onClick={() => go(n)} className="text-xs font-bold text-sky-700 dark:text-sky-300 hover:underline shrink-0">{t.analytics_wp_goto}</button>
+                      </div>))}
+              </div>
+              <div className="space-y-2">
+                <p className="text-xs font-bold text-[#004030] dark:text-[#D8C3A5]">{t.analytics_wp_group_head}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 pl-1">{t.analytics_wp_group_note}</p>
+                {GROUP_SECTIONS.filter(n => sectionPct(n) < 100).length === 0
+                  ? <p className="text-sm text-green-600 dark:text-green-400 pl-1">{t.analytics_wp_group_done}</p>
+                  : GROUP_SECTIONS.filter(n => sectionPct(n) < 100).map(n => (
+                      <div key={n} className="p-3 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 flex items-center justify-between gap-3">
+                        <span className="text-sm">{t[`m${n}_nav`]} — {sectionPct(n)}%</span>
+                        <button onClick={() => go(n)} className="text-xs font-bold text-[#004030] dark:text-[#D8C3A5] hover:underline shrink-0">{t.analytics_wp_goto}</button>
+                      </div>))}
+              </div>
+            </div>}
+
+        <div className="mt-8 rounded-xl border-2 border-sky-200 dark:border-sky-800/60 bg-sky-50/50 dark:bg-sky-900/10 p-5">
+          <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5]">{t.analytics_personal_title}</h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-4">{t.analytics_personal_desc}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <InfoInput id="nameEn" label={t.analytics_name_en} ph={t.analytics_name_en_ph} value={studentInfo.nameEn} onChange={setInfo} />
+            <InfoInput id="nameZh" label={t.analytics_name_zh} ph={t.analytics_name_zh_ph} value={studentInfo.nameZh} onChange={setInfo} />
+            <InfoInput id="id" label={t.analytics_id} ph={t.analytics_id_ph} value={studentInfo.id} onChange={setInfo} san={sanitizeStudentId} />
+            <InfoInput id="dept" label={t.analytics_dept} ph={t.analytics_dept_ph} value={studentInfo.dept} onChange={setInfo} />
+          </div>
+          <button onClick={exportPersonal} disabled={!okPersonal}
+            className="mt-4 px-5 py-2.5 bg-sky-700 dark:bg-sky-300 text-white dark:text-sky-950 font-bold rounded-lg disabled:opacity-40">{t.analytics_export_personal}</button>
+          {!okPersonal && <p className="text-xs text-amber-600 dark:text-amber-400 mt-2">{t.analytics_need_personal}</p>}
+        </div>
+
+        <div className="mt-5 rounded-xl border-2 border-[#D8C3A5] dark:border-[#D8C3A5]/50 bg-[#D8C3A5]/10 p-5">
+          <h3 className="font-serif font-bold text-lg text-[#004030] dark:text-[#D8C3A5]">{t.analytics_group_title}</h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-4">{t.analytics_group_desc}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div><label className="block text-xs font-bold text-slate-500 mb-1">{t.analytics_group}</label>
+              <select className={inputCls} value={studentInfo.group} onChange={e => setStudentInfo(s => ({...s, group: e.target.value}))}>
+                <option value="">{t.select_ph}</option>{t.group_options.map(g => <option key={g} value={g}>{g}</option>)}
+              </select></div>
+            <InfoInput id="compiler" label={t.analytics_compiler} ph={t.analytics_compiler_ph} value={studentInfo.compiler} onChange={setInfo} />
+          </div>
+          <div className="flex flex-wrap gap-3 mt-4">
+            <button onClick={exportGroupCSV} disabled={!okGroup} className="px-5 py-2.5 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] font-bold rounded-lg disabled:opacity-40">{t.analytics_export_csv}</button>
+            <button onClick={exportGroupMD} disabled={!okGroup} className="px-5 py-2.5 border-2 border-[#004030] dark:border-[#D8C3A5] text-[#004030] dark:text-[#D8C3A5] font-bold rounded-lg disabled:opacity-40">{t.analytics_export_md}</button>
+          </div>
+          {!okGroup && <p className="text-xs text-amber-600 dark:text-amber-400 mt-2">{t.analytics_need_group}</p>}
+        </div>
+
+        <div className="mt-6 flex items-center gap-3 flex-wrap">
+          <button onClick={clearAll} className="px-5 py-2.5 border border-red-400 text-red-600 dark:text-red-400 font-bold rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20">{t.analytics_wp_clear}</button>
+          <span className="text-xs text-slate-400">💾 {t.analytics_wp_saved}</span>
+        </div>
+      </>
+    );
+  };
+
+  const body = () => {
+    if (module === 0) return renderM0();
+    if (module === 1) return renderM1();
+    if (module === 2) return renderM2();
+    if (module === 3) return renderM3();
+    if (module === 4) return renderM4();
+    if (module === 5) return renderM5();
+    if (module === 6) return renderM6();
+    if (module === 7) return renderM7();
+    if (module === IDX_LAB) return renderLab();
+    if (module === IDX_RES) return renderRes();
+    return renderAna();
+  };
+  const cur = modulesList[module];
+
+  return (
+    <div className="min-h-screen flex flex-col pt-16 overflow-x-hidden">
+      <header className="fixed top-0 left-0 right-0 h-16 bg-[#004030] dark:bg-slate-900 text-white z-50 shadow-lg border-b border-[#D8C3A5]/30">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-1 sm:gap-2 min-w-0">
+            <div className="relative" ref={menuRef}>
+              <button onClick={() => setMenuOpen(!menuOpen)} className="p-2 hover:bg-white/10 rounded-lg" aria-label={t.nav_modules}>{menuOpen ? <IconX/> : <IconMenu/>}</button>
+              {menuOpen && (
+                <div className="absolute top-full left-0 mt-1 w-72 max-w-[calc(100vw-2rem)] max-h-[calc(100vh-5rem)] overflow-y-auto bg-white dark:bg-slate-800 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 z-[100]">
+                  {modulesList.map(m => (
+                    <button key={m.id} onClick={() => go(m.id)}
+                      className={`w-full flex items-center gap-3 px-4 py-3 text-sm transition ${module === m.id ? 'bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5] font-bold' : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700'}`}>
+                      <span className="ui-decoration">{m.icon}</span><span className="truncate flex-1 text-left">{m.title}</span>
+                      {m.kind && <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded shrink-0 ${m.kind === 'P' ? 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200' : 'bg-[#D8C3A5]/40 text-[#004030] dark:bg-[#D8C3A5]/20 dark:text-[#D8C3A5]'}`}>{m.kind}</span>}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+            <button onClick={() => go(0)} className="p-2 hover:bg-white/10 rounded-lg" aria-label={t.nav_home}><IconHome size={18}/></button>
+            <button onClick={() => window.scrollTo({top:0,behavior:'smooth'})} className="flex items-center gap-2 min-w-0">
+              <span className="font-serif font-black text-[#D8C3A5] text-lg tracking-widest">{t.brand}</span>
+              <span className="hidden sm:inline font-serif font-bold text-sm md:text-base truncate">{t.title}</span>
+            </button>
+          </div>
+          <div className="flex items-center gap-1 sm:gap-2">
+            <button onClick={() => handleTTS(ttsState === 'playing' ? 'pause' : 'play')} className="p-2 hover:bg-white/10 rounded-lg" aria-label={t.audio_read}>{ttsState === 'playing' ? <IconPause size={18}/> : <IconPlay size={18}/>}</button>
+            <button onClick={() => handleTTS('stop')} className="p-2 hover:bg-white/10 rounded-lg" aria-label="Stop"><IconSquare size={18}/></button>
+            <button onClick={() => setLang(lang === 'en' ? 'zh' : 'en')} className="px-2 py-2 hover:bg-white/10 rounded-lg flex items-center gap-1"><IconGlobe size={18}/><span className="text-xs font-bold">{lang === 'en' ? '中' : 'EN'}</span></button>
+            <button onClick={() => setIsDark(!isDark)} className="p-2 hover:bg-white/10 rounded-lg" aria-label="Theme">{isDark ? <IconSun size={18}/> : <IconMoon size={18}/>}</button>
+          </div>
+        </div>
+      </header>
+
+      <div className="flex-1 w-full max-w-7xl mx-auto flex">
+        <aside className="hidden md:block w-64 shrink-0 border-r border-slate-200 dark:border-slate-700 py-8 px-3">
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 px-3 mb-3">{t.nav_modules}</p>
+          {modulesList.map(m => (
+            <button key={m.id} onClick={() => go(m.id)}
+              className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm mb-1 transition ${module === m.id ? 'bg-[#004030]/10 dark:bg-[#D8C3A5]/10 text-[#004030] dark:text-[#D8C3A5] font-bold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'}`}>
+              <span className="ui-decoration shrink-0">{m.icon}</span>
+              <span className="truncate text-left flex-1">{m.title}</span>
+              {m.kind && <span className={`text-[10px] font-bold px-1 rounded shrink-0 ${m.kind === 'P' ? 'text-sky-700 dark:text-sky-300' : 'text-[#004030] dark:text-[#D8C3A5]'}`}>{m.kind}</span>}
+            </button>
+          ))}
+          <div className="mt-6 px-3 space-y-3">
+            <div>
+              <p className="text-xs text-slate-400 mb-1">{t.analytics_pct_personal}</p>
+              <div className="h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden"><div className={`h-full ${pctPersonal === 100 ? 'bg-green-500' : 'bg-sky-600 dark:bg-sky-400'}`} style={{width: pctPersonal + '%'}}></div></div>
+              <p className="text-xs font-bold text-sky-700 dark:text-sky-300 mt-1">{pctPersonal}%</p>
+            </div>
+            <div>
+              <p className="text-xs text-slate-400 mb-1">{t.analytics_pct_group}</p>
+              <div className="h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden"><div className={`h-full ${pctGroup === 100 ? 'bg-green-500' : 'bg-[#004030] dark:bg-[#D8C3A5]'}`} style={{width: pctGroup + '%'}}></div></div>
+              <p className="text-xs font-bold text-[#004030] dark:text-[#D8C3A5] mt-1">{pctGroup}%</p>
+            </div>
+          </div>
+        </aside>
+
+        <main className="flex-1 min-w-0 py-8 px-4 sm:px-6">
+          <div key={`${module}-${lang}`} className="space-y-6 text-lg leading-relaxed text-slate-700 dark:text-slate-300 animate-fade-in">
+            {module !== 0 && (
+              <div>
+                <H2 icon={cur.icon} number={cur.num}>{module <= NUM_LEARN ? t[`m${module}_title`] : module === IDX_LAB ? t.mlab_title : module === IDX_RES ? t.mres_title : t.analytics_title}</H2>
+                {cur.kind && <Badge kind={cur.kind} t={t} />}
+              </div>
+            )}
+            {body()}
+            <div className="mt-12 flex justify-between items-center pt-8 border-t border-slate-300 dark:border-slate-700 no-print">
+              <button onClick={() => go(Math.max(0, module-1))} disabled={module === 0}
+                className="px-5 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg text-sm font-bold hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-0">← {t.nav_prev}</button>
+              <button onClick={() => go(Math.min(TOTAL-1, module+1))} disabled={module === TOTAL-1}
+                className="px-5 py-2.5 bg-[#004030] dark:bg-[#D8C3A5] text-white dark:text-[#004030] rounded-lg text-sm font-bold disabled:opacity-0">{t.nav_next} →</button>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <footer className="h-8 bg-[#004030] flex items-center justify-between px-4 shrink-0">
+        <span className="text-[#D8C3A5]/60 text-[10px] sm:text-xs truncate">{t.date} · {t.copyright}</span>
+        <span className="text-[#D8C3A5]/60 text-[10px] sm:text-xs flex items-center gap-3 shrink-0">
+          <span className="hidden sm:inline">{t.architect_label}&nbsp;<a href={t.architect_url} target="_blank" rel="noopener noreferrer" className="text-[#D8C3A5] hover:text-white underline">Prof. Shihmin Lo</a></span>
+          <button onClick={() => window.scrollTo({top:0,behavior:'smooth'})} className="text-[#D8C3A5] hover:text-white font-bold">Top ↑</button>
+        </span>
+      </footer>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
