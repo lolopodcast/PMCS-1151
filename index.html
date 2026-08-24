@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="dark" data-locked="1">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PMCS 1151 · Worksheets 學習單</title>
 <meta name="description" content="Weekly worksheets for PMCS (EMI) — Introduction to Project Management and Career Strategy as a Product Manager in the AI Era.">
+<meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -24,6 +25,33 @@ body{background:var(--bg);color:var(--tx);font-family:Inter,"Noto Sans TC",syste
 a{color:inherit}
 .wrap{max-width:1080px;margin:0 auto;padding:0 16px;width:100%}
 main{flex:1 0 auto}
+
+/* ── 門簾（未通關前隱藏站台） ───────────────────── */
+html[data-locked="1"] body>header,
+html[data-locked="1"] body>main,
+html[data-locked="1"] body>footer,
+html[data-locked="1"] body>.scrim{display:none !important}
+html:not([data-locked="1"]) #gate{display:none !important}
+#gate{position:fixed;inset:0;z-index:100;background:var(--ink);
+  display:flex;align-items:center;justify-content:center;padding:20px}
+html[data-theme="dark"] #gate{background:#02100B}
+.gatecard{width:100%;max-width:390px;text-align:center;color:#F3EFE7}
+.gatemark{font-family:Merriweather,Georgia,serif;font-weight:700;font-size:34px;letter-spacing:.03em;color:var(--gold)}
+.gatesub{font-size:11px;letter-spacing:.20em;text-transform:uppercase;color:rgba(243,239,231,.55);margin-top:5px}
+.gatename{font-size:14.5px;color:rgba(243,239,231,.85);margin-top:22px;line-height:1.55}
+.gatehint{font-size:12.5px;color:rgba(243,239,231,.50);margin-top:7px;line-height:1.5}
+.gaterow{display:flex;gap:8px;margin-top:22px}
+#gatein{flex:1;min-width:0;font:inherit;font-size:15px;padding:11px 14px;border-radius:9px;
+  border:1px solid rgba(216,195,165,.38);background:rgba(255,255,255,.06);color:#F3EFE7;outline:none}
+#gatein::placeholder{color:rgba(243,239,231,.38)}
+#gatein:focus{border-color:var(--gold);background:rgba(255,255,255,.10)}
+#gatego{font:inherit;font-size:14.5px;font-weight:700;padding:11px 20px;border-radius:9px;cursor:pointer;
+  border:0;background:var(--gold);color:#00281E;transition:.15s;white-space:nowrap}
+#gatego:hover{background:#e6d5bc}
+#gateerr{min-height:20px;margin-top:11px;font-size:13px;color:#F0B4A0}
+.gatefoot{margin-top:26px;font-size:11.5px;color:rgba(243,239,231,.42);line-height:1.6}
+@keyframes shake{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(4px)}30%,50%,70%{transform:translateX(-7px)}40%,60%{transform:translateX(7px)}}
+.shake{animation:shake .5s}
 
 /* ── header ─────────────────────────────────────── */
 header{position:sticky;top:0;z-index:40;height:64px;flex:0 0 auto;
@@ -72,9 +100,6 @@ html[data-theme="dark"] .menu a:hover{background:rgba(216,195,165,.10)}
 .pill{font-size:12.5px;padding:5px 12px;border-radius:999px;border:1px solid var(--line);
   color:var(--tx2);background:var(--card)}
 .pill b{color:var(--accent);font-weight:600}
-.notice{margin-top:26px;padding:15px 17px;border-radius:10px;border:1px solid var(--line);
-  border-left:3px solid var(--accent);background:var(--card);font-size:14px;color:var(--tx2)}
-.notice b{color:var(--tx);font-weight:600}
 
 section{padding:36px 0 4px}
 .block-head{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;margin-bottom:5px}
@@ -94,6 +119,45 @@ section{padding:36px 0 4px}
 .card .en{color:var(--tx2);font-size:13px;margin-top:5px;line-height:1.5}
 .card .go{margin-top:12px;font-size:12.5px;color:var(--accent);font-weight:600}
 
+/* ── 填寫指引 ───────────────────────────────────── */
+.guide{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px 22px;margin-top:6px}
+.guide h3{font-family:Merriweather,Georgia,serif;font-size:16px;font-weight:700;margin:26px 0 10px;
+  padding-top:20px;border-top:1px solid var(--line)}
+/* 標題成對出現（en + zh），前兩個都要去掉上框線，否則中文模式最上方會多一條線 */
+.guide h3:first-of-type,.guide h3:nth-of-type(2){margin-top:4px;padding-top:0;border-top:0}
+.guide p{color:var(--tx2);font-size:14px;margin-bottom:10px;max-width:74ch}
+.guide b{color:var(--tx);font-weight:600}
+
+.tl{list-style:none;margin:4px 0 6px;padding:0}
+.tl li{position:relative;padding:0 0 16px 26px;border-left:2px solid var(--line);margin-left:6px}
+.tl li:last-child{border-left-color:transparent;padding-bottom:2px}
+.tl li::before{content:"";position:absolute;left:-6px;top:5px;width:10px;height:10px;border-radius:50%;
+  background:var(--accent);border:2px solid var(--card)}
+.tl .when{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.tl .what{font-size:14px;margin-top:3px}
+.tl .who{font-size:12.5px;color:var(--tx2);margin-top:2px}
+
+.split{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin:6px 0 4px}
+.half{border:1px solid var(--line);border-radius:10px;padding:14px 15px}
+.half .ht{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--accent)}
+.half .hs{font-family:Merriweather,Georgia,serif;font-size:15px;font-weight:700;margin-top:5px}
+.half ul{margin:9px 0 0;padding-left:17px;color:var(--tx2);font-size:13.5px}
+.half li{margin-bottom:4px}
+.half .tag{margin-top:10px;font-size:11.5px;padding:3px 9px;border-radius:999px;
+  border:1px solid var(--line);color:var(--tx2)}
+/* 標籤是 span[data-l]，必須用同等特異性的規則接管顯示，否則中英文會同時出現 */
+.half span.tag[data-l]{display:none}
+html[lang="en"] .half span.tag[data-l="en"],
+html[lang="zh"] .half span.tag[data-l="zh"]{display:inline-block}
+
+.warn{border:1px solid var(--line);border-left:3px solid #C4703F;border-radius:10px;
+  padding:14px 16px;margin:6px 0;background:var(--card)}
+.warn .wt{font-size:14px;font-weight:700;color:var(--tx);margin-bottom:5px}
+.warn p{font-size:13.5px;margin:0;color:var(--tx2)}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;
+  background:rgba(0,64,48,.07);padding:2px 6px;border-radius:5px;word-break:break-all}
+html[data-theme="dark"] code{background:rgba(216,195,165,.10)}
+
 /* ── footer ─────────────────────────────────────── */
 footer{flex:0 0 auto;height:32px;background:var(--ink);display:flex;align-items:center;
   justify-content:space-between;padding:0 14px;gap:10px;margin-top:46px}
@@ -109,17 +173,45 @@ footer .topbtn:hover{color:#fff}
 /* ── bilingual ──────────────────────────────────── */
 [data-l]{display:none}
 html[lang="en"] [data-l="en"],html[lang="zh"] [data-l="zh"]{display:block}
-span[data-l],b[data-l]{display:none}
+span[data-l],b[data-l],li[data-l]{display:none}
 html[lang="en"] span[data-l="en"],html[lang="zh"] span[data-l="zh"],
-html[lang="en"] b[data-l="en"],html[lang="zh"] b[data-l="zh"]{display:inline}
+html[lang="en"] b[data-l="en"],html[lang="zh"] b[data-l="zh"],
+html[lang="en"] li[data-l="en"],html[lang="zh"] li[data-l="zh"]{display:inline}
+html[lang="en"] li[data-l="en"],html[lang="zh"] li[data-l="zh"]{display:list-item}
 @media (max-width:400px){
   .brandbtn .b2{display:none}
   .hero{padding:32px 0 24px}
   .txtbtn{padding:6px 10px;font-size:12.5px}
+  .guide{padding:20px 16px}
 }
 </style>
 </head>
 <body>
+
+<!-- ══ 門簾 ══ -->
+<div id="gate">
+  <div class="gatecard">
+    <div class="gatemark">PMCS</div>
+    <div class="gatesub">1151 · NCNU IBS</div>
+    <div class="gatename">
+      <span data-l="en">Weekly Worksheets</span><span data-l="zh">每週學習單</span>
+    </div>
+    <div class="gatehint">
+      <span data-l="en">Enter the course passphrase to continue.</span>
+      <span data-l="zh">請輸入課程通關詞後繼續。</span>
+    </div>
+    <div class="gaterow">
+      <input id="gatein" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"
+             aria-label="Course passphrase" placeholder="passphrase／通關詞">
+      <button id="gatego" type="button"><span data-l="en">Enter</span><span data-l="zh">進入</span></button>
+    </div>
+    <div id="gateerr" role="status" aria-live="polite"></div>
+    <div class="gatefoot">
+      <span data-l="en">Announced in class and on Moodle. Once entered, this browser remembers it.</span>
+      <span data-l="zh">通關詞於課堂與 Moodle 公布。輸入一次後，這台瀏覽器會記住。</span>
+    </div>
+  </div>
+</div>
 
 <header>
   <div class="bar">
@@ -130,11 +222,11 @@ html[lang="en"] b[data-l="en"],html[lang="zh"] b[data-l="zh"]{display:inline}
         </button>
         <nav class="menu" id="menu" role="menu" aria-label="Contents">
           <div class="mh" data-l="en">Contents</div><div class="mh" data-l="zh">目錄</div>
+          <a href="#guide" role="menuitem"><span class="mw">Start here</span><span data-l="en">How to use these worksheets</span><span data-l="zh">怎麼用這份學習單</span></a>
           <a href="#b1" role="menuitem"><span class="mw">W3 – W5</span><span data-l="en">The Architecture of Working with AI</span><span data-l="zh">AI 世代的工作架構</span></a>
           <a href="#b2" role="menuitem"><span class="mw">W6 – W8</span><span data-l="en">The Product Manager: Role, Competency, Career</span><span data-l="zh">產品經理的角色、職能與職涯</span></a>
           <a href="#b3" role="menuitem"><span class="mw">W10 – W12</span><span data-l="en">Building Your Morning-Brief Agent</span><span data-l="zh">建置你的晨報 Agent</span></a>
           <a href="#b4" role="menuitem"><span class="mw">W13 – W15</span><span data-l="en">Project Management: Planning, Controlling, Delivering</span><span data-l="zh">專案管理：規劃、控制、交付</span></a>
-          <a href="#howto" role="menuitem"><span class="mw">Moodle</span><span data-l="en">How to submit</span><span data-l="zh">繳交方式</span></a>
         </nav>
       </div>
       <button class="brandbtn" id="brand" aria-label="Back to top">
@@ -166,11 +258,149 @@ html[lang="en"] b[data-l="en"],html[lang="zh"] b[data-l="zh"]{display:inline}
       <span class="pill"><b>6</b> <span data-l="en">groups</span><span data-l="zh">組</span></span>
       <span class="pill"><span data-l="en">Prof. Shihmin Lo · IBS, NCNU</span><span data-l="zh">駱世民 教授 · 暨大國企系</span></span>
     </div>
-    <div class="notice" id="howto">
-      <span data-l="en"><b>Submission.</b> Every group submits the weekly worksheet on Moodle by <b>23:59 on the Tuesday</b> before class, whether or not it is presenting that week. Sections 2 to 4 are individual work and are not submitted; sections 1, 5, 6 and 7 are the group's consolidated work. A worksheet revised after class in light of the discussion and resubmitted earns a Bonus Assignment point.</span>
-      <span data-l="zh"><b>繳交方式。</b>各組每週均須繳交，不論該週是否輪到簡報，於課前<b>週二 23:59</b> 前上傳 Moodle。第 2 至 4 節為個人獨作、不繳交；第 1、5、6、7 節為小組綜整成果。課後依課堂討論修訂並重新繳交者，計加分作業（BA）一次。</span>
-    </div>
   </div>
+
+  <!-- ══ 填寫指引 ══ -->
+  <section id="guide">
+    <div class="block-head">
+      <span class="rng" data-l="en">Start here</span><span class="rng" data-l="zh">先讀這裡</span>
+      <h2 data-l="en">How to use these worksheets</h2>
+      <h2 data-l="zh">怎麼用這份學習單</h2>
+    </div>
+    <p class="block-desc" data-l="en">The mechanics are identical for all twelve weeks. Read this once and you will not need to read it again.</p>
+    <p class="block-desc" data-l="zh">十二週的機制完全相同。這一段讀一次就好，之後不必再回來。</p>
+
+    <div class="guide">
+
+      <h3 data-l="en">The week has six days, not seven</h3>
+      <h3 data-l="zh">一週實際只有六天，不是七天</h3>
+      <p data-l="en">The clock starts when last Wednesday's class ends and stops at 23:59 on Tuesday. Wednesday itself is class day and does not count. Budget roughly 40–50 minutes of individual reading and filling, 40 minutes of group discussion, and 20 minutes of consolidation — which is the two hours of outside-class work the syllabus asks for.</p>
+      <p data-l="zh">時間從上週三下課後開始算，到週二 23:59 截止；週三當天要上課，不計入。時間預算大致是：個人閱讀與填寫 40–50 分鐘、小組討論 40 分鐘、彙整 20 分鐘——這就是課綱要求的每週課外兩小時。</p>
+
+      <ul class="tl">
+        <li>
+          <div class="when" data-l="en">Wed after class → Sun</div><div class="when" data-l="zh">週三課後 → 週日</div>
+          <div class="what" data-l="en">Read this week's Required materials, then fill sections 2, 3 and 4 on your own.</div>
+          <div class="what" data-l="zh">個人閱讀本週必讀教材，然後自己填第 2、3、4 節。</div>
+          <div class="who" data-l="en">Everyone · export your personal .md into the group's shared folder</div>
+          <div class="who" data-l="zh">每位學生 · 匯出個人版 .md，丟進小組共用資料夾</div>
+        </li>
+        <li>
+          <div class="when" data-l="en">By Monday</div><div class="when" data-l="zh">不晚於週一</div>
+          <div class="what" data-l="en">Group discussion: compare the six of you in section 5, then decide sections 1, 6 and 7 together.</div>
+          <div class="what" data-l="zh">小組討論：第 5 節比對六個人的差異，再共同決定第 1、6、7 節。</div>
+          <div class="who" data-l="en">The whole group</div>
+          <div class="who" data-l="zh">全組</div>
+        </li>
+        <li>
+          <div class="when" data-l="en">Tuesday 23:59</div><div class="when" data-l="zh">週二 23:59</div>
+          <div class="what" data-l="en">Upload the group version to the Moodle <b>Assignment</b> module — not the forum.</div>
+          <div class="what" data-l="zh">把小組版上傳到 Moodle 的<b>作業</b>模組——不是論壇。</div>
+          <div class="who" data-l="en">This week's compiler (one person, rotate it)</div>
+          <div class="who" data-l="zh">本週彙整人（一位，輪流擔任）</div>
+        </li>
+        <li>
+          <div class="when" data-l="en">Wednesday 15:30</div><div class="when" data-l="zh">週三 15:30</div>
+          <div class="what" data-l="en">Class. Two groups present; the rest give Menti feedback and may be cold called.</div>
+          <div class="what" data-l="zh">上課。兩組簡報，其餘各組 Menti 回饋，並隨時可能被冷點名。</div>
+          <div class="who" data-l="en">Presenting groups must answer all Menti feedback on Moodle the same day</div>
+          <div class="who" data-l="zh">簡報組須於當天結束前在 Moodle 回覆所有 Menti 回饋</div>
+        </li>
+        <li>
+          <div class="when" data-l="en">After class</div><div class="when" data-l="zh">課後</div>
+          <div class="what" data-l="en">Revise the worksheet in light of the discussion and resubmit — this earns a Bonus Assignment point.</div>
+          <div class="what" data-l="zh">依課堂討論修訂學習單並重新繳交——計加分作業（BA）一次。</div>
+          <div class="who" data-l="en">Optional, any group</div>
+          <div class="who" data-l="zh">選做，任一組皆可</div>
+        </li>
+      </ul>
+
+      <h3 data-l="en">Two layers: what you do alone, what the group decides</h3>
+      <h3 data-l="zh">兩個層次：哪些自己做、哪些小組決定</h3>
+      <p data-l="en">The split exists so the group meeting has something real to consolidate — six people who each did the reading, rather than one person who did it for everybody.</p>
+      <p data-l="zh">分層的用意在於讓小組討論有東西可以收攏——六個人各自讀過，而不是一個人代替全組讀。</p>
+
+      <div class="split">
+        <div class="half">
+          <div class="ht" data-l="en">Individual</div><div class="ht" data-l="zh">個人層</div>
+          <div class="hs" data-l="en">Sections 2, 3, 4</div><div class="hs" data-l="zh">第 2、3、4 節</div>
+          <ul>
+            <li data-l="en">Done alone, before the group meets</li>
+            <li data-l="zh">小組討論前，自己先做完</li>
+            <li data-l="en">Section 4 is the EMI Language Lab — new vocabulary, hard pronunciation, unfamiliar business terms</li>
+            <li data-l="zh">第 4 節是 EMI 語言實驗室——新詞彙、難發音、陌生商業術語</li>
+            <li data-l="en">Export the personal .md and share it with your group</li>
+            <li data-l="zh">匯出個人版 .md 給組員</li>
+          </ul>
+          <span class="tag" data-l="en">Not submitted to Moodle</span>
+          <span class="tag" data-l="zh">不繳交至 Moodle</span>
+        </div>
+        <div class="half">
+          <div class="ht" data-l="en">Group</div><div class="ht" data-l="zh">小組層</div>
+          <div class="hs" data-l="en">Sections 1, 5, 6, 7</div><div class="hs" data-l="zh">第 1、5、6、7 節</div>
+          <ul>
+            <li data-l="en">Section 5 compares exactly three items — not everything handed to AI</li>
+            <li data-l="zh">第 5 節只比對三項——不是全部丟給 AI</li>
+            <li data-l="en">Section 6 tracks how your Term Project is converging, week by week</li>
+            <li data-l="zh">第 6 節追蹤期末專案逐週的收斂軌跡</li>
+            <li data-l="en">Section 7 is the presentation plan</li>
+            <li data-l="zh">第 7 節是簡報計畫</li>
+          </ul>
+          <span class="tag" data-l="en">This is what gets submitted</span>
+          <span class="tag" data-l="zh">這一部分才是繳交內容</span>
+        </div>
+      </div>
+
+      <h3 data-l="en">Your answers live in this browser only</h3>
+      <h3 data-l="zh">你的答案只存在這台瀏覽器裡</h3>
+      <div class="warn">
+        <div class="wt" data-l="en">Nothing is uploaded automatically. Export before you close the tab.</div>
+        <div class="wt" data-l="zh">系統不會自動上傳。關掉分頁前請先匯出。</div>
+        <p data-l="en">The worksheet saves what you type into this browser's local storage. That means it survives a refresh — but it does <b>not</b> follow you to another computer, and it disappears if you clear browsing data or work in a private window. Treat the export button as the save button.</p>
+        <p data-l="zh">學習單會把你填的內容存進這台瀏覽器的本機儲存空間。重新整理不會不見——但它<b>不會</b>跟著你換到另一台電腦，清除瀏覽資料或用無痕視窗也會消失。請把「匯出」當成「存檔」。</p>
+      </div>
+
+      <h3 data-l="en">Two exports, two different jobs</h3>
+      <h3 data-l="zh">兩種匯出，兩種用途</h3>
+      <p data-l="en">Both live in the last module, <b>Completion &amp; Export</b>. Filenames are generated for you in ASCII with a timestamp to the second, so resubmitting never overwrites an earlier version — you get version history for free.</p>
+      <p data-l="zh">兩個都在最後一個模組「<b>完成度與匯出</b>」裡。檔名由系統自動產生，一律 ASCII 並附到秒的時間戳，所以重交不會覆蓋前一版——版本紀錄是免費附送的。</p>
+      <div class="split">
+        <div class="half">
+          <div class="ht" data-l="en">Personal export</div><div class="ht" data-l="zh">個人版匯出</div>
+          <div class="hs">Markdown (.md)</div>
+          <ul>
+            <li data-l="en">Everyone exports one, every week</li>
+            <li data-l="zh">每人每週都要匯出一份</li>
+            <li data-l="en">Goes into the group's shared folder, not Moodle</li>
+            <li data-l="zh">放進小組共用資料夾，不是 Moodle</li>
+          </ul>
+        </div>
+        <div class="half">
+          <div class="ht" data-l="en">Group export</div><div class="ht" data-l="zh">小組版匯出</div>
+          <div class="hs">CSV + Markdown</div>
+          <ul>
+            <li data-l="en">The compiler exports it once the group has agreed</li>
+            <li data-l="zh">小組決定後，由彙整人匯出</li>
+            <li data-l="en">Upload <b>both</b> files to the Moodle Assignment</li>
+            <li data-l="zh">兩個檔案<b>都要</b>上傳到 Moodle 作業區</li>
+            <li data-l="en">Example: <code>PMCS_1151W13_PlanningAndCriticalPath_G1-ALL_20261216.csv</code></li>
+            <li data-l="zh">例如：<code>PMCS_1151W13_PlanningAndCriticalPath_G1-ALL_20261216.csv</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 data-l="en">What completion percentage is, and is not</h3>
+      <h3 data-l="zh">完成度是什麼、不是什麼</h3>
+      <p data-l="en">The worksheet shows a completion percentage. It is a <b>threshold, not a score</b>: below 80% counts as not submitted. Filling every box with something is not the goal — the three checkpoints in sections 5, 6 and 7 are judged on substance, and the wording of each checkpoint is shown to you inside the worksheet before you write. You are never marked against a standard you were not told.</p>
+      <p data-l="zh">學習單會顯示完成度百分比。它是<b>門檻，不是分數</b>：未達 80% 視同未繳。把每一格塞滿字不是目的——第 5、6、7 節的三個檢查點看的是內容，而每個檢查點的判準就寫在學習單裡、你動筆前就看得到。不會有沒被告知的標準拿來評你。</p>
+
+      <h3 data-l="en">If you get stuck</h3>
+      <h3 data-l="zh">卡住的時候</h3>
+      <p data-l="en">Every worksheet opens with module 0, <b>Executive Summary</b>, which says what that week is about and which material to read first. If a link will not open or an export will not download, tell the TA on Moodle — do not spend the evening fighting it.</p>
+      <p data-l="zh">每份學習單的第 0 模組「<b>執行概要</b>」會說明當週主題與必讀第一項。若連結打不開或匯出下載不了，直接在 Moodle 告訴助教——不要花一整晚跟它耗。</p>
+
+    </div>
+  </section>
 
   <section id="b1">
     <div class="block-head">
@@ -246,9 +476,45 @@ html[lang="en"] b[data-l="en"],html[lang="zh"] b[data-l="zh"]{display:inline}
 <script>
 (function(){
   var root=document.documentElement;
-  try{ var l=localStorage.getItem('pmcs1151_lang'); if(l==='zh'||l==='en') root.lang=l; }catch(e){}
-  try{ var t=localStorage.getItem('pmcs1151_theme'); if(t==='light'||t==='dark') root.dataset.theme=t; }catch(e){}
+  var LS={get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},
+          set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
 
+  /* 偏好設定：語言與主題（門簾前後都適用） */
+  var l=LS.get('pmcs1151_lang'); if(l==='zh'||l==='en') root.lang=l;
+  var t=LS.get('pmcs1151_theme'); if(t==='light'||t==='dark') root.dataset.theme=t;
+
+  /* ── 門簾 ──
+     這是一道門簾，不是保護。通關詞寫在前端原始碼裡，看得到原始碼就讀得到。
+     用途是擋掉隨機路過的訪客，不是保證內容不外流。 */
+  var PASS='proflolothebest';
+  var gate=document.getElementById('gate'),
+      gin=document.getElementById('gatein'),
+      ggo=document.getElementById('gatego'),
+      gerr=document.getElementById('gateerr');
+
+  function unlock(remember){
+    if(remember) LS.set('pmcs1151_gate', PASS);
+    root.removeAttribute('data-locked');
+    if(location.hash){ var el=document.getElementById(location.hash.slice(1)); if(el) el.scrollIntoView(); }
+  }
+  if(LS.get('pmcs1151_gate')===PASS) unlock(false);
+
+  function tryPass(){
+    var v=(gin.value||'').trim().toLowerCase();
+    if(v===PASS){ gerr.textContent=''; unlock(true); }
+    else{
+      gerr.textContent = root.lang==='zh' ? '通關詞不正確，請再試一次。' : 'That passphrase is not correct. Try again.';
+      gate.querySelector('.gatecard').classList.remove('shake');
+      void gate.offsetWidth;
+      gate.querySelector('.gatecard').classList.add('shake');
+      gin.select();
+    }
+  }
+  ggo.addEventListener('click',tryPass);
+  gin.addEventListener('keydown',function(e){ if(e.key==='Enter') tryPass(); });
+  if(root.hasAttribute('data-locked')) setTimeout(function(){ gin.focus(); },80);
+
+  /* ── 漢堡目錄 ── */
   var burger=document.getElementById('burger'), menu=document.getElementById('menu'), scrim=document.getElementById('scrim');
   function setMenu(open){
     menu.classList.toggle('open',open); scrim.classList.toggle('open',open);
@@ -259,19 +525,20 @@ html[lang="en"] b[data-l="en"],html[lang="zh"] b[data-l="zh"]{display:inline}
   menu.addEventListener('click',function(e){ if(e.target.closest('a')) setMenu(false); });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape') setMenu(false); });
 
+  /* ── 回到頂端 ── */
   function top(){ window.scrollTo({top:0,behavior:'smooth'}); }
   document.getElementById('brand').addEventListener('click',top);
   document.getElementById('totop').addEventListener('click',top);
 
+  /* ── 語言與主題 ── */
   function paint(){ document.getElementById('lang').textContent = root.lang==='zh' ? 'EN' : '中文'; }
   document.getElementById('lang').addEventListener('click',function(){
     root.lang = root.lang==='zh' ? 'en' : 'zh';
-    try{ localStorage.setItem('pmcs1151_lang',root.lang); }catch(e){}
-    paint();
+    LS.set('pmcs1151_lang',root.lang); paint();
   });
   document.getElementById('theme').addEventListener('click',function(){
     root.dataset.theme = root.dataset.theme==='dark' ? 'light' : 'dark';
-    try{ localStorage.setItem('pmcs1151_theme',root.dataset.theme); }catch(e){}
+    LS.set('pmcs1151_theme',root.dataset.theme);
   });
   paint();
 })();
