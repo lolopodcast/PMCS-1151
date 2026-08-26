@@ -37,10 +37,9 @@ html:not([data-locked="1"]) #gate{display:none !important}
 html[data-theme="dark"] #gate{background:#02100B}
 .gatecard{width:100%;max-width:390px;text-align:center;color:#F3EFE7}
 .gatemark{font-family:Merriweather,Georgia,serif;font-weight:700;font-size:34px;letter-spacing:.03em;color:var(--gold)}
-.gatesub{font-size:11px;letter-spacing:.20em;text-transform:uppercase;color:rgba(243,239,231,.55);margin-top:5px}
+.gatesub{font-size:11px;letter-spacing:.20em;text-transform:uppercase;color:rgba(243,239,231,.78);margin-top:5px}
 .gatename{font-size:14.5px;color:rgba(243,239,231,.85);margin-top:22px;line-height:1.55}
-.gatehint{font-size:12.5px;color:rgba(243,239,231,.50);margin-top:7px;line-height:1.5}
-.gatelang{position:absolute;top:18px;right:18px}
+.gatelang{position:absolute;top:18px;right:18px;display:flex;gap:8px}
 .gatelang button{font:inherit;font-size:12.5px;font-weight:600;cursor:pointer;padding:5px 12px;border-radius:999px;
   background:transparent;color:#F3EFE7;border:1px solid rgba(216,195,165,.38);transition:.15s}
 .gatelang button:hover{background:rgba(216,195,165,.14)}
@@ -62,7 +61,6 @@ html[data-theme="dark"] #gate{background:#02100B}
   border:0;background:var(--gold);color:#00281E;transition:.15s;white-space:nowrap}
 #gatego:hover{background:#e6d5bc}
 #gateerr{min-height:20px;margin-top:11px;font-size:13px;color:#F0B4A0}
-.gatefoot{margin-top:26px;font-size:11.5px;color:rgba(243,239,231,.42);line-height:1.6}
 @keyframes shake{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(4px)}30%,50%,70%{transform:translateX(-7px)}40%,60%{transform:translateX(7px)}}
 .shake{animation:shake .5s}
 
@@ -223,22 +221,18 @@ html[lang="en"] li[data-l="en"],html[lang="zh"] li[data-l="zh"]{display:list-ite
 
 <!-- ══ 門簾 ══ -->
 <div id="gate">
-  <div class="gatelang"><button id="gatelangbtn" type="button">中文</button></div>
+  <div class="gatelang"><button id="gatethemebtn" type="button" aria-label="Toggle theme">◐</button><button id="gatelangbtn" type="button">中文</button></div>
   <div class="gatecard">
     <div class="gatemark">PMCS</div>
     <div class="gatesub">1151 · NCNU IBS</div>
     <div class="gatename">
       <span data-l="en">Weekly Worksheets</span><span data-l="zh">每週學習單</span>
     </div>
-    <div class="gatehint">
-      <span data-l="en">Enter the course passphrase to continue.</span>
-      <span data-l="zh">請輸入課程通關詞後繼續。</span>
-    </div>
     <div class="gaterow">
       <div class="gatefield">
         <input id="gatein" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"
-               aria-label="Course passphrase" placeholder="passphrase／通關詞">
-        <button id="gateeye" type="button" aria-pressed="false" aria-label="Show passphrase">
+               aria-label="Student number">
+        <button id="gateeye" type="button" aria-pressed="false" aria-label="Show what I typed">
           <svg class="eye-shut" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
           <svg class="eye-open" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
         </button>
@@ -246,10 +240,6 @@ html[lang="en"] li[data-l="en"],html[lang="zh"] li[data-l="zh"]{display:list-ite
       <button id="gatego" type="button"><span data-l="en">Enter</span><span data-l="zh">進入</span></button>
     </div>
     <div id="gateerr" role="status" aria-live="polite"></div>
-    <div class="gatefoot">
-      <span data-l="en">Announced in class and on Moodle. Once entered, this browser remembers it.</span>
-      <span data-l="zh">通關詞於課堂與 Moodle 公布。輸入一次後，這台瀏覽器會記住。</span>
-    </div>
   </div>
 </div>
 
@@ -536,24 +526,35 @@ html[lang="en"] li[data-l="en"],html[lang="zh"] li[data-l="zh"]{display:list-ite
   /* ── 門簾 ──
      這是一道門簾，不是保護。通關詞寫在前端原始碼裡，看得到原始碼就讀得到。
      用途是擋掉隨機路過的訪客，不是保證內容不外流。 */
-  var PASS='proflolothebest';
+  var PASS='proflolothebest';   /* 教師與 TA 用；學生走學號格式 */
+
+  /* 學號格式：s／S 可省略 + 9 位數字，例如 s112212015。
+     只比對格式，不比對名單——名單寫進前端就等於把全班學號永久公開在一個
+     會被搜尋引擎索引的 repo 裡。代價是任何 9 位數字都進得來；這道門本來就是
+     門簾，真正的好處是班上不必共用一組會被截圖轉傳的通關詞。 */
+  var ID_RE=/^s?\d{9}$/;
+  function normId(v){ return String(v||'').trim().toLowerCase().replace(/[\s-]/g,''); }
+  function accepts(v){ return v===PASS || ID_RE.test(v); }
   var gate=document.getElementById('gate'),
       gin=document.getElementById('gatein'),
       ggo=document.getElementById('gatego'),
       gerr=document.getElementById('gateerr');
 
   function unlock(remember){
-    if(remember) LS.set('pmcs1151_gate', PASS);
+    /* 只寫一個旗標。原本這裡存的是通關詞本身；改成學號之後若照舊，
+       等於把學生的學號寫進他自己的裝置，那是不該留下的識別碼。 */
+    if(remember) LS.set('pmcs1151_gate', '1');
     root.removeAttribute('data-locked');
     if(location.hash){ var el=document.getElementById(location.hash.slice(1)); if(el) el.scrollIntoView(); }
   }
-  if(LS.get('pmcs1151_gate')===PASS) unlock(false);
+  var savedGate = LS.get('pmcs1151_gate');
+  if(savedGate==='1' || savedGate===PASS) unlock(false);   /* 舊版存的是通關詞，一併相容 */
 
   function tryPass(){
-    var v=(gin.value||'').trim().toLowerCase();
-    if(v===PASS){ gerr.textContent=''; unlock(true); }
+    var v=normId(gin.value);
+    if(accepts(v)){ gerr.textContent=''; unlock(true); }
     else{
-      gerr.textContent = root.lang==='zh' ? '通關詞不正確，請再試一次。' : 'That passphrase is not correct. Try again.';
+      gerr.textContent = root.lang==='zh' ? '無法進入，請再試一次。' : 'That did not work. Try again.';
       gate.querySelector('.gatecard').classList.remove('shake');
       void gate.offsetWidth;
       gate.querySelector('.gatecard').classList.add('shake');
@@ -569,7 +570,7 @@ html[lang="en"] li[data-l="en"],html[lang="zh"] li[data-l="zh"]{display:list-ite
   function paintEye(){
     var shown = eye.getAttribute('aria-pressed')==='true';
     eye.setAttribute('aria-label', root.lang==='zh'
-      ? (shown?'隱藏通關詞':'顯示通關詞') : (shown?'Hide passphrase':'Show passphrase'));
+      ? (shown?'隱藏輸入內容':'顯示輸入內容') : (shown?'Hide what I typed':'Show what I typed'));
   }
   eye.addEventListener('click',function(){
     var shown = eye.getAttribute('aria-pressed')==='true';
@@ -579,6 +580,12 @@ html[lang="en"] li[data-l="en"],html[lang="zh"] li[data-l="zh"]{display:list-ite
   });
 
   /* 門簾自己的語言鈕 — 被擋在外面的人看不到頁首那顆 */
+  var gtb=document.getElementById('gatethemebtn');
+  gtb.addEventListener('click',function(){
+    root.dataset.theme = root.dataset.theme==='dark' ? 'light' : 'dark';
+    LS.set('pmcs1151_theme',root.dataset.theme);
+  });
+
   var glb=document.getElementById('gatelangbtn');
   function paintGateLang(){ glb.textContent = root.lang==='zh' ? 'EN' : '中文'; }
   glb.addEventListener('click',function(){
@@ -586,7 +593,7 @@ html[lang="en"] li[data-l="en"],html[lang="zh"] li[data-l="zh"]{display:list-ite
     LS.set('pmcs1151_lang',root.lang);
     paintGateLang(); paintEye();
     if(gerr.textContent) gerr.textContent = root.lang==='zh'
-      ? '通關詞不正確，請再試一次。' : 'That passphrase is not correct. Try again.';
+      ? '無法進入，請再試一次。' : 'That did not work. Try again.';
     gin.focus();
   });
   paintGateLang(); paintEye();
